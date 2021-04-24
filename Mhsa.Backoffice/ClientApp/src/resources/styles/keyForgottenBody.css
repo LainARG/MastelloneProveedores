@@ -1,0 +1,26 @@
+.keyForgottenContainer{
+	display: block;
+	width: 100%;
+	margin-top: 17%;
+}
+
+.keyForgottenBodyLegendsContainer{
+   display: block;
+   margin-left: 2.5%;
+   margin-top: -12.5%;
+   margin-bottom: 20%;
+}
+
+.keyForgottenLegend1Style{
+	display: block;
+	font-weight: bold;
+	font-size: 20px;
+	margin-top: 4%;
+}
+
+.keyForgottenLegend2Style{
+	display: block;
+	font-weight: 500;
+	font-size: 16px;
+	margin-top: -1%;
+}

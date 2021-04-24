@@ -1,0 +1,23 @@
+.paymentsNewsBodyContainer{
+  display: block;
+  margin-top:3%; 
+  margin-left: 2%; 
+  margin-bottom: 3%;
+  height: 445px;
+}
+
+.paymentsNewsBodyLegendContainer{
+  
+  display: block;
+  margin-top:0%; 
+  margin-left: 0%; 
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.paymentsNewsBodyNewsContainer{
+  display: block;
+  margin-left: -1%;
+  margin-top:  -2%;
+}
+

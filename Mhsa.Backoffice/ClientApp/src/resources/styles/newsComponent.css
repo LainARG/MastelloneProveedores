@@ -1,0 +1,31 @@
+.container{
+  display: block;
+  margin-top:5%; 
+  margin-left: 1%; 
+  margin-bottom: 5%;
+}
+
+
+
+.legendsContainer{
+   display: block;
+   margin-left: 0%;
+   margin-top: -10%;
+}
+
+.newsContainer{
+   display: block;
+   margin-left: -2%;
+   
+}
+
+.userDataContainer{
+   display: block;
+   margin-top: -10%;
+   margin-left: -2%;
+}
+
+.warningStyle{
+	display: inline-block;
+	margin-left:0%;
+}

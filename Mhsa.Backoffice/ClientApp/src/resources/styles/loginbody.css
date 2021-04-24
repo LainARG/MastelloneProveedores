@@ -1,0 +1,144 @@
+.loginBodyContainer{
+   display:block;
+   position: relative;
+   height: 300px;
+   margin-left: 2.5%;
+   margin-top: 20%;
+}
+
+.loginBodyFormContainer{
+   display:inline-block;
+   margin-left: 40%;
+   margin-top: -15%;
+}
+
+.loginBodyActionLegendStyle{
+	display: block;
+	font-weight: bold;
+	font-size: 18px;
+	margin-bottom:10%;
+}
+
+.loginBodyCodeLegendStyle{
+	display: inline-block;
+	color:gray;
+	font-weight: bold;
+    font-size:14px;
+	margin-bottom:-10px;
+}
+
+.loginBodyCodeInputStyle{
+	display: inline-block;
+	width: 280px;
+	border-right: none;
+	border-left: none;
+	border-top: none;
+	background-color: lavender;
+}
+
+.loginBodyKeyLegendStyle{
+	display: inline-block;
+	color:gray;
+    font-weight: bold;
+	font-size:14px;
+	margin-bottom:-10px;
+}
+
+.loginBodyKeyInputStyle{
+	display: inline-block;
+	width: 280px;
+	border-right: none;
+	border-left: none;
+	border-top: none;
+	background-color: lavender;
+}
+
+.loginBodyBtnLoginStyle{
+    display:inline-block;
+    background-color:#009639;
+}
+
+
+
+
+.loginBodyBtnLoginContainer{
+	display: inline-block;
+    margin-left: 80px;
+ }
+
+ .loginBodyBtnContainer2{
+	display: inline-block;
+    margin-left: 80px;
+ }
+
+ .loginBodyBtnContainer3{
+	display: inline-block;
+    margin-left: 80px;
+ }
+
+ .loginBodyOrLegendStyle{
+ 	display: inline-block;
+	color:#d3d3d3;
+	font-weight: bold;
+ 	margin-left: 70px;
+ }
+
+ .loginBodyForgotLegendStyle{
+ 	display: inline-block;
+	color:gray;
+	font-weight: bold;
+	font-size: 11px;
+	margin-top:7px;
+	margin-left:-1.5%;
+	border:none;
+	background-color: transparent;
+ }
+
+
+ .loginBodyFbBtnStyle{
+    display: inline-block;
+    width:280px;
+    height: 30px;
+ }
+ .loginBodyFbBtnContainer{
+    margin-left: 5px;
+    margin-top: 15px;
+ }
+
+ .loginBodyFbIconStyle{
+ 	display: inline-block;
+ 	margin-left: -8px;
+ }
+
+  .loginBodyGmailBtnStyle{
+    display: inline-block;
+    width:280px;
+    height: 30px;
+ }
+ .loginBodyGmailBtnContainer{
+    margin-left: 5px;
+ }
+
+ .loginBodyGmailIconStyle{
+ 	display: inline-block;
+ 	margin-left: -35px;
+ }
+
+ .loginBodyTextGmailBtnStyle{
+   
+    display: inline-block;
+ 	margin-left: -16px;
+ 	font-weight: bold;
+ 	color:black;
+ 	text-transform: none;
+ }
+
+
+ .loginBodyTextfbBtnStyle{
+   
+     display: inline-block;
+ 	 margin-left: 0px;
+ 	 font-weight: bold;
+ 	 color:black;
+ 	 text-transform: none;
+ }

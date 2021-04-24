@@ -1,0 +1,96 @@
+
+.navBarContainer{
+  display: block;
+  width: 100%;
+  height: 125px;
+  overflow: hidden;
+}
+
+
+.navBarUserAvatarContainer{
+  display: inline;
+  position: absolute;
+  cursor: pointer;
+  margin-left:88.5%;
+  margin-top:3.2%;
+  z-index: 2000;
+}
+
+.navBarUserNameContainer{
+  display: inline;
+  position: absolute;
+  cursor: pointer;
+  margin-left:92%;
+  margin-top:3.7%;
+  font-weight: bold;
+  font-size: 14px;
+
+}
+
+.navBarUserMenuContainer{
+  display: inline-block;
+  position: absolute;
+  margin-left:87.5%;
+  margin-top:2.3%;
+  z-index: 2000;
+}
+
+.navBarUserMenuStyle{
+  display: inline-block;
+  position: absolute;
+  margin-left:80%;
+  margin-top:2.3%;
+  z-index: 2000;
+}
+
+.navBarDropdownContainer{
+  display: inline-block;
+  margin-left: -14%;
+  margin-top: 4.5%;
+}
+
+
+
+
+
+
+.navBarUserAvatarComponentContainer{
+  display: inline-block;
+  position: relative;
+  margin-left: 80%;
+  margin-top: 3%;
+  width: 175px;
+  height: 50px;
+  background-color: transparent;
+  z-index: 2000;
+}
+
+.navBarUserAvatarComponentUserDataContainer{
+  display: inline-block;
+  position: absolute;
+  left: 5px;
+  top:  3px;
+  z-index: 2000;
+}
+
+.navBarUserAvatarComponentUserName{
+  display: inline-block;
+  position: absolute;
+  top:10px;
+  left: 50px;
+  width: 100px;
+  min-width: 100px;
+  text-transform: capitalize;
+  font-weight: bold;
+  font-size: 14px;
+  font-family: arial;
+  z-index: 2000;
+}
+
+.navBarUserAvatarComponentUserMenu{
+  display: inline-block;
+  position: absolute;
+  margin-left:75%;
+  margin-top:-23%;
+  z-index: 2000;
+}

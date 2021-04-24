@@ -1,0 +1,84 @@
+.contactFormBodyContainer{
+  display:block;
+  position: relative;
+  width: 100%;
+  height: 600px;
+  margin-left: 35%;
+  margin-bottom: 10%;
+  margin-top: 10%;
+}
+
+.contactFormDescriptionLegendStyle{
+	display: block;
+	font-weight: bold;
+	margin-top:60px;
+	font-size: 22px;
+}
+
+.contactFormParagraphStyle{
+    display: block;
+    width: 35%;
+    margin-top: -2%;
+    font-size: 18px;
+    font-family: arial;
+    font-weight: 500;
+    width: 27%;
+}
+
+.contactFormParagraphStyle1{
+    display: block;
+    margin-top: 0%;
+    font-size: 18px;
+    font-family: arial;
+    font-weight: 500;
+    width: 27%;
+}
+
+.contactFormSenderLegendStyle{
+  display: inline-block;
+   position: absolute;
+    width: 5%;
+    margin-top: 1%;
+    margin-left: 0%;
+    color: grey;
+    font-weight: bold;
+}
+
+.contactFormSenderInputStyle{
+  display: inline-block;
+   position: absolute;
+    width: 27%;
+    margin-top: 1.3%;
+    margin-left:0%;
+    background-color: #e8ebeb;
+    border-color: #F0F0F0;
+}
+
+.contactFormMessageLegendStyle{
+  display: inline-block;
+   position: absolute;
+    width: 5%;
+    margin-top: 2%;
+    margin-left: 0%;
+    color: grey;
+    font-weight: bold;
+}
+
+.contactFormMessageInputStyle{
+  display: inline-block;
+   position: absolute;
+    width: 27%;
+    margin-top: 2.3%;
+    margin-left:0%;
+    height: 250px;
+    background-color: #e8ebeb;
+    border-color: #F0F0F0;
+}
+
+
+.contactFormBtnActionContainer{
+   display: block;
+   margin-top: 280px;
+   margin-left: 6.7%;
+   height: 5%;
+}

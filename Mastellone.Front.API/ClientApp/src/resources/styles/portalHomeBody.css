@@ -1,0 +1,83 @@
+.portalHomeContainer{
+	display: inline-block;
+	position: relative;
+	margin-left: 2.5%;
+	margin-top: 2%;
+	margin-bottom: 0px;
+	height: 465px;
+}
+
+.portalHomeLegend1{
+    display: block;
+	font-weight: bold;
+	font-size:26px;
+}
+
+.portalHomeLegend2{
+    display: block;
+	font-weight: bold;
+	font-size:18px;
+	margin-top: 30px;
+}
+
+.portalHomeLegend3{
+    display: block;
+	font-weight: bold;
+	font-size:18px;
+	margin-top: 30px;
+}
+
+
+.portalHomeUserName{
+ display: inline-block;
+ font-weight: bold;
+ font-size:16px;
+ margin-bottom:10px;
+}
+
+.portalHomeLocation{
+ display: inline-block;
+ font-weight: bold;
+ font-size:16px;
+ margin-left:30%;
+ margin-bottom:15px;
+}
+
+.portalHomeCuit{
+ display: inline-block;
+ font-weight: bold;
+ font-size:16px;
+ margin-bottom:10px;
+}
+
+.portalHomeBusinessName{
+ display: inline-block;
+ font-weight: bold;
+ font-size:16px;
+ margin-bottom:10px;
+}
+
+.portalHomePhone{
+ display: inline-block;
+ font-weight: bold;
+ font-size:16px;
+ margin-left:38.2%;
+ margin-bottom:10px;
+}
+
+.portalHomePostalCode{
+ display: inline-block;
+ font-weight: bold;
+ font-size:16px;
+ margin-left:36%;
+ margin-bottom:10px;
+}
+
+.portalHomeAddress{
+ display: inline-block;
+ font-weight: bold;
+ font-size:16px;
+ margin-bottom:10px;
+}
+
+

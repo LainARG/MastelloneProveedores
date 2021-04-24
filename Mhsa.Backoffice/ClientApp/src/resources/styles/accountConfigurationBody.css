@@ -1,0 +1,270 @@
+.accountConfigurationBodyContainer{
+  display:flex;
+  margin-left: 25%;
+  margin-top: 2%;
+  width: 100%;
+}
+
+.descriptionLegendStyle{
+	display: block;
+	font-weight: bold;
+	margin-top:60px;
+	font-size: 18px;
+}
+
+.btnActionContainer{
+  display: block;
+  margin-left: 37%;
+  margin-top: 8%;
+}
+
+.accountConfigurationBtnActionContainer{
+  display: block;
+  margin-left: 37%;
+  margin-top: 8%;
+}
+
+.btnActionStyle{
+	text-transform: none;
+}
+
+
+.nameLegendStyle{
+    display: inline;
+	color:gray;
+	font-weight: bold;
+	font-size:14px;
+}
+
+.nameInputStyle{
+	display: inline;
+	width: 350px;
+	border-right: none;
+	border-left: none;
+	border-top: none;
+	border-bottom-color: #989898;
+	background-color: #e8ebeb;
+}
+
+.lastnameLegendStyle{
+    display: inline-block;
+    position: relative;
+	color:gray;
+	font-weight: bold;
+	font-size:14px;
+	margin-left: 45.5%;
+}
+
+.lastnameInputStyle{
+	display: inline-block;
+	width: 350px;
+	border-right: none;
+	border-left: none;
+	border-top: none;
+	border-bottom-color: #989898;
+	background-color: #e8ebeb;
+	float:right;
+	margin-left: 40px;
+}
+
+
+
+.mailLegendStyle{
+	
+    display: inline;
+	color:gray;
+	font-weight: bold;
+	font-size:14px;
+}
+
+.mailInputStyle{
+	
+	display: inline;
+	width: 350px;
+	border-right: none;
+	border-left: none;
+	border-top: none;
+	border-bottom-color: #989898;
+	background-color: #e8ebeb;
+}
+
+.usernameLegendStyle{
+	
+    display: inline-block;
+    position: relative;
+	color:gray;
+	font-weight: bold;
+	font-size:14px;
+	margin-left: 48.9%;
+}
+
+.usernameInputStyle{
+
+	display: inline-block;
+	width: 350px;
+	border-right: none;
+	border-left: none;
+	border-top: none;
+	border-bottom-color: #989898;
+	background-color: #e8ebeb;
+	float:right;
+	margin-left: 40px;
+}
+
+
+
+
+
+.cuitLegendStyle{
+	
+    display: inline;
+	color:gray;
+	font-weight: bold;
+	font-size:14px;
+}
+
+.cuitInputStyle{
+	
+	display: inline;
+	width: 350px;
+	border-right: none;
+	border-left: none;
+	border-top: none;
+	border-bottom-color: #989898;
+	background-color: #e8ebeb;
+}
+
+.businessNameLegendStyle{
+	
+    display: inline-block;
+    position: relative;
+	color:gray;
+	font-weight: bold;
+	font-size:14px;
+	margin-left: 40.2%;
+}
+
+.businessNameInputStyle{
+
+	display: inline-block;
+	width: 350px;
+	border-right: none;
+	border-left: none;
+	border-top: none;
+	border-bottom-color: #989898;
+	background-color: #e8ebeb;
+	float:right;
+	margin-left: 40px;
+}
+
+
+
+
+
+.addressLegendStyle{
+	
+    display: inline;
+	color:gray;
+	font-weight: bold;
+	font-size:14px;
+}
+
+.addressInputStyle{
+	
+	display: inline;
+	width: 350px;
+	border-right: none;
+	border-left: none;
+	border-top: none;
+	border-bottom-color: #989898;
+	background-color: #e8ebeb;
+}
+
+.locationLegendStyle{
+	
+    display: inline-block;
+    position: relative;
+	color:gray;
+	font-weight: bold;
+	font-size:14px;
+	margin-left: 44.3%;
+}
+
+.locationInputStyle{
+
+	display: inline-block;
+	width: 350px;
+	border-right: none;
+	border-left: none;
+	border-top: none;
+	border-bottom-color: #989898;
+	background-color: #e8ebeb;
+	float:right;
+	margin-left: 40px;
+}
+
+
+.postalCodeLegendStyle{
+	
+    display: inline;
+	color:gray;
+	font-weight: bold;
+	font-size:14px;
+}
+
+.postalCodeInputStyle{
+	
+	display: inline;
+	width: 350px;
+	border-right: none;
+	border-left: none;
+	border-top: none;
+	border-bottom-color: #989898;
+	background-color: #e8ebeb;
+}
+
+.phoneLegendStyle{
+	
+    display: inline-block;
+    position: relative;
+	color:gray;
+	font-weight: bold;
+	font-size:14px;
+	margin-left: 40.5%;
+}
+
+.phoneInputStyle{
+
+	display: inline-block;
+	width: 350px;
+	border-right: none;
+	border-left: none;
+	border-top: none;
+	border-bottom-color: #989898;
+	background-color: #e8ebeb;
+	float:right;
+	margin-left: 40px;
+}
+
+
+
+
+.container1{
+	display: block;
+	margin-bottom:3%;
+}
+
+.container2{
+	display: block;
+	margin-bottom:3%;
+}
+
+.container3{
+	display: block;
+	margin-bottom:3%;
+}
+
+.container4{
+	display: block;
+	margin-bottom:3%;
+}

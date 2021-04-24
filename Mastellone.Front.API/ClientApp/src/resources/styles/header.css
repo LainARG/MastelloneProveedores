@@ -1,0 +1,138 @@
+
+.containerLogo{
+  display:inline;
+  margin-top:-20%;
+  margin-left:20px;
+  height: 85px;
+}
+
+.containerToolbar{
+  display: inline;
+  width: 50%;
+  height: 100px;
+  background-color: blue;
+}
+
+.btnSession{
+  display:inline-block;
+  position: relative;
+  background-color: transparent;
+  background-repeat:no-repeat;
+  border: none;
+  cursor:pointer;
+  overflow: hidden;  
+  font-weight:bold;
+  height: 35px;
+  vertical-align: bottom;
+  margin-bottom: 15px;
+  margin-left: 30px;
+  font-size: 14px;
+  border-bottom: 3px solid #009639;
+}
+
+.btnSessionUnselected{
+  display:inline-block;
+  position: relative;
+  background-color: transparent;
+  background-repeat:no-repeat;
+  border: none;
+  cursor:pointer;
+  overflow: hidden;  
+  font-weight:bold;
+  height: 35px;
+  vertical-align: bottom;
+  margin-bottom: 15px;
+  margin-left: 30px;
+  font-size: 14px;
+}
+
+.btnContact{
+  display:inline-block;
+  position: relative;
+  background-color: transparent;
+  background-repeat:no-repeat;
+  border: none;
+  cursor:pointer;
+  overflow: hidden;  
+  font-weight:bold;
+  color:gray;
+  height: 35px;
+  vertical-align: bottom;
+  margin-bottom: 15px;
+  margin-left: 20px;
+  font-size: 14px;
+}
+.btnContact:active {
+  width: 85px;
+  border-bottom: 3px solid #009639;
+}
+
+
+
+.btnContactSelected{
+  display:inline-block;
+  position: relative;
+  background-color: transparent;
+  background-repeat:no-repeat;
+  border: none;
+  cursor:pointer;
+  overflow: hidden;  
+  font-weight:bold;
+  color:gray;
+  height: 35px;
+  vertical-align: bottom;
+  margin-bottom: 15px;
+  margin-left: 20px;
+  font-size: 14px;
+  border-bottom: 3px solid #009639;
+}
+
+
+
+
+
+
+.headerUserAvatarComponentContainer{
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  margin-left: 80%;
+  margin-top: 2.5%;
+  width: 175px;
+  height: 50px;
+  background-color: transparent;
+  z-index: 2000;
+}
+
+.headerUserAvatarComponentUserDataContainer{
+  display: inline-block;
+  position: absolute;
+  cursor: pointer;
+  left: 5px;
+  top:  3px;
+  z-index: 2000;
+}
+
+.headerUserAvatarComponentUserName{
+  display: inline-block;
+  position: absolute;
+  cursor: pointer;
+  top:10px;
+  left: 50px;
+  width: 100px;
+  min-width: 100px;
+  text-transform: capitalize;
+  font-weight: bold;
+  font-size: 14px;
+  font-family: arial;
+  z-index: 2000;
+}
+
+.headerUserAvatarComponentUserMenu{
+  display: inline-block;
+  position: absolute;
+  cursor: pointer;
+  margin-left:-4%;
+  margin-top: 3%;
+  z-index: 2001;
+}

@@ -1,0 +1,45 @@
+.portalNewsBodyContainer{
+  display: block;
+  margin-top:5%; 
+  margin-left: 1%; 
+  margin-bottom: 5%;
+}
+
+
+
+.portalNewsBodyLegendsContainer{
+   display: block;
+   margin-left: 1.5%;
+   margin-top: 2%;
+}
+
+.portalNewsBodyLegend{
+   display: block;
+   font-weight: bold;
+   font-size: 20px;
+   font-family: arial;
+}
+
+.portalNewsBodyLegend1{
+   display: block;
+   font-weight: bold;
+   font-size: 18px;
+   font-family: arial;
+   margin-top: 2%;
+}
+
+.portalNewsBodyNewsContainer{
+   display: block;
+   margin-left: -0.5%;
+   margin-top: -5%;
+   font-size: 16px;
+   font-family: arial;
+}
+
+.portalNewsBodyUserDataContainer{
+   display: block;
+   margin-left: 1.5%;
+   margin-top: -5%;
+}
+
+

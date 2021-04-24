@@ -1,0 +1,28 @@
+﻿
+
+
+.documentContentContainer {
+
+  display:block;
+  position:relative;
+  width:99%;
+  margin-left:0.5%;
+  background-color:red;
+
+}
+
+
+
+.tableHeader{
+    display: block;
+    position: relative;
+    background-color: red;
+}
+
+.paginationContainerStyle {
+    display: inline-block;
+    margin-left: 32.5%;
+    margin-top: 2%;
+    width: 100%;
+    border-bottom:none;
+}
