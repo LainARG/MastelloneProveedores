@@ -3,17 +3,50 @@
 
 .documentContentContainer {
 
-  display:block;
+  display:inline-block;
   position:relative;
-  width:99%;
-  margin-left:0.5%;
+  width:95%;
+  margin-left:2.5%;
   background-color:red;
 
 }
 
+.documentIconContainer {
+    display: inline-block;
+    position: relative;
+    margin-left: 75%;
+    margin-right: 1%;
+}
+
+.documentIconContainer2 {
+    display: inline-block;
+    position: relative;
+    max-width:30px;
+    margin-left:0;
+    margin-right:0;
+}
+
+.documentSearchBarContainer {
+    display: inline-block;
+    width: 17%;
+    background-color: blue;
+}
+
+.documentSearchBar {
+    display: inline-block;
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #cfcdca;
+    font-weight: bold;
+}
+
+input::placeholder {
+    color: #cdcfd1;
+    font-size: 15px;
+}
 
 
-.tableHeader{
+.tableHeader {
     display: block;
     position: relative;
     background-color: red;

@@ -8,77 +8,24 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import DocumentsContext from '../contexts/documentsContext';
 import PaymentsContext from '../contexts/paymentsContext';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { createMuiTheme } from '@material-ui/core/styles'; 
 import pagination from '../pagination/pagination';
+import SearchBar from "material-ui-search-bar";
+import TuneIcon from '@material-ui/icons/Tune';
+import SearchRoundedIcon from '@material-ui/icons/SearchRounded';
 
 
-const columns = [
-    {
-        id: 'Fecha_doc',
-        label: 'Fecha de doc.',
-        minWidth: 150,
-        align: 'left',
-        format: (value) => value.toLocaleString('en-US'),
-    },
-    {
-        id: 'Estado',
-        label: 'Estado',
-        minWidth: 150,
-        align: 'left',
-        format: (value) => value.toLocaleString('en-US'),
-    },
-    {
-        id: 'Tipo',
-        label: 'Tipo',
-        minWidth: 150,
-        align: 'left',
-        format: (value) => value.toFixed(2),
-    },
-    {
-        id: 'Numero',
-        label: 'Numero',
-        minWidth: 175,
-        align: 'left',
-        format: (value) => value.toFixed(2),
-    },
-    {
-        id: 'NP',
-        label: 'N.P.',
-        minWidth: 175,
-        align: 'left',
-        format: (value) => value.toFixed(2),
-    },
-    {
-        id: 'Monto',
-        label: 'Monto',
-        minWidth: 150,
-        align: 'left',
-        format: (value) => value.toFixed(2),
-    },
-    {
-        id: 'Detalle_pago',
-        label: 'Detalle del pago',
-        minWidth: 150,
-        align: 'left',
-        format: (value) => value.toFixed(2),
-    }
-
-];
 
 function createData(fecha_doc, estado, tipo, numero, np, monto, detalle_pago) {
 
     return { fecha_doc, estado, tipo, numero, np, monto, detalle_pago };
 }
 
-const rows = [
-    createData('India', 'IN', 1324171354, 3287263),
-    createData('China', 'CN', 1403500365, 9596961)
-];
+
 
 const useStyles = makeStyles({
     root: {
@@ -104,43 +51,122 @@ const useStyles = makeStyles({
 
 export default function Test() {
     const classes = useStyles();
-    const [allDocs, setAllDocs] = useState(rows);
-    const [allPays, setAllPays] = useState(rows);
-    const [allData, setAllData] = useState(rows);
+    const [allDocs, setAllDocs] = useState("");
+    const [allPays, setAllPays] = useState("");
+    const [allData, setAllData] = useState("");
     const [pageNumber, setPageNumber] = useState(1);
+    const [pageQuantity, setPageQuantity] = useState(10);
+    const rowsPerPage = 2;
     const [contextCtrl, setContextCtrl] = useState(0);
-
+    
     const setContext = () => {
-        if (contextCtrl<1) {
-            if (allDocs.length < 3 || allDocs.length == undefined) {
-                setAllDocs(DocumentsContext.allDocuments);
-                setAllPays(PaymentsContext.allPayments);
+        
+            setAllDocs(DocumentsContext.allDocuments);
+            setAllPays(PaymentsContext.allPayments);
+            dataMapper(allDocs, allPays);
+        if (allDocs != "") {
+            setTimeout(function () { setContextCtrl(1); }, 100);
             }
-            if (allDocs.length >= 3) {
-                setAllData(allDocs.concat(allPays));
-                setContextCtrl(1);
-                console.log(allData);
-            }
-        }
-
     }
 
 
-    useEffect(() => {
-
-        
-            setTimeout(function () {
-                setContext();
-            }, 10);
-        
-    
+useEffect(() => {
+    if (contextCtrl < 1) {
+        setContext();
+    } 
     });
 
+    const columns = [
+        {
+            id: 'Fecha_doc',
+            label: 'Fecha de doc.',
+            minWidth: 150,
+            align: 'left',
+            format: (value) => value.toLocaleString('en-US'),
+        },
+        {
+            id: 'Estado',
+            label: 'Estado',
+            minWidth: 150,
+            align: 'left',
+            format: (value) => value.toLocaleString('en-US'),
+        },
+        {
+            id: 'Tipo',
+            label: 'Tipo',
+            minWidth: 150,
+            align: 'left',
+            format: (value) => value.toFixed(2),
+        },
+        {
+            id: 'Numero',
+            label: 'Numero',
+            minWidth: 175,
+            align: 'left',
+            format: (value) => value.toFixed(2),
+        },
+        {
+            id: 'NP',
+            label: 'N.P.',
+            minWidth: 175,
+            align: 'left',
+            format: (value) => value.toFixed(2),
+        },
+        {
+            id: 'Monto',
+            label: 'Monto',
+            minWidth: 150,
+            align: 'left',
+            format: (value) => value.toFixed(2),
+        },
+        {
+            id: 'Detalle_pago',
+            label: 'Detalle del pago',
+            minWidth: 150,
+            align: 'left',
+            format: (value) => value.toFixed(2),
+        }
+
+    ];
+
+    const dataMapper = (alldocs, allpays) => {
+        let alldata = [];
+       
+        for (let i = 0; i < alldocs.length; i++) {
+            for (let j = 0; j < allpays.length;j++) {
+                let objectData = {
+                    fecha_documento: null,
+                    estado: null,
+                    tipo: null,
+                    numero_documento: null,
+                    numero_pago: null,
+                    monto_bruto: null,
+                    observaciones_pago: null,
+                }
+
+                if (alldocs[i].id_documento == allpays[j].id_documento) {
+                    objectData.fecha_documento = alldocs[i].fecha_de_carga;
+                    objectData.estado = alldocs[i].estado;
+                    objectData.tipo = alldocs[i].tipo;
+                    objectData.numero_documento = alldocs[i].numero_documento;
+                    objectData.numero_pago = allpays[j].numero_pago;
+                    objectData.monto_bruto = allpays[j].monto_bruto;
+                    objectData.observaciones_pago = allpays[j].observaciones_pago;
+                    alldata.push(objectData);
+                }
+
+
+            }
+        }
+        
+        let pagData = pagination(alldata, alldata.length, rowsPerPage);
+        setPageQuantity(pagData.length);
+        setAllData(pagData);
+    }
 
 
     const paginationTheme = createMuiTheme({
 
-       
 
             MuiTouchRipple: {
               root: {
@@ -150,8 +176,6 @@ export default function Test() {
               }
             },
         
-
-
         overrides: {
 
             MuiPaginationItem: {
@@ -177,17 +201,39 @@ export default function Test() {
 
 
     const paginationHandler = (e) => {
-
-        let label = e.target.ariaLabel;
-        let nPage = label.split(" ");
-        let pageNum = parseInt(nPage[nPage.length - 1]);
-        setPageNumber(pageNum);
+        if (e.target.ariaLabel != undefined) {
+            let label = e.target.ariaLabel;
+            let nPage = label.split(" ");
+            let pageNum = parseInt(nPage[nPage.length - 1]);
+            setPageNumber(pageNum);
+        }
 
      }
 
+    if (allData == undefined || allData == null || allData == "") {
 
+        setTimeout(function () {}, 1000);
+        return (
+            <h1>Loading data...</h1>
+
+            );
+    }
     return (
+        <div className="documentContentContainer"> 
         <Paper className={classes.root}>
+
+                <div className="documentIconContainer">
+                    <TuneIcon fontSize="large" />
+                </div>
+                
+                    <div className="documentSearchBarContainer">
+                        <input placeholder="Buscar por num. de documento" className="documentSearchBar"/>
+                    </div>
+                
+                <div className="documentIconContainer2">
+                    <SearchRoundedIcon fontSize="large" />
+                </div>
+
             <TableContainer className={classes.container}>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
@@ -205,20 +251,20 @@ export default function Test() {
                     </TableHead>
                     <TableBody>
                         {
-                            
-                            allData.map((row) => {
+
+                            allData[pageNumber-1].map((row) => {
 
                                 return (
-                                    
+
                                     <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                                         {columns.map((column) => {
-                                            
-                                            
+
+
                                             for (let i = 0; i < allData.length; i++) {
                                                 if (column.id == "Fecha_doc") {
                                                     return (
                                                         <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                            {row.fecha_de_carga}
+                                                            {row.fecha_documento}
                                                         </TableCell>
                                                     );
                                                 }
@@ -243,9 +289,8 @@ export default function Test() {
                                                         </TableCell>
                                                     );
                                                 }
-                                                
+
                                                 else if (column.id == "NP") {
-                                                    console.log(allPays);
                                                     return (
                                                         <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
                                                             {row.numero_pago}
@@ -266,16 +311,16 @@ export default function Test() {
                                                         </TableCell>
                                                     );
                                                 }
-                                                
+
                                             }
-                                            
-                                               
-                                            
+
+
+
 
                                         })
 
                                         }
-                                        </TableRow>
+                                    </TableRow>
                                 );
                             })
 
@@ -285,10 +330,11 @@ export default function Test() {
             </TableContainer>
             <ThemeProvider theme={paginationTheme}>
                 <div className="paginationContainerStyle">
-                    <Pagination count={allPays.length + allDocs.length} onChange={paginationHandler} page={pageNumber} />
-               </div>
-             </ThemeProvider>   
-           
+                    <Pagination count={pageQuantity} onChange={paginationHandler} />
+                </div>
+            </ThemeProvider>
+
         </Paper>
+            </div> 
     );
 }
