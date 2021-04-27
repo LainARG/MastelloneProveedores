@@ -7,7 +7,7 @@
   position:relative;
   width:95%;
   margin-left:2.5%;
-  background-color:red;
+  margin-top:4%;
 
 }
 
@@ -22,14 +22,13 @@
     display: inline-block;
     position: relative;
     max-width:30px;
-    margin-left:0;
+    margin-left:0.5%;
     margin-right:0;
 }
 
 .documentSearchBarContainer {
     display: inline-block;
-    width: 17%;
-    background-color: blue;
+    width: 17.5%;
 }
 
 .documentSearchBar {
@@ -46,16 +45,34 @@ input::placeholder {
 }
 
 
-.tableHeader {
-    display: block;
-    position: relative;
-    background-color: red;
-}
+.documentTabContainer{
+    display:inline-block;
+    background-color:transparent;
 
+}
+.downloadIconContainer{
+    display:inline-block;
+    margin-right:6%;
+    cursor:pointer;
+}
 .paginationContainerStyle {
     display: inline-block;
     margin-left: 32.5%;
     margin-top: 2%;
     width: 100%;
-    border-bottom:none;
+    border-bottom: none;
+}
+
+.digDocumentIconPoint {
+    display: inline-block;
+    margin-left: 1%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+
+.digDocumentIconSettings {
+    display: inline-block;
+    margin-left: 10%;
+    margin-top: 2%;
+    margin-bottom: 2%;
 }

@@ -6,9 +6,12 @@ namespace Repository
     public class MastelloneDBContext : DbContext
     {
         public DbSet<Users> Usuarios { get; set; }
+
         public DbSet<Documents> Documentos { get; set; }
 
         public DbSet<Payments> Pagos { get; set; }
+
+        public DbSet<DigitalDocuments> Documentos_electronicos { get; set; }
 
         public MastelloneDBContext(DbContextOptions<MastelloneDBContext> options)
             : base(options)

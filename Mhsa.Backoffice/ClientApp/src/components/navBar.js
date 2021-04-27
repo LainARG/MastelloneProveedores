@@ -2,8 +2,6 @@ import React,{useState} from 'react';
 import image from '../resources/images/logo.png';
 import '../resources/styles/navBar.css';
 import {AppBar, Toolbar, Typography, makeStyles, IconButton, Tabs, Tab} from '@material-ui/core';
-import TabPanel from '@material-ui/lab/TabPanel';
-import MenuIcon from '@material-ui/icons/Menu';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { createMuiTheme } from '@material-ui/core/styles'; 
 import { Button, Menu, MenuItem } from '@material-ui/core';
@@ -11,7 +9,6 @@ import image1 from '../resources/images/lain.jpg';
 import Avatar from '@material-ui/core/Avatar';
 import {Dropdown,DropdownItem,DropdownMenu, DropdownToggle} from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import UserAvatarComponent from './userAvatarComponent';
 import  {Link} from "react-router-dom";
 
 
@@ -34,7 +31,8 @@ const useStyles=makeStyles({
   },
   btn0Style:{
    display:'inline',
-   backgroundColor:'transparent',
+   backgroundColor: 'transparent',
+   textTransform: 'capitalize',
    cursor:'pointer',
    fontWeight:'900',
    textTransform:'none',
@@ -66,7 +64,7 @@ const useStyles=makeStyles({
    backgroundColor:'transparent',
    cursor:'pointer',
    fontWeight:'900',
-   textTransform:'none',
+   textTransform: 'capitalize',
    fontSize:16,
    marginLeft:'-1.2%',
    marginTop:"1%",
@@ -94,7 +92,7 @@ const useStyles=makeStyles({
    backgroundColor:'transparent',
    cursor:'pointer',
    fontWeight:'900',
-   textTransform:'none',
+   textTransform: 'capitalize',
    fontSize:16,
    marginLeft:'-1.2%',
    marginTop:"1%",
