@@ -15,7 +15,7 @@ import PaymentsPage from '../pages/paymentsPage';
 import Navbar from '../components/navBar';
 import Header from '../components/header';
 import UserAvatarComponent from '../components/userAvatarComponent';
-import Test from '../pages/test';
+import DocumentPage from '../pages/documentPage';
 
 class Router extends React.Component{
 
@@ -39,7 +39,7 @@ return(
   <Route exact path='/portal/news' component={PortalNewsPage}/>
   <Route exact path='/portal/format' component={KeyFormatPortalPage}/>
   <Route exact path='/payments' component={PaymentsPage}/>
-  <Route exact path='/test' component={Test}/>
+  <Route exact path='/documents' component={DocumentPage}/>
   </Switch>
 </BrowserRouter>
 

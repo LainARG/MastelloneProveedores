@@ -4,7 +4,7 @@ import '../resources/styles/navBar.css';
 import {AppBar, Toolbar, Typography, makeStyles, IconButton, Tabs, Tab} from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { createMuiTheme } from '@material-ui/core/styles'; 
-import { Button, Menu, MenuItem } from '@material-ui/core';
+import { Menu, MenuItem } from '@material-ui/core';
 import image1 from '../resources/images/lain.jpg';
 import Avatar from '@material-ui/core/Avatar';
 import {Dropdown,DropdownItem,DropdownMenu, DropdownToggle} from 'reactstrap';
@@ -15,7 +15,7 @@ import  {Link} from "react-router-dom";
 const useStyles=makeStyles({
   
   style:{
-   backgroundColor:'transparent',
+   backgroundColor:'white',
    cursor:'pointer'
   },
   tabStyle:{
@@ -41,7 +41,7 @@ const useStyles=makeStyles({
    marginTop:"1%",
    width:'13%',
    minWidth:'13%',
-   color:'#87847b',
+   color:'#d1d1d1',
    '&.indicator':{
     widht:'0.5vm'
    }
@@ -57,7 +57,7 @@ const useStyles=makeStyles({
    marginTop:"1%",
    width:'13%',
    minWidth:'13%',
-   color:'#87847b'
+   color: '#d1d1d1',
   },
   btn2Style:{
    display:'inline',
@@ -70,7 +70,7 @@ const useStyles=makeStyles({
    marginTop:"1%",
    width:'14%',
    minWidth:'14%',
-   color:'#87847b',
+   color: '#d1d1d1',
    '&.indicator':{
     widht:'0.5vm'
    }
@@ -86,7 +86,7 @@ const useStyles=makeStyles({
    marginTop:"1%",
    width:'15%',
    minWidth:'15%',
-   color:'#87847b'
+   color: '#d1d1d1',
   },btn4Style:{
    display:'inline',
    backgroundColor:'transparent',
@@ -98,7 +98,7 @@ const useStyles=makeStyles({
    marginTop:"1%",
    width:'13%',
    minWidth:'13%',
-   color:'#87847b',
+   color: '#d1d1d1',
    '&.indicator':{
     widht:'0.5vm'
    }
@@ -193,7 +193,8 @@ const [menuState, setMenuState] = useState(false);
 
 const [anchorEl, setAnchorEl] = useState(false)
 
-const navBarHandleUserMenu = (e)=>{
+const navBarHandleUserMenu = (e) => {
+      
   setMenuState(!menuState);
 }
 
@@ -250,8 +251,8 @@ return(
        Portal - Proveedores
       </DropdownToggle>  
       <DropdownMenu> 
-      <DropdownItem>love lain3</DropdownItem>
-      <DropdownItem>love lain4</DropdownItem>
+      <DropdownItem>Portal - BackOffice</DropdownItem>
+      <DropdownItem>Portal - Usuario Interno</DropdownItem>
       </DropdownMenu> 
      </Dropdown>
 
@@ -262,11 +263,11 @@ return(
      TabIndicatorProps={{
            style: {background:"#009639", width:"2%", height:"6%", marginLeft:"5.5%" }
          }}>
-    <Tab className={classes.btn0Style} label='inicio'></Tab>
-    <Tab className={classes.btn1Style} label='pagos'/>
-    <Tab className={classes.btn2Style} label='documentos'/>
-    <Tab className={classes.btn3Style} label='contáctanos'/>
-    <Tab className={classes.btn4Style} label='avisos'/>
+    <Tab className={classes.btn0Style} label='Inicio'></Tab>
+    <Tab className={classes.btn1Style} label='Pagos'/>
+    <Tab className={classes.btn2Style} label='Documentos'/>
+    <Tab className={classes.btn3Style} label='Contáctanos'/>
+    <Tab className={classes.btn4Style} label='Avisos'/>
     </Tabs>
     </Toolbar>
 	</AppBar>
@@ -285,7 +286,6 @@ return(
          anchorEl={anchorEl}
          keepMounted
          open={menuState}
-         onClose={navBarCloseUserMenu}
          className="navBarUserAvatarComponentUserMenu"
      >
      <MenuItem onClick={navBarCloseUserMenu} className={classes.menuItemStyle}>Novedades de la sección <b>"Pagos"</b></MenuItem>

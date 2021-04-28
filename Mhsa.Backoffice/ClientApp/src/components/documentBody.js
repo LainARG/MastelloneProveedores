@@ -20,6 +20,9 @@ import { makeStyles, Tabs, Tab } from '@material-ui/core';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import ControlPointIcon from '@material-ui/icons/ControlPoint';
 import SettingsEthernetIcon from '@material-ui/icons/SettingsEthernet';
+import DocumentFilterMenu from '../components/documentFilterMenu';
+import AspectRatioIcon from '@material-ui/icons/AspectRatio';
+import AssignmentReturnedIcon from '@material-ui/icons/AssignmentReturned';
 
 
 function createData(fecha_doc, estado, tipo, numero, np, monto, detalle_pago) {
@@ -71,8 +74,7 @@ const useTabStyles = makeStyles({
         width: '20%',
         minWidth: '20%',
         maxHeight:'10px',
-        color: '#87847b',
-        align:'left'
+        color: '#87847b'
     },
     btnTab0StyleDisabled: {
         display: 'inline',
@@ -124,9 +126,21 @@ const useTabStyles = makeStyles({
 
 const documentTabsTheme = createMuiTheme({
 
+    overrides: {
+
+        MuiTab: {
+
+            wrapper: {
+
+                
+
+            },
+        },
+    },
+
     palette: {
         primary: {
-            main: '#000000',
+            main: '#000000'
         },
         secondary: {
             main: '#009639'
@@ -137,7 +151,7 @@ const documentTabsTheme = createMuiTheme({
 
 
 
-export default function Test() {
+export default function DocumentBody() {
     const classes = useStyles();
     const tabClasses = useTabStyles();
     const [allDocs, setAllDocs] = useState("");
@@ -149,6 +163,8 @@ export default function Test() {
     const [contextCtrl, setContextCtrl] = useState(0);
     const [value, setValue] = useState(0);
     const [showTab, setShowTab] = useState(1);
+    const [openFilterMenu, setOpenFilterMenu] = useState(false);
+    const [anchorEl, setAnchorEl] = useState(false);
     const rowsPerPage = 8;
     
     
@@ -294,7 +310,7 @@ useEffect(() => {
 
             }
         }
-        console.log(alldata);
+         
         let pagData = pagination(alldata, alldata.length, rowsPerPage);
         setPageQuantity(pagData.length);
         setAllData(pagData);
@@ -350,14 +366,7 @@ useEffect(() => {
 
     const handleTabs = (e, val) => {
         setValue(val);
-        switch (val) {
-            case 0:
-                console.log("tab 1");
-                break;
-            case 1:
-                console.log("tab 2");
-                break;
-        }
+        
     }
 
     const firstTab = () => {
@@ -368,7 +377,11 @@ useEffect(() => {
         setShowTab(2);
     }
        
-
+    const FilterMenuHandler = (e) => {
+        console.log(e.currentTarget);
+        setAnchorEl(e.currentTarget);
+        setOpenFilterMenu(!openFilterMenu);
+    }
 
 
 
@@ -404,15 +417,20 @@ useEffect(() => {
 
                 </div>
 
-
+                
 
 
 
 
                 <Paper className={classes.root}>
 
-                    <div className="documentIconContainer">
-                        <TuneIcon fontSize="large" />
+                    <div className="documentReportIconContainer" onClick="">
+                        <AssignmentReturnedIcon fontSize="large" /><span className="documentReportIconLegend">Reporte</span>
+                    </div>
+
+                    <div className="documentIconContainer" onClick={FilterMenuHandler}>
+                        <TuneIcon fontSize="large"/>
+                        <DocumentFilterMenu openMenu={openFilterMenu} anchorEl={anchorEl}/>
                     </div>
 
                     <div className="documentSearchBarContainer">
@@ -496,7 +514,7 @@ useEffect(() => {
                                                         else if (column.id == "Detalle_pago") {
                                                             return (
                                                                 <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                    {row.observaciones_pago}
+                                                                   <b><AspectRatioIcon fontSize="large" className="documentDownloadRowIcon"/></b>
                                                                 </TableCell>
                                                             );
                                                         }
@@ -539,7 +557,7 @@ useEffect(() => {
                             TabIndicatorProps={{
                                 style: { background: "#009639", width: "20%", height: "4%", marginLeft: "0%", top: '15px', position: 'absolute' }
                             }}>
-                            <Tab className={tabClasses.btnTab0StyleDisabled} label='Mis Documentos.' onClick={firstTab}></Tab>
+                             <Tab className={tabClasses.btnTab0StyleDisabled} label='Mis Documentos.' onClick={firstTab}></Tab>
                             <Tab className={tabClasses.btnTab1Style} label='Documentos Electronicos.' onClick={secondTab} />
 
                         </Tabs>

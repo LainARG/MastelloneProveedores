@@ -2,17 +2,17 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 import Footer from '../components/footer';
-import Test from '../components/test';
+import DocumentBody from '../components/documentBody';
 import Navbar from '../components/navBar';
 
-class LoginPage extends React.Component{
+class DocumentPage extends React.Component{
 
 render(){
 
 return(
 <div>
 <Navbar/>
-<Test/>
+<DocumentBody/>
 <Footer/>
 </div>
 );
@@ -20,6 +20,6 @@ return(
 }
 
 }
-export default LoginPage;
+export default DocumentPage;
 
 
