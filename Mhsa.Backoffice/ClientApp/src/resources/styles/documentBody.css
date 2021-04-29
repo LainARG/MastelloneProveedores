@@ -8,13 +8,39 @@
   width:95%;
   margin-left:2.5%;
   margin-top:4%;
-
 }
 
-.documentDownloadRowIcon{
-    display:inline-block;
-    margin-left:38px;
+.documentReportExcelIcon {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    margin-left: 90%;
+    margin-top: -11.5%;
     cursor:pointer;
+}
+
+.documentReportPdfIcon {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    margin-left: 95%;
+    margin-top: -15%;
+    cursor: pointer;
+}
+
+.documentReportLegend {
+    display: inline-block;
+    font-weight: bold;
+    font-size: 36px;
+    margin-left: 1.3%;
+    margin-bottom: 2.5%;
+    margin-top: 6%;
+}
+
+.documentDownloadRowIcon {
+    display: inline-block;
+    margin-left: 38px;
+    cursor: pointer;
 }
 
 .documentIconContainer {

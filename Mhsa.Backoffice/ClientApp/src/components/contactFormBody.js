@@ -31,7 +31,8 @@ const useStyles = makeStyles({
   width:'200px',
   heigth:'35px',
   cursor:'pointer',
-  textTransform: 'capitalize'
+  textTransform: 'capitalize',
+  marginLeft: '-0.5%'
   }
 
 })

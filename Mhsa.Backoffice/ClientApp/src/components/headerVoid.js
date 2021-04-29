@@ -121,7 +121,7 @@ const theme = createMuiTheme({
 
 
 
-const Header= ()=>{
+const HeaderVoid= ()=>{
 
 const [dropdownValue,setDropdownValue] = useState(false);
 
@@ -172,49 +172,17 @@ return(
     <AppBar elevation={0} position='fixed' color='primary' className={classes.style}>
     <Toolbar>
     <IconButton><img  className={classes.logoStyle} src={image}/></IconButton>
-    <Tabs classes={{root: classes.tabStyle}}  onChange={handleTabs} value={value} 
-     indicatorColor="secondary" textColor="primary" 
-     TabIndicatorProps={{
-           style: {background:"#009639", width:"2%", height:"6%", marginLeft:"6.5%" }
-         }}>
-    <Tab className={classes.btn0Style} label='Iniciar sesión'></Tab>
-    <Tab className={classes.btn1Style} label='Contáctanos'/>
-    </Tabs>
+    
     </Toolbar>
     </AppBar>
-    </ThemeProvider>
+            </ThemeProvider>
+
+
     </div>
     
-    
-     <div className="headerUserAvatarComponentContainer">
-
-
-    <div className="headerUserAvatarComponentUserDataContainer" onClick={headerHandleUserMenu}>
-    <Avatar alt="no image" src={image1}/>
-    
-                <span className="headerUserAvatarComponentUserName">Terry Wagner!</span>
-    </div> 
-    
-    <Menu
-         anchorEl={anchorEl}
-         keepMounted
-         open={menuState}
-         onClose={headerCloseUserMenu}
-         className="headerUserAvatarComponentUserMenu"
-     >
-     <MenuItem onClick={headerCloseUserMenu} className={classes.menuItemStyle}>Novedades de la sección <b>"Pagos"</b></MenuItem>
-     <MenuItem onClick={headerCloseUserMenu} className={classes.menuItemStyle}>Novedades de la sección <b>"Avisos"</b></MenuItem>
-     <MenuItem onClick={headerCloseUserMenu} className={classes.menuItemStyleActions} className={classes.menuItemStyleActions}>Cambio de clave</MenuItem>
-     <MenuItem onClick={headerCloseUserMenu} className={classes.menuItemStyleActions}>Cerrar sesión</MenuItem>
-     </Menu>
-
-     </div>
-    
-    
-    
-
-    </div>
+   </div> 
+ 
     );
 }
 
-export default Header;
+export default HeaderVoid;

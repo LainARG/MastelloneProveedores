@@ -12,10 +12,8 @@ import KeyFormatPortalPage from '../pages/keyFormatPortalPage';
 import KeyForgottenPage from '../pages/keyForgottenPage';
 import PortalNewsPage from '../pages/portalNewsPage';
 import PaymentsPage from '../pages/paymentsPage';
-import Navbar from '../components/navBar';
-import Header from '../components/header';
-import UserAvatarComponent from '../components/userAvatarComponent';
 import DocumentPage from '../pages/documentPage';
+import DocumentReportPage from '../pages/documentReportPage';
 
 class Router extends React.Component{
 
@@ -40,6 +38,7 @@ return(
   <Route exact path='/portal/format' component={KeyFormatPortalPage}/>
   <Route exact path='/payments' component={PaymentsPage}/>
   <Route exact path='/documents' component={DocumentPage}/>
+  <Route exact path='/documents/report' component={DocumentReportPage} />
   </Switch>
 </BrowserRouter>
 

@@ -14,15 +14,10 @@ import DigitalDocumentsContext from '../contexts/digitalDocumentsContext ';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { createMuiTheme } from '@material-ui/core/styles'; 
 import pagination from '../pagination/pagination';
-import TuneIcon from '@material-ui/icons/Tune';
-import SearchRoundedIcon from '@material-ui/icons/SearchRounded';
 import { makeStyles, Tabs, Tab } from '@material-ui/core';
-import GetAppIcon from '@material-ui/icons/GetApp';
-import ControlPointIcon from '@material-ui/icons/ControlPoint';
-import SettingsEthernetIcon from '@material-ui/icons/SettingsEthernet';
-import DocumentFilterMenu from '../components/documentFilterMenu';
-import AspectRatioIcon from '@material-ui/icons/AspectRatio';
-import AssignmentReturnedIcon from '@material-ui/icons/AssignmentReturned';
+import { AiOutlineFilePdf } from "react-icons/ai";
+import { SiMicrosoftexcel } from "react-icons/si";
+
 
 
 function createData(fecha_doc, estado, tipo, numero, np, monto, detalle_pago) {
@@ -190,14 +185,14 @@ useEffect(() => {
         {
             id: 'Fecha_doc',
             label: 'Fecha de doc.',
-            minWidth: 150,
+            minWidth: 100,
             align: 'left',
             format: (value) => value.toLocaleString('en-US'),
         },
         {
             id: 'Estado',
             label: 'Estado',
-            minWidth: 150,
+            minWidth: 100,
             align: 'left',
             format: (value) => value.toLocaleString('en-US'),
         },
@@ -226,50 +221,12 @@ useEffect(() => {
             id: 'Monto',
             label: 'Monto',
             minWidth: 150,
-            align: 'left',
-            format: (value) => value.toFixed(2),
-        },
-        {
-            id: 'Detalle_pago',
-            label: 'Detalle del pago',
-            minWidth: 150,
-            align: 'left',
-            format: (value) => value.toFixed(2),
-        }
-
-    ];
-
-    const electronics_columns= [
-        {
-            id: 'Fecha_carga',
-            label: 'Fecha de carga',
-            minWidth: 150,
-            align: 'left',
-            format: (value) => value.toLocaleString('en-US'),
-        },
-        {
-            id: 'Estado',
-            label: 'Estado',
-            minWidth: 150,
-            align: 'left',
-            format: (value) => value.toLocaleString('en-US'),
-        },
-        {
-            id: 'Cargado_por',
-            label: 'Cargado por',
-            minWidth: 150,
-            align: 'left',
-            format: (value) => value.toFixed(2),
-        },
-        {
-            id: 'Descarga',
-            label: 'Descarga',
-            minWidth: 150,
             align: 'right',
             format: (value) => value.toFixed(2),
         }
 
     ];
+
 
     const dataMapper = (alldocs, allpays) => {
         let alldata = [];
@@ -394,52 +351,25 @@ useEffect(() => {
         );
 
     }
-    if (showTab == 1) {
-
+    
         return (
             <div className="documentContentContainer">
 
-                <div className="documentTabsContainer">
-
-                    <ThemeProvider theme={documentTabsTheme}>
-                        <Tabs classes={{ root: tabClasses.documentTabStyle, indicator: tabClasses.tabIndicator }} onChange={handleTabs}
-
-                            value={value} indicatorColor="secondary" textColor="primary"
-                            TabIndicatorProps={{
-                                style: { background: "#009639", width: "20%", height: "4%", marginLeft: "0%", top: '15px', position: 'absolute' }
-                            }}>
-                            <Tab className={tabClasses.btnTab0Style} label='Mis Documentos.' onClick={firstTab}></Tab>
-                            <Tab className={tabClasses.btnTab1StyleDisabled} label='Documentos Electronicos.' onClick={secondTab}/>
-
-                        </Tabs>
-                    </ThemeProvider>
-
-
-                </div>
-
-                
-
-
-
-
+               
                 <Paper className={classes.root}>
 
-                    <div className="documentReportIconContainer" onClick="">
-                        <AssignmentReturnedIcon fontSize="large" /><span className="documentReportIconLegend">Reporte</span>
+                    <div className="documentReportLegend">
+                       <span> Reporte - Mis Documentos </span>
                     </div>
 
-                    <div className="documentIconContainer" onClick={FilterMenuHandler}>
-                        <TuneIcon fontSize="large"/>
-                        <DocumentFilterMenu openMenu={openFilterMenu} anchorEl={anchorEl}/>
+                    <div>
+                        <SiMicrosoftexcel className="documentReportExcelIcon" />
                     </div>
 
-                    <div className="documentSearchBarContainer">
-                        <input placeholder="Buscar por num. de documento" className="documentSearchBar" />
+                    <div>
+                        <AiOutlineFilePdf className="documentReportPdfIcon" />
                     </div>
-
-                    <div className="documentIconContainer2">
-                        <SearchRoundedIcon fontSize="large" />
-                    </div>
+                    
 
                     <TableContainer className={classes.container}>
                         <Table stickyHeader aria-label="sticky table">
@@ -511,13 +441,6 @@ useEffect(() => {
                                                                 </TableCell>
                                                             );
                                                         }
-                                                        else if (column.id == "Detalle_pago") {
-                                                            return (
-                                                                <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                   <b><AspectRatioIcon fontSize="large" className="documentDownloadRowIcon"/></b>
-                                                                </TableCell>
-                                                            );
-                                                        }
 
                                                     }
 
@@ -543,128 +466,6 @@ useEffect(() => {
             </div>
         );
     }
-    if (showTab == 2) {
-         return (
-             <div className="documentContentContainer">
-
-               
-                <div className="documentTabsContainer">
-
-                    <ThemeProvider theme={documentTabsTheme}>
-                        <Tabs classes={{ root: tabClasses.documentTabStyle, indicator: tabClasses.tabIndicator }} onChange={handleTabs}
-
-                            value={value} indicatorColor="secondary" textColor="primary"
-                            TabIndicatorProps={{
-                                style: { background: "#009639", width: "20%", height: "4%", marginLeft: "0%", top: '15px', position: 'absolute' }
-                            }}>
-                             <Tab className={tabClasses.btnTab0StyleDisabled} label='Mis Documentos.' onClick={firstTab}></Tab>
-                            <Tab className={tabClasses.btnTab1Style} label='Documentos Electronicos.' onClick={secondTab} />
-
-                        </Tabs>
-                    </ThemeProvider>
+    
 
 
-                </div>
-
-                 <div className="digDocumentIconContainer">
-                     <div className="digDocumentIconPoint">
-                         <ControlPointIcon fontSize="large" /> <b>Cargar</b>
-                     </div>
-                     <div className="digDocumentIconSettings">
-                         <SettingsEthernetIcon fontSize="large" />&nbsp;<b>Consultar</b>
-                     </div>
-                 </div>
-
-
-
-
-
-                <Paper className={classes.root}>
-
-                  
-                    <TableContainer className={classes.container}>
-                        <Table stickyHeader aria-label="sticky table">
-                            <TableHead>
-                                <TableRow>
-                                    {electronics_columns.map((column) => (
-                                        <TableCell className={classes.headerTable}
-                                            key={column.id}
-                                            align={column.align}
-                                            style={{ minWidth: column.minWidth }}
-                                        >
-                                            {column.label}
-                                        </TableCell>
-                                    ))}
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {
-
-                                    allData[pageNumber - 1].map((row) => {
-
-                                        return (
-
-                                            <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                                                {electronics_columns.map((column) => {
-
-
-                                                    for (let i = 0; i < allData.length; i++) {
-                                                        if (column.id == "Fecha_carga") {
-                                                            return (
-                                                                <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                    {row.digDoc_fecha_carga}
-                                                                </TableCell>
-                                                            );
-                                                        }
-                                                        else if (column.id == "Estado") {
-                                                            return (
-                                                                <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                    {row.digDoc_estado}
-                                                                </TableCell>
-                                                            );
-                                                        }
-                                                        else if (column.id == "Cargado_por") {
-                                                            return (
-                                                                <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                    {"Terry Wagner"}
-                                                                </TableCell>
-                                                            );
-                                                        }
-                                                        else if (column.id == "Descarga") {
-                                                            return (
-                                                                <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                    <div className="downloadIconContainer">
-                                                                        <GetAppIcon fontSize="large" />
-                                                                     </div>
-                                                                </TableCell>
-                                                            );
-                                                        }
-                                                       
-
-                                                    }
-
-                                                })
-
-                                                }
-                                            </TableRow>
-                                        );
-                                    })
-
-                                }
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-
-                    <ThemeProvider theme={paginationTheme}>
-                        <div className="paginationContainerStyle">
-                            <Pagination count={pageQuantity} onChange={paginationHandler} />
-                        </div>
-                    </ThemeProvider>
-
-                </Paper>
-            </div>
-        );
-    }
-
-
-}

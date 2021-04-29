@@ -12,7 +12,7 @@ import UserAvatarComponent from './userAvatarComponent';
 const useStyles=makeStyles({
   
   style:{
-   backgroundColor:'transparent',
+   backgroundColor:'white',
    cursor:'pointer'
   },
   tabStyle:{
@@ -86,10 +86,10 @@ const useStyles=makeStyles({
    minWidth:'auto',
    color:'#87847b'
   },
-  dropdownStyle:{
+  dropdownStyle: {
   '&:hover,&:focus,&:active': { 
    backgroundColor:'transparent',
-   color:'#8c8777'
+   color: '#8c8777',
    },
    '&:enabled': { 
    backgroundColor:'transparent',
@@ -183,7 +183,7 @@ return(
     <Toolbar>
     <IconButton><img  className={classes.logoStyle} src={image}/></IconButton>
     <div className="headerPortalDropdownContainer">
-
+    
      <Dropdown isOpen={dropdownValue} toggle={DropdownAction} classes={{root: classes.dropdownStyle}}>
       <DropdownToggle caret className={classes.dropdownStyle}>
        Seleccionar ingreso

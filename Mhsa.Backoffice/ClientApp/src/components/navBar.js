@@ -193,8 +193,7 @@ const [menuState, setMenuState] = useState(false);
 
 const [anchorEl, setAnchorEl] = useState(false)
 
-const navBarHandleUserMenu = (e) => {
-      
+const navBarHandleUserMenu = (e)=>{
   setMenuState(!menuState);
 }
 
@@ -279,13 +278,14 @@ return(
     <div className="navBarUserAvatarComponentUserDataContainer" onClick={navBarHandleUserMenu}>
     <Avatar alt="no image" src={image1}/>
     
-     <span className="navBarUserAvatarComponentUserName">Lain Iwakura!</span>
+     <span className="navBarUserAvatarComponentUserName">Terry Wagner</span>
     </div> 
     
     <Menu
          anchorEl={anchorEl}
          keepMounted
          open={menuState}
+         onClose={navBarCloseUserMenu}
          className="navBarUserAvatarComponentUserMenu"
      >
      <MenuItem onClick={navBarCloseUserMenu} className={classes.menuItemStyle}>Novedades de la sección <b>"Pagos"</b></MenuItem>
