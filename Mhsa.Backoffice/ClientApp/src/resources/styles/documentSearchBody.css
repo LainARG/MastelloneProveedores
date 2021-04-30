@@ -1,0 +1,191 @@
+﻿
+
+.documentSearchContainer{
+
+
+}
+
+.documentSearchFormContainer{
+   display:inline-block;
+   width:27%;
+   margin-left:3%;
+   margin-top:3%;
+}
+
+.documentSearchFormContainer1 {
+    display: inline-block;
+    width: 12.5%;
+    margin-left: 3%;
+    margin-top: 3%;
+}
+
+.documentSearchFormContainer2 {
+    display: inline-block;
+    width: 12.5%;
+    margin-left: 3%;
+    margin-top: 3%;
+}
+
+.documentSearchFormContainer3 {
+    display: inline-block;
+    width: 27%;
+    margin-left: 3%;
+    margin-top: 3%;
+}
+
+.documentSearchBackContainer {
+    display: inline-block;
+    width: 150px;
+    margin-left: 1%;
+    margin-top: 2%;
+    cursor: pointer;
+}
+
+.documentSearchBackLegend {
+    display: inline-block;
+    position:absolute;
+    font-weight:bold;
+    font-size:18px;
+    margin-left:0.5%;
+    margin-top:0.5%;
+}
+
+.documentSearchLegendContainer {
+    display: block;
+    font-weight: bold;
+    font-size: 28px;
+    margin-top:2%;
+    margin-left:2%;
+}
+
+.documentSearchLegend{
+
+
+}
+
+.documentSearchBackIcon{
+    display:inline-block;
+    width:40px;
+    height:40px;
+    margin-left:1%;
+}
+
+.documentSearchBackIcon:hover {
+    display: inline-block;
+    width: 45px;
+    height: 45px;
+    margin-left: 1%;
+    background-color:lavender;
+}
+
+.documentSearchFormLegend {
+    display: block;
+    width: 150px;
+    font-size: 17px;
+    color: #A9A9A9;
+    margin-top: 5%;
+    margin-bottom: -4%;
+    margin-left: 0.5%;
+    vertical-align: bottom;
+}
+
+.documentSearchFormInput {
+    display: inline-block;
+    width: 100%;
+    font-size: 16px;
+    margin-top: 5%;
+    background-color: #f4f4f4;
+    border: none;
+    border-bottom: 1px solid #808080;
+}
+
+
+.documentSearchFormLegend1 {
+    display: block;
+    width: 150px;
+    font-size: 17px;
+    color: #A9A9A9;
+    margin-top: 5%;
+    margin-bottom: -4%;
+    margin-left: 0.5%;
+    vertical-align: bottom;
+}
+
+.documentSearchFormInput1 {
+    display: inline-block;
+    width: 100%;
+    font-size: 16px;
+    margin-top: 10%;
+    background-color: #f4f4f4;
+    border: none;
+    border-bottom: 1px solid #808080;
+ 
+}
+
+.documentSearchFormLegend2 {
+    display: block;
+    width: 150px;
+    font-size: 17px;
+    color: #A9A9A9;
+    margin-top: 5%;
+    margin-bottom: -4%;
+    margin-left: 0.5%;
+    vertical-align: bottom;
+}
+
+.documentSearchFormInput2 {
+    display: inline-block;
+    width: 100%;
+    font-size: 16px;
+    margin-top: 5%;
+    background-color: #f4f4f4;
+    border: none;
+    border-bottom: 1px solid #808080;
+}
+
+.documentSearchFormLegend3 {
+    display: block;
+    width: 150px;
+    font-size: 17px;
+    color: #A9A9A9;
+    margin-top: 5%;
+    margin-bottom: 0%;
+    margin-left: 0.5%;
+    vertical-align: bottom;
+}
+
+.documentSearchFormSelect {
+    display: inline-block;
+    width: 100%;
+    font-size: 16px;
+    margin-top: 5%;
+    background-color: #f4f4f4;
+    border: none;
+    border-bottom: 1px solid #808080;
+}
+
+.documentSearchFormScheduleIcon{
+     display:inline;
+     position:absolute;
+     width:25px;
+     height:25px;
+     margin-top:1.2%;
+     margin-left:-2%;
+}
+
+.documentSearchFormScheduleIcon1 {
+    display: inline;
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    margin-top: 0.7%;
+    margin-left: -2%;
+}
+
+.documentSearchFormBtnContainer{
+     display:block;
+     margin-top:4%;
+     margin-left:84%;
+     margin-bottom:10.5%;
+
+}

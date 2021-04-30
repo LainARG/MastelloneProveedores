@@ -2,8 +2,6 @@ import React,{useState} from 'react';
 import image from '../resources/images/logo.png';
 import '../resources/styles/header.css';
 import {Menu, MenuItem, AppBar, Toolbar, Typography, makeStyles, IconButton, Tabs, Tab} from '@material-ui/core';
-import TabPanel from '@material-ui/lab/TabPanel';
-import MenuIcon from '@material-ui/icons/Menu';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { createMuiTheme } from '@material-ui/core/styles'; 
 import image1 from '../resources/images/lain.jpg';

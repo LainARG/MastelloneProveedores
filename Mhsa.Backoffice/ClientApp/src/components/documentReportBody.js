@@ -146,7 +146,7 @@ const documentTabsTheme = createMuiTheme({
 
 
 
-export default function DocumentBody() {
+export default function DocumentReportBody() {
     const classes = useStyles();
     const tabClasses = useTabStyles();
     const [allDocs, setAllDocs] = useState("");

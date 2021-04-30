@@ -14,6 +14,9 @@ import PortalNewsPage from '../pages/portalNewsPage';
 import PaymentsPage from '../pages/paymentsPage';
 import DocumentPage from '../pages/documentPage';
 import DocumentReportPage from '../pages/documentReportPage';
+import DocumentSearchPage from '../pages/documentSearchPage';
+
+
 
 class Router extends React.Component{
 
@@ -39,6 +42,7 @@ return(
   <Route exact path='/payments' component={PaymentsPage}/>
   <Route exact path='/documents' component={DocumentPage}/>
   <Route exact path='/documents/report' component={DocumentReportPage} />
+  <Route exact path='/documents/search' component={DocumentSearchPage} />
   </Switch>
 </BrowserRouter>
 
