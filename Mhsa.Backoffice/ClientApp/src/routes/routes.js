@@ -15,7 +15,7 @@ import PaymentsPage from '../pages/paymentsPage';
 import DocumentPage from '../pages/documentPage';
 import DocumentReportPage from '../pages/documentReportPage';
 import DocumentSearchPage from '../pages/documentSearchPage';
-
+import DocumentUploadPage from '../pages/documentUploadPage';
 
 
 class Router extends React.Component{
@@ -43,6 +43,7 @@ return(
   <Route exact path='/documents' component={DocumentPage}/>
   <Route exact path='/documents/report' component={DocumentReportPage} />
   <Route exact path='/documents/search' component={DocumentSearchPage} />
+  <Route exact path='/documents/upload' component={DocumentUploadPage} />
   </Switch>
 </BrowserRouter>
 

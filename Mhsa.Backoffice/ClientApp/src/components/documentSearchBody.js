@@ -5,6 +5,7 @@ import { GrFormSchedule } from "react-icons/gr";
 import Button from '@material-ui/core/Button';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/core/styles';
+import DocumentSearchResultBody from '../components/documentSearchResultBody';
 
 export default function DocumentSearchBody() {
     
@@ -80,6 +81,13 @@ export default function DocumentSearchBody() {
                         Buscar
                  </Button>
                 </ThemeProvider>
+                </div>
+
+
+                <div className="documentSearchResContainer">
+
+                    <DocumentSearchResultBody/>
+
                 </div>
 
 

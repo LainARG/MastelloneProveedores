@@ -169,7 +169,7 @@
      position:absolute;
      width:25px;
      height:25px;
-     margin-top:1.2%;
+     margin-top:1.35%;
      margin-left:-2%;
 }
 
@@ -188,4 +188,218 @@
      margin-left:84%;
      margin-bottom:10.5%;
 
+}
+
+
+.documentSearchResContainer{
+
+    display:block;
+    margin-top:-7%;
+    margin-left:4%;
+
+}
+
+.documentSearchResultLegend{
+
+    display:block;
+    font-weight:bold;
+    font-size:28px;
+
+}
+
+.documentSearchResultLegend1 {
+    display: inline-block;
+    font-weight: bold;
+    font-size: 16px;
+    color: #969696;
+    width: 22%;
+    margin-top:4%;
+}
+
+.documentSearchResultLegend2 {
+    display: inline-block;
+    font-weight: bold;
+    font-size: 16px;
+    color: #969696;
+    width: 22%;
+    margin-top: 4%;
+}
+
+.documentSearchResultLegend3 {
+    display: inline-block;
+    font-weight: bold;
+    font-size: 16px;
+    color: #969696;
+    width: 22%;
+    margin-top: 4%;
+}
+
+.documentSearchResultLegend4 {
+    display: inline-block;
+    position:absolute;
+    font-weight: bold;
+    font-size: 16px;
+    color: #969696;
+    width: auto;
+    margin-top: 3.8%;
+    margin-left:17%;
+}
+
+
+
+.documentSearchResultLegend5 {
+    display: inline-block;
+    font-weight: bold;
+    font-size: 16px;
+    color: #bababa;
+    width: 22%;
+    margin-top: 0%;
+    font-size: 13px;
+    margin-top:2%;
+}
+
+.documentSearchResultLegend6 {
+    display: inline-block;
+    font-weight: bold;
+    font-size: 16px;
+    color: #bababa;
+    width: 22%;
+    margin-top: 0%;
+    font-size: 13px;
+    margin-top: 2%;
+}
+
+.documentSearchResultLegend7 {
+    display: inline-block;
+    font-weight: bold;
+    font-size: 16px;
+    color: #bababa;
+    width: 22%;
+    margin-top: 0%;
+    font-size: 13px;
+    margin-top: 2%;
+}
+
+.documentSearchResultLegend8 {
+    display: inline-block;
+    position: absolute;
+    font-weight: bold;
+    font-size: 16px;
+    color: #bababa;
+    width: auto;
+    margin-top: 0%;
+    margin-left: 17%;
+    font-size: 13px;
+    margin-top: 2%;
+}
+
+.documentSearchResultIcon{
+
+    display:inline-block;
+    width:20px;
+    height:20px;
+    margin-left:20%;
+    cursor:pointer;
+}
+
+.documentUploadBtnContainer{
+    display:block;
+    margin-left:2%;
+    margin-top:2%;
+    margin-bottom:2%;
+}
+
+.documentUploadBtn {
+    display: block;
+    background-color: white;
+    border: 1px solid #009639;
+    color: #009639;
+    font-weight: bold;
+    font-size: 12px;
+    border-radius:0.35em;
+    min-width:20%;
+    height:30px;
+    margin-left:0.5%;
+}
+
+.documentUploadBtnContainer1 {
+    display: block;
+    margin-left: 40%;
+    margin-top: 2%;
+}
+
+.documentUploadBtn1 {
+    display: block;
+    background-color: #009639;
+    color: white;
+    border:none;
+    font-weight: bold;
+    font-size: 12px;
+    border-radius: 0.35em;
+    min-width: 35%;
+    height: 30px;
+}
+
+
+.documentUploadDeleteIcon{
+    display:inline-block;
+    color:darkred;
+    margin-left:1%;
+}
+.documentUploadDeleteIcon1 {
+    display: inline-block;
+    color: darkred;
+    margin-right:0.5%;
+    margin-left:0.75%;
+}
+
+.documentUploadViewFileContainer{
+    display:block;
+    margin-left:3%;
+}
+
+.documentUploadFailedUploadContainer {
+    display: block;
+    margin-left: 2%;
+    margin-top: 2%;
+}
+
+.documentUploadDescriptionFiles{
+    display:inline-block;
+    font-weight:bold;
+    font-size:12px;
+}
+
+.documentUploadLegend{
+
+    display:block;
+    margin-left:2%;
+    font-weight:bold;
+    font-size:28px;
+    margin-top:3%;
+
+}
+
+.documentUploadLegend1 {
+    display: block;
+    margin-left: 2.5%;
+    font-weight: bold;
+    font-size: 14px;
+    margin-top: 0%;
+}
+
+.documentUploadLegend2 {
+    display: block;
+    margin-left: 2.5%;
+    font-weight: bold;
+    font-size: 12px;
+    margin-top: 2%;
+}
+
+.documentUploadLegend3 {
+    display: block;
+    margin-top: 2%;
+    font-weight: bold;
+    font-size: 14px;
+    margin-left:2.5%;
 }
