@@ -16,7 +16,11 @@ import DocumentPage from '../pages/documentPage';
 import DocumentReportPage from '../pages/documentReportPage';
 import DocumentSearchPage from '../pages/documentSearchPage';
 import DocumentUploadPage from '../pages/documentUploadPage';
-
+import PaymentsReportPage from '../pages/paymentsReportPage';
+import PaymentsReportDetailsPage from '../pages/paymentsReportDetailsPage';
+import PaymentsReportNoDetailsPage from '../pages/paymentsReportNoDetailsPage';
+import NextPaymentComponent from '../components/nextPaymentComponent';
+import PaymentsFormsPage from '../pages/paymentsFormsPage';
 
 class Router extends React.Component{
 
@@ -41,9 +45,14 @@ return(
   <Route exact path='/portal/format' component={KeyFormatPortalPage}/>
   <Route exact path='/payments' component={PaymentsPage}/>
   <Route exact path='/documents' component={DocumentPage}/>
-  <Route exact path='/documents/report' component={DocumentReportPage} />
-  <Route exact path='/documents/search' component={DocumentSearchPage} />
-  <Route exact path='/documents/upload' component={DocumentUploadPage} />
+  <Route exact path='/documents/report' component={DocumentReportPage}/>
+  <Route exact path='/documents/search' component={DocumentSearchPage}/>
+  <Route exact path='/documents/upload' component={DocumentUploadPage}/>
+  <Route exact path='/payments/report' component={PaymentsReportPage}/>
+  <Route exact path='/payments/report/detail' component={PaymentsReportDetailsPage} />
+  <Route exact path='/test' component={NextPaymentComponent} />
+  <Route exact path='/payments/forms' component={PaymentsFormsPage} />
+  <Route exact path='/payments/report/nodetail' component={PaymentsReportNoDetailsPage} />
   </Switch>
 </BrowserRouter>
 

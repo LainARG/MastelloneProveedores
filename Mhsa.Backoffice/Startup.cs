@@ -45,6 +45,10 @@ namespace Mhsa.Backoffice
             services.AddTransient<IPaymentsRepository, PaymentsRepository>();
             services.AddTransient<IDigitalDocumentsService, DigitalDocumentsService>();
             services.AddTransient<IDigitalDocumentsRepository, DigitalDocumentsRepository>();
+            services.AddTransient<ITaxesService, TaxesService>();
+            services.AddTransient<ITaxesRepository, TaxesRepository>();
+            services.AddTransient<IBillsService, BillsService>();
+            services.AddTransient<IBillsRepository, BillsRepository>();
 
             services.AddSpaStaticFiles(configuration =>
             {

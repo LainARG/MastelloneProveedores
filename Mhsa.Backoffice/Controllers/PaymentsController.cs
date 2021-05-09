@@ -15,17 +15,17 @@ namespace Mhsa.Backoffice.Controllers
     public class PaymentsController : ControllerBase,  IPaymentsService
     {
 
-        private readonly IPaymentsService paymentsService; 
+        private readonly IPaymentsService service; 
         
-        public PaymentsController(IPaymentsService paymentsService)
+        public PaymentsController(IPaymentsService service)
         {
-            this.paymentsService = paymentsService;
+            this.service = service;
         }
 
         [HttpGet]
         public IEnumerable<Payments> GetAll()
         {
-            return paymentsService.GetAll();
+            return service.GetAll();
         }
     }
 }

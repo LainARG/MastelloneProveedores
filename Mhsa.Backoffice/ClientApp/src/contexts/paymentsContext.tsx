@@ -37,7 +37,6 @@ export class PaymentsContext {
         const response = await api.get<Response, AxiosResponse<Response>>(
             `/payments`
         );
-        console.log(response.data)
         return response.data;
     }
 

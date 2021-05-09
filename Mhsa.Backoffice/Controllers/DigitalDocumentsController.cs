@@ -15,17 +15,17 @@ namespace Mhsa.Backoffice.Controllers
     public class DigitalDocumentsController : ControllerBase,  IDigitalDocumentsService
     {
 
-        private readonly IDigitalDocumentsService digitalDocumentsService; 
+        private readonly IDigitalDocumentsService service; 
         
-        public DigitalDocumentsController(IDigitalDocumentsService digitalDocumentsService)
+        public DigitalDocumentsController(IDigitalDocumentsService service)
         {
-            this.digitalDocumentsService = digitalDocumentsService;
+            this.service = service;
         }
 
         [HttpGet]
         public IEnumerable<DigitalDocuments> GetAll()
         {
-            return digitalDocumentsService.GetAll();
+            return service.GetAll();
         }
     }
 }

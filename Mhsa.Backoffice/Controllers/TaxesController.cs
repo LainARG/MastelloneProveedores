@@ -12,18 +12,18 @@ namespace Mhsa.Backoffice.Controllers
 {
     [ApiController]
     [Route("api/{controller}")]
-    public class DocumentsController : ControllerBase,  IDocumentsService
+    public class TaxesController : ControllerBase,  ITaxesService
     {
 
-        private readonly IDocumentsService service; 
+        private readonly ITaxesService service; 
         
-        public DocumentsController(IDocumentsService service)
+        public TaxesController(ITaxesService service)
         {
             this.service = service;
         }
 
         [HttpGet]
-        public IEnumerable<Documents> GetAll()
+        public IEnumerable<Taxes> GetAll()
         {
             return service.GetAll();
         }

@@ -15,17 +15,17 @@ namespace Mhsa.Backoffice.Controllers
     public class UsersController : ControllerBase,  IUsersService
     {
 
-        private readonly IUsersService userService; 
+        private readonly IUsersService service; 
         
-        public UsersController(IUsersService userService)
+        public UsersController(IUsersService service)
         {
-            this.userService = userService;
+            this.service = service;
         }
 
         [HttpGet]
         public IEnumerable<Users> GetAll()
         {
-            return userService.GetAll();
+            return service.GetAll();
         }
     }
 }

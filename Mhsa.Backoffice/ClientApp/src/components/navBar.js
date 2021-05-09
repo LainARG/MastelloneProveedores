@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState, useEffect} from 'react';
 import image from '../resources/images/logo.png';
 import '../resources/styles/navBar.css';
 import {AppBar, Toolbar, Typography, makeStyles, IconButton, Tabs, Tab} from '@material-ui/core';
@@ -183,7 +183,7 @@ const theme = createMuiTheme({
 
 
 
-const Navbar = ()=>{
+const Navbar = (props)=>{
 
 const [dropdownValue,setDropdownValue] = useState(false);
 
@@ -191,7 +191,14 @@ const [handleUserMenu, setUserMenu] = useState(false);
 
 const [menuState, setMenuState] = useState(false);
 
-const [anchorEl, setAnchorEl] = useState(false)
+const [anchorEl, setAnchorEl] = useState(false);
+
+const { index } = props;
+
+    useEffect(() => {
+        console.log(index);
+        
+    });
 
 const navBarHandleUserMenu = (e)=>{
   setMenuState(!menuState);
@@ -258,7 +265,7 @@ return(
      </div>
 
     <Tabs classes={{root: classes.tabStyle }} TabIndicatorProps={classes.indicator} onChange={handleTabs}
-     value={value} indicatorColor="secondary" textColor="primary"
+     value={index} indicatorColor="secondary" textColor="primary"
      TabIndicatorProps={{
            style: {background:"#009639", width:"2%", height:"6%", marginLeft:"5.5%" }
          }}>

@@ -23,6 +23,7 @@ import SettingsEthernetIcon from '@material-ui/icons/SettingsEthernet';
 import DocumentFilterMenu from '../components/documentFilterMenu';
 import AspectRatioIcon from '@material-ui/icons/AspectRatio';
 import AssignmentReturnedIcon from '@material-ui/icons/AssignmentReturned';
+import { Link } from "react-router-dom";
 
 
 function createData(fecha_doc, estado, tipo, numero, np, monto, detalle_pago) {
@@ -162,28 +163,22 @@ export default function DocumentBody() {
     const [pageQuantity, setPageQuantity] = useState(10);
     const [contextCtrl, setContextCtrl] = useState(0);
     const [value, setValue] = useState(0);
-    const [showTab, setShowTab] = useState(1);
+    const [showTab, setShowTab] = useState(0);
     const [openFilterMenu, setOpenFilterMenu] = useState(false);
     const [anchorEl, setAnchorEl] = useState(false);
     const rowsPerPage = 8;
     
     
-    const setContext = () => {
-        
+ 
+    useEffect(() => {
+        console.log("efecto");
+        if (allData == "" || allData == undefined) {
             setAllDocs(DocumentsContext.allDocuments);
             setAllPays(PaymentsContext.allPayments);
             setDigDocs(DigitalDocumentsContext.allDigitalDocuments);
             dataMapper(allDocs, allPays);
-        if (allDocs != "") {
-            setTimeout(function () { setContextCtrl(1); }, 100);
-            }
-    }
+        }
 
-
-useEffect(() => {
-    if (contextCtrl < 1) {
-        setContext();
-    } 
     });
 
     const columns = [
@@ -273,7 +268,6 @@ useEffect(() => {
 
     const dataMapper = (alldocs, allpays) => {
         let alldata = [];
-       
         for (let i = 0; i < alldocs.length; i++) {
             for (let j = 0; j < allpays.length;j++) {
                 let objectData = {
@@ -362,6 +356,9 @@ useEffect(() => {
 
     }
 
+    function documentReportRedirect(){
+        window.location = '/documents/report';
+    }
 
 
     const handleTabs = (e, val) => {
@@ -370,301 +367,322 @@ useEffect(() => {
     }
 
     const firstTab = () => {
-        setShowTab(1);
+        setShowTab(0);
     }
 
     const secondTab = () => {
-        setShowTab(2);
+        setShowTab(1);
     }
        
     const FilterMenuHandler = (e) => {
-        console.log(e.currentTarget);
         setAnchorEl(e.currentTarget);
         setOpenFilterMenu(!openFilterMenu);
     }
 
 
+    function searchPrimaryPageSuggestionsHandler(e) {
+        e.preventDefault();
+        let suggestions = allData;
 
-    if (allData == undefined || allData == null || allData == "") {
+        for (let i = 0; i < allData.length; i++) {
+            for (let j = 0; j < allData[i].length; j++) {
+                if (allData[i][j].numero_documento.includes(e.target.value)==false) {
+
+                    suggestions[i].splice(j, 5);
+
+                }
+               
+            }
+        }
 
         
+        
+        console.log(suggestions);
+        setAllData(suggestions);
+    }
+
+
+
+    if (allData== undefined || allData == null || allData == "") {
+
+
         return (
             <h1>Loading data...</h1>
-
         );
 
     }
-    if (showTab == 1) {
 
-        return (
-            <div className="documentContentContainer">
+    if (showTab == 0 && allData != "" ) {
 
-                <div className="documentTabsContainer">
+            return (
+                <div className="documentContentContainer">
 
-                    <ThemeProvider theme={documentTabsTheme}>
-                        <Tabs classes={{ root: tabClasses.documentTabStyle, indicator: tabClasses.tabIndicator }} onChange={handleTabs}
+                    <div className="documentTabsContainer">
 
-                            value={value} indicatorColor="secondary" textColor="primary"
-                            TabIndicatorProps={{
-                                style: { background: "#009639", width: "20%", height: "4%", marginLeft: "0%", top: '15px', position: 'absolute' }
-                            }}>
-                            <Tab className={tabClasses.btnTab0Style} label='Mis Documentos.' onClick={firstTab}></Tab>
-                            <Tab className={tabClasses.btnTab1StyleDisabled} label='Documentos Electronicos.' onClick={secondTab}/>
+                        <ThemeProvider theme={documentTabsTheme}>
+                            <Tabs classes={{ root: tabClasses.documentTabStyle, indicator: tabClasses.tabIndicator }} onChange={handleTabs}
 
-                        </Tabs>
-                    </ThemeProvider>
+                                value={value} indicatorColor="secondary" textColor="primary"
+                                TabIndicatorProps={{
+                                    style: { background: "#009639", width: "20%", height: "4%", marginLeft: "0%", top: '15px', position: 'absolute' }
+                                }}>
+                                <Tab className={tabClasses.btnTab0Style} label='Mis Documentos.' onClick={firstTab}></Tab>
+                                <Tab className={tabClasses.btnTab1StyleDisabled} label='Documentos Electronicos.' onClick={secondTab} />
 
-
-                </div>
-
-                
+                            </Tabs>
+                        </ThemeProvider>
 
 
-
-
-                <Paper className={classes.root}>
-
-                    <div className="documentReportIconContainer" onClick="">
-                        <AssignmentReturnedIcon fontSize="large" /><span className="documentReportIconLegend">Reporte</span>
                     </div>
 
-                    <div className="documentIconContainer" onClick={FilterMenuHandler}>
-                        <TuneIcon fontSize="large"/>
-                        <DocumentFilterMenu openMenu={openFilterMenu} anchorEl={anchorEl}/>
-                    </div>
-
-                    <div className="documentSearchBarContainer">
-                        <input placeholder="Buscar por num. de documento" className="documentSearchBar" />
-                    </div>
-
-                    <div className="documentIconContainer2">
-                        <SearchRoundedIcon fontSize="large" />
-                    </div>
-
-                    <TableContainer className={classes.container}>
-                        <Table stickyHeader aria-label="sticky table">
-                            <TableHead>
-                                <TableRow>
-                                    {columns.map((column) => (
-                                        <TableCell className={classes.headerTable}
-                                            key={column.id}
-                                            align={column.align}
-                                            style={{ minWidth: column.minWidth }}
-                                        >
-                                            {column.label}
-                                        </TableCell>
-                                    ))}
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {
-
-                                    allData[pageNumber - 1].map((row) => {
-
-                                        return (
-
-                                            <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                                                {columns.map((column) => {
 
 
-                                                    for (let i = 0; i < allData.length; i++) {
-                                                        if (column.id == "Fecha_doc") {
-                                                            return (
-                                                                <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                    {row.fecha_documento}
-                                                                </TableCell>
-                                                            );
+
+
+
+                    <Paper className={classes.root}>
+
+                        <div className="documentReportIconContainer" onClick={documentReportRedirect}>
+                            <AssignmentReturnedIcon fontSize="large" /><span className="documentReportIconLegend">Reporte</span>
+                        </div>
+
+                        <div className="documentIconContainer" onClick={FilterMenuHandler}>
+                            <TuneIcon fontSize="large" />
+                            <DocumentFilterMenu openMenu={openFilterMenu} anchorEl={anchorEl} />
+                        </div>
+
+                        <div className="documentSearchBarContainer">
+                            <input type="text" placeholder="Buscar por num. de documento" className="documentSearchBar" onChange={searchPrimaryPageSuggestionsHandler} />
+                        </div>
+
+                        <div className="documentIconContainer2">
+                            <SearchRoundedIcon fontSize="large" />
+                        </div>
+
+                        <TableContainer className={classes.container}>
+                            <Table stickyHeader aria-label="sticky table">
+                                <TableHead>
+                                    <TableRow>
+                                        {columns.map((column) => (
+                                            <TableCell className={classes.headerTable}
+                                                key={column.id}
+                                                align={column.align}
+                                                style={{ minWidth: column.minWidth }}
+                                            >
+                                                {column.label}
+                                            </TableCell>
+                                        ))}
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {
+
+                                        allData[pageNumber - 1].map((row) => {
+
+                                            return (
+
+                                                <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                                                    {columns.map((column) => {
+
+
+                                                        for (let i = 0; i < allData.length; i++) {
+                                                            if (column.id == "Fecha_doc") {
+                                                                return (
+                                                                    <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
+                                                                        {row.fecha_documento}
+                                                                    </TableCell>
+                                                                );
+                                                            }
+                                                            else if (column.id == "Estado") {
+                                                                return (
+                                                                    <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
+                                                                        {row.estado}
+                                                                    </TableCell>
+                                                                );
+                                                            }
+                                                            else if (column.id == "Tipo") {
+                                                                return (
+                                                                    <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
+                                                                        {row.tipo}
+                                                                    </TableCell>
+                                                                );
+                                                            }
+                                                            else if (column.id == "Numero") {
+                                                                return (
+                                                                    <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
+                                                                        {row.numero_documento}
+                                                                    </TableCell>
+                                                                );
+                                                            }
+
+                                                            else if (column.id == "NP") {
+                                                                return (
+                                                                    <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
+                                                                        {row.numero_pago}
+                                                                    </TableCell>
+                                                                );
+                                                            }
+                                                            else if (column.id == "Monto") {
+                                                                return (
+                                                                    <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
+                                                                        {"$" + row.monto_bruto}
+                                                                    </TableCell>
+                                                                );
+                                                            }
+                                                            else if (column.id == "Detalle_pago") {
+                                                                return (
+                                                                    <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
+                                                                        <b><AspectRatioIcon fontSize="large" className="documentDownloadRowIcon" /></b>
+                                                                    </TableCell>
+                                                                );
+                                                            }
+
                                                         }
-                                                        else if (column.id == "Estado") {
-                                                            return (
-                                                                <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                    {row.estado}
-                                                                </TableCell>
-                                                            );
-                                                        }
-                                                        else if (column.id == "Tipo") {
-                                                            return (
-                                                                <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                    {row.tipo}
-                                                                </TableCell>
-                                                            );
-                                                        }
-                                                        else if (column.id == "Numero") {
-                                                            return (
-                                                                <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                    {row.numero_documento}
-                                                                </TableCell>
-                                                            );
-                                                        }
 
-                                                        else if (column.id == "NP") {
-                                                            return (
-                                                                <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                    {row.numero_pago}
-                                                                </TableCell>
-                                                            );
-                                                        }
-                                                        else if (column.id == "Monto") {
-                                                            return (
-                                                                <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                    {"$" + row.monto_bruto}
-                                                                </TableCell>
-                                                            );
-                                                        }
-                                                        else if (column.id == "Detalle_pago") {
-                                                            return (
-                                                                <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                   <b><AspectRatioIcon fontSize="large" className="documentDownloadRowIcon"/></b>
-                                                                </TableCell>
-                                                            );
-                                                        }
+                                                    })
 
                                                     }
+                                                </TableRow>
+                                            );
+                                        })
 
-                                                })
+                                    }
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
 
-                                                }
-                                            </TableRow>
-                                        );
-                                    })
+                        <ThemeProvider theme={paginationTheme}>
+                            <div className="paginationContainerStyle">
+                                <Pagination count={pageQuantity} onChange={paginationHandler} />
+                            </div>
+                        </ThemeProvider>
 
-                                }
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-
-                    <ThemeProvider theme={paginationTheme}>
-                        <div className="paginationContainerStyle">
-                            <Pagination count={pageQuantity} onChange={paginationHandler} />
-                        </div>
-                    </ThemeProvider>
-
-                </Paper>
-            </div>
-        );
-    }
-    if (showTab == 2) {
-         return (
-             <div className="documentContentContainer">
-
-               
-                <div className="documentTabsContainer">
-
-                    <ThemeProvider theme={documentTabsTheme}>
-                        <Tabs classes={{ root: tabClasses.documentTabStyle, indicator: tabClasses.tabIndicator }} onChange={handleTabs}
-
-                            value={value} indicatorColor="secondary" textColor="primary"
-                            TabIndicatorProps={{
-                                style: { background: "#009639", width: "20%", height: "4%", marginLeft: "0%", top: '15px', position: 'absolute' }
-                            }}>
-                             <Tab className={tabClasses.btnTab0StyleDisabled} label='Mis Documentos.' onClick={firstTab}></Tab>
-                            <Tab className={tabClasses.btnTab1Style} label='Documentos Electronicos.' onClick={secondTab} />
-
-                        </Tabs>
-                    </ThemeProvider>
-
-
+                    </Paper>
                 </div>
-
-                 <div className="digDocumentIconContainer">
-                     <div className="digDocumentIconPoint">
-                         <ControlPointIcon fontSize="large" /> <b>Cargar</b>
-                     </div>
-                     <div className="digDocumentIconSettings">
-                         <SettingsEthernetIcon fontSize="large" />&nbsp;<b>Consultar</b>
-                     </div>
-                 </div>
+            );
+        }
+    if (showTab == 1 && allData != "" ) {
+            return (
+                <div className="documentContentContainer">
 
 
+                    <div className="documentTabsContainer">
+
+                        <ThemeProvider theme={documentTabsTheme}>
+                            <Tabs classes={{ root: tabClasses.documentTabStyle, indicator: tabClasses.tabIndicator }} onChange={handleTabs}
+
+                                value={value} indicatorColor="secondary" textColor="primary"
+                                TabIndicatorProps={{
+                                    style: { background: "#009639", width: "20%", height: "4%", marginLeft: "0%", top: '15px', position: 'absolute' }
+                                }}>
+                                <Tab className={tabClasses.btnTab0StyleDisabled} label='Mis Documentos.' onClick={firstTab}></Tab>
+                                <Tab className={tabClasses.btnTab1Style} label='Documentos Electronicos.' onClick={secondTab} />
+
+                            </Tabs>
+                        </ThemeProvider>
+
+
+                    </div>
+
+                    <div className="digDocumentIconContainer">
+                        <div className="digDocumentIconPoint">
+                            <ControlPointIcon fontSize="large" /> <b>Cargar</b>
+                        </div>
+                        <div className="digDocumentIconSettings">
+                            <SettingsEthernetIcon fontSize="large" />&nbsp;<b>Consultar</b>
+                        </div>
+                    </div>
 
 
 
-                <Paper className={classes.root}>
-
-                  
-                    <TableContainer className={classes.container}>
-                        <Table stickyHeader aria-label="sticky table">
-                            <TableHead>
-                                <TableRow>
-                                    {electronics_columns.map((column) => (
-                                        <TableCell className={classes.headerTable}
-                                            key={column.id}
-                                            align={column.align}
-                                            style={{ minWidth: column.minWidth }}
-                                        >
-                                            {column.label}
-                                        </TableCell>
-                                    ))}
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {
-
-                                    allData[pageNumber - 1].map((row) => {
-
-                                        return (
-
-                                            <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                                                {electronics_columns.map((column) => {
 
 
-                                                    for (let i = 0; i < allData.length; i++) {
-                                                        if (column.id == "Fecha_carga") {
-                                                            return (
-                                                                <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                    {row.digDoc_fecha_carga}
-                                                                </TableCell>
-                                                            );
+                    <Paper className={classes.root}>
+
+
+                        <TableContainer className={classes.container}>
+                            <Table stickyHeader aria-label="sticky table">
+                                <TableHead>
+                                    <TableRow>
+                                        {electronics_columns.map((column) => (
+                                            <TableCell className={classes.headerTable}
+                                                key={column.id}
+                                                align={column.align}
+                                                style={{ minWidth: column.minWidth }}
+                                            >
+                                                {column.label}
+                                            </TableCell>
+                                        ))}
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {
+
+                                        allData[pageNumber - 1].map((row) => {
+
+                                            return (
+
+                                                <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                                                    {electronics_columns.map((column) => {
+
+
+                                                        for (let i = 0; i < allData.length; i++) {
+                                                            if (column.id == "Fecha_carga") {
+                                                                return (
+                                                                    <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
+                                                                        {row.digDoc_fecha_carga}
+                                                                    </TableCell>
+                                                                );
+                                                            }
+                                                            else if (column.id == "Estado") {
+                                                                return (
+                                                                    <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
+                                                                        {row.digDoc_estado}
+                                                                    </TableCell>
+                                                                );
+                                                            }
+                                                            else if (column.id == "Cargado_por") {
+                                                                return (
+                                                                    <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
+                                                                        {"Terry Wagner"}
+                                                                    </TableCell>
+                                                                );
+                                                            }
+                                                            else if (column.id == "Descarga") {
+                                                                return (
+                                                                    <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
+                                                                        <div className="downloadIconContainer">
+                                                                            <GetAppIcon fontSize="large" />
+                                                                        </div>
+                                                                    </TableCell>
+                                                                );
+                                                            }
+
+
                                                         }
-                                                        else if (column.id == "Estado") {
-                                                            return (
-                                                                <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                    {row.digDoc_estado}
-                                                                </TableCell>
-                                                            );
-                                                        }
-                                                        else if (column.id == "Cargado_por") {
-                                                            return (
-                                                                <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                    {"Terry Wagner"}
-                                                                </TableCell>
-                                                            );
-                                                        }
-                                                        else if (column.id == "Descarga") {
-                                                            return (
-                                                                <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                    <div className="downloadIconContainer">
-                                                                        <GetAppIcon fontSize="large" />
-                                                                     </div>
-                                                                </TableCell>
-                                                            );
-                                                        }
-                                                       
+
+                                                    })
 
                                                     }
+                                                </TableRow>
+                                            );
+                                        })
 
-                                                })
+                                    }
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
 
-                                                }
-                                            </TableRow>
-                                        );
-                                    })
+                        <ThemeProvider theme={paginationTheme}>
+                            <div className="paginationContainerStyle">
+                                <Pagination count={pageQuantity} onChange={paginationHandler} />
+                            </div>
+                        </ThemeProvider>
 
-                                }
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-
-                    <ThemeProvider theme={paginationTheme}>
-                        <div className="paginationContainerStyle">
-                            <Pagination count={pageQuantity} onChange={paginationHandler} />
-                        </div>
-                    </ThemeProvider>
-
-                </Paper>
-            </div>
-        );
+                    </Paper>
+                </div>
+            );
+        }
     }
 
 
-}
