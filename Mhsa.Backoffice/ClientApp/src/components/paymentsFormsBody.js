@@ -10,7 +10,6 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import PaymentsContext from '../contexts/paymentsContext';
-import BillsContext from '../contexts/billsContext';
 import TaxesContext from '../contexts/taxesContext';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { createMuiTheme } from '@material-ui/core/styles'; 
@@ -151,7 +150,6 @@ export default function PaymentsFormsBody() {
     const tabClasses = useTabStyles();
     const [allPays, setAllPays] = useState("");
     const [allTaxes, setAllTaxes] = useState("");
-    const [allBills, setAllBills] = useState("");
     const [allDataPrimaryTab, setAllDataPrimaryTab] = useState("");
     const [allDataSecondaryTab, setAllDataSecondaryTab] = useState("");
     const [pageNumber, setPageNumber] = useState(1);
@@ -170,7 +168,6 @@ export default function PaymentsFormsBody() {
             
         setAllPays(PaymentsContext.allPayments);
         setAllTaxes(TaxesContext.allTaxes);
-        setAllBills(BillsContext.allBills);
             dataMapper(allPays, allTaxes);
         if (allPays!= "") {
             setTimeout(function () { setContextCtrl(1); }, 100);
@@ -315,13 +312,11 @@ useEffect(() => {
                     }
 
                     if (allpays[i].numero_pago == alltaxes[j].numero_pago) {
-                        objectData.numero_pago = allpays[i].numero_pago;
-                        objectData.retirar_en = allpays[i].direccion_retiro;
-                        objectData.estado_pago = allpays[i].estado_pago
-                        objectData.monto_pago = allpays[i].monto_bruto;
-                        objectData.detalle_pago = allpays[i].observaciones_pago;
-                        objectData.fecha_pago = allpays[i].fecha_pago_retiro;
-                        objectData.tipo_pago = allpays[i].tipo_pago;
+                        objectData.numero_pago = allpays[i].prefijo_pago+"-"+allpays[i].numero_pago;
+                        objectData.monto_pago = allpays[i].total_pago;
+                        objectData.fecha_pago = allpays[i].fecha_disponible;
+                        objectData.retirar_en = allpays[i].lugar_retiro;
+                        objectData.estado_pago = allpays[i].id_estado
                         objectData.comprobante = null;
                         objectData.tipo_imp = alltaxes[j].tipo_impuesto;
                         objectData.numero_imp = alltaxes[j].codigo_concepto;

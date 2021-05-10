@@ -10,25 +10,20 @@ namespace Domain
         [Key]
         public int Id_pago { get; set; }
 
-        public string Tipo_pago { get; set; }
+        public int Id_proveedor{ get; set; }
 
-        public string Estado_pago { get; set; }
+        public int Id_estado { get; set; }
 
-        public DateTime Fecha_pago_retiro{ get; set; }
+        public Decimal Prefijo_pago { get; set; }
 
-        public string Numero_pago { get; set; }
+        public Decimal Numero_pago { get; set; }
 
-        public string Direccion_retiro { get; set; }
+        public Decimal Total_pago { get; set; }
 
-        public double Monto_bruto { get; set; }
+        public DateTime Fecha_disponible { get; set; }
 
-        public string Observaciones_pago { get; set; }
+        public string Lugar_retiro { get; set; }
 
-        public int Id_factura { get; set; }
-
-        public int Id_proveedor { get; set; }
-
-        public int Id_documento { get; set; }
 
         public Payments() {
 

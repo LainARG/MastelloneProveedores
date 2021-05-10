@@ -7,15 +7,16 @@ interface Response {
 }
 
 export interface IDocuments {
-    Id: any;
-    Nombre: any;
-    Nombre_usuario_carga: any;
-    Tipo: any;
-    Estado: any;
-    Observaciones: any;
-    Numero_documento: any;
-    Fecha_de_carga: any;
-    id_usuario_carga: any;
+        Id_documento: any;
+        Id_proveedor: any;
+        Id_tipo_documento: any;
+        Letra_documento: any;
+        Prefijo_documento: any;
+        Numero_documento: any;
+        Fecha_documento: any;
+        Monto: any;
+        Nota_pedido: any;
+        Id_estado: any;
 }
 
 

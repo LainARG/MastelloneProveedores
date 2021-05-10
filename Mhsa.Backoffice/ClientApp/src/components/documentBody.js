@@ -285,9 +285,9 @@ export default function DocumentBody() {
                 }
 
                 if (alldocs[i].id_documento == allpays[j].id_documento) {
-                    objectData.fecha_documento = alldocs[i].fecha_de_carga;
-                    objectData.estado = alldocs[i].estado;
-                    objectData.tipo = alldocs[i].tipo;
+                    objectData.fecha_documento = alldocs[i].fecha_documento;
+                    objectData.estado = alldocs[i].id_estado;
+                    objectData.tipo = alldocs[i].id_tipo_documento;
                     objectData.numero_documento = alldocs[i].numero_documento;
                     objectData.numero_pago = allpays[j].numero_pago;
                     objectData.monto_bruto = allpays[j].monto_bruto;

@@ -9,16 +9,15 @@ interface Response {
 export interface IPayments {
 
          Id_pago: any;
-         Tipo_pago: any;
-         Estado_pago: any;
-         Fecha_pago_retiro: any;
-         Numero_pago: any;
-         Direccion_retiro: any;
-         Monto_bruto: any;
-         Observaciones_pago: any;
-         Id_factura: any;
          Id_proveedor: any;
-         Id_documento: any;
+         Id_estado: any;
+         Prefijo_pago: any;
+         Numero_pago: any;
+         Total_pago: any;
+         Fecha_disponible: any;
+         Lugar_retiro: any;
+
+
 }
 
 

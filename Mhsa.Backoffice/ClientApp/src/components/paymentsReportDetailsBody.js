@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import NextPaymentComponent from '../components/nextPaymentComponent';
 import '../resources/styles/documentBody.css';
 import Pagination from '@material-ui/lab/Pagination';
 import Paper from '@material-ui/core/Paper';
@@ -8,16 +9,16 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import DocumentsContext from '../contexts/documentsContext';
 import PaymentsContext from '../contexts/paymentsContext';
-import DigitalDocumentsContext from '../contexts/digitalDocumentsContext ';
+import TaxesContext from '../contexts/taxesContext';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { createMuiTheme } from '@material-ui/core/styles'; 
 import pagination from '../pagination/pagination';
 import { makeStyles, Tabs, Tab } from '@material-ui/core';
+import GetAppIcon from '@material-ui/icons/GetApp';
+import AspectRatioIcon from '@material-ui/icons/AspectRatio';
 import { AiOutlineFilePdf } from "react-icons/ai";
 import { SiMicrosoftexcel } from "react-icons/si";
-
 
 
 function createData(fecha_doc, estado, tipo, numero, np, monto, detalle_pago) {
@@ -146,30 +147,31 @@ const documentTabsTheme = createMuiTheme({
 
 
 
-export default function DocumentReportBody() {
+export default function PaymentsReportNoDetailsBody() {
     const classes = useStyles();
     const tabClasses = useTabStyles();
-    const [allDocs, setAllDocs] = useState("");
     const [allPays, setAllPays] = useState("");
-    const [allData, setAllData] = useState("");
-    const [allDigDocs, setDigDocs] = useState("");
+    const [allTaxes, setAllTaxes] = useState("");
+    const [allDataPrimaryTab, setAllDataPrimaryTab] = useState("");
+    const [allDataSecondaryTab, setAllDataSecondaryTab] = useState("");
     const [pageNumber, setPageNumber] = useState(1);
-    const [pageQuantity, setPageQuantity] = useState(10);
+    const [primaryPageQuantity, setPrimaryPageQuantity] = useState(10);
+    const [secondaryPageQuantity, setSecondaryPageQuantity] = useState(10);
     const [contextCtrl, setContextCtrl] = useState(0);
     const [value, setValue] = useState(0);
     const [showTab, setShowTab] = useState(1);
     const [openFilterMenu, setOpenFilterMenu] = useState(false);
     const [anchorEl, setAnchorEl] = useState(false);
-    const rowsPerPage = 8;
+    const rowsPerPage = 4;
     
     
     const setContext = () => {
         
-            setAllDocs(DocumentsContext.allDocuments);
-            setAllPays(PaymentsContext.allPayments);
-            setDigDocs(DigitalDocumentsContext.allDigitalDocuments);
-            dataMapper(allDocs, allPays);
-        if (allDocs != "") {
+            
+        setAllPays(PaymentsContext.allPayments);
+        setAllTaxes(TaxesContext.allTaxes);
+            dataMapper(allPays, allTaxes);
+        if (allPays!= "") {
             setTimeout(function () { setContextCtrl(1); }, 100);
             }
     }
@@ -181,96 +183,154 @@ useEffect(() => {
     } 
     });
 
+
     const columns = [
         {
-            id: 'Fecha_doc',
-            label: 'Fecha de doc.',
-            minWidth: 100,
+            id: 'fecha_emision',
+            label: 'Fecha de emision',
+            minWidth: 150,
             align: 'left',
             format: (value) => value.toLocaleString('en-US'),
         },
         {
-            id: 'Estado',
-            label: 'Estado',
-            minWidth: 100,
+            id: 'fecha_pago',
+            label: 'Fecha de pago',
+            minWidth: 150,
             align: 'left',
             format: (value) => value.toLocaleString('en-US'),
         },
         {
-            id: 'Tipo',
+            id: 'tipo',
             label: 'Tipo',
             minWidth: 150,
             align: 'left',
             format: (value) => value.toFixed(2),
         },
         {
-            id: 'Numero',
+            id: 'numero',
             label: 'Numero',
             minWidth: 175,
             align: 'left',
             format: (value) => value.toFixed(2),
         },
         {
-            id: 'NP',
-            label: 'N.P.',
+            id: 'importe',
+            label: 'Importe',
             minWidth: 175,
+            align: 'left',
+            format: (value) => value.toFixed(2),
+        }
+    ];
+
+    const retention_columns= [
+        {
+            id: 'fecha_documento',
+            label: 'Fecha documento',
+            minWidth: 150,
+            align: 'left',
+            format: (value) => value.toLocaleString('en-US'),
+        },
+        {
+            id: 'tipo',
+            label: 'Tipo',
+            minWidth: 150,
+            align: 'left',
+            format: (value) => value.toLocaleString('en-US'),
+        },
+        {
+            id: 'numero',
+            label: 'Numero',
+            minWidth: 150,
             align: 'left',
             format: (value) => value.toFixed(2),
         },
         {
-            id: 'Monto',
-            label: 'Monto',
+            id: 'nota_pedido',
+            label: 'N.P.',
             minWidth: 150,
-            align: 'right',
+            align: 'left',
+            format: (value) => value.toFixed(2),
+        },
+        {
+            id: 'importe',
+            label: 'Importe',
+            minWidth: 150,
+            align: 'left',
             format: (value) => value.toFixed(2),
         }
 
     ];
 
-
-    const dataMapper = (alldocs, allpays) => {
-        let alldata = [];
-       
-        for (let i = 0; i < alldocs.length; i++) {
-            for (let j = 0; j < allpays.length;j++) {
+    const dataMapper = (allpays, alltaxes) => {
+        let alldataPTab = [];
+        let alldataSTab = [];
+        
+        for (let i = 0; i < allpays.length; i++) {
+            
                 let objectData = {
-                    fecha_documento: null,
-                    estado: null,
-                    tipo: null,
-                    numero_documento: null,
                     numero_pago: null,
-                    monto_bruto: null,
-                    observaciones_pago: null,
-                    digDoc_fecha_carga: null,
-                    digDoc_estado: null,
-                    digDoc_usu_carga: null,
-                    digDoc_descarga: null
-                }
+                    retirar_en: null,
+                    estado_pago: null,
+                    monto_pago: null,
+                    detalle_pago: null,
+                    fecha_pago: null,
+                    tipo_pago: null,
+                    comprobante: null,
+            }
 
-                if (alldocs[i].id_documento == allpays[j].id_documento) {
-                    objectData.fecha_documento = alldocs[i].fecha_de_carga;
-                    objectData.estado = alldocs[i].estado;
-                    objectData.tipo = alldocs[i].tipo;
-                    objectData.numero_documento = alldocs[i].numero_documento;
-                    objectData.numero_pago = allpays[j].numero_pago;
-                    objectData.monto_bruto = allpays[j].monto_bruto;
-                    objectData.observaciones_pago = allpays[j].observaciones_pago;
-                    alldata.push(objectData);
-                }
+            objectData.numero_pago = allpays[i].numero_pago;
+            objectData.retirar_en = allpays[i].direccion_retiro;
+            objectData.estado_pago = allpays[i].estado_pago
+            objectData.monto_pago = allpays[i].monto_bruto;
+            objectData.detalle_pago = allpays[i].observaciones_pago;
+            objectData.fecha_pago = allpays[i].fecha_pago_retiro;
+            objectData.tipo_pago = allpays[i].tipo_pago;
+            objectData.comprobante = null;
+            alldataPTab.push(objectData);
+            }
 
-                if (allDocs[i].id_documento == allDigDocs[j].id_documento && i < allDigDocs.length && j < allDigDocs.length) {
-                    objectData.digDoc_fecha_carga = allDigDocs[j].fecha_de_carga;
-                    objectData.digDoc_estado = allDigDocs[j].estado;
-                    objectData.digDoc_usu_carga = allDigDocs[j].id_usuario_carga;
-                    alldata.push(objectData);
+        
+            for (let i = 0; i < allpays.length; i++) {
+                for (let j = 0; j < alltaxes.length; j++) {
+
+                    let objectData = {
+                        numero_pago: null,
+                        retirar_en: null,
+                        estado_pago: null,
+                        monto_pago: null,
+                        detalle_pago: null,
+                        fecha_pago: null,
+                        tipo_pago: null,
+                        tipo_imp: null,
+                        numero_imp: null,
+                        comprobante: null,
+                    }
+
+                    
+                        objectData.numero_pago = allpays[i].numero_pago;
+                        objectData.retirar_en = allpays[i].direccion_retiro;
+                        objectData.estado_pago = allpays[i].estado_pago
+                        objectData.monto_pago = allpays[i].monto_bruto;
+                        objectData.detalle_pago = allpays[i].observaciones_pago;
+                        objectData.fecha_pago = allpays[i].fecha_pago_retiro;
+                        objectData.tipo_pago = allpays[i].tipo_pago;
+                        objectData.comprobante = null;
+                        objectData.tipo_imp = alltaxes[j].tipo_impuesto;
+                        objectData.numero_imp = alltaxes[j].codigo_concepto;
+                        alldataSTab.push(objectData);
+                    
+
                 }
 
             }
-        }
-         
-        let pagData = pagination(alldata, alldata.length, rowsPerPage);
-        setPageQuantity(pagData.length);
-        setAllData(pagData);
+        console.log(alldataPTab);
+        console.log(alldataSTab);
+        let pagData = pagination(alldataPTab, alldataPTab.length, rowsPerPage);
+        let pagData1 = pagination(alldataSTab, alldataSTab.length, rowsPerPage);
+        setPrimaryPageQuantity(pagData.length);
+        setSecondaryPageQuantity(pagData1.length);
+        setAllDataPrimaryTab(pagData);
+        setAllDataSecondaryTab(pagData1);
     }
 
 
@@ -335,14 +395,13 @@ useEffect(() => {
     }
        
     const FilterMenuHandler = (e) => {
-        console.log(e.currentTarget);
         setAnchorEl(e.currentTarget);
         setOpenFilterMenu(!openFilterMenu);
     }
 
 
 
-    if (allData == undefined || allData == null || allData == "") {
+    if (allDataPrimaryTab == undefined || allDataPrimaryTab == null || allDataPrimaryTab == "") {
 
         
         return (
@@ -351,24 +410,31 @@ useEffect(() => {
         );
 
     }
-    
+    if (showTab == 1) {
+
         return (
             <div className="documentContentContainer">
 
                
+
+                
+
+
+
+
                 <Paper className={classes.root}>
 
                     <div className="documentReportLegend">
-                       <span> Reporte - Mis Pagos </span>
+                        <span> Reporte - Mis Pagos </span>
                     </div>
 
-                    
-                        <SiMicrosoftexcel className="documentReportExcelIcon" />
-                    
 
-                    
-                        <AiOutlineFilePdf className="documentReportPdfIcon" />
-                    
+                    <SiMicrosoftexcel className="paymentReportExcelIcon" />
+
+
+
+                    <AiOutlineFilePdf className="paymentReportPdfIcon" />
+
                     <div className="documentReportLegend2">
                         <span> <b>CUIT:</b> 23-36156368-9</span>
                     </div>
@@ -376,10 +442,37 @@ useEffect(() => {
                     <div className="documentReportLegend3">
                         <span> <b>Proveedor:</b> CARTOCOR S.A.</span>
                     </div>
-                    
+
                     <div className="documentReportLegend1">
-                        <span> Sin detalle</span>
+                        <span> Detallado</span>
                     </div>
+
+
+                    <div className="nextPaymentTableLegend">
+
+                        <span className="nextPaymentLegend1">Numero de pago</span>
+                        <span className="nextPaymentLegend2">Retirar en</span>
+                        <span className="nextPaymentLegend3">A partir de</span>
+                        <span className="nextPaymentLegend4">Estado</span>
+                        <span className="nextPaymentLegend5">Total pago</span><br />
+
+
+
+
+
+                        <span className="nextPaymentLegend6">0800-00525245</span>
+                        <span className="nextPaymentLegend7">MHSA Tokio</span>
+                        <span className="nextPaymentLegend8">12/04/1991</span>
+                        <span className="nextPaymentLegend9">A retirar</span>
+                        <span className="nextPaymentLegend10">$ 452.0</span>
+
+                    </div>
+
+                    <div className="paymentFormReportLegend">
+                        <span> Formas de pago.</span>
+                    </div>
+
+
 
                     <TableContainer className={classes.container}>
                         <Table stickyHeader aria-label="sticky table">
@@ -399,7 +492,7 @@ useEffect(() => {
                             <TableBody>
                                 {
 
-                                    allData[pageNumber - 1].map((row) => {
+                                    allDataPrimaryTab[pageNumber - 1].map((row) => {
 
                                         return (
 
@@ -407,50 +500,43 @@ useEffect(() => {
                                                 {columns.map((column) => {
 
 
-                                                    for (let i = 0; i < allData.length; i++) {
-                                                        if (column.id == "Fecha_doc") {
-                                                            return (
-                                                                <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                    {row.fecha_documento}
-                                                                </TableCell>
-                                                            );
-                                                        }
-                                                        else if (column.id == "Estado") {
-                                                            return (
-                                                                <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                    {row.estado}
-                                                                </TableCell>
-                                                            );
-                                                        }
-                                                        else if (column.id == "Tipo") {
-                                                            return (
-                                                                <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                    {row.tipo}
-                                                                </TableCell>
-                                                            );
-                                                        }
-                                                        else if (column.id == "Numero") {
-                                                            return (
-                                                                <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                    {row.numero_documento}
-                                                                </TableCell>
-                                                            );
-                                                        }
-
-                                                        else if (column.id == "NP") {
+                                                    for (let i = 0; i < allDataPrimaryTab.length; i++) {
+                                                        if (column.id == "fecha_emision") {
                                                             return (
                                                                 <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
                                                                     {row.numero_pago}
                                                                 </TableCell>
                                                             );
                                                         }
-                                                        else if (column.id == "Monto") {
+                                                        else if (column.id == "fecha_pago") {
                                                             return (
                                                                 <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                    {"$" + row.monto_bruto}
+                                                                    {row.retirar_en}
                                                                 </TableCell>
                                                             );
                                                         }
+                                                        else if (column.id == "tipo") {
+                                                            return (
+                                                                <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
+                                                                    {row.fecha_pago}
+                                                                </TableCell>
+                                                            );
+                                                        }
+                                                        else if (column.id == "numero") {
+                                                            return (
+                                                                <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
+                                                                    {row.estado_pago}
+                                                                </TableCell>
+                                                            );
+                                                        }
+                                                        else if (column.id == "importe") {
+                                                            return (
+                                                                <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
+                                                                    {"$" + row.monto_pago}
+                                                                </TableCell>
+                                                            );
+                                                        }
+                                                       
 
                                                     }
 
@@ -466,9 +552,111 @@ useEffect(() => {
                         </Table>
                     </TableContainer>
 
+
+                    <div className="paymentFormReportLegend">
+                        <span> Documentos.</span>
+                    </div>
+
+
+                    <TableContainer className={classes.container}>
+                        <Table stickyHeader aria-label="sticky table">
+                            <TableHead>
+                                <TableRow>
+                                    {retention_columns.map((column) => (
+                                        <TableCell className={classes.headerTable}
+                                            key={column.id}
+                                            align={column.align}
+                                            style={{ minWidth: column.minWidth }}
+                                        >
+                                            {column.label}
+                                        </TableCell>
+                                    ))}
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {
+
+                                    allDataSecondaryTab[pageNumber - 1].map((row) => {
+
+                                        return (
+
+                                            <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                                                {retention_columns.map((column) => {
+
+
+                                                    for (let i = 0; i < allDataSecondaryTab.length; i++) {
+                                                        if (column.id == "fecha_documento") {
+                                                            return (
+                                                                <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
+                                                                    {row.fecha_pago}
+                                                                </TableCell>
+                                                            );
+                                                        }
+                                                        else if (column.id == "tipo") {
+                                                            return (
+
+                                                                <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
+                                                                    {row.tipo_imp}
+                                                                </TableCell>
+
+
+                                                            );
+                                                        }
+                                                        else if (column.id == "numero") {
+                                                            return (
+
+                                                                <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
+                                                                    {row.numero_imp}
+                                                                </TableCell>
+
+
+                                                            );
+                                                        }
+                                                        else if (column.id == "nota_pedido") {
+                                                            return (
+
+                                                                <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
+                                                                    {row.numero_imp}
+                                                                </TableCell>
+
+
+                                                            );
+                                                        }
+                                                        else if (column.id == "importe") {
+                                                            return (
+
+                                                                <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
+                                                                    {"$" + row.monto_pago}
+                                                                </TableCell>
+
+
+                                                            );
+                                                        }
+
+
+
+                                                    }
+
+                                                })
+
+                                                }
+                                            </TableRow>
+                                        );
+                                    })
+
+                                }
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+
+
+
+
+
+
                     <ThemeProvider theme={paginationTheme}>
                         <div className="paginationContainerStyle">
-                            <Pagination count={pageQuantity} onChange={paginationHandler} />
+                            <Pagination count={primaryPageQuantity} onChange={paginationHandler} />
                         </div>
                     </ThemeProvider>
 
@@ -476,6 +664,6 @@ useEffect(() => {
             </div>
         );
     }
-    
 
 
+}
