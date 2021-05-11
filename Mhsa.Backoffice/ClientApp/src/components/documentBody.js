@@ -9,7 +9,6 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import DocumentsContext from '../contexts/documentsContext';
-import PaymentsContext from '../contexts/paymentsContext';
 import DigitalDocumentsContext from '../contexts/digitalDocumentsContext ';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { createMuiTheme } from '@material-ui/core/styles'; 
@@ -23,7 +22,6 @@ import SettingsEthernetIcon from '@material-ui/icons/SettingsEthernet';
 import DocumentFilterMenu from '../components/documentFilterMenu';
 import AspectRatioIcon from '@material-ui/icons/AspectRatio';
 import AssignmentReturnedIcon from '@material-ui/icons/AssignmentReturned';
-import { Link } from "react-router-dom";
 
 
 function createData(fecha_doc, estado, tipo, numero, np, monto, detalle_pago) {
@@ -156,12 +154,13 @@ export default function DocumentBody() {
     const classes = useStyles();
     const tabClasses = useTabStyles();
     const [allDocs, setAllDocs] = useState("");
-    const [allPays, setAllPays] = useState("");
-    const [allData, setAllData] = useState("");
+    const [allFirstTabData, setAllFirstTabData] = useState("");
+    const [allSecondTabData, setAllSecondTabData] = useState("");
+    const [allSearchData, setAllSearchData] = useState("");
     const [allDigDocs, setDigDocs] = useState("");
     const [pageNumber, setPageNumber] = useState(1);
-    const [pageQuantity, setPageQuantity] = useState(10);
-    const [contextCtrl, setContextCtrl] = useState(0);
+    const [firstTabPageQuantity, setFirstTabPageQuantity] = useState(10);
+    const [secondTabPageQuantity, setSecondTabPageQuantity] = useState(10);
     const [value, setValue] = useState(0);
     const [showTab, setShowTab] = useState(0);
     const [openFilterMenu, setOpenFilterMenu] = useState(false);
@@ -171,15 +170,15 @@ export default function DocumentBody() {
     
  
     useEffect(() => {
-        console.log("efecto");
-        if (allData == "" || allData == undefined) {
+        console.log("UseEffect");
+        if (allFirstTabData == [] || allFirstTabData == "" || allFirstTabData == undefined) {
             setAllDocs(DocumentsContext.allDocuments);
-            setAllPays(PaymentsContext.allPayments);
             setDigDocs(DigitalDocumentsContext.allDigitalDocuments);
-            dataMapper(allDocs, allPays);
+            dataMapper(allDocs);
         }
 
-    });
+
+    }, [allFirstTabData, allSecondTabData]);
 
     const columns = [
         {
@@ -266,10 +265,11 @@ export default function DocumentBody() {
 
     ];
 
-    const dataMapper = (alldocs, allpays) => {
-        let alldata = [];
-        for (let i = 0; i < alldocs.length; i++) {
-            for (let j = 0; j < allpays.length;j++) {
+    const dataMapper = (alldocs) => {
+        let allfirsttabdata = [];
+        let allsecondtabdata = [];
+        
+            for (let j = 0; j < allDocs.length;j++) {
                 let objectData = {
                     fecha_documento: null,
                     estado: null,
@@ -284,30 +284,38 @@ export default function DocumentBody() {
                     digDoc_descarga: null
                 }
 
-                if (alldocs[i].id_documento == allpays[j].id_documento) {
-                    objectData.fecha_documento = alldocs[i].fecha_documento;
-                    objectData.estado = alldocs[i].id_estado;
-                    objectData.tipo = alldocs[i].id_tipo_documento;
-                    objectData.numero_documento = alldocs[i].numero_documento;
-                    objectData.numero_pago = allpays[j].numero_pago;
-                    objectData.monto_bruto = allpays[j].monto_bruto;
-                    objectData.observaciones_pago = allpays[j].observaciones_pago;
-                    alldata.push(objectData);
-                }
+                    objectData.fecha_documento = alldocs[j].fecha_documento;
+                    objectData.estado = alldocs[j].id_estado;
+                    objectData.tipo = alldocs[j].id_tipo_documento;
+                    objectData.numero_documento = alldocs[j].letra_documento + "-" + alldocs[j].prefijo_documento+"-"+alldocs[j].numero_documento;
+                    objectData.nota_pedido = alldocs[j].nota_pedido;
+                    objectData.numero_pago = alldocs[j].numero_pago;
+                    objectData.monto = alldocs[j].monto;
+                    allfirsttabdata.push(objectData);
+                    
+        }
 
-                if (allDocs[i].id_documento == allDigDocs[j].id_documento && i < allDigDocs.length && j < allDigDocs.length) {
-                    objectData.digDoc_fecha_carga = allDigDocs[j].fecha_de_carga;
-                    objectData.digDoc_estado = allDigDocs[j].estado;
-                    objectData.digDoc_usu_carga = allDigDocs[j].id_usuario_carga;
-                    alldata.push(objectData);
-                }
-
+        for (let j = 0; j < allDigDocs.length; j++) {
+            let objectData = {
+                digDoc_fecha_carga: null,
+                digDoc_estado: null,
+                digDoc_usu_carga: null
             }
+
+            objectData.digDoc_fecha_carga = allDigDocs[j].fecha_de_carga;
+            objectData.digDoc_estado = allDigDocs[j].estado;
+            objectData.digDoc_usu_carga = allDigDocs[j].id_usuario_carga;
+            allsecondtabdata.push(objectData);
+
         }
          
-        let pagData = pagination(alldata, alldata.length, rowsPerPage);
-        setPageQuantity(pagData.length);
-        setAllData(pagData);
+        let pagFirstTabData = pagination(allfirsttabdata, allfirsttabdata.length, rowsPerPage);
+        let pagSecondTabData = pagination(allsecondtabdata, allsecondtabdata.length, rowsPerPage);
+        setFirstTabPageQuantity(pagFirstTabData.length);
+        setSecondTabPageQuantity(pagSecondTabData.length);
+        setAllFirstTabData(pagFirstTabData);
+        setAllSecondTabData(pagSecondTabData);
+        setAllSearchData(pagFirstTabData);
     }
 
 
@@ -382,28 +390,28 @@ export default function DocumentBody() {
 
     function searchPrimaryPageSuggestionsHandler(e) {
         e.preventDefault();
-        let suggestions = allData;
+        setAllFirstTabData(allSearchData);
+        let suggestions = JSON.parse(JSON.stringify(allFirstTabData));
 
-        for (let i = 0; i < allData.length; i++) {
-            for (let j = 0; j < allData[i].length; j++) {
-                if (allData[i][j].numero_documento.includes(e.target.value)==false) {
-
-                    suggestions[i].splice(j, 5);
-
+        for (let i = 0; i < allFirstTabData.length; i++) {
+            for (let j = 0; j < allFirstTabData[i].length; j++) {
+                if (allFirstTabData[i][j].numero_documento.includes(e.target.value) == false && e.target.value != "") {
+                    suggestions[i].splice(j, 1);
+                    setAllFirstTabData(suggestions);
                 }
-               
-            }
+             }
         }
 
         
-        
-        console.log(suggestions);
-        setAllData(suggestions);
+
     }
 
 
+    
 
-    if (allData== undefined || allData == null || allData == "") {
+
+
+    if (allFirstTabData == undefined || allFirstTabData == null || allFirstTabData == "") {
 
 
         return (
@@ -412,7 +420,7 @@ export default function DocumentBody() {
 
     }
 
-    if (showTab == 0 && allData != "" ) {
+    if (showTab == 0 && allFirstTabData != "" ) {
 
             return (
                 <div className="documentContentContainer">
@@ -474,18 +482,18 @@ export default function DocumentBody() {
                                         ))}
                                     </TableRow>
                                 </TableHead>
-                                <TableBody>
+                                <TableBody id="documentTable">
                                     {
 
-                                        allData[pageNumber - 1].map((row) => {
+                                        allFirstTabData[pageNumber - 1].map((row, index) => {
 
                                             return (
 
-                                                <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                                                <TableRow hover role="checkbox" tabIndex={-1} key={index}>
                                                     {columns.map((column) => {
 
 
-                                                        for (let i = 0; i < allData.length; i++) {
+                                                        for (let i = 0; i < allFirstTabData.length; i++) {
                                                             if (column.id == "Fecha_doc") {
                                                                 return (
                                                                     <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
@@ -518,14 +526,14 @@ export default function DocumentBody() {
                                                             else if (column.id == "NP") {
                                                                 return (
                                                                     <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                        {row.numero_pago}
+                                                                        {row.nota_pedido}
                                                                     </TableCell>
                                                                 );
                                                             }
                                                             else if (column.id == "Monto") {
                                                                 return (
                                                                     <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                        {"$" + row.monto_bruto}
+                                                                        {"$" + row.monto}
                                                                     </TableCell>
                                                                 );
                                                             }
@@ -553,7 +561,7 @@ export default function DocumentBody() {
 
                         <ThemeProvider theme={paginationTheme}>
                             <div className="paginationContainerStyle">
-                                <Pagination count={pageQuantity} onChange={paginationHandler} />
+                                <Pagination count={firstTabPageQuantity} onChange={paginationHandler} />
                             </div>
                         </ThemeProvider>
 
@@ -561,7 +569,7 @@ export default function DocumentBody() {
                 </div>
             );
         }
-    if (showTab == 1 && allData != "" ) {
+    if (showTab == 1 && allSecondTabData != "" ) {
             return (
                 <div className="documentContentContainer">
 
@@ -618,7 +626,7 @@ export default function DocumentBody() {
                                 <TableBody>
                                     {
 
-                                        allData[pageNumber - 1].map((row) => {
+                                        allSecondTabData[pageNumber - 1].map((row) => {
 
                                             return (
 
@@ -626,7 +634,7 @@ export default function DocumentBody() {
                                                     {electronics_columns.map((column) => {
 
 
-                                                        for (let i = 0; i < allData.length; i++) {
+                                                        for (let i = 0; i < allSecondTabData.length; i++) {
                                                             if (column.id == "Fecha_carga") {
                                                                 return (
                                                                     <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
@@ -675,7 +683,7 @@ export default function DocumentBody() {
 
                         <ThemeProvider theme={paginationTheme}>
                             <div className="paginationContainerStyle">
-                                <Pagination count={pageQuantity} onChange={paginationHandler} />
+                                <Pagination count={secondTabPageQuantity} onChange={paginationHandler} />
                             </div>
                         </ThemeProvider>
 
