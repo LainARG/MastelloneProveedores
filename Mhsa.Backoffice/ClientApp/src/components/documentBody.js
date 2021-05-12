@@ -398,7 +398,6 @@ export default function DocumentBody() {
                 if (allFirstTabData[i][j].numero_documento.includes(e.target.value) == false && e.target.value != "") {
                     suggestions[i].splice(j, 1);
                     setAllFirstTabData(suggestions);
-
                 }
              }
         }
