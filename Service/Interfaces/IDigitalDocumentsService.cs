@@ -10,5 +10,7 @@ namespace Service.Interfaces
 
         public IEnumerable<DigitalDocuments> GetAll();
 
+        public void saveDigitalDocument(List<DigitalDocumentDTO> files);
+
     }
 }

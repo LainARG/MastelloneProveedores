@@ -21,6 +21,12 @@ namespace Service
             return digitalDocumentsRepository.GetAll();
         }
 
-        
+
+
+        public void saveDigitalDocument(List<DigitalDocumentDTO> files)
+        {
+            digitalDocumentsRepository.saveDigitalDocument(files);
+        }
+
     }
 }

@@ -37,9 +37,9 @@ const useStyles=makeStyles({
    fontWeight:'900',
    textTransform:'none',
    fontSize:16,
-   marginLeft:'-1.2%',
+   marginLeft:'-1.8%',
    marginTop:"1%",
-   width:'13%',
+   width:'16.5%',
    minWidth:'13%',
    color:'#d1d1d1',
    '&.indicator':{

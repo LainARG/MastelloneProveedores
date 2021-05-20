@@ -16,15 +16,11 @@ export interface IDigitalDocuments {
 
        Tipo: any;
 
-       Observaciones: any;
-
        Numero_documento: any;
 
        Id_usuario_carga: any;
 
        Fecha_de_carga: any;
-
-       Fecha_ult_modificacion: any;
 }
 
 
@@ -37,7 +33,7 @@ export class DigitalDocumentsContext {
         .then(function (result: any) {
             DigitalDocumentsContext.allDigitalDocuments = result;
         })
-        .catch((e: any) => { console.log(e) });
+        .catch((e: any) => {  });
 
     static async fetchDocuments() {
         const response = await api.get<Response, AxiosResponse<Response>>(
@@ -46,10 +42,12 @@ export class DigitalDocumentsContext {
         return response.data;
     }
 
-    static async setDocument(document: any) {
+    static async setDocument(files: any) {
+
+        let json = JSON.stringify(files);
         const response = await api.post<Response, AxiosResponse<Response>>(
-            `/digitalDocuments/post`
-        );
+            `/digitalDocuments/post`, files);
+
     }
 
 }
