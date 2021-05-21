@@ -30,7 +30,7 @@ export class PaymentsContext {
         .then(function (result: any) {
             PaymentsContext.allPayments = result;
         })
-        .catch((e: any) => { console.log(e) });
+        .catch((e: any) => { });
 
     static async fetchPayments() {
         const response = await api.get<Response, AxiosResponse<Response>>(

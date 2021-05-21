@@ -29,7 +29,7 @@ export interface IUser {
         .then(function (result: any) {
             UserContext.allUsers = result;
         })
-        .catch((e: any) => { console.log(e) });;
+        .catch((e: any) => {  });;
    
 
     static async fetchUsers(){

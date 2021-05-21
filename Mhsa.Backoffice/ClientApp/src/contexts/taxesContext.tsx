@@ -26,7 +26,7 @@ export interface ITaxes {
         .then(function (result: any) {
             TaxesContext.allTaxes = result;
         })
-        .catch((e: any) => { console.log(e) });;
+        .catch((e: any) => {  });;
    
 
     static async fetchTaxes(){

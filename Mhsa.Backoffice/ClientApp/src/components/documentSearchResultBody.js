@@ -4,10 +4,16 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import { GrDocumentDownload } from "react-icons/gr";
 
 
-export default function DocumentSearchResultBody() {
+export default function DocumentSearchResultBody(props) {
     
-      
-       
+    const [showData, setShowData] = useState(props);
+
+    useEffect(() => {
+
+        console.log(showData);
+
+    }, [showData]);
+
     const theme = createMuiTheme({
         palette: {
             primary: {
@@ -18,6 +24,41 @@ export default function DocumentSearchResultBody() {
             },
         },
     });
+
+    function ShowDataResult() {
+
+        if (showData.props != undefined && showData.props != null && showData.props != "") {
+
+            return (
+                showData.props.map((index) => (
+                    <div className="documentSearchResultResultsContainer">
+
+                        <span className="documentSearchResultLegend5">{ index.fecha_carga}</span>
+                        <span className="documentSearchResultLegend6">{index.id_estado}</span>
+                        <span className="documentSearchResultLegend7">{index.id_usuario_carga}</span>
+                        <GrDocumentDownload className="documentSearchResultIcon" />
+
+                    </div>
+
+                )));
+
+        } else {
+            return (
+                <div className="documentSearchResult404">
+                    <br />
+                    <br />
+                    <br />
+                    <span><b>No se encontraron resultados o el campo de busqueda esta vacio... !Proba con otra consulta!</b></span>
+
+                </div>
+
+            );
+        }
+
+
+        
+    }
+
 
       
         return (
@@ -39,26 +80,10 @@ export default function DocumentSearchResultBody() {
 
                 </div>
 
-                <div className="documentSearchResultResultsContainer">
-
-                    <span className="documentSearchResultLegend5">12/04/1991</span>
-                    <span className="documentSearchResultLegend6">Recepcionado</span>
-                    <span className="documentSearchResultLegend7">Terry Wagner</span>
-                    <GrDocumentDownload className="documentSearchResultIcon" />
-
-                </div>
-
-
+               <ShowDataResult/>
 
                 
-                <div className="documentSearchResult404">
-                    <br />
-                    <br />
-                    <br />
-                    <span><b>No se encontraron resultados... !Proba con otra consulta!</b></span>
-                   
-                </div>
-
+            
 
             </div>
         );

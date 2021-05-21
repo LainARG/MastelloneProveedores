@@ -67,9 +67,7 @@ const forgotRedirect = (e)=>{
 
     const dataConsoleTry = () => {
 
-        console.log(allUsers);
-        console.log(allDocuments);
-        console.log(allPayments);
+       
 
 }
 

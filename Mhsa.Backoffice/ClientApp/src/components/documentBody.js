@@ -170,7 +170,7 @@ export default function DocumentBody() {
     
  
     useEffect(() => {
-        console.log("UseEffect");
+        
         if (allFirstTabData == [] || allFirstTabData == "" || allFirstTabData == undefined) {
             setAllDocs(DocumentsContext.allDocuments);
             setDigDocs(DigitalDocumentsContext.allDigitalDocuments);

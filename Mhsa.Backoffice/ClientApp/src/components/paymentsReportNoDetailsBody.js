@@ -10,7 +10,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import DocumentsContext from '../contexts/documentsContext';
 import PaymentsContext from '../contexts/paymentsContext';
-import DigitalDocumentsContext from '../contexts/digitalDocumentsContext ';
+import DigitalDocumentsContext from '../contexts/digitalDocumentsContexts';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { createMuiTheme } from '@material-ui/core/styles'; 
 import pagination from '../pagination/pagination';
@@ -314,7 +314,6 @@ useEffect(() => {
     }
        
     const FilterMenuHandler = (e) => {
-        console.log(e.currentTarget);
         setAnchorEl(e.currentTarget);
         setOpenFilterMenu(!openFilterMenu);
     }

@@ -19,7 +19,7 @@ namespace Domain
 
         public string Nombre_archivo { get; set; }
 
-        public int Cuit { get; set; }
+        public Decimal Cuit { get; set; }
 
         public string Tipo_archivo { get; set; }
 

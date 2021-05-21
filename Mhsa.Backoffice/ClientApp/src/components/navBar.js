@@ -196,7 +196,6 @@ const [anchorEl, setAnchorEl] = useState(false);
 const { index } = props;
 
     useEffect(() => {
-        console.log(index);
         
     });
 

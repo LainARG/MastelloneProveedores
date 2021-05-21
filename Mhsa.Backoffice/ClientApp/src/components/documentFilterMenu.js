@@ -105,11 +105,9 @@ const actionSend = (e)=>{
 
 
     const menuControl = () => {
-        console.log("ok1")
     }
 
     const menuIsOpen = () => {
-        console.log("ok2")
     }
 
     const theme = createMuiTheme({

@@ -8,19 +8,29 @@ interface Response {
 
 export interface IDigitalDocuments {
 
-       Id_documento: any;
+        Id_documento: any;
 
-       Nombre_de_archivo: any;
+        Id_usuario_carga: any;
 
-       Estado: any;
+        Id_rechazo: any;
 
-       Tipo: any;
+        Nombre_archivo: any;
+     
+        Cuit: any;
 
-       Numero_documento: any;
+        Tipo_archivo: any;
 
-       Id_usuario_carga: any;
+        Id_estado: any;
 
-       Fecha_de_carga: any;
+        Fecha_carga: any;
+
+        Hora_carga: any;
+
+        Fecha_estado: any;
+
+        Tamano_archivo :any;
+
+        Imagen :any;
 }
 
 
@@ -47,7 +57,6 @@ export class DigitalDocumentsContext {
         let json = JSON.stringify(files);
         const response = await api.post<Response, AxiosResponse<Response>>(
             `/digitalDocuments/post`, files);
-
     }
 
 }

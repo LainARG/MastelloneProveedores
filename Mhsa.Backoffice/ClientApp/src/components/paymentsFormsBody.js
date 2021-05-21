@@ -326,8 +326,6 @@ useEffect(() => {
                 }
 
             }
-        console.log(alldataPTab);
-        console.log(alldataSTab);
         let pagData = pagination(alldataPTab, alldataPTab.length, rowsPerPage);
         let pagData1 = pagination(alldataSTab, alldataSTab.length, rowsPerPage);
         setPrimaryPageQuantity(pagData.length);

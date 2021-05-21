@@ -29,7 +29,7 @@ export class DocumentsContext {
         .then(function (result: any) {
             DocumentsContext.allDocuments = result;
         })
-        .catch((e: any) => { console.log(e) });
+        .catch((e: any) => {  });
 
     static async fetchDocuments() {
         const response = await api.get<Response, AxiosResponse<Response>>(
