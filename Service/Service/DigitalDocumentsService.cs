@@ -8,24 +8,24 @@ namespace Service
 {
     public class DigitalDocumentsService: IDigitalDocumentsRepository, IDigitalDocumentsService
     {
-        public readonly IDigitalDocumentsRepository digitalDocumentsRepository;
+        public readonly IDigitalDocumentsRepository repository;
 
-        public DigitalDocumentsService(IDigitalDocumentsRepository digitalDocumentRep)
+        public DigitalDocumentsService(IDigitalDocumentsRepository repository)
         {
-            this.digitalDocumentsRepository = digitalDocumentRep;
+            this.repository = repository;
         }
 
 
         public IEnumerable<DigitalDocuments> GetAll()
         {
-            return digitalDocumentsRepository.GetAll();
+            return repository.GetAll();
         }
 
 
 
         public void saveDigitalDocument(List<DigitalDocumentDTO> files)
         {
-            digitalDocumentsRepository.saveDigitalDocument(files);
+            repository.saveDigitalDocument(files);
         }
 
     }

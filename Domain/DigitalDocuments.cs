@@ -41,7 +41,7 @@ namespace Domain
             this.Tipo_archivo = type.ToString();
             this.Id_usuario_carga = id;
             this.Imagen = img;
-            this.Id_estado = 1;
+            this.Id_estado = 9;
             this.Tamano_archivo = size;
             this.Fecha_carga = DateTime.Now.ToString("yyyy/MM/dd");
             this.Hora_carga = DateTime.Now.ToString("h:mm:ss tt");

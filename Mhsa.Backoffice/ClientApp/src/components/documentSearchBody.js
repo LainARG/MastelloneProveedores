@@ -7,7 +7,8 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/core/styles';
 import DocumentSearchResultBody from '../components/documentSearchResultBody';
 import DigitalDocumentsContext from '../contexts/digitalDocumentsContexts';
-
+import StatesContext from '../contexts/statesContext';
+import StateTypesContext from '../contexts/stateTypesContext';
 
 export default function DocumentSearchBody() {
 
@@ -17,12 +18,14 @@ export default function DocumentSearchBody() {
     const [stateValue, setStateValue] = useState(null);
     const [dataContext, setDataContext] = useState(null);
     const [searchResult, setSearchResult] = useState(null);
+    const [statesContext, setStatesContext] = useState(null);
+    const [stateTypesContext, setStateTypesContext] = useState(null);
 
     useEffect(() => {
-
+        setStatesContext(StatesContext.allStates);
+        setStateTypesContext(StateTypesContext.allStateTypes);
         setDataContext(DigitalDocumentsContext.allDigitalDocuments);
-
-    }, [dataContext]);
+    }, [dataContext, statesContext, stateTypesContext]);
 
 
     function searchDigitalDocument() {
@@ -32,28 +35,40 @@ export default function DocumentSearchBody() {
         let until = new Date(untilValue).getTime();
         let state = stateValue;
         let arrayData = [];
+        let searchState = "";
+      
 
-        
 
         for (let i = 0; i < dataContext.length; i++) {
 
+            for (let j = 0; j < statesContext.length; j++) {
+                if (statesContext[j].id_estado == dataContext[i].id_estado) {
+                    searchState = statesContext[j].descripcion_abreviada;
+                }
+            }
+           
             let obj = {
                 filename: dataContext[i].nombre_archivo,
                 date: new Date(dataContext[i].fecha_carga).getTime(),
-                state: dataContext[i].id_estado
+                state: searchState,
+                user: dataContext[i].id_usuario_carga
             }
+
+            
 
             if (obj.filename.includes(fileName)) {
-                arrayData.push(dataContext[i]);
+                arrayData.push(obj);
             }
 
-            if (obj.date>=since && obj.date <= until) {
-                arrayData.push(dataContext[i]);
+            if (obj.date >= since && obj.date <= until) {
+                arrayData.push(obj);
             }
 
-            if (state == dataContext[i].id_estado) {
-                arrayData.push(dataContext[i]);
+            if (state == obj.state) {
+                arrayData.push(obj);
             }
+
+            
 
         }
         /*falta filtrar posibles valores repetidos con un bucle doble o algo*/
@@ -134,8 +149,8 @@ export default function DocumentSearchBody() {
                     
                     <select className="documentSearchFormSelect" onChange={(e) => setStateValue(e.target.value)}>
                         <option selected value="Incorporado">Incorporado</option>
-                        <option selected value="Incorporado">Recepcionado</option>
-                        <option selected value="Incorporado">Rechazado</option>
+                        <option selected value="Recepcionado">Recepcionado</option>
+                        <option selected value="Rechazado">Rechazado</option>
                     </select>
 
                 </div>

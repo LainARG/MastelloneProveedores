@@ -8,17 +8,17 @@ namespace Service
 {
     public class DocumentsService: IDocumentsRepository, IDocumentsService
     {
-        public readonly IDocumentsRepository documentsRepository;
+        public readonly IDocumentsRepository repository;
 
-        public DocumentsService(IDocumentsRepository documentRep)
+        public DocumentsService(IDocumentsRepository repository)
         {
-            this.documentsRepository = documentRep;
+            this.repository = repository;
         }
 
 
         public IEnumerable<Documents> GetAll()
         {
-            return documentsRepository.GetAll();
+            return repository.GetAll();
         }
 
         

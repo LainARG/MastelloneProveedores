@@ -5,17 +5,17 @@ using Service.Interfaces;
 
 namespace Service
 {
-    public class TaxesService: ITaxesRepository, ITaxesService
+    public class StateTypesService: IStateTypesRepository, IStateTypesService
     {
-        public readonly ITaxesRepository repository;
+        public readonly IStateTypesRepository repository;
 
-        public TaxesService(ITaxesRepository repository)
+        public StateTypesService(IStateTypesRepository repository)
         {
             this.repository = repository;
         }
 
 
-        public IEnumerable<Taxes> GetAll()
+        public IEnumerable<StateTypes> GetAll()
         {
             return repository.GetAll();
         }

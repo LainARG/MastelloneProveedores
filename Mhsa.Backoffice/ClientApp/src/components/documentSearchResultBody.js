@@ -29,13 +29,14 @@ export default function DocumentSearchResultBody(props) {
 
         if (showData.props != undefined && showData.props != null && showData.props != "") {
 
+            console.log(showData.props);
             return (
                 showData.props.map((index) => (
                     <div className="documentSearchResultResultsContainer">
 
-                        <span className="documentSearchResultLegend5">{ index.fecha_carga}</span>
-                        <span className="documentSearchResultLegend6">{index.id_estado}</span>
-                        <span className="documentSearchResultLegend7">{index.id_usuario_carga}</span>
+                        <span className="documentSearchResultLegend5">{index.date}</span>
+                        <span className="documentSearchResultLegend6">{index.state}</span>
+                        <span className="documentSearchResultLegend7">{index.user}</span>
                         <GrDocumentDownload className="documentSearchResultIcon" />
 
                     </div>

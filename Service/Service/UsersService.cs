@@ -7,17 +7,17 @@ namespace Service
 {
     public class UsersService: IUsersRepository, IUsersService
     {
-        public readonly IUsersRepository usersRepository;
+        public readonly IUsersRepository repository;
 
         public UsersService(IUsersRepository repository)
         {
-            this.usersRepository = repository;
+            this.repository = repository;
         }
 
 
         public IEnumerable<Users> GetAll()
         {
-            return usersRepository.GetAll();
+            return repository.GetAll();
         }
 
 

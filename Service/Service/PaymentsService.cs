@@ -8,17 +8,17 @@ namespace Service
 {
     public class PaymentsService: IPaymentsRepository, IPaymentsService
     {
-        public readonly IPaymentsRepository paymentsRepository;
+        public readonly IPaymentsRepository repository;
 
-        public PaymentsService(IPaymentsRepository paymentsRep)
+        public PaymentsService(IPaymentsRepository repository)
         {
-            this.paymentsRepository = paymentsRep;
+            this.repository = repository;
         }
 
 
         public IEnumerable<Payments> GetAll()
         {
-            return paymentsRepository.GetAll();
+            return repository.GetAll();
         }
 
         
