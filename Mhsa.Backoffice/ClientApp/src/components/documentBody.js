@@ -10,6 +10,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import DocumentsContext from '../contexts/documentsContext';
 import DigitalDocumentsContext from '../contexts/digitalDocumentsContexts';
+import StatesContext from '../contexts/statesContext';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { createMuiTheme } from '@material-ui/core/styles'; 
 import pagination from '../pagination/pagination';
@@ -157,7 +158,8 @@ export default function DocumentBody() {
     const [allFirstTabData, setAllFirstTabData] = useState("");
     const [allSecondTabData, setAllSecondTabData] = useState("");
     const [allSearchData, setAllSearchData] = useState("");
-    const [allDigDocs, setDigDocs] = useState("");
+    const [allDigDocs, setAllDigDocs] = useState("");
+    const [allStates, setAllStates] = useState("");
     const [pageNumber, setPageNumber] = useState(1);
     const [firstTabPageQuantity, setFirstTabPageQuantity] = useState(10);
     const [secondTabPageQuantity, setSecondTabPageQuantity] = useState(10);
@@ -170,15 +172,16 @@ export default function DocumentBody() {
     
  
     useEffect(() => {
-        
-        if (allFirstTabData == [] || allFirstTabData == "" || allFirstTabData == undefined) {
-            setAllDocs(DocumentsContext.allDocuments);
-            setDigDocs(DigitalDocumentsContext.allDigitalDocuments);
+
+        if (allDocs == "" || allDigDocs == "") {
+            DocumentsContext.fetchDocuments().then((e) => { setAllDocs(e); });
+            DigitalDocumentsContext.fetchDocuments().then((e) => { setAllDigDocs(e); });
+            StatesContext.fetchStates().then((e) => { setAllStates(e); });
+        } else {
             dataMapper(allDocs);
         }
 
-
-    }, [allFirstTabData, allSecondTabData]);
+    }, [allDocs, allDigDocs]);
 
     const columns = [
         {
@@ -268,7 +271,7 @@ export default function DocumentBody() {
     const dataMapper = (alldocs) => {
         let allfirsttabdata = [];
         let allsecondtabdata = [];
-        
+        let stateStringValue = "";
             for (let j = 0; j < allDocs.length;j++) {
                 let objectData = {
                     fecha_documento: null,
@@ -283,9 +286,14 @@ export default function DocumentBody() {
                     digDoc_usu_carga: null,
                     digDoc_descarga: null
                 }
-
+                for (let i = 0; i < allStates.length; i++) {
+                    
+                    if (allStates[i].id_estado == alldocs[j].id_estado) {
+                        stateStringValue = allStates[i].descripcion_abreviada;
+                    }
+                }
                     objectData.fecha_documento = alldocs[j].fecha_documento;
-                    objectData.estado = alldocs[j].id_estado;
+                    objectData.estado = stateStringValue;
                     objectData.tipo = alldocs[j].id_tipo_documento;
                     objectData.numero_documento = alldocs[j].letra_documento + "-" + alldocs[j].prefijo_documento+"-"+alldocs[j].numero_documento;
                     objectData.nota_pedido = alldocs[j].nota_pedido;
@@ -299,12 +307,21 @@ export default function DocumentBody() {
             let objectData = {
                 digDoc_fecha_carga: null,
                 digDoc_estado: null,
-                digDoc_usu_carga: null
+                digDoc_usu_carga: null,
+                imagen: null
             }
 
-            objectData.digDoc_fecha_carga = allDigDocs[j].fecha_de_carga;
-            objectData.digDoc_estado = allDigDocs[j].estado;
+            for (let i = 0; i < allStates.length; i++) {
+
+                if (allStates[i].id_estado == allDigDocs[j].id_estado) {
+                    stateStringValue = allStates[i].descripcion_abreviada;
+                }
+            }
+
+            objectData.digDoc_fecha_carga = allDigDocs[j].fecha_carga;
+            objectData.digDoc_estado = stateStringValue;
             objectData.digDoc_usu_carga = allDigDocs[j].id_usuario_carga;
+            objectData.imagen = allDigDocs[j].imagen;
             allsecondtabdata.push(objectData);
 
         }

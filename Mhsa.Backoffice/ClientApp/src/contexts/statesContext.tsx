@@ -22,11 +22,6 @@ export class StatesContext {
 
     constructor() { }
 
-    static allStates: any = StatesContext.fetchStates()
-        .then(function (result: any) {
-            StatesContext.allStates = result;
-        })
-        .catch((e: any) => {  });
 
     static async fetchStates() {
         

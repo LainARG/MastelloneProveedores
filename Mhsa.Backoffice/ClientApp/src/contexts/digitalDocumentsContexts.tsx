@@ -39,11 +39,9 @@ export class DigitalDocumentsContext {
 
     constructor() { }
 
-    static allDigitalDocuments: any = DigitalDocumentsContext.fetchDocuments()
-        .then(function (result: any) {
-            DigitalDocumentsContext.allDigitalDocuments = result;
-        })
-        .catch((e: any) => {  });
+    static allDigitalDocuments: any;
+
+
 
     static async fetchDocuments() {
         const response = await api.get<Response, AxiosResponse<Response>>(

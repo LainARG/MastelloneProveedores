@@ -22,10 +22,12 @@ import PaymentsReportNoDetailsPage from '../pages/paymentsReportNoDetailsPage';
 import NextPaymentComponent from '../components/nextPaymentComponent';
 import PaymentsFormsPage from '../pages/paymentsFormsPage';
 
+
 class Router extends React.Component{
 
 
 render(){
+
 
 
 return(
@@ -40,7 +42,7 @@ return(
   <Route exact path='/portal' component={PortalHomePage}/>
   <Route exact path='/portal/providers' component={PortalHomeProvidersPage}/>
   <Route exact path='/portal/backoffice' component={PortalHomeBackofficePage}/>
-  <Route exact path='/portal/internaluse' component={PortalHomeInternalUsePage}/>
+  <Route exact path='/portal/internaluser' component={PortalHomeInternalUsePage}/>
   <Route exact path='/portal/news' component={PortalNewsPage}/>
   <Route exact path='/portal/format' component={KeyFormatPortalPage}/>
   <Route exact path='/payments' component={PaymentsPage}/>

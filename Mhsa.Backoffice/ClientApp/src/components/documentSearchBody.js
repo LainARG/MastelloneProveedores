@@ -15,20 +15,24 @@ export default function DocumentSearchBody() {
     const [fileNameValue, setFileNameValue] = useState(null);
     const [sinceValue, setSinceValue] = useState(null);
     const [untilValue, setUntilValue] = useState(null);
-    const [stateValue, setStateValue] = useState(null);
+    const [stateValue, setStateValue] = useState('Cualquiera');
     const [dataContext, setDataContext] = useState(null);
     const [searchResult, setSearchResult] = useState(null);
     const [statesContext, setStatesContext] = useState(null);
     const [stateTypesContext, setStateTypesContext] = useState(null);
 
     useEffect(() => {
-        setStatesContext(StatesContext.allStates);
-        setStateTypesContext(StateTypesContext.allStateTypes);
-        setDataContext(DigitalDocumentsContext.allDigitalDocuments);
-    }, [dataContext, statesContext, stateTypesContext]);
+        if (dataContext == null || statesContext == null || stateTypesContext == null) {
+            DigitalDocumentsContext.fetchDocuments().then((e) => { setDataContext(e); });
+            StatesContext.fetchStates().then((e) => { setStatesContext(e); });
+            StateTypesContext.fetchStateTypes().then((e) => { setStateTypesContext(e); });
+        }
+    }, []);
 
 
     function searchDigitalDocument() {
+
+        
 
         let fileName = fileNameValue;
         let since = new Date(sinceValue).getTime();
@@ -36,7 +40,7 @@ export default function DocumentSearchBody() {
         let state = stateValue;
         let arrayData = [];
         let searchState = "";
-      
+        
 
 
         for (let i = 0; i < dataContext.length; i++) {
@@ -50,17 +54,20 @@ export default function DocumentSearchBody() {
             let obj = {
                 filename: dataContext[i].nombre_archivo,
                 date: new Date(dataContext[i].fecha_carga).getTime(),
+                dateShow: dataContext[i].fecha_carga,
                 state: searchState,
-                user: dataContext[i].id_usuario_carga
+                type: dataContext[i].tipo_archivo,
+                user: dataContext[i].id_usuario_carga,
+                id_documento: dataContext[i].id_documento,
+                image: dataContext[i].imagen
             }
 
             
-
-            if (obj.filename.includes(fileName)) {
+            if (obj.filename.includes(fileName) && state == obj.state || obj.filename.includes(fileName) && state == "Cualquiera") {
                 arrayData.push(obj);
             }
 
-            if (obj.date >= since && obj.date <= until) {
+            if (obj.date >= since && obj.date <= until && state == obj.state || obj.date >= since && obj.date <= until && state == "Cualquiera") {
                 arrayData.push(obj);
             }
 
@@ -68,10 +75,50 @@ export default function DocumentSearchBody() {
                 arrayData.push(obj);
             }
 
-            
-
         }
-        /*falta filtrar posibles valores repetidos con un bucle doble o algo*/
+        
+        if (arrayData.length == 0 && state == "Cualquiera" && since == 0 && until == 0) {
+            
+            for (let i = 0; i < dataContext.length; i++) {
+
+                let obj = {
+                    filename: dataContext[i].nombre_archivo,
+                    date: new Date(dataContext[i].fecha_carga).getTime(),
+                    dateShow: dataContext[i].fecha_carga,
+                    state: searchState,
+                    user: dataContext[i].id_usuario_carga,
+                    id_documento: dataContext[i].id_documento,
+                    image: dataContext[i].imagen
+                }
+                arrayData.push(obj);
+
+            }
+           
+        }
+
+        let indexToRemove = [];
+        let indexNotRemove = [];
+            for (let i = 0; i < arrayData.length; i++) {
+                for (let j = 0; j < arrayData.length; j++) {
+
+                    if (arrayData[i].id_documento == arrayData[j].id_documento && i != j && !indexNotRemove.includes(j)) {
+                            indexToRemove.push(j);
+                            indexNotRemove.push(i);
+                        }
+                }
+        }
+
+        
+        for (let i = 0; i < indexToRemove.length; i++) {
+            for (let j = 0; j < arrayData.length; j++) {
+                if (indexToRemove[i] == j ) {
+                    delete arrayData[j];
+                }
+            }
+        }
+
+        
+
         setSearchResult(arrayData);
     }
 
@@ -148,9 +195,10 @@ export default function DocumentSearchBody() {
                     <span className="documentSearchFormLegend3">Estado</span>
                     
                     <select className="documentSearchFormSelect" onChange={(e) => setStateValue(e.target.value)}>
-                        <option selected value="Incorporado">Incorporado</option>
-                        <option selected value="Recepcionado">Recepcionado</option>
-                        <option selected value="Rechazado">Rechazado</option>
+                        <option selected value="Cualquiera">Cualquiera</option>
+                        <option value="Incorporado">Incorporado</option>
+                        <option value="Recepcionado">Recepcionado</option>
+                        <option value="Rechazado">Rechazado</option>
                     </select>
 
                 </div>
