@@ -9,6 +9,89 @@
   margin-left:2.5%;
   margin-top:4%;
 }
+.modalStyle {
+    display: block;
+    position: absolute;
+    z-index: 3000;
+    top: 30%;
+    left: 30%;
+    border-radius: 10px;
+    background-color: #FFFFFF;
+    min-width:500px;
+    min-height:225px;
+}
+
+.modalTitleStyle{
+    display:block;
+    margin-left:10%;
+    margin-top:3.5%;
+}
+
+.modalNormalFontStyle {
+    display: block;
+    color: #000000;
+    opacity: 0.5;
+    font-size: 14px;
+    font-weight: bold;
+    margin-left: 10.5%;
+    margin-top: 1%;
+}
+
+.modalNormalFontStyle1 {
+    display: inline-block;
+    color: #000000;
+    opacity: 0.5;
+    font-size: 14px;
+    font-weight: bold;
+    margin-left: 11%;
+    margin-top: 3%;
+}
+
+.modalNormalFontStyle2 {
+    display: inline-block;
+    color: #000000;
+    opacity: 0.5;
+    font-size: 14px;
+    font-weight: bold;
+    margin-left: 27%;
+    margin-top: 3%;
+}
+
+.modalNormalFontStyle3 {
+    display: inline-block;
+    color: #000000;
+    opacity: 0.5;
+    font-size: 14px;
+    font-weight: bold;
+    margin-left: 14%;
+    margin-top: 3%;
+}
+
+.modalBoldFontStyle {
+    display: inline-block;
+    color: #000000;
+    opacity: 1;
+    font-size: 14px;
+    font-weight: bold;
+    margin-left: 10.5%;
+    margin-top: 2%;
+}
+
+
+
+.modalBtnStyle {
+    display: block;
+    position: absolute;
+    z-index: 3000;
+    margin-left: 36%;
+    margin-top: 6%;
+    border-radius: 5px;
+    background-color: #009639;
+    border:1px solid grey;
+    color: white;
+    font-weight:bold;
+    width:25%;
+}
 
 .documentReportExcelIcon {
     display: inline-block;
@@ -111,6 +194,13 @@
     margin-right: 1%;
 }
 
+.documentIconContainer1 {
+    display: inline-block;
+    position: relative;
+    margin-left: 55%;
+    margin-right: 1%;
+}
+
 .documentIconContainer2 {
     display: inline-block;
     position: relative;
@@ -127,6 +217,20 @@
 }
 
 .documentSearchBar {
+    display: inline-block;
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #cfcdca;
+    font-weight: bold;
+}
+
+.documentSearchBarContainer1 {
+    display: inline-block;
+    width: 17.7%;
+    margin-left:0%;
+}
+
+.documentSearchBar1 {
     display: inline-block;
     width: 100%;
     border: none;

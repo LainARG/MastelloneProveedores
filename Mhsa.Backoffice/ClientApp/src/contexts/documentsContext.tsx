@@ -10,6 +10,7 @@ export interface IDocuments {
         Id_documento: any;
         Id_proveedor: any;
         Id_tipo_documento: any;
+        Numero_pago: any;
         Letra_documento: any;
         Prefijo_documento: any;
         Numero_documento: any;

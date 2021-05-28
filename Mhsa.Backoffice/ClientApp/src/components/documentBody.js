@@ -11,12 +11,13 @@ import TableRow from '@material-ui/core/TableRow';
 import DocumentsContext from '../contexts/documentsContext';
 import DigitalDocumentsContext from '../contexts/digitalDocumentsContexts';
 import StatesContext from '../contexts/statesContext';
+import PaymentsContext from '../contexts/paymentsContext';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { createMuiTheme } from '@material-ui/core/styles'; 
 import pagination from '../pagination/pagination';
 import TuneIcon from '@material-ui/icons/Tune';
 import SearchRoundedIcon from '@material-ui/icons/SearchRounded';
-import { makeStyles, Tabs, Tab } from '@material-ui/core';
+import { makeStyles, Tabs, Tab, Modal } from '@material-ui/core';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import ControlPointIcon from '@material-ui/icons/ControlPoint';
 import SettingsEthernetIcon from '@material-ui/icons/SettingsEthernet';
@@ -50,8 +51,18 @@ const useStyles = makeStyles({
         color: '#000000',
         backgroundColor: 'white',
         opacity: '0.4'
-
     },
+
+    modal: {
+        display: 'inlineBlock',
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        minWidth: '400px',
+        minHeigth: '100px',
+        backgroundColor: '#FFFFFF',
+        zIndex:'3000'
+    }
 });
 
 const useTabStyles = makeStyles({
@@ -158,6 +169,7 @@ export default function DocumentBody() {
     const [allFirstTabData, setAllFirstTabData] = useState("");
     const [allSecondTabData, setAllSecondTabData] = useState("");
     const [allSearchData, setAllSearchData] = useState("");
+    const [allPayments, setAllPayments] = useState("");
     const [allDigDocs, setAllDigDocs] = useState("");
     const [allStates, setAllStates] = useState("");
     const [pageNumber, setPageNumber] = useState(1);
@@ -167,21 +179,33 @@ export default function DocumentBody() {
     const [showTab, setShowTab] = useState(0);
     const [openFilterMenu, setOpenFilterMenu] = useState(false);
     const [anchorEl, setAnchorEl] = useState(false);
+    const [modal, setModal] = useState(false);
+    const [paymentDetailsProps, setPaymentDetailsProps] = useState(false);
     const rowsPerPage = 8;
+   
+
+    const openModal = (props) => {
+        setPaymentDetailsProps(props);
+        setTimeout(function () { setModal(true); }, 100);
+        
+    }
+
+    const closeModal = () => {
+        setModal(false);
+    }
     
-    
- 
     useEffect(() => {
 
-        if (allDocs == "" || allDigDocs == "") {
+        if (allDocs == "") {
             DocumentsContext.fetchDocuments().then((e) => { setAllDocs(e); });
             DigitalDocumentsContext.fetchDocuments().then((e) => { setAllDigDocs(e); });
             StatesContext.fetchStates().then((e) => { setAllStates(e); });
+            PaymentsContext.fetchPayments().then((e) => { setAllPayments(e); });
         } else {
             dataMapper(allDocs);
         }
 
-    }, [allDocs, allDigDocs]);
+    }, [allDocs, allDigDocs, modal]);
 
     const columns = [
         {
@@ -271,7 +295,10 @@ export default function DocumentBody() {
     const dataMapper = (alldocs) => {
         let allfirsttabdata = [];
         let allsecondtabdata = [];
+        let allpayments = [];
+        let paymentStateStringValue = "";
         let stateStringValue = "";
+
             for (let j = 0; j < allDocs.length;j++) {
                 let objectData = {
                     fecha_documento: null,
@@ -280,30 +307,61 @@ export default function DocumentBody() {
                     numero_documento: null,
                     numero_pago: null,
                     monto_bruto: null,
+                    monto_pago: null,
+                    estado_pago: null,
                     observaciones_pago: null,
                     digDoc_fecha_carga: null,
                     digDoc_estado: null,
                     digDoc_usu_carga: null,
                     digDoc_descarga: null
                 }
-                for (let i = 0; i < allStates.length; i++) {
-                    
-                    if (allStates[i].id_estado == alldocs[j].id_estado) {
-                        stateStringValue = allStates[i].descripcion_abreviada;
+
+                for (let i = 0; i < allPayments.length; i++) {
+                    for (let j = 0; j < alldocs.length; j++) {
+
+                        if (allPayments[i].numero_pago == alldocs[j].numero_pago) {
+                            allpayments.push(allPayments[i]);
+                        }
+
                     }
                 }
+
+                for (let i = 0; i < allpayments.length; i++) {
+
+                    if (i < allStates.length && allStates[i].id_estado == allpayments[j].id_estado) {
+                        paymentStateStringValue = allStates[i].descripcion_abreviada;
+                    }
+
+                }
+
+                for (let i = 0; i < alldocs.length; i++) {
+
+                    if (i < allStates.length && allStates[i].id_estado == alldocs[j].id_estado && allStates[i] != undefined) {
+                        stateStringValue = allStates[i].descripcion_abreviada;
+                    }
+                   
+                }
+
+                   
+
+
                     objectData.fecha_documento = alldocs[j].fecha_documento;
                     objectData.estado = stateStringValue;
                     objectData.tipo = alldocs[j].id_tipo_documento;
                     objectData.numero_documento = alldocs[j].letra_documento + "-" + alldocs[j].prefijo_documento+"-"+alldocs[j].numero_documento;
                     objectData.nota_pedido = alldocs[j].nota_pedido;
-                    objectData.numero_pago = alldocs[j].numero_pago;
                     objectData.monto = alldocs[j].monto;
+                    objectData.numero_pago = alldocs[j].numero_pago;
+                    if (allpayments[j] != undefined) {
+                        objectData.estado_pago = paymentStateStringValue;
+                        objectData.monto_pago = allpayments[j].total_pago;
+                    }
+                    
                     allfirsttabdata.push(objectData);
                     
         }
 
-        for (let j = 0; j < allDigDocs.length; j++) {
+            for (let j = 0; j < allDigDocs.length; j++) {
             let objectData = {
                 digDoc_fecha_carga: null,
                 digDoc_estado: null,
@@ -407,25 +465,63 @@ export default function DocumentBody() {
 
     function searchPrimaryPageSuggestionsHandler(e) {
         e.preventDefault();
-        setAllFirstTabData(allSearchData);
+        if (e.target.value == "") {
+            setAllFirstTabData(allSearchData);
+        }
+        console.log(allFirstTabData);
+        console.log(e.target.value);
         let suggestions = JSON.parse(JSON.stringify(allFirstTabData));
 
         for (let i = 0; i < allFirstTabData.length; i++) {
             for (let j = 0; j < allFirstTabData[i].length; j++) {
-                if (allFirstTabData[i][j].numero_documento.includes(e.target.value) == false && e.target.value != "") {
-                    suggestions[i].splice(j, 1);
-                    setAllFirstTabData(suggestions);
+                
+                if (allFirstTabData[i][j] != undefined) {
+                    
+                    if (allFirstTabData[i][j].numero_documento.includes(e.target.value) == false && e.target.value != "") {
+                        delete suggestions[i][j]
+                        setAllFirstTabData(suggestions);
+                    }
                 }
              }
         }
-
-        
-
     }
 
+    const BodyModal = (
+        <div className="modalStyle">
 
-    
+            <h2 className="modalTitleStyle">Detalle del pago.</h2>
+            <span className="modalNormalFontStyle">Acerca del documento Num. {paymentDetailsProps.numero_documento}</span>
 
+            <span className="modalBoldFontStyle">Num. de pago</span>
+            <span className="modalBoldFontStyle">Monto pagado</span>
+            <span className="modalBoldFontStyle">Estado</span><br/>
+            <span className="modalNormalFontStyle1">{paymentDetailsProps.numero_pago}</span>
+            <span className="modalNormalFontStyle2">{paymentDetailsProps.monto_pago}</span>
+            <span className="modalNormalFontStyle3">{paymentDetailsProps.estado_pago}</span>
+            
+            <button className="modalBtnStyle" onClick={() => closeModal()}>Cerrar</button>
+            
+
+        </div>
+    );
+
+    const PaymentDetailModal = (props) => {
+
+        
+        return (
+            <div>
+
+                <Modal
+                    open={ modal }
+                    onClose={ openModal }
+                >
+                    { BodyModal }
+
+                </Modal>
+            </div>
+        );
+
+    }
 
 
     if (allFirstTabData == undefined || allFirstTabData == null || allFirstTabData == "") {
@@ -471,13 +567,13 @@ export default function DocumentBody() {
                             <AssignmentReturnedIcon fontSize="large" /><span className="documentReportIconLegend">Reporte</span>
                         </div>
 
-                        <div className="documentIconContainer" onClick={FilterMenuHandler}>
+                        <div className="documentIconContainer1" onClick={FilterMenuHandler}>
                             <TuneIcon fontSize="large" />
                             <DocumentFilterMenu openMenu={openFilterMenu} anchorEl={anchorEl} />
                         </div>
 
-                        <div className="documentSearchBarContainer">
-                            <input type="text" placeholder="Buscar por num. de documento" className="documentSearchBar" onChange={searchPrimaryPageSuggestionsHandler} />
+                        <div className="documentSearchBarContainer1">
+                            <input type="text" placeholder="Buscar por num. de documento" className="documentSearchBar1" onChange={searchPrimaryPageSuggestionsHandler} />
                         </div>
 
                         <div className="documentIconContainer2">
@@ -555,9 +651,11 @@ export default function DocumentBody() {
                                                                 );
                                                             }
                                                             else if (column.id == "Detalle_pago") {
+                                                                console.log("noperto2");
                                                                 return (
                                                                     <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                        <b><AspectRatioIcon fontSize="large" className="documentDownloadRowIcon" /></b>
+                                                                        <b><AspectRatioIcon fontSize="large" className="documentDownloadRowIcon" onClick={()=> openModal(row) } /></b>
+                                                                        <PaymentDetailModal/>
                                                                     </TableCell>
                                                                 );
                                                             }

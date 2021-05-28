@@ -39,7 +39,7 @@ export default function DocumentSearchBody() {
         let until = new Date(untilValue).getTime();
         let state = stateValue;
         let arrayData = [];
-        let searchState = "";
+        let searchState = [];
         
 
 
@@ -47,7 +47,7 @@ export default function DocumentSearchBody() {
 
             for (let j = 0; j < statesContext.length; j++) {
                 if (statesContext[j].id_estado == dataContext[i].id_estado) {
-                    searchState = statesContext[j].descripcion_abreviada;
+                    searchState.push(statesContext[j].descripcion_abreviada);
                 }
             }
            
@@ -55,27 +55,20 @@ export default function DocumentSearchBody() {
                 filename: dataContext[i].nombre_archivo,
                 date: new Date(dataContext[i].fecha_carga).getTime(),
                 dateShow: dataContext[i].fecha_carga,
-                state: searchState,
+                state: searchState[i],
                 type: dataContext[i].tipo_archivo,
                 user: dataContext[i].id_usuario_carga,
                 id_documento: dataContext[i].id_documento,
                 image: dataContext[i].imagen
             }
 
-            
-            if (obj.filename.includes(fileName) && state == obj.state || obj.filename.includes(fileName) && state == "Cualquiera") {
-                arrayData.push(obj);
-            }
-
-            if (obj.date >= since && obj.date <= until && state == obj.state || obj.date >= since && obj.date <= until && state == "Cualquiera") {
-                arrayData.push(obj);
-            }
-
-            if (state == obj.state) {
+            if (obj.filename.includes(fileName) && state == obj.state || obj.filename.includes(fileName) && state == "Cualquiera" || obj.date >= since && obj.date <= until && state == obj.state || obj.date >= since && obj.date <= until && state == "Cualquiera" || state == obj.state && fileName == null) {
                 arrayData.push(obj);
             }
 
         }
+        
+        
         
         if (arrayData.length == 0 && state == "Cualquiera" && since == 0 && until == 0) {
             
@@ -85,7 +78,7 @@ export default function DocumentSearchBody() {
                     filename: dataContext[i].nombre_archivo,
                     date: new Date(dataContext[i].fecha_carga).getTime(),
                     dateShow: dataContext[i].fecha_carga,
-                    state: searchState,
+                    state: searchState[i],
                     user: dataContext[i].id_usuario_carga,
                     id_documento: dataContext[i].id_documento,
                     image: dataContext[i].imagen
@@ -116,8 +109,6 @@ export default function DocumentSearchBody() {
                 }
             }
         }
-
-        
 
         setSearchResult(arrayData);
     }
