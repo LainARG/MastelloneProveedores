@@ -201,6 +201,12 @@
     margin-right: 1%;
 }
 
+.documentIconContainer1:hover {
+    background-color: lavender;
+    cursor: pointer;
+    color: #009639;
+}
+
 .documentIconContainer2 {
     display: inline-block;
     position: relative;

@@ -26,12 +26,7 @@ export class DocumentsContext {
 
     constructor() { }
 
-    static allDocuments: any = DocumentsContext.fetchDocuments()
-        .then(function (result: any) {
-            DocumentsContext.allDocuments = result;
-        })
-        .catch((e: any) => {  });
-
+   
     static async fetchDocuments() {
         const response = await api.get<Response, AxiosResponse<Response>>(
             `/documents`

@@ -37,13 +37,26 @@
     margin-top: 6%;
 }
 
+.documentIconContainer3 {
+    display: inline-block;
+    position: relative;
+    margin-left: 41%;
+    margin-right: 0.5%;
+    width: auto;
+}
+    .documentIconContainer3:hover {
+        background-color: lavender;
+        cursor: pointer;
+        color: #009639;
+    }
+
 .documentDownloadRowIcon {
     display: inline-block;
     margin-left: 38px;
     cursor: pointer;
 }
 
-.documentIconContainer {
+documentPaymentIconContainer {
     display: inline-block;
     position: relative;
     margin-left: 45%;

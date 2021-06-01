@@ -22,17 +22,11 @@ export interface ITaxes {
 
      constructor() { }
 
-    static allTaxes: any = TaxesContext.fetchTaxes()
-        .then(function (result: any) {
-            TaxesContext.allTaxes = result;
-        })
-        .catch((e: any) => {  });;
-   
 
     static async fetchTaxes(){
     const response = await api.get<Response, AxiosResponse<Response>>(
         `/taxes`
-    );
+        );
     return response.data;
     }
 

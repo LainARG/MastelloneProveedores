@@ -36,8 +36,6 @@ export default function DocumentSearchResultBody(props) {
 
     function downloadBase64File(index) {
         
-        console.log(filesToDownload);
-        console.log(index);
         filesToDownload[index].click();
     }
 

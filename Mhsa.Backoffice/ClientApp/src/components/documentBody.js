@@ -21,9 +21,9 @@ import { makeStyles, Tabs, Tab, Modal } from '@material-ui/core';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import ControlPointIcon from '@material-ui/icons/ControlPoint';
 import SettingsEthernetIcon from '@material-ui/icons/SettingsEthernet';
-import DocumentFilterMenu from '../components/documentFilterMenu';
 import AspectRatioIcon from '@material-ui/icons/AspectRatio';
 import AssignmentReturnedIcon from '@material-ui/icons/AssignmentReturned';
+import { Menu, MenuItem } from '@material-ui/core';
 
 
 function createData(fecha_doc, estado, tipo, numero, np, monto, detalle_pago) {
@@ -62,8 +62,91 @@ const useStyles = makeStyles({
         minHeigth: '100px',
         backgroundColor: '#FFFFFF',
         zIndex:'3000'
+    },
+    documentFilterMenu: {
+        display: 'inline-block',
+        maxWidth: '300px',
+        minWidth: '300px'
+
+    },
+    documentFilterMenulegend: {
+        display: 'block',
+        maxWidth: '70%',
+        marginLeft: '12%',
+        backgroundColor: 'transparent',
+        fontWeight: 'bold',
+        fontSize: '10'
+    },
+    documentFilterMenuSelect: {
+        display: 'block',
+        border: 'none',
+        borderBottom: '1px solid #000000',
+        marginLeft: '12%',
+        maxWidth: '200px',
+        marginBottom: '10px'
+    },
+    documentFilterMenulegend1: {
+        display: 'block',
+        maxWidth: '70%',
+        marginLeft: '12%',
+        backgroundColor: 'transparent',
+        fontWeight: 'bold',
+        fontSize: '10'
+    },
+    documentFilterMenuSelect1: {
+        display: 'block',
+        border: 'none',
+        borderBottom: '1px solid #000000',
+        marginLeft: '12%',
+        marginRight: '5%',
+        maxWidth: '200px',
+        marginBottom: '0px'
+    },
+    documentFilterMenuBtn: {
+        display: 'inline-block',
+        width: '90px',
+        height: '30px',
+        marginLeft: '12%',
+        border: '1px solid #009639',
+        backgroundColor: 'white',
+        fontSize: '14px',
+        color: '#009639',
+        borderRadius: '5px',
+        cursor: 'pointer'
+    },
+    documentFilterMenuBtn1: {
+        display: 'inline-block',
+        marginLeft: '15px',
+        marginTop: '2px',
+        fontWeight: 'bold'
+    },
+    documentFilterMenuBtn2: {
+        display: 'inline-block',
+        width: '90px',
+        height: '30px',
+        marginLeft: '10px',
+        border: '1px solid #009639',
+        backgroundColor: '#009639',
+        fontSize: '14px',
+        color: 'white',
+        borderRadius: '5px',
+        cursor: 'pointer'
+    },
+    documentFilterMenuBtn3: {
+        display: 'inline-block',
+        marginLeft: '24px',
+        marginTop: '2px',
+        fontWeight: 'bold'
+    },
+    documentFilterMenuWidth: {
+        display: 'inline-block',
+        width: '275px',
+        height: '10px',
+
     }
 });
+
+
 
 const useTabStyles = makeStyles({
 
@@ -135,6 +218,17 @@ const useTabStyles = makeStyles({
 
 })
 
+const theme = createMuiTheme({
+    palette: {
+        primary: {
+            main: '#009639',
+        },
+        secondary: {
+            main: '#009639',
+        },
+    },
+});
+
 const documentTabsTheme = createMuiTheme({
 
     overrides: {
@@ -167,6 +261,7 @@ export default function DocumentBody() {
     const tabClasses = useTabStyles();
     const [allDocs, setAllDocs] = useState("");
     const [allFirstTabData, setAllFirstTabData] = useState("");
+    const [allFirstTabDataBackup, setAllFirstTabDataBackup] = useState("");
     const [allSecondTabData, setAllSecondTabData] = useState("");
     const [allSearchData, setAllSearchData] = useState("");
     const [allPayments, setAllPayments] = useState("");
@@ -389,6 +484,7 @@ export default function DocumentBody() {
         setFirstTabPageQuantity(pagFirstTabData.length);
         setSecondTabPageQuantity(pagSecondTabData.length);
         setAllFirstTabData(pagFirstTabData);
+        setAllFirstTabDataBackup(pagFirstTabData);
         setAllSecondTabData(pagSecondTabData);
         setAllSearchData(pagFirstTabData);
     }
@@ -461,6 +557,101 @@ export default function DocumentBody() {
         setAnchorEl(e.currentTarget);
         setOpenFilterMenu(!openFilterMenu);
     }
+
+    function DocumentFilterMenu() {
+
+        return (
+
+            <div className="documentFilterMenuContainer">
+
+                <Menu
+                    anchorEl={anchorEl}
+                    keepMounted
+                    open={openFilterMenu}
+                    className={classes.documentFilterMenu}
+
+                >
+
+
+                    <span className={classes.documentFilterMenulegend1}>Estado</span>
+
+                    <select
+                        id="menuFilterStateSelect"
+                        className={classes.documentFilterMenuSelect1}
+                    >
+                        <option>Cualquiera</option>
+                        <option>En gestion adm.</option>
+                        <option>En proceso de pago</option>
+                        <option>A cobrar</option>
+                        <option>Cobro parcial</option>
+                        <option>Cobro total</option>
+                        <option>Rechazado</option>
+
+                    </select>
+
+
+                    <ThemeProvider theme={theme}>
+                        <p className={classes.documentFilterMenuWidth}></p>
+                        <span className={classes.documentFilterMenuBtn} onClick={CancelDocumentFiltering}>
+                            <span className={classes.documentFilterMenuBtn1}>Cancelar</span>
+                        </span>
+                        <span className={classes.documentFilterMenuBtn2} onClick={FilterDocumentAction}>
+                            <span className={classes.documentFilterMenuBtn3}>Filtrar</span>
+                        </span>
+                    </ThemeProvider>
+
+                </Menu>
+
+
+            </div>
+
+
+        );
+    }
+
+    function CancelDocumentFiltering() {
+
+        setAllFirstTabData(allFirstTabDataBackup);
+        setFirstTabPageQuantity(allFirstTabDataBackup.length);
+        setOpenFilterMenu(false);
+    }
+
+    function FilterDocumentAction(e) {
+        e.preventDefault();
+        setOpenFilterMenu(false);
+        let arrayPagedSuggestions = [];
+        let pagedSuggestions = [];
+        let menuFilterStateValue = document.getElementById("menuFilterStateSelect").value;
+
+        if (menuFilterStateValue == "Cualquiera") {
+            CancelDocumentFiltering();
+        } else if (allFirstTabData.length == allFirstTabDataBackup.length) {
+
+            let suggestions = JSON.parse(JSON.stringify(allFirstTabData));
+
+            for (let i = 0; i < allFirstTabData.length; i++) {
+                for (let j = 0; j < allFirstTabData[i].length; j++) {
+
+                    if (allFirstTabData[i][j] != undefined) {
+
+                        if (allFirstTabData[i][j].estado.toLowerCase() != menuFilterStateValue.toLowerCase()) {
+                            delete suggestions[i][j]
+
+                        } else {
+                            arrayPagedSuggestions.push(allFirstTabData[i][j]);
+                            pagedSuggestions = pagination(arrayPagedSuggestions, arrayPagedSuggestions.length, rowsPerPage);
+                        }
+                        setFirstTabPageQuantity(pagedSuggestions.length);
+                        setAllFirstTabData(pagedSuggestions);
+                    }
+                }
+            }
+        } else {
+            CancelDocumentFiltering();
+        }
+
+    }
+
 
 
     function searchPrimaryPageSuggestionsHandler(e) {
@@ -567,9 +758,9 @@ export default function DocumentBody() {
                             <AssignmentReturnedIcon fontSize="large" /><span className="documentReportIconLegend">Reporte</span>
                         </div>
 
-                        <div className="documentIconContainer1" onClick={FilterMenuHandler}>
-                            <TuneIcon fontSize="large" />
-                            <DocumentFilterMenu openMenu={openFilterMenu} anchorEl={anchorEl} />
+                        <div className="documentIconContainer1" >
+                            <TuneIcon fontSize="large" onClick={FilterMenuHandler} />
+                            <DocumentFilterMenu />
                         </div>
 
                         <div className="documentSearchBarContainer1">

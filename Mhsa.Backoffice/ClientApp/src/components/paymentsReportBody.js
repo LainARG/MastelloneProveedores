@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Component } from 'react';
 import '../resources/styles/paymentsReportBody.css';
 import Pagination from '@material-ui/lab/Pagination';
 import Paper from '@material-ui/core/Paper';
@@ -10,6 +10,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import PaymentsContext from '../contexts/paymentsContext';
 import TaxesContext from '../contexts/taxesContext';
+import StatesContext from '../contexts/statesContext';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { createMuiTheme } from '@material-ui/core/styles'; 
 import pagination from '../pagination/pagination';
@@ -17,11 +18,10 @@ import TuneIcon from '@material-ui/icons/Tune';
 import SearchRoundedIcon from '@material-ui/icons/SearchRounded';
 import { makeStyles, Tabs, Tab } from '@material-ui/core';
 import GetAppIcon from '@material-ui/icons/GetApp';
-import ControlPointIcon from '@material-ui/icons/ControlPoint';
-import SettingsEthernetIcon from '@material-ui/icons/SettingsEthernet';
 import DocumentFilterMenu from '../components/documentFilterMenu';
 import AspectRatioIcon from '@material-ui/icons/AspectRatio';
 import AssignmentReturnedIcon from '@material-ui/icons/AssignmentReturned';
+import { Menu, MenuItem } from '@material-ui/core';
 
 
 function createData(fecha_doc, estado, tipo, numero, np, monto, detalle_pago) {
@@ -29,7 +29,16 @@ function createData(fecha_doc, estado, tipo, numero, np, monto, detalle_pago) {
     return { fecha_doc, estado, tipo, numero, np, monto, detalle_pago };
 }
 
-
+const theme = createMuiTheme({
+    palette: {
+        primary: {
+            main: '#009639',
+        },
+        secondary: {
+            main: '#009639',
+        },
+    },
+});
 
 const useStyles = makeStyles({
     root: {
@@ -42,7 +51,7 @@ const useStyles = makeStyles({
         fontWeight: 'bold',
         color: '#797a7a',
         backgroundColor: 'white',
-        opacity:'1'
+        opacity: '1'
     },
     rowsTable: {
         fontWeight: 'bold',
@@ -51,6 +60,89 @@ const useStyles = makeStyles({
         opacity: '0.4'
 
     },
+
+    documentFilterMenu: {
+        display: 'inline-block',
+        maxWidth: '300px',
+        minWidth: '300px'
+
+    },
+    documentFilterMenulegend: {
+        display: 'block',
+        maxWidth: '70%',
+        marginLeft: '12%',
+        backgroundColor: 'transparent',
+        fontWeight: 'bold',
+        fontSize: '10'
+    },
+    documentFilterMenuSelect: {
+        display: 'block',
+        border: 'none',
+        borderBottom: '1px solid #000000',
+        marginLeft: '12%',
+        maxWidth: '200px',
+        marginBottom: '10px'
+    },
+    documentFilterMenulegend1: {
+        display: 'block',
+        maxWidth: '70%',
+        marginLeft: '12%',
+        backgroundColor: 'transparent',
+        fontWeight: 'bold',
+        fontSize: '10'
+    },
+    documentFilterMenuSelect1: {
+        display: 'block',
+        border: 'none',
+        borderBottom: '1px solid #000000',
+        marginLeft: '12%',
+        marginRight: '5%',
+        maxWidth: '200px',
+        marginBottom: '0px'
+    },
+    documentFilterMenuBtn: {
+        display: 'inline-block',
+        width: '90px',
+        height: '30px',
+        marginLeft: '12%',
+        border: '1px solid #009639',
+        backgroundColor: 'white',
+        fontSize: '14px',
+        color: '#009639',
+        borderRadius: '5px',
+        cursor: 'pointer'
+    },
+    documentFilterMenuBtn1: {
+        display: 'inline-block',
+        marginLeft: '15px',
+        marginTop: '2px',
+        fontWeight: 'bold'
+    },
+    documentFilterMenuBtn2: {
+        display: 'inline-block',
+        width: '90px',
+        height: '30px',
+        marginLeft: '10px',
+        border: '1px solid #009639',
+        backgroundColor: '#009639',
+        fontSize: '14px',
+        color: 'white',
+        borderRadius: '5px',
+        cursor: 'pointer'
+    },
+    documentFilterMenuBtn3: {
+        display: 'inline-block',
+        marginLeft: '24px',
+        marginTop: '2px',
+        fontWeight: 'bold'
+    },
+    documentFilterMenuWidth: {
+        display: 'inline-block',
+        width: '275px',
+        height: '10px',
+
+
+    }
 });
 
 const useTabStyles = makeStyles({
@@ -157,10 +249,11 @@ export default function PaymentsReportBody() {
     const [allTaxes, setAllTaxes] = useState("");
     const [allDataPrimaryTab, setAllDataPrimaryTab] = useState("");
     const [allDataSecondaryTab, setAllDataSecondaryTab] = useState("");
+    const [paymentsBackup, setPaymentsBackup] = useState("");
+    const [allStates, setAllStates] = useState("");
     const [pageNumber, setPageNumber] = useState(1);
     const [primaryPageQuantity, setPrimaryPageQuantity] = useState(10);
     const [secondaryPageQuantity, setSecondaryPageQuantity] = useState(10);
-    const [contextCtrl, setContextCtrl] = useState(0);
     const [value, setValue] = useState(0);
     const [showTab, setShowTab] = useState(1);
     const [openFilterMenu, setOpenFilterMenu] = useState(false);
@@ -168,23 +261,25 @@ export default function PaymentsReportBody() {
     const rowsPerPage = 4;
     
     
-    const setContext = () => {
-        
-            
-        setAllPays(PaymentsContext.allPayments);
-        setAllTaxes(TaxesContext.allTaxes);
-            dataMapper(allPays, allTaxes);
-        if (allPays!= "") {
-            setTimeout(function () { setContextCtrl(1); }, 100);
-            }
-    }
+
 
 
 useEffect(() => {
-    if (contextCtrl < 1) {
-        setContext();
-    } 
-    });
+
+
+    if (allPays == "" || allTaxes == "") {
+
+        PaymentsContext.fetchPayments().then((e) => { setAllPays(e) });
+        TaxesContext.fetchTaxes().then((e) => { setAllTaxes(e) });
+        StatesContext.fetchStates().then((e) => { setAllStates(e); });
+    } else {
+
+        dataMapper(allPays, allTaxes);
+    }
+        
+
+}, [allPays]);
+    
 
 
     const columns = [
@@ -285,11 +380,21 @@ useEffect(() => {
 
     ];
 
+  
+
     const dataMapper = (allpays, alltaxes) => {
         let alldataPTab = [];
         let alldataSTab = [];
-        
+        let currentStateValue = "";
         for (let i = 0; i < allpays.length; i++) {
+
+            for (let j = 0; j < allStates.length; j++) {
+                
+                if (allpays[i].id_estado == allStates[j].id_estado) {
+                    currentStateValue = allStates[j].descripcion_abreviada;
+                }
+
+            }
             
                 let objectData = {
                     numero_pago: null,
@@ -305,7 +410,7 @@ useEffect(() => {
             objectData.monto_pago = allpays[i].total_pago;
             objectData.fecha_pago = allpays[i].fecha_disponible;
             objectData.retirar_en = allpays[i].lugar_retiro;
-            objectData.estado_pago = allpays[i].id_estado
+            objectData.estado_pago = currentStateValue
             objectData.comprobante = null;
             alldataPTab.push(objectData);
             }
@@ -347,7 +452,9 @@ useEffect(() => {
         setPrimaryPageQuantity(pagData.length);
         setSecondaryPageQuantity(pagData1.length);
         setAllDataPrimaryTab(pagData);
+        setPaymentsBackup(pagData);
         setAllDataSecondaryTab(pagData1);
+
     }
 
 
@@ -416,6 +523,122 @@ useEffect(() => {
         setOpenFilterMenu(!openFilterMenu);
     }
 
+    function CancelDocumentFiltering() {
+        setAllDataPrimaryTab(paymentsBackup);
+        setPrimaryPageQuantity(paymentsBackup.length);
+        setOpenFilterMenu(false);
+    }
+
+
+
+
+
+    function DocumentFilterMenu() {
+
+        return (
+
+            <div className="documentFilterMenuContainer">
+
+                <Menu
+                    anchorEl={anchorEl}
+                    keepMounted
+                    open={openFilterMenu}
+                    className={classes.documentFilterMenu}
+
+                >
+
+
+                    <span className={classes.documentFilterMenulegend1}>Estado</span>
+
+                    <select
+                        id="menuFilterStateSelect"
+                        className={classes.documentFilterMenuSelect1}
+                    >
+                        <option>Cualquiera</option>
+                        <option>A retirar</option>
+                        <option>Con recibo</option>
+
+                    </select>
+
+
+                    <ThemeProvider theme={theme}>
+                        <p className={classes.documentFilterMenuWidth}></p>
+                        <span className={classes.documentFilterMenuBtn} onClick={CancelDocumentFiltering}>
+                            <span className={classes.documentFilterMenuBtn1}>Cancelar</span>
+                        </span>
+                        <span className={classes.documentFilterMenuBtn2} onClick={FilterDocumentAction}>
+                            <span className={classes.documentFilterMenuBtn3}>Filtrar</span>
+                        </span>
+                    </ThemeProvider>
+
+                </Menu>
+
+
+            </div>
+
+
+        );
+    }
+
+    function FilterDocumentAction(e) {
+        e.preventDefault();
+        setOpenFilterMenu(false);
+        console.log(allDataPrimaryTab);
+        let arrayPagedSuggestions = [];
+        let pagedSuggestions = [];
+        let menuFilterStateValue = document.getElementById("menuFilterStateSelect").value;
+
+        if (menuFilterStateValue == "Cualquiera") {
+            CancelDocumentFiltering();
+        } else if (paymentsBackup.length == allDataPrimaryTab.length) {
+
+            let suggestions = JSON.parse(JSON.stringify(allDataPrimaryTab));
+
+            for (let i = 0; i < allDataPrimaryTab.length; i++) {
+                for (let j = 0; j < allDataPrimaryTab[i].length; j++) {
+
+                    if (allDataPrimaryTab[i][j] != undefined) {
+
+                        if (allDataPrimaryTab[i][j].estado_pago.toLowerCase() != menuFilterStateValue.toLowerCase()) {
+                            delete suggestions[i][j]
+
+                        } else {
+                            arrayPagedSuggestions.push(allDataPrimaryTab[i][j]);
+                            pagedSuggestions = pagination(arrayPagedSuggestions, arrayPagedSuggestions.length, rowsPerPage);
+                        }
+                        setPrimaryPageQuantity(pagedSuggestions.length);
+                        setAllDataPrimaryTab(pagedSuggestions);
+                    }
+                }
+            }
+        } else {
+            CancelDocumentFiltering();
+        }
+
+    }
+
+    
+    function searchPrimaryPageSuggestionsHandler(e) {
+       /* e.preventDefault();
+        if (e.target.value == "") {
+            setAllFirstTabData(allSearchData);
+        }
+
+        let suggestions = JSON.parse(JSON.stringify(allFirstTabData));
+
+        for (let i = 0; i < allFirstTabData.length; i++) {
+            for (let j = 0; j < allFirstTabData[i].length; j++) {
+
+                if (allFirstTabData[i][j] != undefined) {
+
+                    if (allFirstTabData[i][j].numero_documento.includes(e.target.value) == false && e.target.value != "") {
+                        delete suggestions[i][j]
+                        setAllFirstTabData(suggestions);
+                    }
+                }
+            }
+        }*/
+    }
 
 
     if (allDataPrimaryTab == undefined || allDataPrimaryTab == null || allDataPrimaryTab == "") {
@@ -465,13 +688,14 @@ useEffect(() => {
                         <AssignmentReturnedIcon fontSize="large" /><span className="documentReportIconLegend">Reporte - Sin detalle</span>
                     </div>
 
-                    <div className="documentIconContainer" onClick={FilterMenuHandler}>
-                        <TuneIcon fontSize="large"/>
-                        <DocumentFilterMenu openMenu={openFilterMenu} anchorEl={anchorEl}/>
+                    <div className="documentIconContainer3" >
+                        <TuneIcon fontSize="large" onClick={FilterMenuHandler} />
+                        <DocumentFilterMenu />
                     </div>
 
+
                     <div className="documentSearchBarContainer">
-                        <input placeholder="Buscar por num. de OP" className="documentSearchBar" />
+                        <input placeholder="Buscar por num. de OP" className="documentSearchBar" onChange={(e)=>searchPrimaryPageSuggestionsHandler(e)}/>
                     </div>
 
                     <div className="documentIconContainer2">

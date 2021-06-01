@@ -17,7 +17,6 @@ export interface IPayments {
          Fecha_disponible: any;
          Lugar_retiro: any;
 
-
 }
 
 
@@ -26,11 +25,7 @@ export class PaymentsContext {
 
     constructor() { }
 
-    static allPayments: any = PaymentsContext.fetchPayments()
-        .then(function (result: any) {
-            PaymentsContext.allPayments = result;
-        })
-        .catch((e: any) => { });
+ 
 
     static async fetchPayments() {
         const response = await api.get<Response, AxiosResponse<Response>>(
