@@ -385,6 +385,7 @@ useEffect(() => {
     const dataMapper = (allpays, alltaxes) => {
         let alldataPTab = [];
         let alldataSTab = [];
+        let alldatabackup = [];
         let currentStateValue = "";
         for (let i = 0; i < allpays.length; i++) {
 
@@ -406,13 +407,32 @@ useEffect(() => {
                     tipo_pago: null,
                     comprobante: null,
             }
+
+            let objectData2 = {
+                numero_pago: null,
+                retirar_en: null,
+                estado_pago: null,
+                monto_pago: null,
+                detalle_pago: null,
+                fecha_pago: null,
+                tipo_pago: null,
+                comprobante: null,
+            }
             objectData.numero_pago = allpays[i].prefijo_pago + "-" + allpays[i].numero_pago;
             objectData.monto_pago = allpays[i].total_pago;
             objectData.fecha_pago = allpays[i].fecha_disponible;
             objectData.retirar_en = allpays[i].lugar_retiro;
             objectData.estado_pago = currentStateValue
             objectData.comprobante = null;
+            objectData2.numero_pago = allpays[i].prefijo_pago + "-" + allpays[i].numero_pago;
+            objectData2.monto_pago = allpays[i].total_pago;
+            objectData2.fecha_pago = allpays[i].fecha_disponible;
+            objectData2.retirar_en = allpays[i].lugar_retiro;
+            objectData2.estado_pago = currentStateValue
+            objectData2.comprobante = null;
             alldataPTab.push(objectData);
+            alldatabackup.push(objectData2);
+
             }
 
         
@@ -449,10 +469,11 @@ useEffect(() => {
             }
         let pagData = pagination(alldataPTab, alldataPTab.length, rowsPerPage);
         let pagData1 = pagination(alldataSTab, alldataSTab.length, rowsPerPage);
+        let pagDataBackup = pagination(alldatabackup, alldatabackup.length, rowsPerPage);
         setPrimaryPageQuantity(pagData.length);
         setSecondaryPageQuantity(pagData1.length);
         setAllDataPrimaryTab(pagData);
-        setPaymentsBackup(pagData);
+        setPaymentsBackup(pagDataBackup);
         setAllDataSecondaryTab(pagData1);
 
     }
@@ -619,26 +640,38 @@ useEffect(() => {
 
     
     function searchPrimaryPageSuggestionsHandler(e) {
-       /* e.preventDefault();
+        e.preventDefault();
+        CancelDocumentFiltering();
+        let suggestions = [];
+
+
         if (e.target.value == "") {
-            setAllFirstTabData(allSearchData);
-        }
+            setAllDataPrimaryTab(paymentsBackup);
+        } else {
 
-        let suggestions = JSON.parse(JSON.stringify(allFirstTabData));
 
-        for (let i = 0; i < allFirstTabData.length; i++) {
-            for (let j = 0; j < allFirstTabData[i].length; j++) {
+            for (let i = 0; i < allDataPrimaryTab.length; i++) {
+                for (let j = 0; j < allDataPrimaryTab[i].length; j++) {
 
-                if (allFirstTabData[i][j] != undefined) {
+                    suggestions.push(allDataPrimaryTab[i][j]);
 
-                    if (allFirstTabData[i][j].numero_documento.includes(e.target.value) == false && e.target.value != "") {
-                        delete suggestions[i][j]
-                        setAllFirstTabData(suggestions);
-                    }
                 }
             }
-        }*/
+
+
+            suggestions = suggestions.filter(f => f != "");
+            suggestions = suggestions.filter(f => f != undefined);
+            suggestions = suggestions.filter(f => f.numero_pago.includes(e.target.value));
+            console.log(suggestions);
+            let pagedSuggestions = pagination(suggestions, suggestions.length, rowsPerPage);
+            setPrimaryPageQuantity(pagedSuggestions.length);
+            setAllDataPrimaryTab(pagedSuggestions);
+
+
+
+        }
     }
+
 
 
     if (allDataPrimaryTab == undefined || allDataPrimaryTab == null || allDataPrimaryTab == "") {

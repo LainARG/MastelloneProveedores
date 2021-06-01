@@ -276,7 +276,7 @@ export default function DocumentBody() {
     const [anchorEl, setAnchorEl] = useState(false);
     const [modal, setModal] = useState(false);
     const [paymentDetailsProps, setPaymentDetailsProps] = useState(false);
-    const rowsPerPage = 8;
+    const rowsPerPage = 4;
    
 
     const openModal = (props) => {
@@ -389,6 +389,7 @@ export default function DocumentBody() {
 
     const dataMapper = (alldocs) => {
         let allfirsttabdata = [];
+        let allfirsttabdatabackup = [];
         let allsecondtabdata = [];
         let allpayments = [];
         let paymentStateStringValue = "";
@@ -409,6 +410,18 @@ export default function DocumentBody() {
                     digDoc_estado: null,
                     digDoc_usu_carga: null,
                     digDoc_descarga: null
+                }
+
+                let objectData2 = {
+                    fecha_documento: null,
+                    estado: null,
+                    tipo: null,
+                    numero_documento: null,
+                    numero_pago: null,
+                    monto_bruto: null,
+                    monto_pago: null,
+                    estado_pago: null,
+                    observaciones_pago: null
                 }
 
                 for (let i = 0; i < allPayments.length; i++) {
@@ -451,8 +464,22 @@ export default function DocumentBody() {
                         objectData.estado_pago = paymentStateStringValue;
                         objectData.monto_pago = allpayments[j].total_pago;
                     }
+
+                    objectData2.fecha_documento = alldocs[j].fecha_documento;
+                    objectData2.estado = stateStringValue;
+                    objectData2.tipo = alldocs[j].id_tipo_documento;
+                    objectData2.numero_documento = alldocs[j].letra_documento + "-" + alldocs[j].prefijo_documento + "-" + alldocs[j].numero_documento;
+                    objectData2.nota_pedido = alldocs[j].nota_pedido;
+                    objectData2.monto = alldocs[j].monto;
+                    objectData2.numero_pago = alldocs[j].numero_pago;
+                    if (allpayments[j] != undefined) {
+                    objectData2.estado_pago = paymentStateStringValue;
+                    objectData2.monto_pago = allpayments[j].total_pago;
+                    }
                     
-                    allfirsttabdata.push(objectData);
+                    
+                allfirsttabdata.push(objectData);
+                allfirsttabdatabackup.push(objectData2);
                     
         }
 
@@ -481,10 +508,11 @@ export default function DocumentBody() {
          
         let pagFirstTabData = pagination(allfirsttabdata, allfirsttabdata.length, rowsPerPage);
         let pagSecondTabData = pagination(allsecondtabdata, allsecondtabdata.length, rowsPerPage);
+        let pagFirstTabDataBackup = pagination(allfirsttabdatabackup, allfirsttabdatabackup.length, rowsPerPage);
         setFirstTabPageQuantity(pagFirstTabData.length);
         setSecondTabPageQuantity(pagSecondTabData.length);
         setAllFirstTabData(pagFirstTabData);
-        setAllFirstTabDataBackup(pagFirstTabData);
+        setAllFirstTabDataBackup(pagFirstTabDataBackup);
         setAllSecondTabData(pagSecondTabData);
         setAllSearchData(pagFirstTabData);
     }
@@ -656,26 +684,38 @@ export default function DocumentBody() {
 
     function searchPrimaryPageSuggestionsHandler(e) {
         e.preventDefault();
-        if (e.target.value == "") {
-            setAllFirstTabData(allSearchData);
-        }
-        console.log(allFirstTabData);
-        console.log(e.target.value);
-        let suggestions = JSON.parse(JSON.stringify(allFirstTabData));
+        CancelDocumentFiltering();
+        let suggestions = [];
 
-        for (let i = 0; i < allFirstTabData.length; i++) {
-            for (let j = 0; j < allFirstTabData[i].length; j++) {
-                
-                if (allFirstTabData[i][j] != undefined) {
-                    
-                    if (allFirstTabData[i][j].numero_documento.includes(e.target.value) == false && e.target.value != "") {
-                        delete suggestions[i][j]
-                        setAllFirstTabData(suggestions);
-                    }
+
+        if (e.target.value == "") {
+            setAllFirstTabData(allFirstTabDataBackup);
+        } else {
+
+
+            for (let i = 0; i < allFirstTabData.length; i++) {
+                for (let j = 0; j < allFirstTabData[i].length; j++) {
+
+                    suggestions.push(allFirstTabData[i][j]);
+
                 }
-             }
-        }
-    }
+            }
+
+
+                    suggestions = suggestions.filter(f => f != "");
+                    suggestions = suggestions.filter(f => f != undefined);
+                    suggestions = suggestions.filter(f => f.numero_documento.includes(e.target.value));
+                    console.log(suggestions);
+                    let pagedSuggestions = pagination(suggestions, suggestions.length, rowsPerPage);
+                    setFirstTabPageQuantity(pagedSuggestions.length);
+                    setAllFirstTabData(pagedSuggestions);
+                
+
+            
+         }
+      }
+        
+    
 
     const BodyModal = (
         <div className="modalStyle">
@@ -788,76 +828,76 @@ export default function DocumentBody() {
                                 </TableHead>
                                 <TableBody id="documentTable">
                                     {
-
+                                        
                                         allFirstTabData[pageNumber - 1].map((row, index) => {
+                                            if (row != undefined) {
+                                                return (
 
-                                            return (
-
-                                                <TableRow hover role="checkbox" tabIndex={-1} key={index}>
-                                                    {columns.map((column) => {
+                                                    <TableRow hover role="checkbox" tabIndex={-1} key={index}>
+                                                        {columns.map((column) => {
 
 
-                                                        for (let i = 0; i < allFirstTabData.length; i++) {
-                                                            if (column.id == "Fecha_doc") {
-                                                                return (
-                                                                    <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                        {row.fecha_documento}
-                                                                    </TableCell>
-                                                                );
-                                                            }
-                                                            else if (column.id == "Estado") {
-                                                                return (
-                                                                    <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                        {row.estado}
-                                                                    </TableCell>
-                                                                );
-                                                            }
-                                                            else if (column.id == "Tipo") {
-                                                                return (
-                                                                    <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                        {row.tipo}
-                                                                    </TableCell>
-                                                                );
-                                                            }
-                                                            else if (column.id == "Numero") {
-                                                                return (
-                                                                    <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                        {row.numero_documento}
-                                                                    </TableCell>
-                                                                );
+                                                            for (let i = 0; i < allFirstTabData.length; i++) {
+                                                                if (column.id == "Fecha_doc") {
+                                                                    return (
+                                                                        <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
+                                                                            {row.fecha_documento}
+                                                                        </TableCell>
+                                                                    );
+                                                                }
+                                                                else if (column.id == "Estado") {
+                                                                    return (
+                                                                        <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
+                                                                            {row.estado}
+                                                                        </TableCell>
+                                                                    );
+                                                                }
+                                                                else if (column.id == "Tipo") {
+                                                                    return (
+                                                                        <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
+                                                                            {row.tipo}
+                                                                        </TableCell>
+                                                                    );
+                                                                }
+                                                                else if (column.id == "Numero") {
+                                                                    return (
+                                                                        <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
+                                                                            {row.numero_documento}
+                                                                        </TableCell>
+                                                                    );
+                                                                }
+
+                                                                else if (column.id == "NP") {
+                                                                    return (
+                                                                        <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
+                                                                            {row.nota_pedido}
+                                                                        </TableCell>
+                                                                    );
+                                                                }
+                                                                else if (column.id == "Monto") {
+                                                                    return (
+                                                                        <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
+                                                                            {"$" + row.monto}
+                                                                        </TableCell>
+                                                                    );
+                                                                }
+                                                                else if (column.id == "Detalle_pago") {
+                                                                    return (
+                                                                        <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
+                                                                            <b><AspectRatioIcon fontSize="large" className="documentDownloadRowIcon" onClick={() => openModal(row)} /></b>
+                                                                            <PaymentDetailModal />
+                                                                        </TableCell>
+                                                                    );
+                                                                }
+
                                                             }
 
-                                                            else if (column.id == "NP") {
-                                                                return (
-                                                                    <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                        {row.nota_pedido}
-                                                                    </TableCell>
-                                                                );
-                                                            }
-                                                            else if (column.id == "Monto") {
-                                                                return (
-                                                                    <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                        {"$" + row.monto}
-                                                                    </TableCell>
-                                                                );
-                                                            }
-                                                            else if (column.id == "Detalle_pago") {
-                                                                console.log("noperto2");
-                                                                return (
-                                                                    <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                        <b><AspectRatioIcon fontSize="large" className="documentDownloadRowIcon" onClick={()=> openModal(row) } /></b>
-                                                                        <PaymentDetailModal/>
-                                                                    </TableCell>
-                                                                );
-                                                            }
+                                                        })
 
                                                         }
-
-                                                    })
-
-                                                    }
-                                                </TableRow>
-                                            );
+                                                    </TableRow>
+                                                );
+                                            }
                                         })
 
                                     }
