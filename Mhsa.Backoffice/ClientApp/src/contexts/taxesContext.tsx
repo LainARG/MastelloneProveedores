@@ -14,6 +14,7 @@ export interface ITaxes {
         Numero_pago: any;
         Tipo_impuesto: any;
         Fecha_pago: any;
+        Imagen: any;
 
 }
 

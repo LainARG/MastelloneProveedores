@@ -51,7 +51,12 @@ namespace Mhsa.Backoffice
             services.AddTransient<IStatesRepository, StatesRepository>();
             services.AddTransient<IStateTypesService, StateTypesService>();
             services.AddTransient<IStateTypesRepository, StateTypesRepository>();
-
+            services.AddTransient<IProvidersService, ProvidersService>();
+            services.AddTransient<IProvidersRepository, ProvidersRepository>();
+            services.AddTransient<IPaymentDetailService, PaymentDetailService>();
+            services.AddTransient<IPaymentDetailRepository, PaymentDetailRepository>(); 
+            services.AddTransient<IPaymentsFormsService, PaymentsFormsService>();
+            services.AddTransient<IPaymentsFormsRepository, PaymentsFormsRepository>();
 
             services.AddSpaStaticFiles(configuration =>
             {

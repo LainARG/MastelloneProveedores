@@ -19,12 +19,12 @@ namespace Domain
         public string Tipo_impuesto { get; set; }
 
         public DateTime Fecha_pago{ get; set; }
-       
+
+        public string Imagen { get; set; }
 
         public Taxes() {
 
             
-
         }
 
     }

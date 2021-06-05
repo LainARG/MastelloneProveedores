@@ -16,12 +16,13 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import pagination from '../pagination/pagination';
 import TuneIcon from '@material-ui/icons/Tune';
 import SearchRoundedIcon from '@material-ui/icons/SearchRounded';
-import { makeStyles, Tabs, Tab } from '@material-ui/core';
+import { makeStyles, Tabs, Tab, Modal } from '@material-ui/core';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import DocumentFilterMenu from '../components/documentFilterMenu';
 import AspectRatioIcon from '@material-ui/icons/AspectRatio';
 import AssignmentReturnedIcon from '@material-ui/icons/AssignmentReturned';
 import { Menu, MenuItem } from '@material-ui/core';
+import { GrDocumentDownload } from "react-icons/gr";
 
 
 function createData(fecha_doc, estado, tipo, numero, np, monto, detalle_pago) {
@@ -258,9 +259,20 @@ export default function PaymentsReportBody() {
     const [showTab, setShowTab] = useState(1);
     const [openFilterMenu, setOpenFilterMenu] = useState(false);
     const [anchorEl, setAnchorEl] = useState(false);
+    const [modal, setModal] = useState(false);
+    const [paymentDetailsProps, setPaymentDetailsProps] = useState(false);
+    let filesToDownload = new Array();
     const rowsPerPage = 4;
     
-    
+    const openModal = (props) => {
+        setPaymentDetailsProps(props);
+        setTimeout(function () { setModal(true); }, 100);
+
+    }
+
+    const closeModal = () => {
+        setModal(false);
+    }
 
 
 
@@ -273,7 +285,6 @@ useEffect(() => {
         TaxesContext.fetchTaxes().then((e) => { setAllTaxes(e) });
         StatesContext.fetchStates().then((e) => { setAllStates(e); });
     } else {
-
         dataMapper(allPays, allTaxes);
     }
         
@@ -450,6 +461,8 @@ useEffect(() => {
                         tipo_imp: null,
                         numero_imp: null,
                         comprobante: null,
+                        imagen: null,
+                        type: ""
                     }
 
                     
@@ -458,7 +471,7 @@ useEffect(() => {
                         objectData.fecha_pago = allpays[i].fecha_disponible;
                         objectData.retirar_en = allpays[i].lugar_retiro;
                         objectData.estado_pago = allpays[i].id_estado
-                        objectData.comprobante = null;
+                        objectData.imagen = alltaxes[j].imagen;
                         objectData.tipo_imp = alltaxes[j].tipo_impuesto;
                         objectData.numero_imp = alltaxes[j].codigo_concepto;
                         alldataSTab.push(objectData);
@@ -550,7 +563,19 @@ useEffect(() => {
         setOpenFilterMenu(false);
     }
 
+    function prepareBase64File(contentType, base64Data, fileName, index) {
+        console.log(contentType, base64Data, fileName, index);
+        const linkSource = `data:${contentType};base64,${base64Data}`;
+        const downloadLink = document.createElement("a");
+        downloadLink.href = linkSource;
+        downloadLink.download = fileName;
+        filesToDownload[index] = downloadLink;
+    }
 
+    function downloadBase64File(index) {
+
+        filesToDownload[index].click();
+    }
 
 
 
@@ -638,6 +663,10 @@ useEffect(() => {
 
     }
 
+    function redirector(path) {
+        window.location = path;
+    }
+
     
     function searchPrimaryPageSuggestionsHandler(e) {
         e.preventDefault();
@@ -672,16 +701,125 @@ useEffect(() => {
         }
     }
 
+    const BodyModal = (
+        <div className="modalStyle">
+
+            <h2 className="modalTitleStyle">Detalle del pago.</h2>
+            <span className="modalNormalFontStyle">Acerca del documento Num. {paymentDetailsProps.numero_documento}</span>
+
+            <span className="modalBoldFontStyle">Num. de pago</span>
+            <span className="modalBoldFontStyle">Monto pagado</span>
+            <span className="modalBoldFontStyle">Estado</span><br />
+            <span className="modalNormalFontStyle1">{paymentDetailsProps.numero_pago}</span>
+            <span className="modalNormalFontStyle2">{paymentDetailsProps.monto_pago}</span>
+            <span className="modalNormalFontStyle3">{paymentDetailsProps.estado_pago}</span>
+
+            <button className="modalBtnStyle" onClick={() => closeModal()}>Cerrar</button>
 
 
-    if (allDataPrimaryTab == undefined || allDataPrimaryTab == null || allDataPrimaryTab == "") {
+        </div>
+    );
 
-        
+    const PaymentDetailModal = (props) => {
+
+
         return (
-            <h1>Loading data...</h1>
+            <div>
 
+                <Modal
+                    open={modal}
+                    onClose={openModal}
+                >
+                    {BodyModal}
+
+                </Modal>
+            </div>
         );
 
+    }
+
+
+
+    if (allDataPrimaryTab == undefined || allDataPrimaryTab == null || allDataPrimaryTab == "" || allDataPrimaryTab.length == 0) {
+
+
+        return (
+            <div className="documentContentContainer">
+
+                <div className="documentTabsContainer">
+
+                    <ThemeProvider theme={documentTabsTheme}>
+                        <Tabs classes={{ root: tabClasses.documentTabStyle, indicator: tabClasses.tabIndicator }} onChange={handleTabs}
+
+                            value={value} indicatorColor="secondary" textColor="primary"
+                            TabIndicatorProps={{
+                                style: { background: "#009639", width: "20%", height: "4%", marginLeft: "0%", top: '15px', position: 'absolute' }
+                            }}>
+                            <Tab className={tabClasses.btnTab0Style} label='Mis Pagos.' onClick={firstTab}></Tab>
+                            <Tab className={tabClasses.btnTab1StyleDisabled} label='Mis retenciones impositivas.' onClick={secondTab} />
+
+                        </Tabs>
+                    </ThemeProvider>
+
+
+                </div>
+
+
+                <Paper className={classes.root}>
+
+                    <div className="documentReportIconContainer">
+                        <AssignmentReturnedIcon fontSize="large"/><span className="documentReportIconLegend">Reporte - Detallado</span>
+                    </div>
+
+                    <div className="documentReportIconContainer">
+                        <AssignmentReturnedIcon fontSize="large"/><span className="documentReportIconLegend">Reporte - Sin detalle</span>
+                    </div>
+
+                    <div className="documentIconContainer3" >
+                        <TuneIcon fontSize="large" onClick={FilterMenuHandler} />
+                        <DocumentFilterMenu />
+                    </div>
+
+
+                    <div className="documentSearchBarContainer">
+                        <input placeholder="Buscar por num. de OP" className="documentSearchBar" onChange={(e) => searchPrimaryPageSuggestionsHandler(e)} />
+                    </div>
+
+                    <div className="documentIconContainer2">
+                        <SearchRoundedIcon fontSize="large" />
+                    </div>
+
+                    <TableContainer className={classes.container}>
+                        <Table stickyHeader aria-label="sticky table">
+                            <TableHead>
+                                <TableRow>
+                                    {columns.map((column) => (
+                                        <TableCell className={classes.headerTable}
+                                            key={column.id}
+                                            align={column.align}
+                                            style={{ minWidth: column.minWidth }}
+                                        >
+                                            {column.label}
+                                        </TableCell>
+                                    ))}
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                { }
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+
+                    <ThemeProvider theme={paginationTheme}>
+                        <div className="paginationContainerStyle">
+                            <Pagination count={primaryPageQuantity} onChange={paginationHandler} />
+                        </div>
+                    </ThemeProvider>
+
+                </Paper>
+            </div>
+        );
+    
     }
     if (showTab == 1) {
 
@@ -713,11 +851,11 @@ useEffect(() => {
 
                 <Paper className={classes.root}>
 
-                    <div className="documentReportIconContainer" onClick="">
+                    <div className="documentReportIconContainer" onClick={()=>redirector("payments/report/detail")}>
                         <AssignmentReturnedIcon fontSize="large" /><span className="documentReportIconLegend">Reporte - Detallado</span>
                     </div>
 
-                    <div className="documentReportIconContainer" onClick="">
+                    <div className="documentReportIconContainer" onClick={() => redirector("payments/report/nodetail")}>
                         <AssignmentReturnedIcon fontSize="large" /><span className="documentReportIconLegend">Reporte - Sin detalle</span>
                     </div>
 
@@ -798,9 +936,11 @@ useEffect(() => {
                                                             );
                                                         }
                                                         else if (column.id == "detalle_pago") {
+                                                            console.log("modal exxec");
                                                             return (
                                                                 <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                   <b><AspectRatioIcon fontSize="large" className="documentDownloadRowIcon"/></b>
+                                                                    <b><AspectRatioIcon fontSize="large" className="documentDownloadRowIcon" onClick={() => openModal(row)} /></b>
+                                                                    <PaymentDetailModal />
                                                                 </TableCell>
                                                             );
                                                         }
@@ -881,7 +1021,7 @@ useEffect(() => {
                             <TableBody>
                                 {
 
-                                     allDataSecondaryTab[pageNumber - 1].map((row) => {
+                                     allDataSecondaryTab[pageNumber - 1].map((row, index) => {
 
                                         return (
 
@@ -945,11 +1085,11 @@ useEffect(() => {
                                                         else if (column.id == "detalle_pago") {
                                                             return (
                                                                 
-                                                                    <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                        
-                                                                            <GetAppIcon fontSize="large" />
-                                                                        
-                                                                    </TableCell>
+                                                                <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
+                                                                    <div className="downloadIconContainer">
+                                                                        <GrDocumentDownload className="documentSearchResultIcon" onChange={prepareBase64File("application/pdf", row.imagen, "comprobante_contribuciones", index)} onClick={(e) => downloadBase64File(i)} />
+                                                                    </div>
+                                                                </TableCell>
 
                                                                 
                                                             );

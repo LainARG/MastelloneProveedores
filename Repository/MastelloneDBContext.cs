@@ -7,6 +7,12 @@ namespace Repository
     {
         public DbSet<Users> Usuarios { get; set; }
 
+        public DbSet<Providers> Proveedores { get; set; }
+
+        public DbSet<PaymentsForms> Pagos_formas { get; set; }
+
+        public DbSet<PaymentDetail> Pagos_detalle { get; set; }
+
         public DbSet<Documents> Documentos { get; set; }
 
         public DbSet<Payments> Pagos { get; set; }

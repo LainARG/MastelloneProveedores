@@ -24,6 +24,7 @@ import SettingsEthernetIcon from '@material-ui/icons/SettingsEthernet';
 import AspectRatioIcon from '@material-ui/icons/AspectRatio';
 import AssignmentReturnedIcon from '@material-ui/icons/AssignmentReturned';
 import { Menu, MenuItem } from '@material-ui/core';
+import { GrDocumentDownload } from "react-icons/gr";
 
 
 function createData(fecha_doc, estado, tipo, numero, np, monto, detalle_pago) {
@@ -276,6 +277,7 @@ export default function DocumentBody() {
     const [anchorEl, setAnchorEl] = useState(false);
     const [modal, setModal] = useState(false);
     const [paymentDetailsProps, setPaymentDetailsProps] = useState(false);
+    let filesToDownload = new Array();
     const rowsPerPage = 4;
    
 
@@ -400,6 +402,8 @@ export default function DocumentBody() {
                     fecha_documento: null,
                     estado: null,
                     tipo: null,
+                    type: null,
+                    filename: null,
                     numero_documento: null,
                     numero_pago: null,
                     monto_bruto: null,
@@ -501,7 +505,9 @@ export default function DocumentBody() {
             objectData.digDoc_fecha_carga = allDigDocs[j].fecha_carga;
             objectData.digDoc_estado = stateStringValue;
             objectData.digDoc_usu_carga = allDigDocs[j].id_usuario_carga;
-            objectData.imagen = allDigDocs[j].imagen;
+                objectData.imagen = allDigDocs[j].imagen;
+                objectData.type = allDigDocs[j].tipo_archivo;
+                objectData.filename = allDigDocs[j].nombre_archivo;
             allsecondtabdata.push(objectData);
 
         }
@@ -715,9 +721,21 @@ export default function DocumentBody() {
          }
       }
         
-    
+    function prepareBase64File(contentType, base64Data, fileName, index) {
+        console.log(contentType, base64Data, fileName, index);
+        const linkSource = `data:${contentType};base64,${base64Data}`;
+        const downloadLink = document.createElement("a");
+        downloadLink.href = linkSource;
+        downloadLink.download = fileName;
+        filesToDownload[index] = downloadLink;
+        }
 
-    const BodyModal = (
+        function downloadBase64File(index) {
+
+        filesToDownload[index].click();
+        }
+
+        const BodyModal = (
         <div className="modalStyle">
 
             <h2 className="modalTitleStyle">Detalle del pago.</h2>
@@ -755,11 +773,78 @@ export default function DocumentBody() {
     }
 
 
-    if (allFirstTabData == undefined || allFirstTabData == null || allFirstTabData == "") {
+    if (allFirstTabData == undefined || allFirstTabData == null || allFirstTabData == "" || allFirstTabData == 0) {
 
 
         return (
-            <h1>Loading data...</h1>
+            <div className="documentContentContainer">
+
+                <div className="documentTabsContainer">
+
+                    <ThemeProvider theme={documentTabsTheme}>
+                        <Tabs classes={{ root: tabClasses.documentTabStyle, indicator: tabClasses.tabIndicator }} onChange={handleTabs}
+
+                            value={value} indicatorColor="secondary" textColor="primary"
+                            TabIndicatorProps={{
+                                style: { background: "#009639", width: "20%", height: "4%", marginLeft: "0%", top: '15px', position: 'absolute' }
+                            }}>
+                            <Tab className={tabClasses.btnTab0Style} label='Mis Documentos.' onClick={firstTab}></Tab>
+                            <Tab className={tabClasses.btnTab1StyleDisabled} label='Documentos Electronicos.' onClick={secondTab} />
+
+                        </Tabs>
+                    </ThemeProvider>
+
+
+                </div>
+
+                <Paper className={classes.root}>
+
+                    <div className="documentReportIconContainer" onClick={documentReportRedirect}>
+                        <AssignmentReturnedIcon fontSize="large" /><span className="documentReportIconLegend">Reporte</span>
+                    </div>
+
+                    <div className="documentIconContainer1" >
+                        <TuneIcon fontSize="large" onClick={FilterMenuHandler} />
+                        <DocumentFilterMenu />
+                    </div>
+
+                    <div className="documentSearchBarContainer1">
+                        <input type="text" placeholder="Buscar por num. de documento" className="documentSearchBar1" onChange={searchPrimaryPageSuggestionsHandler} />
+                    </div>
+
+                    <div className="documentIconContainer2">
+                        <SearchRoundedIcon fontSize="large" />
+                    </div>
+
+                    <TableContainer className={classes.container}>
+                        <Table stickyHeader aria-label="sticky table">
+                            <TableHead>
+                                <TableRow>
+                                    {columns.map((column) => (
+                                        <TableCell className={classes.headerTable}
+                                            key={column.id}
+                                            align={column.align}
+                                            style={{ minWidth: column.minWidth }}
+                                        >
+                                            {column.label}
+                                        </TableCell>
+                                    ))}
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                { CancelDocumentFiltering }
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+
+                    <ThemeProvider theme={paginationTheme}>
+                        <div className="paginationContainerStyle">
+                            <Pagination count={firstTabPageQuantity} onChange={paginationHandler} />
+                        </div>
+                    </ThemeProvider>
+
+                </Paper>
+            </div>
         );
 
     }
@@ -972,7 +1057,7 @@ export default function DocumentBody() {
                                 <TableBody>
                                     {
 
-                                        allSecondTabData[pageNumber - 1].map((row) => {
+                                        allSecondTabData[pageNumber - 1].map((row,index) => {
 
                                             return (
 
@@ -1006,7 +1091,7 @@ export default function DocumentBody() {
                                                                 return (
                                                                     <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
                                                                         <div className="downloadIconContainer">
-                                                                            <GetAppIcon fontSize="large" />
+                                                                            <GrDocumentDownload className="documentSearchResultIcon" onChange={prepareBase64File(row.type, row.imagen, row.filename, index)} onClick={(e) => downloadBase64File(i)} />
                                                                         </div>
                                                                     </TableCell>
                                                                 );

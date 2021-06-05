@@ -10,6 +10,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import PaymentsContext from '../contexts/paymentsContext';
+import StatesContext from '../contexts/statesContext';
 import TaxesContext from '../contexts/taxesContext';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { createMuiTheme } from '@material-ui/core/styles'; 
@@ -153,6 +154,7 @@ export default function PaymentsReportNoDetailsBody() {
     const [allPays, setAllPays] = useState("");
     const [allTaxes, setAllTaxes] = useState("");
     const [allDataPrimaryTab, setAllDataPrimaryTab] = useState("");
+    const [allStates, setAllStates] = useState("");
     const [allDataSecondaryTab, setAllDataSecondaryTab] = useState("");
     const [pageNumber, setPageNumber] = useState(1);
     const [primaryPageQuantity, setPrimaryPageQuantity] = useState(10);
@@ -164,24 +166,22 @@ export default function PaymentsReportNoDetailsBody() {
     const [anchorEl, setAnchorEl] = useState(false);
     const rowsPerPage = 4;
     
-    
-    const setContext = () => {
-        
-            
-        setAllPays(PaymentsContext.allPayments);
-        setAllTaxes(TaxesContext.allTaxes);
+   
+
+
+    useEffect(() => {
+
+
+        if (allPays == "" || allTaxes == "") {
+
+            PaymentsContext.fetchPayments().then((e) => { setAllPays(e) });
+            TaxesContext.fetchTaxes().then((e) => { setAllTaxes(e) });
+            StatesContext.fetchStates().then((e) => { setAllStates(e); });
+        } else {
             dataMapper(allPays, allTaxes);
-        if (allPays!= "") {
-            setTimeout(function () { setContextCtrl(1); }, 100);
-            }
-    }
+        }
 
-
-useEffect(() => {
-    if (contextCtrl < 1) {
-        setContext();
-    } 
-    });
+    }, [allPays]);
 
 
     const columns = [
@@ -271,19 +271,19 @@ useEffect(() => {
                     numero_pago: null,
                     retirar_en: null,
                     estado_pago: null,
-                    monto_pago: null,
+                    total_pago: null,
                     detalle_pago: null,
-                    fecha_pago: null,
+                    fecha_disponible: null,
                     tipo_pago: null,
                     comprobante: null,
             }
 
             objectData.numero_pago = allpays[i].numero_pago;
-            objectData.retirar_en = allpays[i].direccion_retiro;
-            objectData.estado_pago = allpays[i].estado_pago
+            objectData.retirar_en = allpays[i].lugar_retiro;
+            objectData.estado_pago = allpays[i].id_estado;
             objectData.monto_pago = allpays[i].monto_bruto;
             objectData.detalle_pago = allpays[i].observaciones_pago;
-            objectData.fecha_pago = allpays[i].fecha_pago_retiro;
+            objectData.fecha_disponible = allpays[i].fecha_disponible;
             objectData.tipo_pago = allpays[i].tipo_pago;
             objectData.comprobante = null;
             alldataPTab.push(objectData);
@@ -299,7 +299,7 @@ useEffect(() => {
                         estado_pago: null,
                         monto_pago: null,
                         detalle_pago: null,
-                        fecha_pago: null,
+                        fecha_disponible: null,
                         tipo_pago: null,
                         tipo_imp: null,
                         numero_imp: null,
@@ -312,7 +312,7 @@ useEffect(() => {
                         objectData.estado_pago = allpays[i].estado_pago
                         objectData.monto_pago = allpays[i].monto_bruto;
                         objectData.detalle_pago = allpays[i].observaciones_pago;
-                        objectData.fecha_pago = allpays[i].fecha_pago_retiro;
+                        objectData.fecha_disponible = allpays[i].fecha_disponible;
                         objectData.tipo_pago = allpays[i].tipo_pago;
                         objectData.comprobante = null;
                         objectData.tipo_imp = alltaxes[j].tipo_impuesto;
@@ -502,28 +502,28 @@ useEffect(() => {
                                                         if (column.id == "fecha_emision") {
                                                             return (
                                                                 <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                    {row.numero_pago}
+                                                                    {row.fecha_disponible}
                                                                 </TableCell>
                                                             );
                                                         }
                                                         else if (column.id == "fecha_pago") {
                                                             return (
                                                                 <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                    {row.retirar_en}
+                                                                    {row.fecha_disponible}
                                                                 </TableCell>
                                                             );
                                                         }
                                                         else if (column.id == "tipo") {
                                                             return (
                                                                 <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                    {row.fecha_pago}
+                                                                    {"Cheque"}
                                                                 </TableCell>
                                                             );
                                                         }
                                                         else if (column.id == "numero") {
                                                             return (
                                                                 <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                    {row.estado_pago}
+                                                                    {row.numero_pago}
                                                                 </TableCell>
                                                             );
                                                         }
@@ -586,7 +586,7 @@ useEffect(() => {
                                                         if (column.id == "fecha_documento") {
                                                             return (
                                                                 <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                    {row.fecha_pago}
+                                                                    {row.fecha_disponible}
                                                                 </TableCell>
                                                             );
                                                         }

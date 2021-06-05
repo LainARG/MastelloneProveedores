@@ -10,6 +10,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import DocumentsContext from '../contexts/documentsContext';
 import PaymentsContext from '../contexts/paymentsContext';
+import StatesContext from '../contexts/statesContext';
 import DigitalDocumentsContext from '../contexts/digitalDocumentsContexts';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { createMuiTheme } from '@material-ui/core/styles'; 
@@ -153,6 +154,7 @@ export default function DocumentReportBody() {
     const [allPays, setAllPays] = useState("");
     const [allData, setAllData] = useState("");
     const [allDigDocs, setDigDocs] = useState("");
+    const[allStates, setAllStates] = useState("");
     const [pageNumber, setPageNumber] = useState(1);
     const [pageQuantity, setPageQuantity] = useState(10);
     const [contextCtrl, setContextCtrl] = useState(0);
@@ -161,25 +163,24 @@ export default function DocumentReportBody() {
     const [openFilterMenu, setOpenFilterMenu] = useState(false);
     const [anchorEl, setAnchorEl] = useState(false);
     const rowsPerPage = 8;
-    
-    
-    const setContext = () => {
-        
-            setAllDocs(DocumentsContext.allDocuments);
-            setAllPays(PaymentsContext.allPayments);
-            setDigDocs(DigitalDocumentsContext.allDigitalDocuments);
+   
+
+
+    useEffect(() => {
+
+
+        if (allPays == "" || allDocs == "") {
+
+            DocumentsContext.fetchDocuments().then((e) => { setAllDocs(e) });
+            PaymentsContext.fetchPayments().then((e) => { setAllPays(e); });
+            StatesContext.fetchStates().then((e) => { setAllStates(e) });
+            
+        } else {
+            
             dataMapper(allDocs, allPays);
-        if (allDocs != "") {
-            setTimeout(function () { setContextCtrl(1); }, 100);
-            }
-    }
+        }
 
-
-useEffect(() => {
-    if (contextCtrl < 1) {
-        setContext();
-    } 
-    });
+    }, [allPays]);
 
     const columns = [
         {
@@ -223,9 +224,11 @@ useEffect(() => {
 
     const dataMapper = (alldocs, allpays) => {
         let alldata = [];
-       
+        let allstates = allStates;
+        let stateValue = "estado invalido";
+
         for (let i = 0; i < alldocs.length; i++) {
-            for (let j = 0; j < allpays.length;j++) {
+            for (let j = 0; j < allpays.length; j++) {
                 let objectData = {
                     fecha_documento: null,
                     estado: null,
@@ -234,15 +237,22 @@ useEffect(() => {
                     numero_pago: null,
                     monto_bruto: null
                 }
-
-                    objectData.fecha_documento = "12/04/1991 probar";
+                
+                if (alldocs[i].numero_pago == allpays[j].numero_pago) {
+                    for (let h = 0; h < allstates.length; h++) {
+                        if (allpays[j].id_estado == allstates[h].id_estado) {
+                            stateValue = allstates[h].descripcion_abreviada;
+                        }
+                    }
+                    objectData.fecha_documento = alldocs[i].fecha_documento;
                     objectData.lugar_retiro = allpays[j].lugar_retiro;
                     objectData.fecha_disponible = allpays[j].fecha_disponible;
-                    objectData.estado = allpays[j].id_estado;
+                    objectData.estado = stateValue;
                     objectData.total_pago = allpays[j].total_pago;
                     objectData.numero_pago = allpays[j].numero_pago;
                     alldata.push(objectData);
-                
+                }
+               
 
             }
         }

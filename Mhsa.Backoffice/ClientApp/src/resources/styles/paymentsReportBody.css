@@ -10,6 +10,96 @@
   margin-top:4%;
 }
 
+.documentDownloadRowIcon {
+    display: inline-block;
+    margin-left: 38px;
+    cursor: pointer;
+}
+
+.modalStyle {
+    display: block;
+    position: absolute;
+    z-index: 3000;
+    top: 30%;
+    left: 30%;
+    border-radius: 10px;
+    background-color: #FFFFFF;
+    min-width: 500px;
+    min-height: 225px;
+}
+
+.modalTitleStyle {
+    display: block;
+    margin-left: 10%;
+    margin-top: 3.5%;
+}
+
+.modalNormalFontStyle {
+    display: block;
+    color: #000000;
+    opacity: 0.5;
+    font-size: 14px;
+    font-weight: bold;
+    margin-left: 10.5%;
+    margin-top: 1%;
+}
+
+.modalNormalFontStyle1 {
+    display: inline-block;
+    color: #000000;
+    opacity: 0.5;
+    font-size: 14px;
+    font-weight: bold;
+    margin-left: 11%;
+    margin-top: 3%;
+}
+
+.modalNormalFontStyle2 {
+    display: inline-block;
+    color: #000000;
+    opacity: 0.5;
+    font-size: 14px;
+    font-weight: bold;
+    margin-left: 27%;
+    margin-top: 3%;
+}
+
+.modalNormalFontStyle3 {
+    display: inline-block;
+    color: #000000;
+    opacity: 0.5;
+    font-size: 14px;
+    font-weight: bold;
+    margin-left: 14%;
+    margin-top: 3%;
+}
+
+.modalBoldFontStyle {
+    display: inline-block;
+    color: #000000;
+    opacity: 1;
+    font-size: 14px;
+    font-weight: bold;
+    margin-left: 10.5%;
+    margin-top: 2%;
+}
+
+
+
+.modalBtnStyle {
+    display: block;
+    position: absolute;
+    z-index: 3000;
+    margin-left: 36%;
+    margin-top: 6%;
+    border-radius: 5px;
+    background-color: #009639;
+    border: 1px solid grey;
+    color: white;
+    font-weight: bold;
+    width: 25%;
+}
+
 .documentReportExcelIcon {
     display: inline-block;
     width: 40px;
