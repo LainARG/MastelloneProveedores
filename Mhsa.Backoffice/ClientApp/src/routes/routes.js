@@ -21,7 +21,7 @@ import PaymentsReportDetailsPage from '../pages/paymentsReportDetailsPage';
 import PaymentsReportNoDetailsPage from '../pages/paymentsReportNoDetailsPage';
 import NextPaymentComponent from '../components/nextPaymentComponent';
 import PaymentsFormsPage from '../pages/paymentsFormsPage';
-
+import Auth from '../auth/auth';
 
 class Router extends React.Component{
 
@@ -55,6 +55,7 @@ return(
   <Route exact path='/test' component={NextPaymentComponent} />
   <Route exact path='/payments/forms' component={PaymentsFormsPage} />
   <Route exact path='/payments/report/nodetail' component={PaymentsReportNoDetailsPage} />
+  <Route exact path='/auth' component={Auth} />
   </Switch>
 </BrowserRouter>
 

@@ -1,22 +1,26 @@
 ﻿import React from 'react';
 import api from "../services/api";
+import axios from 'axios';
 
 
 export default function Auth() {
 
     const applicationParam = "WebProveedoresMH";
     const authUrl = "https://appsdesa.mastellone.com.ar:9993/auth";
-    const tokenReturnUrlParam = "";
-    const queryString = authUrl + "?returnurl=" + tokenReturnUrl + "&aplicacion=" + applicationParam;
+    const returnUrl = "http://139deb62c56e.ngrok.io/api/auth";
+    const queryString = authUrl + "?returnurl=" + returnUrl + "&aplicacion=" + applicationParam;
 
-    /*static async request() {
+    async function request() {
 
-      const response = await api.get<Response>(queryString);
-      return response.data;
-    }*/
+        window.location.href = queryString;
+        console.log(queryString);
+    }
 
+    let result = request();
 
-
+    return (
+        <div>{ "lain" }</div>
+        );
 
  }
 
