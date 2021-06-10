@@ -39,10 +39,7 @@ export class DigitalDocumentsContext {
 
     constructor() { }
 
-    static allDigitalDocuments: any;
-
-
-
+   
     static async fetchDocuments() {
         const response = await api.get<Response, AxiosResponse<Response>>(
             `/digitalDocuments`

@@ -11,7 +11,7 @@ namespace Domain
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key, Column(Order = 0)]
-        public int Id_documento { get; set; }
+        public int Id_documento_electronico { get; set; }
 
         public int Id_usuario_carga { get; set; }
 

@@ -722,7 +722,6 @@ export default function DocumentBody() {
       }
         
     function prepareBase64File(contentType, base64Data, fileName, index) {
-        console.log(contentType, base64Data, fileName, index);
         const linkSource = `data:${contentType};base64,${base64Data}`;
         const downloadLink = document.createElement("a");
         downloadLink.href = linkSource;

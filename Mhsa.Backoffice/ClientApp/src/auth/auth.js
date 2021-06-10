@@ -7,19 +7,43 @@ export default function Auth() {
 
     const applicationParam = "WebProveedoresMH";
     const authUrl = "https://appsdesa.mastellone.com.ar:9993/auth";
-    const returnUrl = "http://139deb62c56e.ngrok.io/api/auth";
+    const returnUrl = "http://804f17e38691.ngrok.io/api/auth";
     const queryString = authUrl + "?returnurl=" + returnUrl + "&aplicacion=" + applicationParam;
+    let token = window.localStorage.getItem("charg");
+    console.log(token);
 
-    async function request() {
 
+    function request() {
+        window.localStorage.setItem("charg", 1);
         window.location.href = queryString;
-        console.log(queryString);
+        return (
+            <div><h1>Auth redirect...</h1></div>
+        );
     }
 
-    let result = request();
+    async function getToken() {
+        await api.get(`/auth/token`).then((response) => {
+            console.log(atob(response.data));
+            window.localStorage.removeItem("charg")
+        });
+    }
+    
+    if (token == undefined) {
+        let req = request();
+    } else {
+        getToken();
+    }
+   
+
+  
+
+
+
+
+
 
     return (
-        <div>{ "lain" }</div>
+        <div><h1>Auth redirect...</h1></div>
         );
 
  }

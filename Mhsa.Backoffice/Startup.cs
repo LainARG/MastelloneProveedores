@@ -69,7 +69,6 @@ namespace Mhsa.Backoffice
         {
 
 
-
             app.UseStaticFiles();
 
             app.UseRouting();

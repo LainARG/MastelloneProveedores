@@ -5,7 +5,9 @@ import NewsComponent from '../components/newsComponent';
 
 class Body extends React.Component{
 
-render(){
+	render() {
+
+        
 
 return(
 
