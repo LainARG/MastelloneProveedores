@@ -172,6 +172,10 @@ switch(val) {
 
 const classes = useStyles();
 
+    function returnProps(e) {
+        return e.target;
+    }
+
 
 return(
   <div className="headerPortalContainer">
@@ -203,8 +207,9 @@ return(
     </ThemeProvider>
     </div>
 
-    <UserAvatarComponent></UserAvatarComponent>
-    
+        
+        <UserAvatarComponent></UserAvatarComponent>
+        
 
   </div>
   );

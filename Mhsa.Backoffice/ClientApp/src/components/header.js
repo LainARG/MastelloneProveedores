@@ -135,7 +135,9 @@ const headerHandleUserMenu = (e)=>{
 }
 
 const headerCloseUserMenu = (e)=>{
-  setMenuState(false);
+    setMenuState(false);
+    window.localStorage.removeItem("tkn");
+    window.location="/";
 }
 
 
@@ -148,7 +150,7 @@ const handleTabs = (e, val)=>{
 setValue(val);
 switch(val) {
   case 0:
-    window.location='/login';
+    window.location='/auth';
     break;
     case 1:
         setValue(1);
@@ -170,10 +172,10 @@ return(
     <AppBar elevation={0} position='fixed' color='primary' className={classes.style}>
     <Toolbar>
     <IconButton><img  className={classes.logoStyle} src={image}/></IconButton>
-    <Tabs classes={{root: classes.tabStyle}}  onChange={handleTabs} value={value} 
+    <Tabs classes={{root: classes.tabStyle}}  onChange={handleTabs} value={1} 
      indicatorColor="secondary" textColor="primary" 
      TabIndicatorProps={{
-           style: {background:"#009639", width:"2%", height:"6%", marginLeft:"6.5%" }
+           style: {background:"#009639", width:"2%", height:"6%", marginLeft:"5.5%" }
          }}>
     <Tab className={classes.btn0Style} label='Iniciar sesión'></Tab>
     <Tab className={classes.btn1Style} label='Contáctanos'/>

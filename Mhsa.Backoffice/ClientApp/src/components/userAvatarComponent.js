@@ -8,18 +8,27 @@ import  {Link} from "react-router-dom";
 import { positions } from '@material-ui/system';
 
 
-const UserAvatarComponent =()=>{
+const UserAvatarComponent =(props)=>{
 
 const [menuState, setMenuState] = useState(false);
 const [anchorEl, setAnchorEl] = useState(false)
+    console.log(props);
 
-const handleUserMenu = (e)=>{
-  setMenuState(!menuState);
-}
+    const handleUserMenu = (e) => {
+        setAnchorEl(e.target);
+        setMenuState(!menuState);
+    
+    }
 
 const closeUserMenu = (e)=>{
-  setMenuState(false);
+    setMenuState(false);
+    sessionClose();
 }
+
+    function sessionClose() {
+        window.localStorage.removeItem("tkn");
+        window.location = "/auth";
+    }
 
 const useStyles=makeStyles({
    menuItemStyle:{
@@ -66,7 +75,7 @@ return(
          keepMounted
          open={menuState}
          onClose={closeUserMenu}
-         className="userAvatarComponentUserMenu"
+            className="userAvatarComponentUserMenu1"
      >
      <MenuItem onClick={closeUserMenu} className={classes.menuItemStyle}>Novedades de la sección <b>"Pagos"</b></MenuItem>
      <MenuItem onClick={closeUserMenu} className={classes.menuItemStyle}>Novedades de la sección <b>"Avisos"</b></MenuItem>

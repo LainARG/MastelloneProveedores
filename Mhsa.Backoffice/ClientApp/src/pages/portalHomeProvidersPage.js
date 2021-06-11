@@ -2,17 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 import Footer from '../components/footer';
-import HeaderPortalProviders from '../components/headerPortalProviders';
+import Navbar from '../components/navBar';
 import PortalHomeBody from '../components/portalHomeBody';
 
+const index = 0;
+
 class PortalHomePage extends React.Component{
+
 
 
 render(){
 
 return(
 <div>
-<HeaderPortalProviders/>
+<Navbar index={index} />
 <PortalHomeBody></PortalHomeBody>
 <Footer/>
 </div>

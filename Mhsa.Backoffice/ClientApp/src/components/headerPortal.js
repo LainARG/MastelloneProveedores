@@ -204,6 +204,8 @@ return(
     </ThemeProvider>
     </div>
 
+        
+            
     <UserAvatarComponent></UserAvatarComponent>
     
 

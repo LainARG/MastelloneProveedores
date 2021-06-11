@@ -37,10 +37,10 @@ const useStyles=makeStyles({
    fontWeight:'900',
    textTransform:'none',
    fontSize:16,
-   marginLeft:'-1.8%',
+   marginLeft:'-1%',
    marginTop:"1%",
-   width:'16.5%',
-   minWidth:'13%',
+   width:'12%',
+   minWidth:'12%',
    color:'#d1d1d1',
    '&.indicator':{
     widht:'0.5vm'
@@ -82,7 +82,7 @@ const useStyles=makeStyles({
    fontWeight:'900',
    textTransform:'capitalize',
    fontSize:16,
-   marginLeft:'2%',
+   marginLeft:'1.5%',
    marginTop:"1%",
    width:'15%',
    minWidth:'15%',
@@ -205,7 +205,13 @@ const navBarHandleUserMenu = (e)=>{
 
 const navBarCloseUserMenu = (e)=>{
   setMenuState(false);
-}
+    }
+
+    const navBarCloseUserMenuSession = (e) => {
+        setMenuState(false);
+        window.localStorage.removeItem("tkn");
+        window.location = "/auth";
+    }
 
 const [value, setValue] = useState(0);
 
@@ -216,17 +222,18 @@ const DropdownAction = ()=>{
 const handleTabs = (e, val)=>{
 setValue(val);
 switch(val) {
-  case 0:
-    window.location='/login';
+    case 0:
+    setTimeout(function () { window.location = '/portal/providers'; }, 100);
+    
     break;
   case 1:
-    // code block
+        setTimeout(function () { window.location = '/payments'; }, 100);
     break;
   case 2:
-    // code block
+        setTimeout(function () { window.location = '/documents'; }, 100);
     break;
   case 3:
-    window.location='/login/contact';
+        setTimeout(function () { window.location = '/contact'; }, 100);
     break;
   case 4:
     // code block
@@ -292,12 +299,12 @@ return(
          keepMounted
          open={menuState}
          onClose={navBarCloseUserMenu}
-         className="navBarUserAvatarComponentUserMenu"
+         className="navBarUserAvatarComponentUserMenu1"
      >
      <MenuItem onClick={navBarCloseUserMenu} className={classes.menuItemStyle}>Novedades de la sección <b>"Pagos"</b></MenuItem>
      <MenuItem onClick={navBarCloseUserMenu} className={classes.menuItemStyle}>Novedades de la sección <b>"Avisos"</b></MenuItem>
      <MenuItem onClick={navBarCloseUserMenu} className={classes.menuItemStyleActions}><Link to="/login/accountkeyformat" className={classes.menuItemStyleActions}>Cambio de clave</Link></MenuItem>
-     <MenuItem onClick={navBarCloseUserMenu} className={classes.menuItemStyleActions}>Cerrar sesión</MenuItem>
+     <MenuItem onClick={navBarCloseUserMenuSession} className={classes.menuItemStyleActions}>Cerrar sesión</MenuItem>
      </Menu>
 
      </div>

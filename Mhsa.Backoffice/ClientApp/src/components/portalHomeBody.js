@@ -42,9 +42,8 @@ export default function PortalHomeBody(){
 
             <div className="portalHomeContainer">
 
-                <span className="portalHomeLegend1">!Hola! Te damos la bienvenida a nuestro portal.</span>
+                <span className="portalHomeLegend1">!Hola! Te damos la bienvenida a nuestro Portal - Proveedores.</span>
 
-                <span className="portalHomeLegend2">Para comenzar, seleccioná tu ingreso a la plataforma desde la barra del Menu.</span><br /><br /><br />
 
                 <UserDataComponent props={user} />
 

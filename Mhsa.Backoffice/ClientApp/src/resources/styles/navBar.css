@@ -45,7 +45,7 @@
 
 .navBarDropdownContainer{
   display: inline-block;
-  margin-left: -14%;
+  margin-left: -15.5%;
   margin-top: 4.5%;
 }
 
@@ -93,4 +93,12 @@
   margin-left:75%;
   margin-top:-26%;
   z-index: 2000;
+}
+
+.navBarUserAvatarComponentUserMenu1 {
+    display: inline-block;
+    position: absolute;
+    margin-left: 77%;
+    margin-top: -22%;
+    z-index: 2000;
 }

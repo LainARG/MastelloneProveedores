@@ -9,7 +9,7 @@ export default function Auth() {
 
     const applicationParam = "WebProveedoresMH";
     const authUrl = "https://appsdesa.mastellone.com.ar:9993/auth";
-    const returnUrl = "http://804f17e38691.ngrok.io/api/auth";
+    const returnUrl = "http://8726f949e172.ngrok.io/api/auth";
     const queryString = authUrl + "?returnurl=" + returnUrl + "&aplicacion=" + applicationParam;
     const [state, setState] = useState(null);
 
@@ -38,8 +38,10 @@ export default function Auth() {
             converted = converted.replaceAll(".", "");
             converted = converted.replaceAll(" ", "");
             /*let splited = converted.toString().split(":");*/
-            window.localStorage.setItem("tkn", atob(converted));;
+            console.log(atob(converted.substring(0, 1000)));
+            window.localStorage.setItem("tkn", atob(converted.substring(0,1000)));;
             setState(0);
+            
         });
     }
   
