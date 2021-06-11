@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>8d6a6997-a356-4d6b-ac08-f19c875b4f0d</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -36,6 +37,8 @@
   <ItemGroup>
     <Folder Include="ClientApp\src\resources\NewFolder\" />
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 
 </Project>

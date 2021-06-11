@@ -8,6 +8,7 @@ using System.Web;
 using Domain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Repository.Interfaces;
 using Service.Interfaces;
@@ -20,14 +21,18 @@ namespace Mhsa.Backoffice.Controllers
     {
         static string Token = "";
 
-        public AuthController(){}
+        public IConfiguration configuration;
+
+        public AuthController(IConfiguration configuration){
+            this.configuration = configuration;
+        }
 
         [HttpGet]
         public IActionResult GetAuth()
         {
 
             string token = "";
-            string url = "https://localhost:44380/auth";
+            string url = configuration.GetConnectionString("LocalAuthUrl");
             token = HttpContext.Request.Query["token"];
             if (!String.IsNullOrEmpty(HttpContext.Request.Query["token"])) { }
             Token = token;
