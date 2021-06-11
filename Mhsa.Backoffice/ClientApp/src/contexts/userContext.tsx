@@ -24,12 +24,6 @@ export interface IUser {
 
 
      constructor() { }
-
-    static allUsers: any = UserContext.fetchUsers()
-        .then(function (result: any) {
-            UserContext.allUsers = result;
-        })
-        .catch((e: any) => {  });;
    
 
     static async fetchUsers(){
