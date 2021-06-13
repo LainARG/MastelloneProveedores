@@ -8,7 +8,6 @@ import ContactPage from '../pages/contactPage';
 import KeyFormatPage from '../pages/keyFormatPage';
 import KeyFormatPortalPage from '../pages/keyFormatPortalPage';
 import KeyForgottenPage from '../pages/keyForgottenPage';
-import PaymentsPage from '../pages/paymentsPage';
 import DocumentPage from '../pages/documentPage';
 import DocumentReportPage from '../pages/documentReportPage';
 import DocumentSearchPage from '../pages/documentSearchPage';
@@ -20,10 +19,8 @@ import Test from '../components/test';
 import PaymentsFormsPage from '../pages/paymentsFormsPage';
 import Auth from '../auth/auth';
 
-class Router extends React.Component{
+export default function Router(){
 
-
-render(){
 
 
 
@@ -56,9 +53,8 @@ return(
 
 
 
+
+
+
+
 }
-
-
-
-}
-export default Router;
