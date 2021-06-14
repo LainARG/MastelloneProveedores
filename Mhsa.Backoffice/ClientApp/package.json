@@ -28,6 +28,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.4",
     "react-select": "^4.3.0",
+    "react-server": "^0.8.1",
     "reactstrap": "^8.9.0",
     "rimraf": "^2.6.2",
     "sass": "^1.32.8",
