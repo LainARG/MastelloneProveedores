@@ -1,6 +1,7 @@
 ﻿import React, { useState, useEffect } from 'react';
 import api from "../services/api";
 import axios from 'axios';
+import jwt_decode from "jwt-decode";
 
 
 
@@ -38,8 +39,7 @@ export default function Auth() {
             converted = converted.replaceAll(".", "");
             converted = converted.replaceAll(" ", "");
             /*let splited = converted.toString().split(":");*/
-            console.log(atob(converted.substring(0, 1000)));
-            window.localStorage.setItem("tkn", atob(converted.substring(0,1000)));;
+            window.localStorage.setItem("tkn", jwt_decode(converted));
             setState(0);
             
         });

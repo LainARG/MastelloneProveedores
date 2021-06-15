@@ -75,7 +75,7 @@ return(
          keepMounted
          open={menuState}
          onClose={closeUserMenu}
-            className="userAvatarComponentUserMenu1"
+         className="userAvatarComponentUserMenu1"
      >
      <MenuItem onClick={closeUserMenu} className={classes.menuItemStyle}>Novedades de la sección <b>"Pagos"</b></MenuItem>
      <MenuItem onClick={closeUserMenu} className={classes.menuItemStyle}>Novedades de la sección <b>"Avisos"</b></MenuItem>

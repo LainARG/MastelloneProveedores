@@ -2,6 +2,8 @@ import React, { useState, useEffect} from 'react';
 import '../resources/styles/portalHomeBody.css';
 import UserDataComponent from './userDataComponent';
 import UserContext from '../contexts/userContext';
+import UsersAssignmentContext from '../contexts/usersAssignmentContext';
+import ProvidersContext from '../contexts/providersContext';
 
 export default function PortalHomeBody(){
 
