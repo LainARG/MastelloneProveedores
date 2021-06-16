@@ -18,12 +18,9 @@ export default function PortalHomeBody() {
 
     useEffect(() => {
 
-        console.log("effect");
-        console.log(user);
         if (user == "") {
             UserContext.fetchUsers().then((e) => {
                 setAllUsers(e);
-                console.log(e);
             });
             ProvidersContext.fetchProviders().then((e) => {
                 setAllProviders(e);

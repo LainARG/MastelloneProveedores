@@ -195,6 +195,9 @@ const [anchorEl, setAnchorEl] = useState(false);
 
 const tokenUser = window.localStorage.getItem("tknUsr");
 
+const tokenPerms = window.localStorage.getItem("tknPms");
+
+    console.log(tokenPerms);
 const { index } = props;
 
     useEffect(() => {

@@ -22,7 +22,8 @@ export default function Auth() {
         } else if (window.localStorage.getItem("tknUsr") == 0) {
             getToken();
         } else {
-            window.location.href = "/portal/providers";
+           window.location.href = "/portal/providers";
+            
         }
 
     }, [state]);
@@ -36,6 +37,9 @@ export default function Auth() {
         await api.get(`/auth/token`).then((response) => {
             let converted = response.data.toString();
             let splited = JSON.stringify(jwt_decode(converted));
+            let permissionsStart = splited.indexOf("IdFuncion", 0);
+            let permissionsEnd = splited.indexOf("nbf\":", 0);
+            let permissions = splited.substring(permissionsStart, permissionsEnd);
 
             if (splited.includes("go_") && splited.includes("@")) {/*if google service*/
                 splited = splited.split("go_", 100);
@@ -43,10 +47,12 @@ export default function Auth() {
                 splited = splited[1].substring(0, indexSplited);
             }
 
+            
 
 
 
             window.localStorage.setItem("tknUsr", splited);
+            window.localStorage.setItem("tknPms", permissions);
             setState(0);
         });
     }
