@@ -200,9 +200,12 @@ const tokenPerms = window.localStorage.getItem("tknPms");
     console.log(tokenPerms);
 const { index } = props;
 
-    useEffect(() => {
+useEffect(() => {
+
+
+
         
-    });
+});
 
 const navBarHandleUserMenu = (e)=>{
   setMenuState(!menuState);

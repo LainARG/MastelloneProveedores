@@ -22,7 +22,7 @@ export default function Auth() {
         } else if (window.localStorage.getItem("tknUsr") == 0) {
             getToken();
         } else {
-           window.location.href = "/portal/providers";
+            window.location.href = "/portal/providers";
             
         }
 
@@ -36,15 +36,11 @@ export default function Auth() {
     async function getToken() {
         await api.get(`/auth/token`).then((response) => {
             let converted = response.data.toString();
-            let splited = JSON.stringify(jwt_decode(converted));
-            let permissionsStart = splited.indexOf("IdFuncion", 0);
-            let permissionsEnd = splited.indexOf("nbf\":", 0);
-            let permissions = splited.substring(permissionsStart, permissionsEnd);
+            let permissions = (jwt_decode(converted)).Funciones;
+            let splited = (jwt_decode(converted)).unique_name;
 
             if (splited.includes("go_") && splited.includes("@")) {/*if google service*/
-                splited = splited.split("go_", 100);
-                let indexSplited = splited[1].indexOf("\"", 0);
-                splited = splited[1].substring(0, indexSplited);
+                splited = splited.substring(3, splited.length);
             }
 
             
