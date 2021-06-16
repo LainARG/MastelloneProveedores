@@ -1,45 +1,98 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect, Suspense} from 'react';
 import '../resources/styles/portalHomeBody.css';
 import UserDataComponent from './userDataComponent';
 import UserContext from '../contexts/userContext';
-import UsersAssignmentContext from '../contexts/usersAssignmentContext';
+import UsersAssignmentContext from '../contexts/usersAssignmentContexts';
 import ProvidersContext from '../contexts/providersContext';
 
-export default function PortalHomeBody(){
+export default function PortalHomeBody() {
 
-    const [user, setUser] = useState(null);
-    const [allUsers, setAllUsers] = useState(null);
+    const [user, setUser] = useState("");
+    const [provider, setProvider] = useState("");
+    const [userData, setUserData] = useState("");
+    const [allUsers, setAllUsers] = useState("");
+    const [allProviders, setAllProviders] = useState("");
+    const [allUsersAssignment, setAllUsersAssignment] = useState("");
+
+
 
     useEffect(() => {
-        
-        if (allUsers == null) {
+
+        console.log("effect");
+        console.log(user);
+        if (user == "") {
             UserContext.fetchUsers().then((e) => {
                 setAllUsers(e);
+                console.log(e);
             });
-        } else {
-            getToken();
+            ProvidersContext.fetchProviders().then((e) => {
+                setAllProviders(e);
+            });
+            UsersAssignmentContext.fetchUsersAssignment().then((e) => {
+                setAllUsersAssignment(e);
+            });
+            
         }
-       
-    });
+        GetToken();
+
+    }, [allUsers, allProviders, allUsersAssignment]);
 
 
-    function getToken() {
-        let token = window.localStorage.getItem("tkn");
-        let splited = token.split("go_", 1000);
-        splited = splited[1].split(",", 1000);
-        splited = splited[0].replaceAll("\"", "");
-
+    const GetToken = () => {
+        let tokenUser = window.localStorage.getItem("tknUsr");
+        let userId = 0;
+        let providerId = 0;
+        let userDat = {
+            nombre: null,
+            razon_social: null,
+            cuit: null,
+            domicilio: null,
+            localidad: null,
+            codigo_postal: null,
+            telefono: null
+        }
+        
         for (let i = 0; i < allUsers.length; i++) {
-
-            if (allUsers[i].mail == splited) {
+            if (allUsers[i].mail == tokenUser) {
                 setUser(allUsers[i]);
-                console.log(user);
+                userId = allUsers[i].id_usuario;
             }
+
+            for (let i = 0; i < allUsersAssignment.length; i++) {
+
+                if (allUsersAssignment[i].id_usuario == userId) {
+                    providerId = allUsersAssignment[i].id_proveedor;
+                }
+
+            }
+            for (let i = 0; i < allProviders.length; i++) {
+
+                if (allProviders[i].id_proveedor == providerId) {
+
+                    setProvider(allProviders[i]);
+
+                    userDat.nombre = user.mail;
+                    userDat.razon_social = provider.razon_social;
+                    userDat.cuit = provider.cuit;
+                    userDat.domicilio = provider.domicilio;
+                    userDat.localidad = provider.localidad;
+                    userDat.codigo_postal = provider.codigo_postal;
+                    userDat.telefono = provider.telefono;
+                    setUserData(userDat);
+                }
+            }
+
 
         }
         
+
+        
+
     }
+
+    
     if (user) {
+
         return (
 
             <div className="portalHomeContainer">
@@ -47,17 +100,21 @@ export default function PortalHomeBody(){
                 <span className="portalHomeLegend1">!Hola! Te damos la bienvenida a nuestro Portal - Proveedores.</span>
 
 
-                <UserDataComponent props={user} />
+                <UserDataComponent props={userData} />
 
             </div>
-
-
         );
-    }else {
-        return (<div>Cargando user...</div>);
+
     }
- 
+    else {
+        return (
+            <div>Validando usuario...</div>
+        );
+
+    }
 }
+
+
 
 
 

@@ -7,17 +7,11 @@ interface Response {
 }
 
 export interface IUser {
-    Id_usuario: string;
-    Nombre: string;
-    Apellido: string;
-    Tipo: string;
-    Domicilio: string;
-    Localidad: string;
-    Codigo_postal: string;
-    Telefono: string;
-    Mail: string;
-    Fecha_registro: string;
-    Fecha_ult_ingreso: string;
+    Id_usuario: any;
+    Tipo: any;
+    Mail: any;
+    Fecha_registro: any;
+    Fecha_ult_ingreso: any;
 }
 
  export class UserContext{

@@ -17,9 +17,9 @@ export default function Auth() {
     useEffect(() => {
 
         
-        if (window.localStorage.getItem("tkn") == undefined || window.localStorage.getItem("tkn") == ""){
+        if (window.localStorage.getItem("tknUsr") == undefined || window.localStorage.getItem("tknUsr") == ""){
             request();
-        } else if (window.localStorage.getItem("tkn") == 0) {
+        } else if (window.localStorage.getItem("tknUsr") == 0) {
             getToken();
         } else {
             window.location.href = "/portal/providers";
@@ -29,19 +29,25 @@ export default function Auth() {
 
     function request() {
         window.location.href = queryString;
-        window.localStorage.setItem("tkn",0);
+        window.localStorage.setItem("tknUsr",0);
     }
 
     async function getToken() {
         await api.get(`/auth/token`).then((response) => {
-            let converted = response.data.toString().replaceAll("_", "");
-            converted = converted.replaceAll("-", "");
-            converted = converted.replaceAll(".", "");
-            converted = converted.replaceAll(" ", "");
-            /*let splited = converted.toString().split(":");*/
-            window.localStorage.setItem("tkn", jwt_decode(converted));
+            let converted = response.data.toString();
+            let splited = JSON.stringify(jwt_decode(converted));
+
+            if (splited.includes("go_") && splited.includes("@")) {/*if google service*/
+                splited = splited.split("go_", 100);
+                let indexSplited = splited[1].indexOf("\"", 0);
+                splited = splited[1].substring(0, indexSplited);
+            }
+
+
+
+
+            window.localStorage.setItem("tknUsr", splited);
             setState(0);
-            
         });
     }
   

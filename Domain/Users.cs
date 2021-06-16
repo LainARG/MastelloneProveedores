@@ -9,19 +9,7 @@ namespace Domain
 
         [Key]
         public int Id_usuario { get; set; }
-        public string Nombre { get; set; }
-
-        public string Apellido { get; set; }
-
-        public string Tipo { get; set; }
-
-        public string Domicilio { get; set; }
-
-        public string Localidad { get; set; }
-
-        public string Codigo_postal { get; set; }
-
-        private string Telefono { get; set; }
+        public Int16 Tipo{ get; set; }
 
         public string Mail { get; set; }
 

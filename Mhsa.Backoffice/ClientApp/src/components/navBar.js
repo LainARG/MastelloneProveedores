@@ -193,6 +193,8 @@ const [menuState, setMenuState] = useState(false);
 
 const [anchorEl, setAnchorEl] = useState(false);
 
+const tokenUser = window.localStorage.getItem("tknUsr");
+
 const { index } = props;
 
     useEffect(() => {
@@ -291,7 +293,7 @@ return(
     <div className="navBarUserAvatarComponentUserDataContainer" onClick={navBarHandleUserMenu}>
     <Avatar alt="no image" src={image1}/>
     
-     <span className="navBarUserAvatarComponentUserName">Terry Wagner</span>
+                    <span className="navBarUserAvatarComponentUserName">{ tokenUser }</span>
     </div> 
     
     <Menu

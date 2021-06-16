@@ -14,7 +14,7 @@ namespace Domain
 
         public int Codigo_proveedor { get; set; }
 
-        public string Cuit { get; set; }
+        public decimal Cuit { get; set; }
 
         public string Razon_social { get; set; }
 
