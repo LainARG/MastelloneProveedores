@@ -4,7 +4,6 @@ import '../resources/styles/userDataComponent.css';
 export default function UserDataComponent(props){
 
 	const user = props;
-	console.log(props);
 
 return(
 

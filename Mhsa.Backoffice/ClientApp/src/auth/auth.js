@@ -45,8 +45,6 @@ export default function Auth() {
 
             
 
-
-
             window.localStorage.setItem("tknUsr", splited);
             window.localStorage.setItem("tknPms", permissions);
             setState(0);

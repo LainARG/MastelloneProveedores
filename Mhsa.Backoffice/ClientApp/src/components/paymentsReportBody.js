@@ -564,7 +564,6 @@ useEffect(() => {
     }
 
     function prepareBase64File(contentType, base64Data, fileName, index) {
-        console.log(contentType, base64Data, fileName, index);
         const linkSource = `data:${contentType};base64,${base64Data}`;
         const downloadLink = document.createElement("a");
         downloadLink.href = linkSource;
@@ -629,7 +628,6 @@ useEffect(() => {
     function FilterDocumentAction(e) {
         e.preventDefault();
         setOpenFilterMenu(false);
-        console.log(allDataPrimaryTab);
         let arrayPagedSuggestions = [];
         let pagedSuggestions = [];
         let menuFilterStateValue = document.getElementById("menuFilterStateSelect").value;
@@ -691,7 +689,6 @@ useEffect(() => {
             suggestions = suggestions.filter(f => f != "");
             suggestions = suggestions.filter(f => f != undefined);
             suggestions = suggestions.filter(f => f.numero_pago.includes(e.target.value));
-            console.log(suggestions);
             let pagedSuggestions = pagination(suggestions, suggestions.length, rowsPerPage);
             setPrimaryPageQuantity(pagedSuggestions.length);
             setAllDataPrimaryTab(pagedSuggestions);
@@ -936,7 +933,6 @@ useEffect(() => {
                                                             );
                                                         }
                                                         else if (column.id == "detalle_pago") {
-                                                            console.log("modal exxec");
                                                             return (
                                                                 <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
                                                                     <b><AspectRatioIcon fontSize="large" className="documentDownloadRowIcon" onClick={() => openModal(row)} /></b>

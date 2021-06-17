@@ -11,8 +11,7 @@ import { positions } from '@material-ui/system';
 const UserAvatarComponent =(props)=>{
 
 const [menuState, setMenuState] = useState(false);
-const [anchorEl, setAnchorEl] = useState(false)
-    console.log(props);
+    const [anchorEl, setAnchorEl] = useState(false);
 
     const handleUserMenu = (e) => {
         setAnchorEl(e.target);

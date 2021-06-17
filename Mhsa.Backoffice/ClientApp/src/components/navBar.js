@@ -37,68 +37,11 @@ const useStyles=makeStyles({
    fontWeight:'900',
    textTransform:'none',
    fontSize:16,
-   marginLeft:'-1%',
+   marginLeft:'1%',
    marginTop:"1%",
-   width:'12%',
-   minWidth:'12%',
+   width:'auto',
+   minWidth:'auto',
    color:'#d1d1d1',
-   '&.indicator':{
-    widht:'0.5vm'
-   }
-  },
-  btn1Style:{
-   display:'inline',
-   backgroundColor:'transparent',
-   cursor:'pointer',
-   fontWeight:'900',
-   textTransform:'capitalize',
-   fontSize:16,
-   marginLeft:'-4%',
-   marginTop:"1%",
-   width:'13%',
-   minWidth:'13%',
-   color: '#d1d1d1',
-  },
-  btn2Style:{
-   display:'inline',
-   backgroundColor:'transparent',
-   cursor:'pointer',
-   fontWeight:'900',
-   textTransform: 'capitalize',
-   fontSize:16,
-   marginLeft:'-1.2%',
-   marginTop:"1%",
-   width:'14%',
-   minWidth:'14%',
-   color: '#d1d1d1',
-   '&.indicator':{
-    widht:'0.5vm'
-   }
-  },
-  btn3Style:{
-   display:'inline',
-   backgroundColor:'transparent',
-   cursor:'pointer',
-   fontWeight:'900',
-   textTransform:'capitalize',
-   fontSize:16,
-   marginLeft:'1.5%',
-   marginTop:"1%",
-   width:'15%',
-   minWidth:'15%',
-   color: '#d1d1d1',
-  },btn4Style:{
-   display:'inline',
-   backgroundColor:'transparent',
-   cursor:'pointer',
-   fontWeight:'900',
-   textTransform: 'capitalize',
-   fontSize:16,
-   marginLeft:'-1.2%',
-   marginTop:"1%",
-   width:'13%',
-   minWidth:'13%',
-   color: '#d1d1d1',
    '&.indicator':{
     widht:'0.5vm'
    }
@@ -181,13 +124,33 @@ const theme = createMuiTheme({
   }
   });
 
+const setPerms = () => {
+    let permsList = [];
+    let perms = window.localStorage.getItem("tknPms");
+
+    if (perms.includes("Inicio")) {
+        permsList.push("inicio");
+    }
+    if(perms.includes("ProveedorPago")) {
+        permsList.push("Pagos");
+    }
+    if (perms.includes("ProveedorDocumento")) {
+        permsList.push("Documentos");
+    }
+    if (perms.includes("ProveedorContacto")) {
+        permsList.push("Contacto");
+    }
+    if (perms.includes("ProveedorAviso")) {
+        permsList.push("Avisos");
+    }
+    
+    return permsList;
+}
 
 
 const Navbar = (props)=>{
 
 const [dropdownValue,setDropdownValue] = useState(false);
-
-const [handleUserMenu, setUserMenu] = useState(false);
 
 const [menuState, setMenuState] = useState(false);
 
@@ -197,16 +160,17 @@ const tokenUser = window.localStorage.getItem("tknUsr");
 
 const tokenPerms = window.localStorage.getItem("tknPms");
 
-    console.log(tokenPerms);
 const { index } = props;
+
+    const [permsList, setPermsList] = useState(setPerms());
 
 useEffect(() => {
 
-
-
-        
+   
 });
 
+  
+    
 const navBarHandleUserMenu = (e)=>{
   setMenuState(!menuState);
 }
@@ -281,13 +245,22 @@ return(
     <Tabs classes={{root: classes.tabStyle }} TabIndicatorProps={classes.indicator} onChange={handleTabs}
      value={index} indicatorColor="secondary" textColor="primary"
      TabIndicatorProps={{
-           style: {background:"#009639", width:"2%", height:"6%", marginLeft:"5.5%" }
-         }}>
-    <Tab className={classes.btn0Style} label='Inicio'></Tab>
-    <Tab className={classes.btn1Style} label='Pagos'/>
-    <Tab className={classes.btn2Style} label='Documentos'/>
-    <Tab className={classes.btn3Style} label='Contáctanos'/>
-    <Tab className={classes.btn4Style} label='Avisos'/>
+           style: {background:"#009639", width:"2%", height:"6%", marginLeft:"3.5%" }
+                            }}>
+      {
+                                
+                                permsList.map((row, index) => {
+                                    console.log(permsList);
+                                    return (
+                                        <Tab className={classes.btn0Style} label={row}></Tab>
+                                        /*<Tab className={classes.btn0Style} label='Inicio'></Tab>
+                                        <Tab className={classes.btn1Style} label='Pagos'/>
+                                        <Tab className={classes.btn2Style} label='Documentos'/>
+                                        <Tab className={classes.btn3Style} label='Contáctanos'/>
+                            <Tab className={classes.btn4Style} label='Avisos' />*/
+                                    
+                                )})
+      }
     </Tabs>
     </Toolbar>
 	</AppBar>
