@@ -250,7 +250,6 @@ return(
       {
                                 
                                 permsList.map((row, index) => {
-                                    console.log(permsList);
                                     return (
                                         <Tab className={classes.btn0Style} label={row}></Tab>
                                         /*<Tab className={classes.btn0Style} label='Inicio'></Tab>

@@ -11,6 +11,7 @@ import TableRow from '@material-ui/core/TableRow';
 import PaymentsContext from '../contexts/paymentsContext';
 import TaxesContext from '../contexts/taxesContext';
 import StatesContext from '../contexts/statesContext';
+import PaymentDetailContext from '../contexts/paymentDetailContext';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { createMuiTheme } from '@material-ui/core/styles'; 
 import pagination from '../pagination/pagination';
@@ -248,6 +249,7 @@ export default function PaymentsReportBody() {
     const tabClasses = useTabStyles();
     const [allPays, setAllPays] = useState("");
     const [allTaxes, setAllTaxes] = useState("");
+    const [allPaymentDetail, setAllPaymentDetail] = useState("");
     const [allDataPrimaryTab, setAllDataPrimaryTab] = useState("");
     const [allDataSecondaryTab, setAllDataSecondaryTab] = useState("");
     const [paymentsBackup, setPaymentsBackup] = useState("");
@@ -277,13 +279,14 @@ export default function PaymentsReportBody() {
 
 
 useEffect(() => {
-
+    
 
     if (allPays == "" || allTaxes == "") {
-
+        console.log(allPaymentDetail);
         PaymentsContext.fetchPayments().then((e) => { setAllPays(e) });
         TaxesContext.fetchTaxes().then((e) => { setAllTaxes(e) });
         StatesContext.fetchStates().then((e) => { setAllStates(e); });
+        PaymentDetailContext.fetchPaymentDetail().then((e) => { setAllPaymentDetail(e); });
     } else {
         dataMapper(allPays, allTaxes);
     }
@@ -398,6 +401,8 @@ useEffect(() => {
         let alldataSTab = [];
         let alldatabackup = [];
         let currentStateValue = "";
+        let currentDetailPayment = null;
+        console.log(allpays);
         for (let i = 0; i < allpays.length; i++) {
 
             for (let j = 0; j < allStates.length; j++) {
@@ -407,7 +412,14 @@ useEffect(() => {
                 }
 
             }
-            
+
+            for (let h = 0; h < allPaymentDetail.length; h++) {
+
+                if (allpays[h].id_pago == allPaymentDetail[h].id_pago) {
+                    currentDetailPayment = allPaymentDetail[h];
+                }
+
+            }
                 let objectData = {
                     numero_pago: null,
                     retirar_en: null,
@@ -428,13 +440,18 @@ useEffect(() => {
                 fecha_pago: null,
                 tipo_pago: null,
                 comprobante: null,
+                detalle_numero_pago: null,
+                detalle_monto_pagado: null,
+                detalle_estado:null
             }
+
             objectData.numero_pago = allpays[i].prefijo_pago + "-" + allpays[i].numero_pago;
-            objectData.monto_pago = allpays[i].total_pago;
-            objectData.fecha_pago = allpays[i].fecha_disponible;
             objectData.retirar_en = allpays[i].lugar_retiro;
-            objectData.estado_pago = currentStateValue
-            objectData.comprobante = null;
+            objectData.fecha_pago = allpays[i].fecha_disponible;
+            objectData.monto_pago = allpays[i].total_pago;
+            objectData.estado_pago = currentStateValue;
+            objectData.detalle_numero_pago = currentDetailPayment.id_pago_detalle;
+            objectData.detalle_monto_pagado = currentDetailPayment.monto_pagado_documento;
             objectData2.numero_pago = allpays[i].prefijo_pago + "-" + allpays[i].numero_pago;
             objectData2.monto_pago = allpays[i].total_pago;
             objectData2.fecha_pago = allpays[i].fecha_disponible;
@@ -707,8 +724,8 @@ useEffect(() => {
             <span className="modalBoldFontStyle">Num. de pago</span>
             <span className="modalBoldFontStyle">Monto pagado</span>
             <span className="modalBoldFontStyle">Estado</span><br />
-            <span className="modalNormalFontStyle1">{paymentDetailsProps.numero_pago}</span>
-            <span className="modalNormalFontStyle2">{paymentDetailsProps.monto_pago}</span>
+            <span className="modalNormalFontStyle1">{paymentDetailsProps.detalle_numero_pago}</span>
+            <span className="modalNormalFontStyle2">{paymentDetailsProps.detalle_monto_pagado}</span>
             <span className="modalNormalFontStyle3">{paymentDetailsProps.estado_pago}</span>
 
             <button className="modalBtnStyle" onClick={() => closeModal()}>Cerrar</button>
