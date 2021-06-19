@@ -1,13 +1,10 @@
 import React from 'react';
 import '../resources/styles/contactFormBody.css';
-import image from '../resources/images/fb.png';
-import image2 from '../resources/images/gmail.png';
 import Button from '@material-ui/core/Button';
-import { Icon } from "@material-ui/core";
-import {green} from '@material-ui/core/colors';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/core/styles';
-import {makeStyles} from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
+import SmtpContext from '../contexts/smtpContext';
 
 
 export default function ContactFormBody(){
@@ -37,7 +34,12 @@ const useStyles = makeStyles({
 
 })
 
-const classes = useStyles();
+    const classes = useStyles();
+
+    const mailSender = () => {
+        let message = document.getElementById("userMessage").value.toString();
+        SmtpContext.sendMail(message);
+    }
 
 
 return(
@@ -59,11 +61,11 @@ return(
  <input className="contactFormSenderInputStyle" type="text"/><br/><br/>
  
  <span className="contactFormMessageLegendStyle">Mensaje</span><br/>
- <input className="contactFormMessageInputStyle" type="text"/><br/><br/>
+ <textarea id="userMessage" className="contactFormMessageInputStyle" type="text"/><br/><br/>
 
  <div className="contactFormBtnActionContainer">
  <ThemeProvider theme={theme}>
- <Button className={classes.btnActionStyle} color="primary" variant="contained" disableElevation>
+ <Button className={classes.btnActionStyle} onClick={ mailSender } color="primary" variant="contained" disableElevation>
        Enviar
  </Button>
  </ThemeProvider>

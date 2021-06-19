@@ -1,13 +1,14 @@
 import React,{useState} from 'react';
 import Avatar from '@material-ui/core/Avatar';
-import {Menu, MenuItem, makeStyles} from '@material-ui/core';
+import {Button, Menu, MenuItem, makeStyles} from '@material-ui/core';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import image from '../resources/images/lain.jpg';
 import '../resources/styles/userAvatarComponent.css';
 import  {Link} from "react-router-dom";
+import { positions } from '@material-ui/system';
 
 
-const UserAvatarComponent =(props)=>{
+const InternalUserAvatarComponent =(props)=>{
 
 const [menuState, setMenuState] = useState(false);
     const [anchorEl, setAnchorEl] = useState(false);
@@ -75,10 +76,9 @@ return(
          onClose={closeUserMenu}
          className="userAvatarComponentUserMenu1"
      >
-     <MenuItem onClick={closeUserMenu} className={classes.menuItemStyle}>Novedades de la sección <b>"Pagos"</b></MenuItem>
-     <MenuItem onClick={closeUserMenu} className={classes.menuItemStyle}>Novedades de la sección <b>"Avisos"</b></MenuItem>
-            <MenuItem onClick={closeUserMenu} className={classes.menuItemStyleActions}><Link to="/login/accountkeyformat" className={classes.menuItemStyleActions}>Cambio de clave</Link></MenuItem>
-            <MenuItem onClick={sessionClose} className={classes.menuItemStyleActions}>Cerrar sesión</MenuItem>
+     <MenuItem onClick={closeUserMenu} className={classes.menuItemStyle}>Novedades de la sección <b>"Documentos rechazados"</b></MenuItem>
+     <MenuItem onClick={closeUserMenu} className={classes.menuItemStyleActions}><Link to="/login/accountkeyformat" className={classes.menuItemStyleActions}>Cambio de clave</Link></MenuItem>
+     <MenuItem onClick={sessionClose} className={classes.menuItemStyleActions}>Cerrar sesión</MenuItem>
      </Menu>
 
   </div>
@@ -87,4 +87,4 @@ return(
 }
 
 
-export default UserAvatarComponent;
+export default InternalUserAvatarComponent;

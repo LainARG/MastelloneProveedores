@@ -7,7 +7,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import {Dropdown,DropdownItem,DropdownMenu, DropdownToggle} from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import UserAvatarComponent from './userAvatarComponent';
+import InternalUserAvatarComponent from './internalUserAvatarComponent';
 
 const useStyles=makeStyles({
   
@@ -25,66 +25,6 @@ const useStyles=makeStyles({
    height:'100px',
    minHeight:'100px',
    marginLeft:'-15%'
-  },
-  btn0Style:{
-   display:'inline',
-   backgroundColor:'transparent',
-   cursor:'pointer',
-   fontWeight:'900',
-   textTransform:'capitalize',
-   fontSize:16,
-   marginLeft:'0%',
-   width:'auto',
-   minWidth:'auto',
-   color:'#87847b'
-  },
-  btn1Style:{
-   display:'inline',
-   backgroundColor:'transparent',
-   cursor:'pointer',
-   fontWeight:'900',
-   textTransform:'capitalize',
-   fontSize:16,
-   marginLeft:'2%',
-   width:'auto',
-   minWidth:'auto',
-   color:'#87847b'
-  },
-  btn2Style:{
-   display:'inline',
-   backgroundColor:'transparent',
-   cursor:'pointer',
-   fontWeight:'900',
-   textTransform:'capitalize',
-   fontSize:16,
-   marginLeft:'2%',
-   width:'auto',
-   minWidth:'auto',
-   color:'#87847b'
-  },
-  btn3Style:{
-   display:'inline',
-   backgroundColor:'transparent',
-   cursor:'pointer',
-   fontWeight:'900',
-   textTransform:'capitalize',
-   fontSize:16,
-   marginLeft:'2%',
-   width:'auto',
-   minWidth:'auto',
-   color:'#87847b'
-  },
-  btn4Style:{
-   display:'inline',
-   backgroundColor:'transparent',
-   cursor:'pointer',
-   fontWeight:'900',
-   textTransform:'capitalize',
-   fontSize:16,
-   marginLeft:'2%',
-   width:'auto',
-   minWidth:'auto',
-   color:'#87847b'
   },
   dropdownStyle:{
   '&:hover,&:focus,&:active': { 
@@ -203,7 +143,7 @@ return(
     </ThemeProvider>
     </div>
 
-    <UserAvatarComponent></UserAvatarComponent>
+    <InternalUserAvatarComponent></InternalUserAvatarComponent>
     
 
   </div>

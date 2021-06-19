@@ -1,0 +1,40 @@
+.providerSelectContainer{
+  display:block;
+  position: relative;
+  height: 175px;
+  margin-top: 2%;
+}
+
+.providerSelectLegend{
+  display:block;
+  position: relative;
+  margin-left:2%;
+  font-weight:bold;
+}
+
+.internalUserProviderSelectSearchBarContainer {
+    display: inline-block;
+    position: relative;
+    margin-left: 70%;
+    width: 9.5%;
+    margin-top:3%;
+}
+
+.internalUserProviderSelectSearchIconContainer {
+    display: inline-block;
+    position: relative;
+    margin-left: 0.5%;
+    width: 3%;
+}
+
+.internalUserProviderSelectSearchBar {
+    display: inline-block;
+    width: 100%;
+}
+
+.internalUserProviderSelectSearchIcon {
+    display: inline-block;
+    width: 100%;
+    cursor:pointer;
+}
+

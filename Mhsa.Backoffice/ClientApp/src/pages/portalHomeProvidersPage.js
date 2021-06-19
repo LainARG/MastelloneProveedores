@@ -7,7 +7,7 @@ import PortalHomeBody from '../components/portalHomeBody';
 
 const index = 0;
 
-class PortalHomePage extends React.Component{
+class PortalHomeProvidersPage extends React.Component{
 
 
 
@@ -24,4 +24,4 @@ return(
 
 }
 
-export default PortalHomePage;
+export default PortalHomeProvidersPage;

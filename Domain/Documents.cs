@@ -17,8 +17,6 @@ namespace Domain
 
         public string Letra_documento{ get; set; }
 
-        public string Numero_pago { get; set; }
-
         public Decimal Prefijo_documento{ get; set; }
 
         public Decimal Numero_documento{ get; set; }

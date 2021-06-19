@@ -2,6 +2,7 @@ import React from 'react';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import LoginPage from '../pages/loginPage';
 import PortalHomePage from '../pages/portalHomePage';
+import PortalHomeInternalUserPage from '../pages/portalHomeInternalUserPage';
 import PortalHomeProvidersPage from '../pages/portalHomeProvidersPage';
 import AccountConfiguration from '../pages/accountConfigurationPage';
 import ContactPage from '../pages/contactPage';
@@ -18,6 +19,7 @@ import PaymentsReportNoDetailsPage from '../pages/paymentsReportNoDetailsPage';
 import Test from '../components/test';
 import PaymentsFormsPage from '../pages/paymentsFormsPage';
 import Auth from '../auth/auth';
+import ProviderSelectInternalUserPage from '../pages/providerSelectInternalUserPage';
 
 export default function Router(){
 
@@ -46,6 +48,8 @@ return(
   <Route exact path='/payments/forms' component={PaymentsFormsPage} />
   <Route exact path='/payments/report/nodetail' component={PaymentsReportNoDetailsPage} />
   <Route exact path='/auth' component={Auth} />
+  <Route exact path='/portal/internalUser' component={PortalHomeInternalUserPage} />
+  <Route exact path='/internalUser/providerSelect' component={ProviderSelectInternalUserPage} />
   </Switch>
 </BrowserRouter>
 

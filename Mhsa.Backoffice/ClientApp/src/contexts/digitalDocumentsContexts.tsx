@@ -1,6 +1,5 @@
 import api from "../services/api";
 import { AxiosResponse } from "axios";
-import React, { Component } from 'react';
 
 interface Response {
     data: IDigitalDocuments;
@@ -49,7 +48,6 @@ export class DigitalDocumentsContext {
 
     static async setDocument(files: any) {
 
-        let json = JSON.stringify(files);
         const response = await api.post<Response, AxiosResponse<Response>>(
             `/digitalDocuments/post`, files);
     }
