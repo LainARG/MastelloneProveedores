@@ -1,24 +1,32 @@
-.providerSelectContainer{
-  display:block;
-  position: relative;
-  height: 175px;
-  margin-top: 2%;
+.providerSelectContainer {
+    display: block;
+    margin-bottom: 25%;
+    margin-left: 2%;
+    padding-right: 3.5%;
+}
+
+.tableProviderSelect {
+    display: block;
+    margin-left: 2%;
+    padding-right: 3.5%;
+}
+
+.internalUserProviderSelectSearchBarContainer {
+    display: inline-block;
+    margin-left: 81.5%;
+    width: 15%;
+    margin-top: 3%;
 }
 
 .providerSelectLegend{
   display:block;
   position: relative;
-  margin-left:2%;
+  margin-left:1%;
+  margin-top:4%;
+  margin-bottom:-3%;
   font-weight:bold;
 }
 
-.internalUserProviderSelectSearchBarContainer {
-    display: inline-block;
-    position: relative;
-    margin-left: 70%;
-    width: 9.5%;
-    margin-top:3%;
-}
 
 .internalUserProviderSelectSearchIconContainer {
     display: inline-block;
@@ -32,9 +40,33 @@
     width: 100%;
 }
 
+
 .internalUserProviderSelectSearchIcon {
     display: inline-block;
     width: 100%;
     cursor:pointer;
 }
 
+ 
+    .internalUserProviderSelectSearchIcon:hover {
+        display: inline-block;
+        width: 100%;
+        cursor: pointer;
+        color: #009639;
+        width: 40px;
+        height: 40px;
+    }
+
+.iconGoToProviderSelect {
+    width: 30px;
+    height: 30px;
+    color: #009639;
+    cursor: pointer;
+}
+
+.iconGoToProviderSelect:hover {
+    width: 35px;
+    height: 35px;
+    color: #ff0000;
+    cursor: pointer;
+}
