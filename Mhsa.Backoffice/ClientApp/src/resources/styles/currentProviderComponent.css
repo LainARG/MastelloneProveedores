@@ -1,0 +1,65 @@
+.currentProviderContainer{
+    display: inline-block;
+    width:100%;
+    margin-top:1%;
+    margin-left:1.5%;
+}
+
+.currentProviderBtnContainer {
+    display: inline-block;
+    position:absolute;
+    width: 100%;
+    margin-left: 25%;
+}
+
+.currentProviderLegend {
+    display: inline-block;
+    font-weight:bold;
+    margin-left:2%;
+}
+
+.currentProvideBtnTxt {
+    display: inline-block;
+    font-weight: bold;
+}
+
+.currentProviderBtn1 {
+    display: inline-block;
+    position: absolute;
+    font-weight: bold;
+    margin-left: 2%;
+    border-radius: 5px;
+    border: 1px solid #000;
+    padding-left:6px;
+    padding-right:6px;
+}
+
+    .currentProviderBtn1:hover {
+        display: inline-block;
+        position: absolute;
+        font-weight: bold;
+        margin-left: 2%;
+        color: red;
+        background-color: lavender;
+        border-radius: 5px;
+        border: 1px solid red;
+    }
+
+.currentProviderBtn {
+    display: inline-block;
+    border-radius: 5px;
+    border: 1px solid #009639;
+    color: #009639;
+    background-color: transparent;
+}
+
+.currentProviderBtn:hover {
+    display: inline-block;
+    border-radius: 5px;
+    border: 1px solid red;
+    color: red;
+    background-color: lavender;
+}
+
+
+

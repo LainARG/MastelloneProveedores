@@ -7,11 +7,19 @@
     min-width:100%;
 }
 
-.documentSearchFormContainer{
-   display:inline-block;
-   width:27%;
-   margin-left:3%;
-   margin-top:3%;
+.iuDocumentSearchBody {
+    display: inline-block;
+    margin-left: 4%;
+    margin-top: 5%;
+    min-width: 100%;
+    min-height:400px;
+}
+
+.documentSearchFormContainer {
+    display: inline-block;
+    width: 27%;
+    margin-left: 3%;
+    margin-top: 3%;
 }
 
 .inputUploadDigDoc{
@@ -109,7 +117,7 @@
 
 .documentSearchFormLegend1 {
     display: block;
-    width: 150px;
+    width: 250px;
     font-size: 17px;
     color: #A9A9A9;
     margin-top: 5%;

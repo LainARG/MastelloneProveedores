@@ -16,15 +16,15 @@ import DocumentUploadPage from '../pages/documentUploadPage';
 import PaymentsReportPage from '../pages/paymentsReportPage';
 import PaymentsReportDetailsPage from '../pages/paymentsReportDetailsPage';
 import PaymentsReportNoDetailsPage from '../pages/paymentsReportNoDetailsPage';
-import Test from '../components/test';
+import IuDocumentSearchPage from '../pages/iuDocumentSearchPage';
 import PaymentsFormsPage from '../pages/paymentsFormsPage';
 import Auth from '../auth/auth';
 import ProviderSelectInternalUserPage from '../pages/providerSelectInternalUserPage';
+import IuPortalHomeProvidersPage from '../pages/iuPortalHomeProvidersPage';
+import IuPaymentsReportPage from '../pages/iuPaymentsReportPage';
+
 
 export default function Router(){
-
-
-
 
 return(
 
@@ -44,7 +44,9 @@ return(
   <Route exact path='/documents/upload' component={DocumentUploadPage}/>
   <Route exact path='/payments' component={PaymentsReportPage}/>
   <Route exact path='/payments/report/detail' component={PaymentsReportDetailsPage} />
-  <Route exact path='/test' component={Test} />
+  <Route exact path='/Test' component={IuPortalHomeProvidersPage} />
+  <Route exact path='/Test1' component={IuPaymentsReportPage} />
+  <Route exact path='/Test2' component={IuDocumentSearchPage} />
   <Route exact path='/payments/forms' component={PaymentsFormsPage} />
   <Route exact path='/payments/report/nodetail' component={PaymentsReportNoDetailsPage} />
   <Route exact path='/auth' component={Auth} />

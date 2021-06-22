@@ -190,7 +190,7 @@ switch(val) {
     
     break;
   case 1:
-        window.location = '/payments';
+        window.location = '/test2';
     break;
   }
 }
