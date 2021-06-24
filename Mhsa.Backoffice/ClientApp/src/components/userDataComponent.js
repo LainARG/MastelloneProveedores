@@ -5,13 +5,15 @@ export default function UserDataComponent(props){
 
 	const user = props;
 
+	console.log(props);
+
 return(
 
 <div className="userDataComponentContainer">
 
  <div className="userDataComponentLegend">Tus datos.</div><br/>
 
-		<div className="userDataComponentUserName">Nombre de usuario: &nbsp;{ user.props.nombre }</div>
+		<div className="userDataComponentUserName">Nombre de usuario: &nbsp;{user.props.razon_social}</div>
 		<div className="userDataComponentLocation">Localidad: &nbsp;{user.props.localidad}</div>
 		<div className="userDataComponentCuit">CUIT asociado: &nbsp; {user.props.cuit}</div>
 		<div className="userDataComponentPostalCode">Código Postal: &nbsp; {user.props.codigo_postal}</div>

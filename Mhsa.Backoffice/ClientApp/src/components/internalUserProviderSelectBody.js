@@ -130,20 +130,39 @@ export default function InternalUserProviderSelectBody() {
             let objectData = {
                 proveedor: null,
                 razon_social: null,
-                cuit: null
+                cuit: null,
+                domicilio: null,
+                localidad: null,
+                codigo_postal: null,
+                telefono:null
+
             }
             let objectDataBkp = {
                 proveedor: null,
                 razon_social: null,
-                cuit: null
+                cuit: null,
+                domicilio: null,
+                localidad: null,
+                codigo_postal: null,
+                telefono: null
             }
-
+            
             objectData.proveedor = allproviders[i].codigo_proveedor;
             objectData.razon_social = allproviders[i].razon_social;
             objectData.cuit = allproviders[i].cuit;
+            objectData.domicilio= allproviders[i].domicilio;
+            objectData.localidad = allproviders[i].localidad;
+            objectData.codigo_postal = allproviders[i].codigo_postal;
+            objectData.telefono = allproviders[i].telefono;
+            console.log(allData[i]);
+
             objectDataBkp.proveedor = allproviders[i].codigo_proveedor;
             objectDataBkp.razon_social = allproviders[i].razon_social;
             objectDataBkp.cuit = allproviders[i].cuit;
+            objectDataBkp.domicilio = allproviders[i].domicilio;
+            objectDataBkp.localidad = allproviders[i].localidad;
+            objectDataBkp.codigo_postal = allproviders[i].codigo_postal;
+            objectData.telefono = allproviders[i].telefono;
             alldata.push(objectData);
             alldatabkp.push(objectDataBkp);
          }
@@ -171,7 +190,11 @@ export default function InternalUserProviderSelectBody() {
                     let objectData = {
                         proveedor: allDataBkp[i][j].proveedor,
                         razon_social: allDataBkp[i][j].razon_social,
-                        cuit: allDataBkp[i][j].cuit
+                        cuit: allDataBkp[i][j].cuit,
+                        domicilio: allDataBkp[i][j].domicilio,
+                        localidad: allDataBkp[i][j].localidad,
+                        codigo_postal: allDataBkp[i][j].codigo_postal,
+                        telefono: allDataBkp[i][j].telefono
                     }
                     suggestions.push(objectData);
                 }
@@ -194,8 +217,16 @@ export default function InternalUserProviderSelectBody() {
         }
        
         
-       }
+    }
 
+    function ProviderSelected(row) {
+        window.localStorage.removeItem("currentProvider");
+        window.localStorage.setItem("currentProvider", JSON.stringify(row));
+        window.location = "/internalUser/homePortalProvider";
+        console.log(row);
+    }
+
+  
 
 
    
@@ -270,7 +301,8 @@ export default function InternalUserProviderSelectBody() {
                                             else if (column.id == "GoProvider") {
                                                 return (
                                                     <TableCell key={column.id} align={column.align}>
-                                                        <IoChevronForwardCircleSharp className="iconGoToProviderSelect"/>
+                                                        <IoChevronForwardCircleSharp className="iconGoToProviderSelect" onClick={ ()=>ProviderSelected(row)} />
+                                                        
                                                     </TableCell>
                                                 );
                                             }

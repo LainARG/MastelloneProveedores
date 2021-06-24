@@ -4,8 +4,26 @@ import { PaymentsContext } from "../contexts/paymentsContext";
 
 export default function CurrentProviderComponent(props){
 
-    const [provider, setProvider] = useState("");
+ const [provider, setProvider] = useState("PROVEEDOR NO SELECCIONADO");
 
+
+ useEffect(() => {
+     getProvider();
+  });
+
+
+    function getProvider() {
+        setProvider(JSON.parse(window.localStorage.getItem("currentProvider")).cuit);
+        console.log(provider);
+    }
+
+    function ChangeProvider() {
+        window.location = "/internaluser/providerselect";
+    }
+
+    function ManageDocumentProvider() {
+        window.location = "/internalUser/manageDocumentProvider";
+    }
 
 
 return(
@@ -13,14 +31,14 @@ return(
 <div className="currentProviderContainer">
 
 
-        <span className="currentProviderLegend">Proveedor seleccionado: </span><span className="currentProviderLegend1"> CUIT 30-64207252-4 CARTOCOR S.A.</span>
+        <span className="currentProviderLegend">Proveedor seleccionado: </span><span className="currentProviderLegend1"> CUIT { provider }</span>
 
 <div className="currentProviderBtnContainer">
- 
-            <button className="currentProviderBtn" color="primary" variant="outlined">
+
+            <button className="currentProviderBtn" onClick={ ChangeProvider }>
                     <span className="currentProvideBtnTxt"> Cambiar proveedor</span>
             </button>
-            <span className="currentProviderBtn1">Administrar documentos</span>
+            <span className="currentProviderBtn1" onClick={ManageDocumentProvider}>Administrar documentos</span>
  
  </div>
         

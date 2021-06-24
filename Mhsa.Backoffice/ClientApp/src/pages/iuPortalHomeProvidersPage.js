@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 import Footer from '../components/footer';
 import Navbar from '../components/navBar';
-import PortalHomeBody from '../components/portalHomeBody';
+import IuPortalHomeBody from '../components/iuPortalHomeBody';
 import CurrentProviderComponent from '../components/currentProviderComponent';
 
 const index = 0;
@@ -18,7 +18,7 @@ return(
 <div>
 <Navbar index={index} />
 <CurrentProviderComponent/>
-<PortalHomeBody></PortalHomeBody>
+<IuPortalHomeBody></IuPortalHomeBody>
 <Footer/>
 </div>
 );
