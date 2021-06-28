@@ -1,0 +1,123 @@
+﻿.nextPaymentComponentContainer{
+
+}
+
+.nextPaymentIconReport{
+    display:inline-block;
+    margin-left:66%;
+    width:20px;
+    height:20px;
+    margin-top:0%;
+}
+
+.nextPaymentReportLegend {
+    display:inline-block;
+    font-weight:bold;
+    font-size:12px;
+    margin-left:0.2%;
+    margin-top:0%;
+}
+
+.nextPaymentComponentLegend {
+    display: inline-block;
+    font-weight: bold;
+    font-size: 20px;
+    margin-left:1%;
+    margin-top:-2%;
+    float:left;
+}
+
+
+.nextPaymentLegend1{
+    display:inline-block;
+    width:19%;
+    font-size:12px;
+    font-weight:bold;
+    color:gray;
+}
+.nextPaymentLegend2 {
+    display: inline-block;
+    width: 19%;
+    font-size: 12px;
+    font-weight: bold;
+    color: gray;
+}
+.nextPaymentLegend3 {
+    display: inline-block;
+    width: 19%;
+    font-size: 12px;
+    font-weight: bold;
+    color: gray;
+}
+.nextPaymentLegend4 {
+    display: inline-block;
+    width: 19%;
+    font-size: 12px;
+    font-weight: bold;
+    color: gray;
+}
+.nextPaymentLegend5 {
+    display: inline-block;
+    width: 19%;
+    font-size: 12px;
+    font-weight: bold;
+    color: gray;
+}
+
+
+
+
+.nextPaymentLegend6 {
+    display: inline-block;
+    width: 19%;
+    font-size: 12px;
+    font-weight: bold;
+    color: #cdcfd1;
+}
+
+.nextPaymentLegend7 {
+    display: inline-block;
+    width: 19%;
+    font-size: 12px;
+    font-weight: bold;
+    color: #cdcfd1;
+}
+
+.nextPaymentLegend8 {
+    display: inline-block;
+    width: 19%;
+    font-size: 12px;
+    font-weight: bold;
+    color: #cdcfd1;
+}
+
+.nextPaymentLegend9 {
+    display: inline-block;
+    width: 10%;
+    font-size: 12px;
+    font-weight: bold;
+    color: #cdcfd1;
+}
+
+.nextPaymentLegend10 {
+    display: inline-block;
+    width: 19%;
+    margin-left:9.25%;
+    font-size: 12px;
+    font-weight: bold;
+    color: #cdcfd1;
+}
+
+.nextPaymentTitleLegend{
+    display:inline-block;
+    font-weight:bold;
+    font-size:18px;
+    margin-left:2%;
+    margin-top:3%;
+}
+
+.nextPaymentTableLegend {
+    display: block;
+    margin-left: 2.1%;
+    margin-top: 1%;
+}

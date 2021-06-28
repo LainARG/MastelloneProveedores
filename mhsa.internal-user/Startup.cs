@@ -1,3 +1,4 @@
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -11,7 +12,7 @@ using Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 
-namespace Mhsa.Backoffice
+namespace mhsa.internal_user
 {
     public class Startup
     {
@@ -45,7 +46,7 @@ namespace Mhsa.Backoffice
             services.AddTransient<IProvidersService, ProvidersService>();
             services.AddTransient<IProvidersRepository, ProvidersRepository>();
             services.AddTransient<IPaymentDetailService, PaymentDetailService>();
-            services.AddTransient<IPaymentDetailRepository, PaymentDetailRepository>(); 
+            services.AddTransient<IPaymentDetailRepository, PaymentDetailRepository>();
             services.AddTransient<IPaymentsFormsService, PaymentsFormsService>();
             services.AddTransient<IPaymentsFormsRepository, PaymentsFormsRepository>();
             services.AddTransient<IUsersAssignmentService, UsersAssignmentService>();
@@ -74,7 +75,7 @@ namespace Mhsa.Backoffice
             app.UseAuthentication();
 
             app.UseCors("AllowAllOriginsPolicy");
-           
+
 
             app.UseEndpoints(endpoints =>
             {

@@ -1,0 +1,104 @@
+.userDataComponentContainer{
+  display:block;
+  position: relative;
+  height: 175px;
+  margin-top: 8%;
+}
+
+.userDataComponentLegend{
+  display: block;
+  position: absolute;
+  font-weight: bold;
+  font-size: 20px;
+  font-family: arial;
+  margin-top: 20px;
+  margin-left:-0.2%;
+}
+
+.userDataComponentUserName{
+  display: inline;
+  position: absolute;
+  font-weight: bold;
+  font-size: 18px;
+  font-family: arial;
+  margin-top: 50px;
+  width: 600px;
+  min-width: 300px;
+  color: #3b3a39;
+}
+
+.userDataComponentLocation{
+  display: inline;
+  position: absolute;
+  font-weight: bold;
+  font-size: 18px;
+  font-family: arial;
+  margin-top: 45px;
+  margin-left:500px;
+  width: 300px;
+  min-width: 300px;
+  color: #3b3a39;
+}
+
+
+.userDataComponentCuit{
+  display: inline;
+  position: absolute;
+  font-weight: bold;
+  font-size: 18px;
+  font-family: arial;
+  margin-top: 90px;
+  width: 400px;
+  min-width: 300px;
+  color: #3b3a39;
+}
+
+.userDataComponentPostalCode{
+  display: inline;
+  position: absolute;
+  font-weight: bold;
+  font-size: 18px;
+  font-family: arial;
+  margin-left: 500px;
+  margin-top: 85px;
+  width: 300px;
+  min-width: 300px;
+  color: #3b3a39;
+}
+
+.userDataComponentBusinessName{
+  display: inline;
+  position: absolute;
+  font-weight: bold;
+  font-size: 18px;
+  font-family: arial;
+  margin-top: 130px;
+  width: 600px;
+  min-width: 600px;
+  color: #3b3a39;
+}
+
+.userDataComponentPhone{
+  display: inline;
+  position: absolute;
+  font-weight: bold;
+  font-size: 18px;
+  font-family: arial;
+  margin-left: 500px;
+  margin-top: 125px;
+  width: 600px;
+  min-width: 300px;
+  color: #3b3a39;
+}
+
+.userDataComponentAddress{
+  display: inline;
+  position: absolute;
+  font-weight: bold;
+  font-size: 18px;
+  font-family: arial;
+  margin-top: 170px;
+  width: 600px;
+  min-width: 300px;
+  color: #3b3a39;
+}

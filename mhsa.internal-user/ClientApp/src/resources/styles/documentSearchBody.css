@@ -1,0 +1,443 @@
+﻿
+
+.documentUploadContainer {
+    display:inline-block;
+    margin-left:4%;
+    margin-top:2%;
+    min-width:100%;
+}
+
+.iuDocumentSearchBody {
+    display: inline-block;
+    margin-left: 4%;
+    margin-top: 5%;
+    min-width: 100%;
+    min-height:400px;
+}
+
+.documentSearchFormContainer {
+    display: inline-block;
+    width: 27%;
+    margin-left: 3%;
+    margin-top: 3%;
+}
+
+.inputUploadDigDoc{
+    display:inline-block;
+    background-color:transparent;
+}
+
+.documentSearchFormContainer1 {
+    display: inline-block;
+    width: 12.5%;
+    margin-left: 3%;
+    margin-top: 3%;
+}
+
+.documentSearchFormContainer2 {
+    display: inline-block;
+    width: 12.5%;
+    margin-left: 3%;
+    margin-top: 3%;
+}
+
+.documentSearchFormContainer3 {
+    display: inline-block;
+    width: 27%;
+    margin-left: 3%;
+    margin-top: 3%;
+}
+
+.documentSearchBackContainer {
+    display: inline-block;
+    width: 150px;
+    margin-left: 1%;
+    margin-top: 2%;
+    cursor: pointer;
+}
+
+.documentSearchBackLegend {
+    display: inline-block;
+    position:absolute;
+    font-weight:bold;
+    font-size:18px;
+    margin-left:0.5%;
+    margin-top:0.5%;
+}
+
+.documentSearchLegendContainer {
+    display: block;
+    font-weight: bold;
+    font-size: 28px;
+    margin-top:2%;
+    margin-left:2%;
+}
+
+.documentSearchLegend{
+
+
+}
+
+.documentSearchBackIcon{
+    display:inline-block;
+    width:40px;
+    height:40px;
+    margin-left:1%;
+}
+
+.documentSearchBackIcon:hover {
+    display: inline-block;
+    width: 45px;
+    height: 45px;
+    margin-left: 1%;
+    background-color:lavender;
+}
+
+.documentSearchFormLegend {
+    display: block;
+    width: 150px;
+    font-size: 17px;
+    color: #A9A9A9;
+    margin-top: 5%;
+    margin-bottom: -4%;
+    margin-left: 0.5%;
+    vertical-align: bottom;
+}
+
+.documentSearchFormInput {
+    display: inline-block;
+    width: 100%;
+    font-size: 16px;
+    margin-top: 5%;
+    background-color: #f4f4f4;
+    border: none;
+    border-bottom: 1px solid #808080;
+}
+
+
+.documentSearchFormLegend1 {
+    display: block;
+    width: 250px;
+    font-size: 17px;
+    color: #A9A9A9;
+    margin-top: 5%;
+    margin-bottom: -4%;
+    margin-left: 0.5%;
+    vertical-align: bottom;
+}
+
+.documentSearchFormInput1 {
+    display: inline-block;
+    width: 100%;
+    font-size: 16px;
+    margin-top: 10%;
+    background-color: #f4f4f4;
+    border: none;
+    border-bottom: 1px solid #808080;
+ 
+}
+
+.documentSearchFormLegend2 {
+    display: block;
+    width: 150px;
+    font-size: 17px;
+    color: #A9A9A9;
+    margin-top: 5%;
+    margin-bottom: -4%;
+    margin-left: 0.5%;
+    vertical-align: bottom;
+}
+
+.documentSearchFormInput2 {
+    display: inline-block;
+    width: 100%;
+    font-size: 16px;
+    margin-top: 5%;
+    background-color: #f4f4f4;
+    border: none;
+    border-bottom: 1px solid #808080;
+}
+
+.documentSearchFormLegend3 {
+    display: block;
+    width: 150px;
+    font-size: 17px;
+    color: #A9A9A9;
+    margin-top: 5%;
+    margin-bottom: 0%;
+    margin-left: 0.5%;
+    vertical-align: bottom;
+}
+
+.documentSearchFormSelect {
+    display: inline-block;
+    width: 100%;
+    font-size: 16px;
+    margin-top: 5%;
+    background-color: #f4f4f4;
+    border: none;
+    border-bottom: 1px solid #808080;
+}
+
+.documentSearchFormScheduleIcon{
+     display:inline;
+     position:absolute;
+     width:25px;
+     height:25px;
+     margin-top:1.35%;
+     margin-left:-2%;
+}
+
+.documentSearchFormScheduleIcon1 {
+    display: inline;
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    margin-top: 0.7%;
+    margin-left: -2%;
+}
+
+.documentSearchFormBtnContainer{
+     display:block;
+     margin-top:4%;
+     margin-left:84%;
+     margin-bottom:10.5%;
+
+}
+
+
+.documentSearchResContainer{
+
+    display:block;
+    margin-top:-7%;
+    margin-left:4%;
+
+}
+
+.documentSearchResultLegend{
+
+    display:block;
+    font-weight:bold;
+    font-size:28px;
+
+}
+
+.documentSearchResultLegend1 {
+    display: inline-block;
+    font-weight: bold;
+    font-size: 16px;
+    color: #969696;
+    width: 10%;
+    margin-top:2%;
+}
+
+.documentSearchResultLegend2 {
+    display: inline-block;
+    font-weight: bold;
+    font-size: 16px;
+    color: #969696;
+    width: 5%;
+    margin-left:4%;
+    margin-top: 2%;
+}
+
+.documentSearchResultLegend3 {
+    display: inline-block;
+    font-weight: bold;
+    font-size: 16px;
+    color: #969696;
+    width: 8%;
+    margin-left: 4%;
+    margin-top: 2%;
+}
+
+.documentSearchResultLegend4 {
+    display: inline-block;
+    font-weight: bold;
+    font-size: 16px;
+    color: #969696;
+    width: 12%;
+    margin-left: 4%;
+    margin-top: 2%;
+}
+
+.documentSearchResultShowDataResultContainer{
+    display:inline-block;
+    margin-left:20%;
+}
+
+
+
+
+.documentSearchResultLegend5 {
+    display: inline-block;
+    font-weight: bold;
+    font-size: 16px;
+    color: #bababa;
+    width: 22%;
+    margin-top: 0%;
+    font-size: 13px;
+    margin-top: 2%;
+}
+
+.documentSearchResultLegend6 {
+    display: inline-block;
+    font-weight: bold;
+    font-size: 16px;
+    color: #bababa;
+    width: 22%;
+    margin-top: 0%;
+    font-size: 13px;
+    margin-top: 2%;
+}
+
+.documentSearchResultLegend7 {
+    display: inline-block;
+    font-weight: bold;
+    font-size: 16px;
+    color: #bababa;
+    width: 22%;
+    margin-top: 0%;
+    font-size: 13px;
+    margin-top: 2%;
+}
+
+.documentSearchResultLegend8 {
+    display: inline-block;
+    position: absolute;
+    font-weight: bold;
+    font-size: 16px;
+    color: #bababa;
+    width: auto;
+    margin-top: 0%;
+    margin-left: 17%;
+    font-size: 13px;
+    margin-top: 2%;
+}
+
+.documentSearchResultIcon{
+
+    display:inline-block;
+    width:20px;
+    height:20px;
+    margin-left:20%;
+    cursor:pointer;
+}
+
+.documentUploadBtnContainer{
+    display:block;
+    margin-left:3%;
+    margin-top:3%;
+    margin-bottom:2%;
+    width:100%;
+}
+
+.documentUploadBtn {
+    display: block;
+    background-color: white;
+    border: 1px solid #009639;
+    color: #009639;
+    font-weight: bold;
+    font-size: 12px;
+    border-radius:0.35em;
+    min-width:20%;
+    height:30px;
+    margin-left:0%;
+}
+
+.documentUploadBtnContainer1 {
+    display: block;
+    margin-left: 30%;
+    margin-top: 4%;
+    width:25%;
+}
+
+.documentUploadBtn1 {
+    display: block;
+    background-color: #009639;
+    color: white;
+    border:none;
+    font-weight: bold;
+    font-size: 12px;
+    border-radius: 0.35em;
+    min-width: 100%;
+    height: 30px;
+    margin-top:10%;
+}
+
+
+.documentUploadDeleteIcon{
+    display:inline-block;
+    color:darkred;
+    margin-left:1%;
+}
+.documentUploadDeleteIcon1 {
+    display: inline-block;
+    color: darkred;
+    margin-right:0.5%;
+    margin-left:0.75%;
+}
+
+.documentUploadViewFileContainer{
+    display:block;
+    margin-left:3%;
+}
+
+.documentUploadViewFileContainerContainer{
+
+    display:block;
+    height:auto;
+    width:100%;
+}
+
+.documentUploadFailedUploadContainer {
+    display: block;
+    margin-left: 2%;
+    margin-top: 2%;
+}
+
+.documentUploadDescriptionFiles{
+    display:inline-block;
+    font-weight:bold;
+    font-size:12px;
+}
+
+.documentUploadLegend{
+
+    display:block;
+    margin-left:2%;
+    font-weight:bold;
+    font-size:28px;
+    margin-top:5%;
+
+}
+
+.documentUploadLegend1 {
+    display: block;
+    margin-left: 3%;
+    font-weight: bold;
+    font-size: 14px;
+    margin-top: 0%;
+}
+
+.documentUploadLegend2 {
+    display: block;
+    margin-left: 3%;
+    font-size: 14px;
+    margin-top: 1%;
+}
+
+.documentUploadLegend4 {
+    display: block;
+    margin-left: 3%;
+    font-size: 14px;
+    margin-top: 0%;
+}
+
+.documentUploadLegend3 {
+    display: block;
+    margin-top: 2%;
+    font-weight: bold;
+    font-size: 14px;
+    margin-left:3%;
+}
