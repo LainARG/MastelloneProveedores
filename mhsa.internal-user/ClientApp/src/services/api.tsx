@@ -5,7 +5,8 @@ export const apiUrl = `${window.location.protocol}//${window.location.host}/api`
 let getAuthenticationBearerToken = localStorage.getItem("token");
 let AuthenticationBearerToken = authParser(getAuthenticationBearerToken);
 const api = axios.create({
-    baseURL: apiUrl
+    baseURL: apiUrl,
+    headers: { Authorization: `${AuthenticationBearerToken}` }
 
 });
 

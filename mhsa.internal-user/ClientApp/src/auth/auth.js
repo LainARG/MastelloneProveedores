@@ -23,7 +23,7 @@ import jwt_decode from "jwt-decode";
 
 export default async function login(props) {
     let credentials = JSON.parse(props);
-
+     
         if (credentials.Username == "" && credentials.Password == ""){
             window.location = "/internalUser/providerSelect";
         } else {
@@ -39,12 +39,16 @@ export default async function login(props) {
                     config
                 )
                 .then((result) => {
-                    if (result.status === 200) {
+
+                    let token = ("Bearer " + result.data);
+                    if (result.status == 200) {
                         if (localStorage.getItem("token") == undefined) {
-                            let token = ("Bearer " + result.data);
+                            
                             localStorage.setItem("token", JSON.stringify(token));
                             token = jwt_decode(result.data);
                             window.location.href = window.location.href;
+                        } else {
+
                         }
                     }
                 })

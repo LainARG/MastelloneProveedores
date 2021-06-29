@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Repository.Interfaces;
 using Service.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace mhsa.internal_user.Controllers
 {
@@ -23,6 +25,7 @@ namespace mhsa.internal_user.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public IEnumerable<Users> GetAll()
         {
             return service.GetAll();
