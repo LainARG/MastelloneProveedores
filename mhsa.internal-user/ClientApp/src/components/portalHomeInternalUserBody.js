@@ -18,7 +18,7 @@ export default function PortalHomeInternalUserBody() {
 
     useEffect(() => {
 
-        if (user == "") {
+        if (allUsers == "") {
             UserContext.fetchUsers().then((e) => {
                 setAllUsers(e);
             });
@@ -28,10 +28,10 @@ export default function PortalHomeInternalUserBody() {
             UsersAssignmentContext.fetchUsersAssignment().then((e) => {
                 setAllUsersAssignment(e);
             });
-            
-        }
-        GetToken();
 
+        } else {
+            GetToken();
+        }
     }, [allUsers, allProviders, allUsersAssignment]);
 
 
@@ -88,7 +88,7 @@ export default function PortalHomeInternalUserBody() {
     }
 
     
-    if (user) {
+    
 
         return (
 
@@ -101,13 +101,7 @@ export default function PortalHomeInternalUserBody() {
             </div>
         );
 
-    }
-    else {
-        return (
-            <div>Usuario invalido!</div>
-        );
-
-    }
+    
 }
 
 

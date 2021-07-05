@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using mhsa.internal_user.Validators;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -17,21 +18,23 @@ using System.Threading.Tasks;
 
 namespace mhsa.internal_user.Controllers
 {
-    [Produces("application/json")]
-    [EnableCors("AllowAllOriginsPolicy")]
-    [Route("api/auth")]
+    [Route("api/{controller}")]
+    [Authorize]
     [ApiController]
     public class AuthController : ControllerBase
     {
         private readonly IConfiguration configuration;
+        public static Object response;
 
         public AuthController(IConfiguration configuration)
         {
             this.configuration = configuration;
         }
 
+
+        [AllowAnonymous]
         [HttpPost]
-        public async Task<ActionResult> Login([FromBody] UserCredentialsDTO user)
+        public async Task<object> Login([FromBody] UserCredentialsDTO user)
         {
             var validor = new UserValidator();
             var result = validor.Validate(user);
@@ -61,12 +64,9 @@ namespace mhsa.internal_user.Controllers
 
                     using (var response = await httpClient.PostAsync(configuration["Auth:Endpoint"], httpContent))
                     {
-                        if (response.StatusCode != System.Net.HttpStatusCode.OK)
-                        {
-                            return Unauthorized();
-                        }
-                        else
-                        {
+                       
+                       
+                            AuthController.response = response;
                             var key = Encoding.ASCII.GetBytes(configuration["Auth:SecretKey"]);
 
                             ClaimsIdentity claims = new ClaimsIdentity();
@@ -85,7 +85,13 @@ namespace mhsa.internal_user.Controllers
                             var tokenHandler = new JwtSecurityTokenHandler();
                             var createdToken = tokenHandler.CreateToken(tokenDescriptor);
 
-
+                        if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                        {
+                            return Ok("unauthorized");
+                            
+                        }
+                        else
+                        {
                             return Ok(tokenHandler.WriteToken(createdToken));
 
                         }
@@ -95,5 +101,12 @@ namespace mhsa.internal_user.Controllers
             }
             else return BadRequest();
         }
+
+        [HttpGet]
+        public async Task<string> getResponse()
+        {
+            return AuthController.response.ToString();
+        }
+
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace mhsa.internal_user.Controllers
 {
 
     [ApiController]
+    [Authorize]
     [Route("api/{controller}")]
     public class SmtpController : Controller
     {

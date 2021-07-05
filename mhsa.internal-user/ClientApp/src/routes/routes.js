@@ -8,6 +8,7 @@ import ProviderSelectInternalUserPage from '../pages/providerSelectInternalUserP
 import IuPortalHomeProvidersPage from '../pages/iuPortalHomeProvidersPage';
 import IuPaymentsReportPage from '../pages/iuPaymentsReportPage';
 import ContactPage from '../pages/contactPage';
+import DocumentPage from '../pages/documentPage';
 
 
 export default function Router(){
@@ -19,6 +20,7 @@ return(
   <Route exact path='/login' component={LoginPage}/>
   <Route exact path='/auth' component={Auth} />
   <Route exact path='/contact' component={ContactPage} />
+  <Route exact path='/documents' component={DocumentPage} />
   <Route exact path='/portal/internalUser' component={PortalHomeInternalUserPage} />
   <Route exact path='/internalUser/providerSelect' component={ProviderSelectInternalUserPage} />
   <Route exact path='/internalUser/manageDocumentProvider' component={IuDocumentSearchPage} />

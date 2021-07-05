@@ -112,6 +112,9 @@ switch(val) {
 
 const classes = useStyles();
 
+    function Redirector() {
+        window.location ="/internalUser/providerSelect";
+    }
 
 return(
   <div className="headerPortalContainer">
@@ -130,7 +133,7 @@ return(
       </DropdownToggle>  
       <DropdownMenu> 
     
-      <DropdownItem className={classes.dditem}>Portal - Uso interno</DropdownItem>
+      <DropdownItem className={classes.dditem} onClick={ Redirector }>Portal - Uso interno</DropdownItem>
       
       </DropdownMenu> 
       

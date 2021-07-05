@@ -14,10 +14,12 @@ using System.Diagnostics;
 using Newtonsoft.Json;
 using javax.jws;
 using RestSharp;
+using Microsoft.AspNetCore.Authorization;
 
 namespace mhsa.internal_user.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/{controller}")]
     public class DigitalDocumentsController : ControllerBase
     {

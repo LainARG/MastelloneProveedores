@@ -1,16 +1,24 @@
-
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Service.Interfaces;
 using Service;
 using Repository.Interfaces;
 using Repository.Repository;
 using Repository;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+//using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 
 namespace mhsa.internal_user
 {
@@ -52,29 +60,50 @@ namespace mhsa.internal_user
             services.AddTransient<IUsersAssignmentService, UsersAssignmentService>();
             services.AddTransient<IUsersAssignmentRepository, UsersAssignmentRepository>();
 
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "ClientApp/build";
+            var key = Encoding.ASCII.GetBytes(Configuration.GetValue<string>("Auth:SecretKey"));
+
+            services.AddAuthentication(x => {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(x => {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
             });
+
+            services.AddDbContext<MastelloneDBContext>(options =>
+                    options.UseLazyLoadingProxies(false).UseSqlServer(Configuration.GetConnectionString("CursosCTX")));
+
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
+
+            services.AddControllersWithViews().AddNewtonsoftJson(
+                x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-
-
-            app.UseStaticFiles();
-
-            app.UseRouting();
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseAuthentication();
+            app.UseHttpsRedirection();
 
-            app.UseCors("AllowAllOriginsPolicy");
+            app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
 
             app.UseEndpoints(endpoints =>
@@ -86,7 +115,7 @@ namespace mhsa.internal_user
 
             app.UseSpa(spa =>
             {
-                spa.Options.SourcePath = "ClientApp";
+               spa.Options.SourcePath = "ClientApp";
 
                 if (env.IsDevelopment())
                 {

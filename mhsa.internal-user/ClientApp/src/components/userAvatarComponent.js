@@ -65,7 +65,7 @@ return(
     <div className="userAvatarComponentUserDataContainer" onClick={handleUserMenu}>
     <Avatar alt="no image" src={image}/>
     
-            <span className="userAvatarComponentUserName">{window.localStorage.getItem("tknUsr")}</span>
+            <span className="userAvatarComponentUserName">{window.localStorage.getItem("iUserName")}</span>
     </div> 
     
     <Menu

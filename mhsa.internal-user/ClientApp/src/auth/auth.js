@@ -23,10 +23,6 @@ import jwt_decode from "jwt-decode";
 
 export default async function login(props) {
     let credentials = JSON.parse(props);
-     
-        if (credentials.Username == "" && credentials.Password == ""){
-            window.location = "/internalUser/providerSelect";
-        } else {
             
             console.log(credentials);
             await api
@@ -39,23 +35,21 @@ export default async function login(props) {
                     config
                 )
                 .then((result) => {
-
                     let token = ("Bearer " + result.data);
-                    if (result.status == 200) {
-                        if (localStorage.getItem("token") == undefined) {
-                            
-                            localStorage.setItem("token", JSON.stringify(token));
-                            token = jwt_decode(result.data);
-                            window.location.href = window.location.href;
-                        } else {
-
-                        }
+                    console.log(token);
+                    if (token.includes("unauthorized")){
+                        alert("Credenciales inválidas");
                     }
+                    else{
+                        localStorage.removeItem("token");
+                        localStorage.removeItem("iUserName");
+                        localStorage.setItem("token", JSON.stringify(token));
+                        localStorage.setItem("iUserName", credentials.Username);
+                        token = jwt_decode(result.data);
+                        window.location.href = "/portal/internalUser";
+                    }
+                    
                 })
-                .catch((e) => {
-                    let errorMessage = "El nombre de usuario y/o contraseña no es correcto";
-                });
-
-        }
+                
+               
     }
-

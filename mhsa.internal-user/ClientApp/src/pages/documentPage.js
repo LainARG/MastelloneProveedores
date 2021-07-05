@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import Footer from '../components/footer';
 import DocumentBody from '../components/documentBody';
 import Navbar from '../components/navBar';
-
+import CurrentProviderComponent from '../components/currentProviderComponent';
 
 const index = 2;
 
@@ -16,7 +16,8 @@ render() {
 
 return(
 <div>
-<Navbar index={index}/>
+<Navbar index={index} />
+<CurrentProviderComponent className="iuPaymentsReportPage" />
 <DocumentBody/>
 <Footer/>
 </div>

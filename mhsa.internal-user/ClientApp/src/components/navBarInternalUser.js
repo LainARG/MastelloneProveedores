@@ -219,7 +219,7 @@ const NavBarInternalUser = (props) => {
                     <div className="navBarUserAvatarComponentUserDataContainer" onClick={navBarHandleUserMenu}>
                         <Avatar alt="no image" src={image1} />
 
-                        <span className="navBarUserAvatarComponentUserName">{"UsuarioInterno"}</span>
+                        <span className="navBarUserAvatarComponentUserName">{localStorage.getItem("iUserName")}</span>
                     </div>
 
                     <Menu

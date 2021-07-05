@@ -29,7 +29,7 @@ namespace Domain
 
         public string Hora_carga { get; set; }
 
-        public string Fecha_estado { get; set; }
+        public DateTime Fecha_estado { get; set; }
 
         public int Tamano_archivo { get; set; }
 
@@ -43,15 +43,11 @@ namespace Domain
             this.Imagen = img;
             this.Id_estado = 9;
             this.Tamano_archivo = size;
-            this.Fecha_carga = DateTime.Now.ToString("yyyy/MM/dd");
-            this.Hora_carga = DateTime.Now.ToString("h:mm:ss tt");
 
         }
 
         public DigitalDocuments()
         {
-
-            this.Fecha_carga = DateTime.Now.ToString();
 
         }
 

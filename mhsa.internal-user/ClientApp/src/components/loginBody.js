@@ -61,7 +61,6 @@ const theme = createMuiTheme({
 
 const forgotRedirect = (e)=>{
   e.preventDefault();
-  window.location = "/login/accountkeyformat";
 }
 
     const dataConsoleTry = () => {
@@ -92,7 +91,7 @@ return(
  <input className="loginBodyKeyInputStyle" type="password" id="loginBodyKeyInputStyle"/><br/>
  <button className="loginBodyForgotLegendStyle" onClick={forgotRedirect}>No recuerdo la clave</button><br/><br/>
  <div className="loginBodyBtnLoginContainer">
-                    <Button className="loginBodyBtnLoginStyle" color="primary" variant="contained" disableElevation onClick={ authenticate }>
+ <Button className="loginBodyBtnLoginStyle" color="primary" variant="contained" disableElevation onClick={ authenticate }>
        Ingresar
  </Button>
  </div><br/><br/><br/>

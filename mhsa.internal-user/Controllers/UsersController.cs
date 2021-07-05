@@ -8,11 +8,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Repository.Interfaces;
 using Service.Interfaces;
-using Microsoft.AspNetCore.Authorization;
 
 namespace mhsa.internal_user.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/{controller}")]
     public class UsersController : ControllerBase,  IUsersService
     {
@@ -25,7 +25,6 @@ namespace mhsa.internal_user.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public IEnumerable<Users> GetAll()
         {
             return service.GetAll();

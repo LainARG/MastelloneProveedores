@@ -187,7 +187,7 @@ switch(val) {
                     <div className="headerUserAvatarComponentUserDataContainer" onClick={headerHandleUserMenu}>
                         <Avatar alt="no image" src={image1} />
 
-                        <span className="headerUserAvatarComponentUserName">Terry Wagner!</span>
+                        <span className="headerUserAvatarComponentUserName">UsuarioInterno</span>
                     </div>
 
                     <Menu
@@ -242,7 +242,7 @@ switch(val) {
                     <div className="headerUserAvatarComponentUserDataContainer" onClick={headerHandleUserMenu}>
                         <Avatar alt="no image" src={image1} />
 
-                        <span className="headerUserAvatarComponentUserName">Terry Wagner!</span>
+                        <span className="headerUserAvatarComponentUserName">UsuarioInterno</span>
                     </div>
 
                     <Menu

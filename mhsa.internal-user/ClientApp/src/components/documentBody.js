@@ -18,7 +18,6 @@ import pagination from '../pagination/pagination';
 import TuneIcon from '@material-ui/icons/Tune';
 import SearchRoundedIcon from '@material-ui/icons/SearchRounded';
 import { makeStyles, Tabs, Tab, Modal } from '@material-ui/core';
-import GetAppIcon from '@material-ui/icons/GetApp';
 import ControlPointIcon from '@material-ui/icons/ControlPoint';
 import SettingsEthernetIcon from '@material-ui/icons/SettingsEthernet';
 import AspectRatioIcon from '@material-ui/icons/AspectRatio';
@@ -295,11 +294,12 @@ export default function DocumentBody() {
 
         if (allDocs == "") {
             DocumentsContext.fetchDocuments().then((e) => { setAllDocs(e); });
-            DigitalDocumentsContext.fetchDocuments().then((e) => { setAllDigDocs(e); });
+            DigitalDocumentsContext.fetchDocuments().then((e) => { setAllDigDocs(e); console.log(e)});
             StatesContext.fetchStates().then((e) => { setAllStates(e); });
             PaymentsContext.fetchPayments().then((e) => { setAllPayments(e); });
         } else {
             dataMapper(allDocs);
+            
         }
 
     }, [allDocs, allDigDocs, modal]);
@@ -521,6 +521,7 @@ export default function DocumentBody() {
         setAllFirstTabDataBackup(pagFirstTabDataBackup);
         setAllSecondTabData(pagSecondTabData);
         setAllSearchData(pagFirstTabData);
+        console.log(pagSecondTabData);
     }
 
 
@@ -771,6 +772,7 @@ export default function DocumentBody() {
 
     }
 
+    console.log(allSecondTabData);
 
     if (allFirstTabData == undefined || allFirstTabData == null || allFirstTabData == "" || allFirstTabData == 0) {
 
