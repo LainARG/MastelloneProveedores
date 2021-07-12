@@ -10,10 +10,9 @@ export default function IuDocumentSearchResultBody(props) {
     const filesToDownload = new Array(props.length);
 
     useEffect(() => {
-
         
 
-    }, [showData]);
+    }, [showData, props]);
 
     const theme = createMuiTheme({
         palette: {
@@ -39,7 +38,7 @@ export default function IuDocumentSearchResultBody(props) {
         filesToDownload[index].click();
     }
 
-
+    
 
     function ShowDataResult() {
 
@@ -50,11 +49,13 @@ export default function IuDocumentSearchResultBody(props) {
                 showData.props.map((index,i) => (
                     <div className="documentSearchResultResultsContainer">
 
-                        <span className="documentSearchResultLegend5">{index.dateShow}</span>
-                        <span className="documentSearchResultLegend6">{index.state}</span>
-                        <span className="documentSearchResultLegend7">{index.user}</span>
+                        <span className="documentSearchResultLegend5">{index.fecha_ingreso}</span>
+                        <span className="documentSearchResultLegend6">{index.cuit}</span>
+                        <span className="documentSearchResultLegend7">{index.razon_social}</span>
+                        <span className="documentSearchResultLegend8">{index.nombre_archivo}</span>
+                        <span className="documentSearchResultLegend9">{index.estado}</span>
                         <GrDocumentDownload className="documentSearchResultIcon" onChange={prepareBase64File(index.type, index.image, index.filename, i)} onClick={(e) => downloadBase64File(i)} />
-
+                        <input className="documentSearchResultLegend10" type="checkbox"/>
                     </div>
 
                 )));
@@ -95,8 +96,8 @@ export default function IuDocumentSearchResultBody(props) {
                     <span className="documentSearchResultLegend3">Razon social</span>
                     <span className="documentSearchResultLegend4">Nombre de archivo</span>
                     <span className="documentSearchResultLegend4">Estado</span>
-                    <span className="documentSearchResultLegend4">Descargar</span>
-                    <span className="documentSearchResultLegend4">Rechazar</span>
+                    <span className="documentSearchResultLegend12">Descargar</span>
+                    <span className="documentSearchResultLegend12">Rechazar</span>
                 </div>
 
                 <div className="documentSearchResultShowDataResultContainer">

@@ -1,9 +1,12 @@
-
-.containerLogo{
-  display:inline;
-  margin-top:-20%;
-  margin-left:20px;
-  height: 85px;
+.mainContainer{
+    display:inline-block;
+    width:100%;
+}
+.containerLogo {
+    display: inline;
+    margin-top: -20%;
+    margin-left: 20px;
+    height: 85px;
 }
 
 .containerToolbar{

@@ -7,7 +7,7 @@ interface Response {
 
 export interface IDigitalDocuments {
 
-        Id_documento: any;
+        Id_documento_electronico: any;
 
         Id_usuario_carga: any;
 
