@@ -58,7 +58,7 @@ export default async function login(props) {
 
         let token = await api.get("/auth").then((result) => {
             localStorage.removeItem("tknPerms");
-            localStorage.setItem("tknPerms", JSON.stringify(result.data));
+            localStorage.setItem("tknPerms", JSON.stringify(jwt_decode(result.data)));
         });
     }
 

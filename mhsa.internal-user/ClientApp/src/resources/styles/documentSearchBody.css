@@ -339,6 +339,79 @@
     overflow: hidden;
 }
 
+
+.rejectDocForm {
+    display: inline-block;
+    position: absolute;
+    width: 27%;
+    margin-top: 1.3%;
+    margin-left: 0%;
+    background-color: #e8ebeb;
+    border-color: #F0F0F0;
+}
+
+.rejectDocumentFormContainer {
+    display: inline-block;
+    position: relative;
+    margin-top: 5%;
+    width: 100%;
+    height: 300px;
+}
+
+.rejectDocForm {
+    display: inline-block;
+    width:25%;
+    margin-left:400px;
+    
+}
+.rejectDocForm1 {
+    display: inline-block;
+    color: #969696;
+    margin-top: 30px;
+    width: auto;
+    font-weight: bold;
+    font-size: 16px;
+    margin-left: 400px;
+}
+
+
+
+.rejectDocForm2 {
+    display: inline-block;
+    width: 25%;
+    height: 250px;
+    margin-left: 400px;
+    background-color: lavender;
+}
+
+.rejectDocForm3 {
+    display: inline-block;
+    color: #969696;
+    margin-top: 30px;
+    width: auto;
+    font-weight: bold;
+    font-size: 16px;
+    margin-left: 400px;
+}
+
+
+.rejectDocsStyle {
+    display: inline-block;
+    position:absolute;
+    font-weight: bold;
+    font-size: 14px;
+    color: #969696;
+    margin-left: 0.5%;
+    margin-bottom:1%;
+}
+
+.rejectDocumentFormContainer {
+    display: block;
+    margin-top: 5%;
+    width:100%;
+
+}
+
 .documentSearchResultLegend10 {
     display: inline-block;
     font-weight: bold;
@@ -403,6 +476,20 @@
     min-width: 100%;
     height: 30px;
     margin-top:10%;
+}
+
+.documentUploadBtn6 {
+    display: block;
+    background-color: #009639;
+    color: white;
+    border: none;
+    font-weight: bold;
+    font-size: 12px;
+    border-radius: 0.35em;
+    min-width: 15%;
+    height: 30px;
+    margin-top: 1%;
+    margin-left:460px;
 }
 
 

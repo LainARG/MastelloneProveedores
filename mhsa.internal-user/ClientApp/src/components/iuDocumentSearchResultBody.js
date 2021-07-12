@@ -38,6 +38,7 @@ export default function IuDocumentSearchResultBody(props) {
         filesToDownload[index].click();
     }
 
+   
     
 
     function ShowDataResult() {
@@ -46,7 +47,7 @@ export default function IuDocumentSearchResultBody(props) {
 
             
             return (
-                showData.props.map((index,i) => (
+                showData.props.map((index, i) => (
                     <div className="documentSearchResultResultsContainer">
 
                         <span className="documentSearchResultLegend5">{index.fecha_ingreso}</span>
@@ -55,10 +56,16 @@ export default function IuDocumentSearchResultBody(props) {
                         <span className="documentSearchResultLegend8">{index.nombre_archivo}</span>
                         <span className="documentSearchResultLegend9">{index.estado}</span>
                         <GrDocumentDownload className="documentSearchResultIcon" onChange={prepareBase64File(index.type, index.image, index.filename, i)} onClick={(e) => downloadBase64File(i)} />
-                        <input className="documentSearchResultLegend10" type="checkbox"/>
+                        <input className="documentSearchResultLegend10" type="checkbox" />
+
                     </div>
 
-                )));
+                ))
+                
+            );
+          
+           
+               
 
         } else {
             return (

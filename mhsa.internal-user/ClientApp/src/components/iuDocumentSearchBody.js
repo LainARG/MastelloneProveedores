@@ -735,8 +735,34 @@ export default function DocumentBody() {
 
     }
 
+    function rejectDocuments() {
+        console.log("Reject Doc");
+    }
 
 
+    function RejectDocumentForm() {
+
+        return (
+            <div className="rejectDocumentFormContainer">
+                <input type="checkbox" /><span className="rejectDocsStyle">Rechazar todos los documentos listados</span>
+                <div>
+                <span className="rejectDocForm3">Motivo de rechazo</span><br />
+                <select className="rejectDocForm" placeholder="Codigo archivo de rechazo">
+                    <option>Falta numero de nota de pedido</option>
+                    <option>Error de calculo</option>
+                    </select><br/>
+                </div>
+                <div>
+                <span className="rejectDocForm1">Observaciones</span><br />
+                    <textarea id="userMessage" className="rejectDocForm2" type="text" /><br /><br />
+                </div>
+                <button className="documentUploadBtn6" onClick={rejectDocuments}>
+                    Rechazar
+                </button>
+            </div>
+        );
+
+    }
 
 
 
@@ -862,7 +888,7 @@ export default function DocumentBody() {
                 <div className="documentSearchResContainer">
 
                     <DocumentSearch/>
-
+                    <RejectDocumentForm />
 
                 </div>
 
