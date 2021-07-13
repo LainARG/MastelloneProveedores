@@ -117,7 +117,7 @@ return(
  <div className="contactFormBtnActionContainer">
  <ThemeProvider theme={theme}>
  <Button className={classes.btnActionStyle} onClick={ mailSender } color="primary" variant="contained" disableElevation>
-                        Enviar
+                       <b> Enviar</b>
  </Button>
   
                     <ContactModal open={ openModal }/>
