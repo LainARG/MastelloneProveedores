@@ -491,7 +491,7 @@ const Navbar = (props) => {
                                 <Tabs classes={{ root: classes.tabStyle }} TabIndicatorProps={classes.indicator} onChange={handleTabs}
                                     value={index} indicatorColor="secondary" textColor="primary"
                                     TabIndicatorProps={{
-                                        style: { background: "#009639", width: "2%", height: "6%", marginLeft: "5.5%" }
+                                        style: { background: "#009639", width: "2%", height: "6%", marginLeft: "5.35%" }
                                     }}>
                                     {
 

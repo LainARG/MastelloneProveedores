@@ -51,7 +51,7 @@ export default function Auth() {
     }
   
     
-    return(<h1>Authentincating...</h1>)
+    return(<h1>Authenticating...</h1>)
 
  }
 

@@ -225,8 +225,6 @@ const documentTabsTheme = createMuiTheme({
 
             wrapper: {
 
-                
-
             },
         },
     },
