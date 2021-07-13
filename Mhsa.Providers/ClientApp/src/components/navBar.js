@@ -148,35 +148,35 @@ const setPerms = () => {
 }
 
 
-const Navbar = (props)=>{
+const Navbar = (props) => {
 
-const [dropdownValue,setDropdownValue] = useState(false);
+    const [dropdownValue, setDropdownValue] = useState(false);
 
-const [menuState, setMenuState] = useState(false);
+    const [menuState, setMenuState] = useState(false);
 
-const [anchorEl, setAnchorEl] = useState(false);
+    const [anchorEl, setAnchorEl] = useState(false);
 
-const tokenUser = window.localStorage.getItem("tknUsr");
+    const tokenUser = window.localStorage.getItem("tknUsr");
 
-const tokenPerms = window.localStorage.getItem("tknPms");
+    const tokenPerms = window.localStorage.getItem("tknPms");
 
-const { index } = props;
+    const { index } = props;
 
     const [permsList, setPermsList] = useState(setPerms());
 
-useEffect(() => {
+    useEffect(() => {
 
-   
-});
 
-  
-    
-const navBarHandleUserMenu = (e)=>{
-  setMenuState(!menuState);
-}
+    });
 
-const navBarCloseUserMenu = (e)=>{
-  setMenuState(false);
+
+
+    const navBarHandleUserMenu = (e) => {
+        setMenuState(!menuState);
+    }
+
+    const navBarCloseUserMenu = (e) => {
+        setMenuState(false);
     }
 
     const navBarCloseUserMenuSession = (e) => {
@@ -185,114 +185,366 @@ const navBarCloseUserMenu = (e)=>{
         window.location = "/auth";
     }
 
-const [value, setValue] = useState(0);
+    const [value, setValue] = useState(0);
 
-const DropdownAction = ()=>{
-   setDropdownValue(!dropdownValue);	
+    const DropdownAction = () => {
+        setDropdownValue(!dropdownValue);
+    }
+
+    const handleTabs = (e, val) => {
+        setValue(val);
+        switch (val) {
+            case 0:
+                setTimeout(function () { window.location = '/portal/providers'; }, 100);
+
+                break;
+            case 1:
+                setTimeout(function () { window.location = '/payments'; }, 100);
+                break;
+            case 2:
+                setTimeout(function () { window.location = '/documents'; }, 100);
+                break;
+            case 3:
+                setTimeout(function () { window.location = '/contact'; }, 100);
+                break;
+            case 4:
+                // code block
+                break;
+        }
+    }
+
+
+    const classes = useStyles();
+
+    console.log(index);
+
+    if (index == 0) {
+
+        return (
+            <div className="navBarContainer">
+
+
+                <div>
+
+                    <ThemeProvider theme={theme}>
+                        <AppBar elevation={0} position='fixed' color='primary' className={classes.style}>
+                            <Toolbar>
+                                <IconButton><img className={classes.logoStyle} src={image} /></IconButton>
+
+                                <div className="navBarDropdownContainer" >
+
+                                    <Dropdown isOpen={dropdownValue} toggle={DropdownAction} classes={{ root: classes.dropdownStyle }}>
+                                        <DropdownToggle caret className={classes.dropdownStyle}>
+                                            Portal - Proveedores
+      </DropdownToggle>
+                                        <DropdownMenu>
+                                            <DropdownItem>Portal - BackOffice</DropdownItem>
+                                            <DropdownItem>Portal - Usuario Interno</DropdownItem>
+                                        </DropdownMenu>
+                                    </Dropdown>
+
+                                </div>
+
+                                <Tabs classes={{ root: classes.tabStyle }} TabIndicatorProps={classes.indicator} onChange={handleTabs}
+                                    value={index} indicatorColor="secondary" textColor="primary"
+                                    TabIndicatorProps={{
+                                        style: { background: "#009639", width: "2%", height: "6%", marginLeft: "3.25%" }
+                                    }}>
+                                    {
+
+                                        permsList.map((row, index) => {
+                                            return (
+                                                <Tab className={classes.btn0Style} label={row}></Tab>
+                                                /*<Tab className={classes.btn0Style} label='Inicio'></Tab>
+                                                <Tab className={classes.btn1Style} label='Pagos'/>
+                                                <Tab className={classes.btn2Style} label='Documentos'/>
+                                                <Tab className={classes.btn3Style} label='Contáctanos'/>
+                                                  <Tab className={classes.btn4Style} label='Avisos' />*/
+
+                                            )
+                                        })
+                                    }
+                                </Tabs>
+                            </Toolbar>
+                        </AppBar>
+                    </ThemeProvider>
+
+                    <div className="navBarUserAvatarComponentContainer">
+
+
+                        <div className="navBarUserAvatarComponentUserDataContainer" onClick={navBarHandleUserMenu}>
+                            <Avatar alt="no image" src={image1} />
+
+                            <span className="navBarUserAvatarComponentUserName">{tokenUser}</span>
+                        </div>
+
+                        <Menu
+                            anchorEl={anchorEl}
+                            keepMounted
+                            open={menuState}
+                            onClose={navBarCloseUserMenu}
+                            className="navBarUserAvatarComponentUserMenu1"
+                        >
+                            <MenuItem onClick={navBarCloseUserMenu} className={classes.menuItemStyle}>Novedades de la sección <b>"Pagos"</b></MenuItem>
+                            <MenuItem onClick={navBarCloseUserMenu} className={classes.menuItemStyle}>Novedades de la sección <b>"Avisos"</b></MenuItem>
+                            <MenuItem onClick={navBarCloseUserMenu} className={classes.menuItemStyleActions}><Link to="/login/accountkeyformat" className={classes.menuItemStyleActions}>Cambio de clave</Link></MenuItem>
+                            <MenuItem onClick={navBarCloseUserMenuSession} className={classes.menuItemStyleActions}>Cerrar sesión</MenuItem>
+                        </Menu>
+
+                    </div>
+
+                </div>
+
+            </div>
+        );
+    }
+
+
+    if (index == 1) {
+
+        return (
+            <div className="navBarContainer">
+
+
+                <div>
+
+                    <ThemeProvider theme={theme}>
+                        <AppBar elevation={0} position='fixed' color='primary' className={classes.style}>
+                            <Toolbar>
+                                <IconButton><img className={classes.logoStyle} src={image} /></IconButton>
+
+                                <div className="navBarDropdownContainer" >
+
+                                    <Dropdown isOpen={dropdownValue} toggle={DropdownAction} classes={{ root: classes.dropdownStyle }}>
+                                        <DropdownToggle caret className={classes.dropdownStyle}>
+                                            Portal - Proveedores
+      </DropdownToggle>
+                                        <DropdownMenu>
+                                            <DropdownItem>Portal - BackOffice</DropdownItem>
+                                            <DropdownItem>Portal - Usuario Interno</DropdownItem>
+                                        </DropdownMenu>
+                                    </Dropdown>
+
+                                </div>
+
+                                <Tabs classes={{ root: classes.tabStyle }} TabIndicatorProps={classes.indicator} onChange={handleTabs}
+                                    value={index} indicatorColor="secondary" textColor="primary"
+                                    TabIndicatorProps={{
+                                        style: { background: "#009639", width: "2%", height: "6%", marginLeft: "3.5%" }
+                                    }}>
+                                    {
+
+                                        permsList.map((row, index) => {
+                                            return (
+                                                <Tab className={classes.btn0Style} label={row}></Tab>
+                                                /*<Tab className={classes.btn0Style} label='Inicio'></Tab>
+                                                <Tab className={classes.btn1Style} label='Pagos'/>
+                                                <Tab className={classes.btn2Style} label='Documentos'/>
+                                                <Tab className={classes.btn3Style} label='Contáctanos'/>
+                                                  <Tab className={classes.btn4Style} label='Avisos' />*/
+
+                                            )
+                                        })
+                                    }
+                                </Tabs>
+                            </Toolbar>
+                        </AppBar>
+                    </ThemeProvider>
+
+                    <div className="navBarUserAvatarComponentContainer">
+
+
+                        <div className="navBarUserAvatarComponentUserDataContainer" onClick={navBarHandleUserMenu}>
+                            <Avatar alt="no image" src={image1} />
+
+                            <span className="navBarUserAvatarComponentUserName">{tokenUser}</span>
+                        </div>
+
+                        <Menu
+                            anchorEl={anchorEl}
+                            keepMounted
+                            open={menuState}
+                            onClose={navBarCloseUserMenu}
+                            className="navBarUserAvatarComponentUserMenu1"
+                        >
+                            <MenuItem onClick={navBarCloseUserMenu} className={classes.menuItemStyle}>Novedades de la sección <b>"Pagos"</b></MenuItem>
+                            <MenuItem onClick={navBarCloseUserMenu} className={classes.menuItemStyle}>Novedades de la sección <b>"Avisos"</b></MenuItem>
+                            <MenuItem onClick={navBarCloseUserMenu} className={classes.menuItemStyleActions}><Link to="/login/accountkeyformat" className={classes.menuItemStyleActions}>Cambio de clave</Link></MenuItem>
+                            <MenuItem onClick={navBarCloseUserMenuSession} className={classes.menuItemStyleActions}>Cerrar sesión</MenuItem>
+                        </Menu>
+
+                    </div>
+
+                </div>
+
+            </div>
+        );
+    }
+    if (index == 2) {
+
+        return (
+            <div className="navBarContainer">
+
+
+                <div>
+
+                    <ThemeProvider theme={theme}>
+                        <AppBar elevation={0} position='fixed' color='primary' className={classes.style}>
+                            <Toolbar>
+                                <IconButton><img className={classes.logoStyle} src={image} /></IconButton>
+
+                                <div className="navBarDropdownContainer" >
+
+                                    <Dropdown isOpen={dropdownValue} toggle={DropdownAction} classes={{ root: classes.dropdownStyle }}>
+                                        <DropdownToggle caret className={classes.dropdownStyle}>
+                                            Portal - Proveedores
+                                        </DropdownToggle>
+                                        <DropdownMenu>
+                                            <DropdownItem>Portal - BackOffice</DropdownItem>
+                                            <DropdownItem>Portal - Usuario Interno</DropdownItem>
+                                        </DropdownMenu>
+                                    </Dropdown>
+
+                                </div>
+
+                                <Tabs classes={{ root: classes.tabStyle }} TabIndicatorProps={classes.indicator} onChange={handleTabs}
+                                    value={index} indicatorColor="secondary" textColor="primary"
+                                    TabIndicatorProps={{
+                                        style: { background: "#009639", width: "2%", height: "6%", marginLeft: "6.75%" }
+                                    }}>
+                                    {
+
+                                        permsList.map((row, index) => {
+                                            return (
+                                                <Tab className={classes.btn0Style} label={row}></Tab>
+                                                /*<Tab className={classes.btn0Style} label='Inicio'></Tab>
+                                                <Tab className={classes.btn1Style} label='Pagos'/>
+                                                <Tab className={classes.btn2Style} label='Documentos'/>
+                                                <Tab className={classes.btn3Style} label='Contáctanos'/>
+                                                  <Tab className={classes.btn4Style} label='Avisos' />*/
+
+                                            )
+                                        })
+                                    }
+                                </Tabs>
+                            </Toolbar>
+                        </AppBar>
+                    </ThemeProvider>
+
+                    <div className="navBarUserAvatarComponentContainer">
+
+
+                        <div className="navBarUserAvatarComponentUserDataContainer" onClick={navBarHandleUserMenu}>
+                            <Avatar alt="no image" src={image1} />
+
+                            <span className="navBarUserAvatarComponentUserName">{tokenUser}</span>
+                        </div>
+
+                        <Menu
+                            anchorEl={anchorEl}
+                            keepMounted
+                            open={menuState}
+                            onClose={navBarCloseUserMenu}
+                            className="navBarUserAvatarComponentUserMenu1"
+                        >
+                            <MenuItem onClick={navBarCloseUserMenu} className={classes.menuItemStyle}>Novedades de la sección <b>"Pagos"</b></MenuItem>
+                            <MenuItem onClick={navBarCloseUserMenu} className={classes.menuItemStyle}>Novedades de la sección <b>"Avisos"</b></MenuItem>
+                            <MenuItem onClick={navBarCloseUserMenu} className={classes.menuItemStyleActions}><Link to="/login/accountkeyformat" className={classes.menuItemStyleActions}>Cambio de clave</Link></MenuItem>
+                            <MenuItem onClick={navBarCloseUserMenuSession} className={classes.menuItemStyleActions}>Cerrar sesión</MenuItem>
+                        </Menu>
+
+                    </div>
+
+                </div>
+
+            </div>
+        );
+    }
+
+    if (index == 3) {
+
+        return (
+            <div className="navBarContainer">
+
+
+                <div>
+
+                    <ThemeProvider theme={theme}>
+                        <AppBar elevation={0} position='fixed' color='primary' className={classes.style}>
+                            <Toolbar>
+                                <IconButton><img className={classes.logoStyle} src={image} /></IconButton>
+
+                                <div className="navBarDropdownContainer" >
+
+                                    <Dropdown isOpen={dropdownValue} toggle={DropdownAction} classes={{ root: classes.dropdownStyle }}>
+                                        <DropdownToggle caret className={classes.dropdownStyle}>
+                                            Portal - Proveedores
+      </DropdownToggle>
+                                        <DropdownMenu>
+                                            <DropdownItem>Portal - BackOffice</DropdownItem>
+                                            <DropdownItem>Portal - Usuario Interno</DropdownItem>
+                                        </DropdownMenu>
+                                    </Dropdown>
+
+                                </div>
+
+                                <Tabs classes={{ root: classes.tabStyle }} TabIndicatorProps={classes.indicator} onChange={handleTabs}
+                                    value={index} indicatorColor="secondary" textColor="primary"
+                                    TabIndicatorProps={{
+                                        style: { background: "#009639", width: "2%", height: "6%", marginLeft: "5.5%" }
+                                    }}>
+                                    {
+
+                                        permsList.map((row, index) => {
+                                            return (
+                                                <Tab className={classes.btn0Style} label={row}></Tab>
+                                                /*<Tab className={classes.btn0Style} label='Inicio'></Tab>
+                                                <Tab className={classes.btn1Style} label='Pagos'/>
+                                                <Tab className={classes.btn2Style} label='Documentos'/>
+                                                <Tab className={classes.btn3Style} label='Contáctanos'/>
+                                                  <Tab className={classes.btn4Style} label='Avisos' />*/
+
+                                            )
+                                        })
+                                    }
+                                </Tabs>
+                            </Toolbar>
+                        </AppBar>
+                    </ThemeProvider>
+
+                    <div className="navBarUserAvatarComponentContainer">
+
+
+                        <div className="navBarUserAvatarComponentUserDataContainer" onClick={navBarHandleUserMenu}>
+                            <Avatar alt="no image" src={image1} />
+
+                            <span className="navBarUserAvatarComponentUserName">{tokenUser}</span>
+                        </div>
+
+                        <Menu
+                            anchorEl={anchorEl}
+                            keepMounted
+                            open={menuState}
+                            onClose={navBarCloseUserMenu}
+                            className="navBarUserAvatarComponentUserMenu1"
+                        >
+                            <MenuItem onClick={navBarCloseUserMenu} className={classes.menuItemStyle}>Novedades de la sección <b>"Pagos"</b></MenuItem>
+                            <MenuItem onClick={navBarCloseUserMenu} className={classes.menuItemStyle}>Novedades de la sección <b>"Avisos"</b></MenuItem>
+                            <MenuItem onClick={navBarCloseUserMenu} className={classes.menuItemStyleActions}><Link to="/login/accountkeyformat" className={classes.menuItemStyleActions}>Cambio de clave</Link></MenuItem>
+                            <MenuItem onClick={navBarCloseUserMenuSession} className={classes.menuItemStyleActions}>Cerrar sesión</MenuItem>
+                        </Menu>
+
+                    </div>
+
+                </div>
+
+            </div>
+        );
+    }
+
+
+
 }
 
-const handleTabs = (e, val)=>{
-setValue(val);
-switch(val) {
-    case 0:
-    setTimeout(function () { window.location = '/portal/providers'; }, 100);
-    
-    break;
-  case 1:
-        setTimeout(function () { window.location = '/payments'; }, 100);
-    break;
-  case 2:
-        setTimeout(function () { window.location = '/documents'; }, 100);
-    break;
-  case 3:
-        setTimeout(function () { window.location = '/contact'; }, 100);
-    break;
-  case 4:
-    // code block
-    break;
-  }
-}
-
-
-const classes = useStyles();
-
-
-return(
-	<div className="navBarContainer">
-
-
-    <div>
-
-    <ThemeProvider theme={theme}>
-	  <AppBar elevation={0} position='fixed' color='primary' className={classes.style}>
-    <Toolbar>
-    <IconButton><img  className={classes.logoStyle} src={image}/></IconButton>
-
-    <div className="navBarDropdownContainer" >
-
-     <Dropdown isOpen={dropdownValue} toggle={DropdownAction} classes={{root: classes.dropdownStyle}}>
-      <DropdownToggle caret className={classes.dropdownStyle}>
-       Portal - Proveedores
-      </DropdownToggle>  
-      <DropdownMenu> 
-      <DropdownItem>Portal - BackOffice</DropdownItem>
-      <DropdownItem>Portal - Usuario Interno</DropdownItem>
-      </DropdownMenu> 
-     </Dropdown>
-
-     </div>
-
-    <Tabs classes={{root: classes.tabStyle }} TabIndicatorProps={classes.indicator} onChange={handleTabs}
-     value={index} indicatorColor="secondary" textColor="primary"
-     TabIndicatorProps={{
-           style: {background:"#009639", width:"2%", height:"6%", marginLeft:"3.5%" }
-                            }}>
-      {
-                                
-                                permsList.map((row, index) => {
-                                    return (
-                                        <Tab className={classes.btn0Style} label={row}></Tab>
-                                        /*<Tab className={classes.btn0Style} label='Inicio'></Tab>
-                                        <Tab className={classes.btn1Style} label='Pagos'/>
-                                        <Tab className={classes.btn2Style} label='Documentos'/>
-                                        <Tab className={classes.btn3Style} label='Contáctanos'/>
-                            <Tab className={classes.btn4Style} label='Avisos' />*/
-                                    
-                                )})
-      }
-    </Tabs>
-    </Toolbar>
-	</AppBar>
-	</ThemeProvider>
-    
-     <div className="navBarUserAvatarComponentContainer">
-
-
-    <div className="navBarUserAvatarComponentUserDataContainer" onClick={navBarHandleUserMenu}>
-    <Avatar alt="no image" src={image1}/>
-    
-                    <span className="navBarUserAvatarComponentUserName">{ tokenUser }</span>
-    </div> 
-    
-    <Menu
-         anchorEl={anchorEl}
-         keepMounted
-         open={menuState}
-         onClose={navBarCloseUserMenu}
-         className="navBarUserAvatarComponentUserMenu1"
-     >
-     <MenuItem onClick={navBarCloseUserMenu} className={classes.menuItemStyle}>Novedades de la sección <b>"Pagos"</b></MenuItem>
-     <MenuItem onClick={navBarCloseUserMenu} className={classes.menuItemStyle}>Novedades de la sección <b>"Avisos"</b></MenuItem>
-     <MenuItem onClick={navBarCloseUserMenu} className={classes.menuItemStyleActions}><Link to="/login/accountkeyformat" className={classes.menuItemStyleActions}>Cambio de clave</Link></MenuItem>
-     <MenuItem onClick={navBarCloseUserMenuSession} className={classes.menuItemStyleActions}>Cerrar sesión</MenuItem>
-     </Menu>
-
-     </div>
-
-     </div>
-
-	</div>
-	);
-}
 
 export default Navbar;

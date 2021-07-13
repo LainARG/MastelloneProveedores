@@ -85,7 +85,7 @@ return(
  <span className="loginBodyCodeLegendStyle">Código</span><br/>
  <input className="loginBodyCodeInputStyle" type="text"/><br/><br/>
  <span className="loginBodyKeyLegendStyle">Clave</span><br/>
- <input className="loginBodyKeyInputStyle" type="text"/><br/>
+ <input className="loginBodyKeyInputStyle" type="password"/><br/>
  <button className="loginBodyForgotLegendStyle" onClick={forgotRedirect}>No recuerdo la clave</button><br/><br/>
  <div className="loginBodyBtnLoginContainer">
  <Button className="loginBodyBtnLoginStyle" color="primary" variant="contained" disableElevation >
