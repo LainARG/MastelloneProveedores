@@ -14,7 +14,6 @@ export default function CurrentProviderComponent(props){
 
     function getProvider() {
         setProvider(JSON.parse(window.localStorage.getItem("currentProvider")).cuit);
-        console.log(provider);
     }
 
     function ChangeProvider() {

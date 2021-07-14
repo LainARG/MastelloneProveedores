@@ -216,7 +216,6 @@ const Navbar = (props) => {
 
     const classes = useStyles();
 
-    console.log(index);
 
     if (index == 0) {
 

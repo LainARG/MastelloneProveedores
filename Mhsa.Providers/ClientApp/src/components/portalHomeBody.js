@@ -36,6 +36,7 @@ export default function PortalHomeBody() {
 
 
     const GetToken = () => {
+        console.log(allProviders);
         let tokenUser = window.localStorage.getItem("tknUsr");
         let userId = 0;
         let providerId = 0;
@@ -50,6 +51,7 @@ export default function PortalHomeBody() {
         }
         
         for (let i = 0; i < allUsers.length; i++) {
+
             if (allUsers[i].mail == tokenUser) {
                 setUser(allUsers[i]);
                 userId = allUsers[i].id_usuario;
@@ -62,8 +64,10 @@ export default function PortalHomeBody() {
                 }
 
             }
+            console.log(userId);
+            console.log(allUsersAssignment);
             for (let i = 0; i < allProviders.length; i++) {
-
+                
                 if (allProviders[i].id_proveedor == providerId) {
 
                     setProvider(allProviders[i]);

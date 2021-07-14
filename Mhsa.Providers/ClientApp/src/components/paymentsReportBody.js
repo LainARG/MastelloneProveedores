@@ -280,7 +280,7 @@ useEffect(() => {
     
 
     if (allPays == "" || allTaxes == "") {
-        console.log(allPaymentDetail);
+
         PaymentsContext.fetchPayments().then((e) => { setAllPays(e) });
         TaxesContext.fetchTaxes().then((e) => { setAllTaxes(e) });
         StatesContext.fetchStates().then((e) => { setAllStates(e); });
@@ -400,7 +400,7 @@ useEffect(() => {
         let alldatabackup = [];
         let currentStateValue = "";
         let currentDetailPayment = null;
-        console.log(allpays);
+
         for (let i = 0; i < allpays.length; i++) {
 
             for (let j = 0; j < allStates.length; j++) {

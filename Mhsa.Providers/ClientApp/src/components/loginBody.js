@@ -23,11 +23,12 @@ export default function Body(){
   
 
 
-    const setContext =()=>{
-        console.log("Loading context...");
+    const setContext = () => {
+
         setAllUsers(UserContext.allUsers);
         setAllDocuments(DocumentsContext.allDocuments);
         setAllPayments(PaymentsContext.allPayments);
+
      }
    
 

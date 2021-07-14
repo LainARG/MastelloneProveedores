@@ -277,6 +277,8 @@ export default function DocumentBody() {
     const [anchorEl, setAnchorEl] = useState(false);
     const [modal, setModal] = useState(false);
     const [paymentDetailsProps, setPaymentDetailsProps] = useState(false);
+    const uploadDocumentUrl = "/documents/upload";
+    const searchDocumentUrl = "/documents/search";
     let filesToDownload = new Array();
     const rowsPerPage = 4;
    
@@ -711,7 +713,7 @@ export default function DocumentBody() {
                     suggestions = suggestions.filter(f => f != "");
                     suggestions = suggestions.filter(f => f != undefined);
                     suggestions = suggestions.filter(f => f.numero_documento.includes(e.target.value));
-                    console.log(suggestions);
+                    
                     let pagedSuggestions = pagination(suggestions, suggestions.length, rowsPerPage);
                     setFirstTabPageQuantity(pagedSuggestions.length);
                     setAllFirstTabData(pagedSuggestions);
@@ -769,6 +771,10 @@ export default function DocumentBody() {
             </div>
         );
 
+    }
+
+    function Redirector(url) {
+        window.location = url;
     }
 
 
@@ -1023,11 +1029,11 @@ export default function DocumentBody() {
                     </div>
 
                     <div className="digDocumentIconContainer">
-                        <div className="digDocumentIconPoint">
-                            <ControlPointIcon fontSize="large" /> <b>Cargar</b>
+                        <div className="digDocumentIconPoint" onClick={() => Redirector(uploadDocumentUrl)}>
+                            <ControlPointIcon fontSize="large"/> <b>Cargar</b>
                         </div>
-                        <div className="digDocumentIconSettings">
-                            <SettingsEthernetIcon fontSize="large" />&nbsp;<b>Consultar</b>
+                        <div className="digDocumentIconSettings" onClick={() => Redirector(searchDocumentUrl)}>
+                            <SettingsEthernetIcon fontSize="large"/>&nbsp;<b>Consultar</b>
                         </div>
                     </div>
 
