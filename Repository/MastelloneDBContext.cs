@@ -22,7 +22,6 @@ namespace Repository
         public DbSet<Payments> Pagos { get; set; }
 
         public DbSet<DigitalDocuments> Documentos_electronicos { get; set; }
-        public DbSet<Taxes> Contribuciones{ get; set; }
 
         public DbSet<States> Estados { get; set; }
 

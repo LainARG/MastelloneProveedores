@@ -36,8 +36,9 @@ export class PaymentsFormsContext {
 
     static async fetchPaymentsForms() {
         const response = await api.get<Response, AxiosResponse<Response>>(
-            `/paymentforms`
+            `/paymentsforms`
         );
+
         return response.data;
     }
 

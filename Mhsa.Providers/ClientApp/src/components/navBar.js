@@ -180,8 +180,11 @@ const Navbar = (props) => {
     }
 
     const navBarCloseUserMenuSession = (e) => {
-        setMenuState(false);
         window.localStorage.removeItem("tknUsr");
+        window.localStorage.removeItem("tknPms");
+        window.localStorage.removeItem("usrInf");
+        window.localStorage.removeItem("tkn");
+        setMenuState(false);
         window.location = "/auth";
     }
 

@@ -36,8 +36,6 @@ namespace Mhsa.Backoffice
             services.AddTransient<IPaymentsRepository, PaymentsRepository>();
             services.AddTransient<IDigitalDocumentsService, DigitalDocumentsService>();
             services.AddTransient<IDigitalDocumentsRepository, DigitalDocumentsRepository>();
-            services.AddTransient<ITaxesService, TaxesService>();
-            services.AddTransient<ITaxesRepository, TaxesRepository>();
             services.AddTransient<IStatesService, StatesService>();
             services.AddTransient<IStatesRepository, StatesRepository>();
             services.AddTransient<IStateTypesService, StateTypesService>();

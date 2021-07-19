@@ -11,7 +11,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import PaymentsContext from '../contexts/paymentsContext';
 import StatesContext from '../contexts/statesContext';
-import TaxesContext from '../contexts/taxesContext';
+import PaymentsFormsContext from '../contexts/paymentsFormsContext';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { createMuiTheme } from '@material-ui/core/styles'; 
 import pagination from '../pagination/pagination';
@@ -175,7 +175,7 @@ export default function PaymentsReportNoDetailsBody() {
         if (allPays == "" || allTaxes == "") {
 
             PaymentsContext.fetchPayments().then((e) => { setAllPays(e) });
-            TaxesContext.fetchTaxes().then((e) => { setAllTaxes(e) });
+            PaymentsFormsContext.fetchPaymentsForms().then((e) => { setAllTaxes(e) });
             StatesContext.fetchStates().then((e) => { setAllStates(e); });
         } else {
             dataMapper(allPays, allTaxes);

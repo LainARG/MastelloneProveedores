@@ -222,7 +222,6 @@ export default function InternalUserProviderSelectBody() {
         window.localStorage.removeItem("currentProvider");
         window.localStorage.setItem("currentProvider", JSON.stringify(row));
         window.location = "/internalUser/homePortalProvider";
-
     }
 
   

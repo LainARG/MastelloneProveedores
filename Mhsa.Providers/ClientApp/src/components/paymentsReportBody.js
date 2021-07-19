@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../resources/styles/paymentsReportBody.css';
 import Pagination from '@material-ui/lab/Pagination';
 import Paper from '@material-ui/core/Paper';
@@ -9,7 +9,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import PaymentsContext from '../contexts/paymentsContext';
-import TaxesContext from '../contexts/taxesContext';
+import PaymentsFormsContext from '../contexts/paymentsFormsContext';
 import StatesContext from '../contexts/statesContext';
 import PaymentDetailContext from '../contexts/paymentDetailContext';
 import { ThemeProvider } from '@material-ui/core/styles';
@@ -18,8 +18,6 @@ import pagination from '../pagination/pagination';
 import TuneIcon from '@material-ui/icons/Tune';
 import SearchRoundedIcon from '@material-ui/icons/SearchRounded';
 import { makeStyles, Tabs, Tab, Modal } from '@material-ui/core';
-import GetAppIcon from '@material-ui/icons/GetApp';
-import DocumentFilterMenu from '../components/documentFilterMenu';
 import AspectRatioIcon from '@material-ui/icons/AspectRatio';
 import AssignmentReturnedIcon from '@material-ui/icons/AssignmentReturned';
 import { Menu, MenuItem } from '@material-ui/core';
@@ -246,10 +244,11 @@ export default function PaymentsReportBody() {
     const classes = useStyles();
     const tabClasses = useTabStyles();
     const [allPays, setAllPays] = useState("");
-    const [allTaxes, setAllTaxes] = useState("");
+    const [allPaymentsForms, setAllPaymentsForms] = useState("");
     const [allPaymentDetail, setAllPaymentDetail] = useState("");
     const [allDataPrimaryTab, setAllDataPrimaryTab] = useState("");
     const [allDataSecondaryTab, setAllDataSecondaryTab] = useState("");
+    const [fetchController, setFetchController] = useState(0);
     const [paymentsBackup, setPaymentsBackup] = useState("");
     const [allStates, setAllStates] = useState("");
     const [pageNumber, setPageNumber] = useState(1);
@@ -278,19 +277,20 @@ export default function PaymentsReportBody() {
 
 useEffect(() => {
     
-
-    if (allPays == "" || allTaxes == "") {
+    if (fetchController == 0) {
 
         PaymentsContext.fetchPayments().then((e) => { setAllPays(e) });
-        TaxesContext.fetchTaxes().then((e) => { setAllTaxes(e) });
+        PaymentsFormsContext.fetchPaymentsForms().then((e) => { setAllPaymentsForms(e) });
         StatesContext.fetchStates().then((e) => { setAllStates(e); });
         PaymentDetailContext.fetchPaymentDetail().then((e) => { setAllPaymentDetail(e); });
+        setFetchController(1);
+
     } else {
-        dataMapper(allPays, allTaxes);
+        dataMapper();
     }
         
 
-}, [allPays]);
+}, [allPays, allPaymentsForms, allPaymentDetail, allStates]);
     
 
 
@@ -394,23 +394,28 @@ useEffect(() => {
 
   
 
-    const dataMapper = (allpays, alltaxes) => {
+    const dataMapper = () => {
         let alldataPTab = [];
         let alldataSTab = [];
         let alldatabackup = [];
-        let currentStateValue = "";
-        let currentDetailPayment = null;
+        let currentPaymentState;
+        let currentPaymentDetail
+        
+       
 
-        for (let i = 0; i < allpays.length; i++) {
+        for (let i = 0; i < allPays.length; i++) {
 
-            for (let j = 0; j < allStates.length; j++) {
-                
-                if (allpays[i].id_estado == allStates[j].id_estado) {
-                    currentStateValue = allStates[j].descripcion_abreviada;
-                }
-
+            if (allPaymentDetail !="" && allStates !=""){
+                currentPaymentState = (allStates.filter(state => state.id_estado == allPays[i].id_estado))[0].descripcion_abreviada;
+                currentPaymentDetail = (allPaymentDetail.filter(paydetail => paydetail.id_pago == allPays[i].id_pago))[0];
             }
+            
+            console.log(currentPaymentState);
+            console.log(currentPaymentDetail);
+            
 
+        }
+/*
             for (let h = 0; h < allPaymentDetail.length; h++) {
 
                 if (allpays[h].id_pago == allPaymentDetail[h].id_pago) {
@@ -494,7 +499,9 @@ useEffect(() => {
 
                 }
 
-            }
+        }
+
+        
         let pagData = pagination(alldataPTab, alldataPTab.length, rowsPerPage);
         let pagData1 = pagination(alldataSTab, alldataSTab.length, rowsPerPage);
         let pagDataBackup = pagination(alldatabackup, alldatabackup.length, rowsPerPage);
@@ -502,7 +509,7 @@ useEffect(() => {
         setSecondaryPageQuantity(pagData1.length);
         setAllDataPrimaryTab(pagData);
         setPaymentsBackup(pagDataBackup);
-        setAllDataSecondaryTab(pagData1);
+        setAllDataSecondaryTab(pagData1);*/
 
     }
 

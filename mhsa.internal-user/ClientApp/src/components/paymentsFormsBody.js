@@ -10,7 +10,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import PaymentsContext from '../contexts/paymentsContext';
-import TaxesContext from '../contexts/taxesContext';
+import PaymentsFormsContext from '../contexts/paymentsFormsContext';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { createMuiTheme } from '@material-ui/core/styles'; 
 import pagination from '../pagination/pagination';
@@ -18,11 +18,6 @@ import { makeStyles, Tabs, Tab } from '@material-ui/core';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import AspectRatioIcon from '@material-ui/icons/AspectRatio';
 
-
-function createData(fecha_doc, estado, tipo, numero, np, monto, detalle_pago) {
-
-    return { fecha_doc, estado, tipo, numero, np, monto, detalle_pago };
-}
 
 
 
@@ -163,23 +158,23 @@ export default function PaymentsFormsBody() {
     const rowsPerPage = 4;
     
     
-    const setContext = () => {
-        
-            
-        setAllPays(PaymentsContext.allPayments);
-        setAllTaxes(TaxesContext.allTaxes);
-            dataMapper(allPays, allTaxes);
-        if (allPays!= "") {
-            setTimeout(function () { setContextCtrl(1); }, 100);
-            }
-    }
+  
 
 
 useEffect(() => {
-    if (contextCtrl < 1) {
-        setContext();
-    } 
-    });
+    if (allPays == "" || allPaymentsForms == "") {
+
+        PaymentsContext.fetchPayments().then((e) => { setAllPays(e) });
+        PaymentsFormsContext.fetchPaymentsForms().then((e) => { setAllPaymentsForms(e) });
+        StatesContext.fetchStates().then((e) => { setAllStates(e); });
+        PaymentDetailContext.fetchPaymentDetail().then((e) => { setAllPaymentDetail(e); });
+
+    } else {
+        dataMapper();
+
+    }
+
+});
 
 
     const columns = [

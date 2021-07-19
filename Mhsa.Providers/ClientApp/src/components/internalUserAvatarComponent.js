@@ -25,7 +25,6 @@ const closeUserMenu = (e)=>{
 
     function sessionClose() {
         setMenuState(false);
-        window.localStorage.removeItem("tknUsr");
         window.location = "/auth";
     }
 

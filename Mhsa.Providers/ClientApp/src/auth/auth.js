@@ -2,7 +2,9 @@
 import api from "../services/api";
 import axios from 'axios';
 import jwt_decode from "jwt-decode";
-
+import ProvidersContext from '../contexts/providersContext';
+import UsersAssignmentContext from '../contexts/usersAssignmentContexts';
+import UserContext from '../contexts/userContext';
 
 
 export default function Auth() {
@@ -10,43 +12,58 @@ export default function Auth() {
 
     const applicationParam = "WebProveedoresMH";
     const authUrl = "https://appsdesa.mastellone.com.ar:9993/auth";
-    const returnUrl = "http://5a8ac9633b0b.ngrok.io/api/auth";
+    const returnUrl = "http://be0bbbdd7038.ngrok.io/api/auth";
     const queryString = authUrl + "?returnurl=" + returnUrl + "&aplicacion=" + applicationParam;
-    const [state, setState] = useState(null);
+    let allProviders = [];
+    let [allUsers, setAllUsers] = useState("");
+    let allUsersAssignment = [];
+
 
     useEffect(() => {
 
-        
-        if (window.localStorage.getItem("tknUsr") == undefined || window.localStorage.getItem("tknUsr") == ""){
-            request();
-        } else if (window.localStorage.getItem("tknUsr") == 0) {
-            getToken();
-        } else {
-            window.location.href = "/portal/providers";
-            
+        if (allUsers == "") {
+            UserContext.fetchUsers().then((e) => { setAllUsers(e) });
+        }
+        else {
+            if (window.localStorage.getItem("tkn") == "" || window.localStorage.getItem("tkn") == undefined) {
+                request();
+                localStorage.setItem("tkn",1);
+            } else {
+                getToken();
+            }
         }
 
-    }, [state]);
+    }, [allUsers]);
+
 
     function request() {
         window.location.href = queryString;
-        window.localStorage.setItem("tknUsr",0);
     }
 
     async function getToken() {
+
         await api.get(`/auth/token`).then((response) => {
-            let converted = response.data.toString();
-            let permissions = (jwt_decode(converted)).Funciones;
-            let splited = (jwt_decode(converted)).unique_name;
+            let converted = response.data;
+            if (converted != "") {
+                let permissions = (jwt_decode(converted)).Funciones;
+                let splited = (jwt_decode(converted)).unique_name;
+                let currentUser;
 
-            if (splited.includes("go_") && splited.includes("@")) {/*if google service*/
-                splited = splited.substring(3, splited.length);
+                if (splited.includes("go_") && splited.includes("@")) {/*if google service*/
+                    splited = splited.substring(3, splited.length);
+                    currentUser = allUsers.filter(user => user.mail == splited)[0].id_usuario;
+                }
+
+                window.localStorage.setItem("tknUsr", splited);
+                window.localStorage.setItem("tknPms", permissions);
+                window.localStorage.setItem("usrInf", currentUser);
+                localStorage.setItem("tkn", "");
+                window.location.href = "/portal/providers";
             }
-
-            
-            window.localStorage.setItem("tknUsr", splited);
-            window.localStorage.setItem("tknPms", permissions);
-            setState(0);
+            else{
+                localStorage.setItem("tkn", "");
+                window.location.href = "/auth";
+            }
         });
     }
   
