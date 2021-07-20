@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain
 {
@@ -16,7 +17,10 @@ namespace Domain
         public DateTime Fecha_registro { get; set; }
 
         public DateTime Fecha_ult_ingreso { get; set; }
-    
+
+        [ForeignKey("Id_usuario")]
+        public ICollection<UsersAssignment> UsersAssignments { get; set; }
+
 
         public Users() {
 

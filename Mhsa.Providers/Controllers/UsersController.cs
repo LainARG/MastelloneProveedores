@@ -27,5 +27,10 @@ namespace Mhsa.Backoffice.Controllers
         {
             return service.GetAll();
         }
+
+        public IEnumerable<Users> GetAllWithDetails()
+        {
+            return service.GetAllWithDetails();
+        }
     }
 }

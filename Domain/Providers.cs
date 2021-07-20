@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace Domain
@@ -26,10 +27,11 @@ namespace Domain
 
         public string Telefono { get; set; }
 
+        [ForeignKey("Id_proveedor")]
+        public ICollection<UsersAssignment> UsersAssignments { get; set; }
 
         public Providers()
         {
-
         }
 
     }

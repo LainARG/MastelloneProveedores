@@ -116,6 +116,10 @@ const classes = useStyles();
         window.location ="/internalUser/providerSelect";
     }
 
+    const BackofficeRedirector = () => {
+      window.location ="/backoffice/users";
+    }
+
 return(
   <div className="headerPortalContainer">
 
@@ -134,6 +138,7 @@ return(
       <DropdownMenu> 
     
       <DropdownItem className={classes.dditem} onClick={ Redirector }>Portal - Uso interno</DropdownItem>
+      <DropdownItem className={classes.dditem} onClick={ BackofficeRedirector }>Portal - Backoffice</DropdownItem>
       
       </DropdownMenu> 
       

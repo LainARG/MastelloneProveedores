@@ -20,7 +20,10 @@ namespace Service
             return repository.GetAll();
         }
 
-
+        public IEnumerable<Users> GetAllWithDetails()
+        {
+            return repository.GetAllWithDetails();
+        }
 
 
 
