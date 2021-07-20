@@ -14,9 +14,9 @@ export default function Auth() {
     const authUrl = "https://appsdesa.mastellone.com.ar:9993/auth";
     const returnUrl = "http://be0bbbdd7038.ngrok.io/api/auth";
     const queryString = authUrl + "?returnurl=" + returnUrl + "&aplicacion=" + applicationParam;
-    let allProviders = [];
+    let [allProviders, setAllProviders] = useState("");
     let [allUsers, setAllUsers] = useState("");
-    let allUsersAssignment = [];
+    let [allUsersAssignment, setAllUsersAssignment] = useState("");
 
 
     useEffect(() => {
@@ -24,16 +24,23 @@ export default function Auth() {
         if (allUsers == "") {
             UserContext.fetchUsers().then((e) => { setAllUsers(e) });
         }
+        else if (allUsersAssignment == "") {
+            UsersAssignmentContext.fetchUsersAssignment().then((e) => { setAllUsersAssignment(e) });
+        }
+        else if (allProviders == "") {
+            ProvidersContext.fetchProviders().then((e) => { setAllProviders(e) });
+        }
+
         else {
             if (window.localStorage.getItem("tkn") == "" || window.localStorage.getItem("tkn") == undefined) {
+                localStorage.setItem("tkn", 1);
                 request();
-                localStorage.setItem("tkn",1);
             } else {
                 getToken();
             }
         }
 
-    }, [allUsers]);
+    }, [allUsers, allProviders, allUsersAssignment]);
 
 
     function request() {
@@ -48,8 +55,14 @@ export default function Auth() {
                 let permissions = (jwt_decode(converted)).Funciones;
                 let splited = (jwt_decode(converted)).unique_name;
                 let currentUser;
-
+                let currentProvider;
+                
                 if (splited.includes("go_") && splited.includes("@")) {/*if google service*/
+                    splited = splited.substring(3, splited.length);
+                    currentUser = allUsers.filter(user => user.mail == splited)[0].id_usuario;
+                    currentProvider = allUsersAssignment.filter(userAssign => userAssign.id_usuario == currentUser)[0].id_proveedor;
+                }
+                if (splited.includes("fb_") && splited.includes("@")) {/*if facebook service*/
                     splited = splited.substring(3, splited.length);
                     currentUser = allUsers.filter(user => user.mail == splited)[0].id_usuario;
                 }
@@ -57,6 +70,7 @@ export default function Auth() {
                 window.localStorage.setItem("tknUsr", splited);
                 window.localStorage.setItem("tknPms", permissions);
                 window.localStorage.setItem("usrInf", currentUser);
+                window.localStorage.setItem("PrvInf", currentProvider);
                 localStorage.setItem("tkn", "");
                 window.location.href = "/portal/providers";
             }

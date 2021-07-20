@@ -183,7 +183,9 @@ const Navbar = (props) => {
         window.localStorage.removeItem("tknUsr");
         window.localStorage.removeItem("tknPms");
         window.localStorage.removeItem("usrInf");
+        window.localStorage.removeItem("prvInf");
         window.localStorage.removeItem("tkn");
+        window.localStorage.clear();
         setMenuState(false);
         window.location = "/auth";
     }
