@@ -10,6 +10,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import DocumentsContext from '../contexts/documentsContext';
 import PaymentsContext from '../contexts/paymentsContext';
+import StatesContext from '../contexts/statesContext';
 import DigitalDocumentsContext from '../contexts/digitalDocumentsContexts';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { createMuiTheme } from '@material-ui/core/styles'; 
@@ -152,7 +153,9 @@ export default function DocumentReportBody() {
     const [allDocs, setAllDocs] = useState("");
     const [allPays, setAllPays] = useState("");
     const [allData, setAllData] = useState("");
-    const [allDigDocs, setDigDocs] = useState("");
+    const [allDigDocs, setAllDigDocs] = useState("");
+    const [allStates, setAllStates] = useState("");
+    const [dataChargeController, setDataChargeController] = useState(0);
     const [pageNumber, setPageNumber] = useState(1);
     const [pageQuantity, setPageQuantity] = useState(10);
     const [contextCtrl, setContextCtrl] = useState(0);
@@ -161,113 +164,92 @@ export default function DocumentReportBody() {
     const [openFilterMenu, setOpenFilterMenu] = useState(false);
     const [anchorEl, setAnchorEl] = useState(false);
     const rowsPerPage = 8;
-    
-    
-    const setContext = () => {
-        
-            setAllDocs(DocumentsContext.allDocuments);
-            setAllPays(PaymentsContext.allPayments);
-            setDigDocs(DigitalDocumentsContext.allDigitalDocuments);
-            dataMapper(allDocs, allPays);
-        if (allDocs != "") {
-            setTimeout(function () { setContextCtrl(1); }, 100);
-            }
-    }
 
 
-useEffect(() => {
-    if (contextCtrl < 1) {
-        setContext();
-    } 
+
+    useEffect(() => {
+        if (allDocs == "" || allStates== "") {
+            DocumentsContext.fetchDocuments().then((e) => { setAllDocs(e); });
+            StatesContext.fetchStates().then((e) => { setAllStates(e); });
+        }
+        if (allDocs != "" && allStates != "" && dataChargeController != 1) {
+            dataMapper();
+        }
+
     });
 
     const columns = [
         {
-            id: 'Fecha_doc',
+            id: 'fecha_carga',
             label: 'Fecha de doc.',
             minWidth: 100,
             align: 'left',
             format: (value) => value.toLocaleString('en-US'),
         },
         {
-            id: 'Estado',
+            id: 'estado',
             label: 'Estado',
             minWidth: 100,
             align: 'left',
             format: (value) => value.toLocaleString('en-US'),
         },
         {
-            id: 'Tipo',
+            id: 'tipo',
             label: 'Tipo',
             minWidth: 150,
             align: 'left',
-            format: (value) => value.toFixed(2),
+            format: (value) => value.toLocaleString('en-US'),
         },
         {
-            id: 'Numero',
+            id: 'numero_documento',
             label: 'Numero',
             minWidth: 175,
             align: 'left',
-            format: (value) => value.toFixed(2),
+            format: (value) => value.toLocaleString('en-US'),
         },
         {
-            id: 'NP',
+            id: 'np',
             label: 'N.P.',
             minWidth: 175,
             align: 'left',
-            format: (value) => value.toFixed(2),
+            format: (value) => value.toLocaleString('en-US'),
         },
         {
-            id: 'Monto',
+            id: 'monto',
             label: 'Monto',
             minWidth: 150,
             align: 'right',
-            format: (value) => value.toFixed(2),
+            format: (value) => value.toLocaleString('en-US'),
         }
 
     ];
 
 
-    const dataMapper = (alldocs, allpays) => {
+    const dataMapper = () => {
+        setDataChargeController(1);
         let alldata = [];
-       
-        for (let i = 0; i < alldocs.length; i++) {
-            for (let j = 0; j < allpays.length;j++) {
-                let objectData = {
-                    fecha_documento: null,
-                    estado: null,
+
+        
+        for (let i = 0; i < allDocs.length; i++) {
+
+            let documentState = (allStates.filter(state => state.id_estado == allDocs[i].id_estado))[0].descripcion_abreviada;
+            let documentNumber = allDocs[i].letra_documento + "-" + allDocs[i].prefijo_documento + "-" + allDocs[i].numero_documento;
+
+            let obj = {
+                    fecha_carga: allDocs[i].fecha_documento,
+                    estado: documentState,
                     tipo: null,
-                    numero_documento: null,
-                    numero_pago: null,
-                    monto_bruto: null,
-                    observaciones_pago: null,
-                    digDoc_fecha_carga: null,
-                    digDoc_estado: null,
-                    digDoc_usu_carga: null,
-                    digDoc_descarga: null
-                }
+                    numero_documento: documentNumber,
+                    numero_pago: allDocs[i].numero_pago,
+                    monto: allDocs[i].monto,
+                    nota_pedido: allDocs[i].nota_pedido
+            }
 
-                if (alldocs[i].id_documento == allpays[j].id_documento) {
-                    objectData.fecha_documento = alldocs[i].fecha_de_carga;
-                    objectData.estado = alldocs[i].estado;
-                    objectData.tipo = alldocs[i].tipo;
-                    objectData.numero_documento = alldocs[i].numero_documento;
-                    objectData.numero_pago = allpays[j].numero_pago;
-                    objectData.monto_bruto = allpays[j].monto_bruto;
-                    objectData.observaciones_pago = allpays[j].observaciones_pago;
-                    alldata.push(objectData);
-                }
-
-                if (allDocs[i].id_documento == allDigDocs[j].id_documento && i < allDigDocs.length && j < allDigDocs.length) {
-                    objectData.digDoc_fecha_carga = allDigDocs[j].fecha_de_carga;
-                    objectData.digDoc_estado = allDigDocs[j].estado;
-                    objectData.digDoc_usu_carga = allDigDocs[j].id_usuario_carga;
-                    alldata.push(objectData);
-                }
+            alldata.push(obj);                
 
             }
-        }
-         
+        
+
         let pagData = pagination(alldata, alldata.length, rowsPerPage);
         setPageQuantity(pagData.length);
         setAllData(pagData);
@@ -277,34 +259,34 @@ useEffect(() => {
     const paginationTheme = createMuiTheme({
 
 
-            MuiTouchRipple: {
-              root: {
-                
-                display:'none'
+        MuiTouchRipple: {
+            root: {
 
-              }
-            },
-        
+                display: 'none'
+
+            }
+        },
+
         overrides: {
 
             MuiPaginationItem: {
-                
+
                 page: {
-                    
+
                     '&:hover': {
                         color: '#000000',
-                        fontWeight:'bold'
+                        fontWeight: 'bold'
                     },
                     '&.Mui-selected': {
                         color: '#000000',
                         fontWeight: 'bold',
                         border: 'none',
                         background: 'none',
-                        backgroundColor:'transparent'
+                        backgroundColor: 'transparent'
                     },
 
                 },
-            }, 
+            },
         },
     });
 
@@ -320,45 +302,24 @@ useEffect(() => {
     }
 
 
-
-    const handleTabs = (e, val) => {
-        setValue(val);
-        
-    }
-
-    const firstTab = () => {
-        setShowTab(1);
-    }
-
-    const secondTab = () => {
-        setShowTab(2);
-    }
-       
-    const FilterMenuHandler = (e) => {
-        setAnchorEl(e.currentTarget);
-        setOpenFilterMenu(!openFilterMenu);
-    }
-
-
-
     if (allData == undefined || allData == null || allData == "") {
 
-        
+
         return (
             <h1>Loading data...</h1>
 
         );
 
-    }
-    
+    } else {
+
         return (
             <div className="documentContentContainer">
 
-               
+
                 <Paper className={classes.root}>
 
                     <div className="documentReportLegend">
-                       <span> Reporte - Mis Documentos </span>
+                        <span> Reporte - Mis Documentos </span>
                     </div>
 
                     <div>
@@ -368,7 +329,7 @@ useEffect(() => {
                     <div>
                         <AiOutlineFilePdf className="documentReportPdfIcon" />
                     </div>
-                    
+
 
                     <TableContainer className={classes.container}>
                         <Table stickyHeader aria-label="sticky table">
@@ -395,30 +356,29 @@ useEffect(() => {
                                             <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                                                 {columns.map((column) => {
 
-
                                                     for (let i = 0; i < allData.length; i++) {
-                                                        if (column.id == "Fecha_doc") {
+                                                        if (column.id == "fecha_carga") {
                                                             return (
                                                                 <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
                                                                     {row.fecha_documento}
                                                                 </TableCell>
                                                             );
                                                         }
-                                                        else if (column.id == "Estado") {
+                                                        else if (column.id == "estado") {
                                                             return (
                                                                 <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
                                                                     {row.estado}
                                                                 </TableCell>
                                                             );
                                                         }
-                                                        else if (column.id == "Tipo") {
+                                                        else if (column.id == "tipo") {
                                                             return (
                                                                 <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
                                                                     {row.tipo}
                                                                 </TableCell>
                                                             );
                                                         }
-                                                        else if (column.id == "Numero") {
+                                                        else if (column.id == "numero") {
                                                             return (
                                                                 <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
                                                                     {row.numero_documento}
@@ -426,17 +386,17 @@ useEffect(() => {
                                                             );
                                                         }
 
-                                                        else if (column.id == "NP") {
+                                                        else if (column.id == "np") {
                                                             return (
                                                                 <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                    {row.numero_pago}
+                                                                    {row.nota_pedido}
                                                                 </TableCell>
                                                             );
                                                         }
-                                                        else if (column.id == "Monto") {
+                                                        else if (column.id == "monto") {
                                                             return (
                                                                 <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                    {"$" + row.monto_bruto}
+                                                                    {"$" + row.monto}
                                                                 </TableCell>
                                                             );
                                                         }
@@ -465,6 +425,10 @@ useEffect(() => {
             </div>
         );
     }
+
+}
+
+
     
 
 

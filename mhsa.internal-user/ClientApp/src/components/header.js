@@ -181,32 +181,6 @@ switch(val) {
                 </div>
 
 
-                <div className="headerUserAvatarComponentContainer">
-
-
-                    <div className="headerUserAvatarComponentUserDataContainer" onClick={headerHandleUserMenu}>
-                        <Avatar alt="no image" src={image1} />
-
-                        <span className="headerUserAvatarComponentUserName">UsuarioInterno</span>
-                    </div>
-
-                    <Menu
-                        anchorEl={anchorEl}
-                        keepMounted
-                        open={menuState}
-                        onClose={headerCloseUserMenu}
-                        className="headerUserAvatarComponentUserMenu"
-                    >
-                        <MenuItem onClick={headerCloseUserMenu} className={classes.menuItemStyle}>Novedades de la sección <b>"Pagos"</b></MenuItem>
-                        <MenuItem onClick={headerCloseUserMenu} className={classes.menuItemStyle}>Novedades de la sección <b>"Avisos"</b></MenuItem>
-                        <MenuItem onClick={headerCloseUserMenu} className={classes.menuItemStyleActions} className={classes.menuItemStyleActions}>Cambio de clave</MenuItem>
-                        <MenuItem onClick={headerCloseUserMenu} className={classes.menuItemStyleActions}>Cerrar sesión</MenuItem>
-                    </Menu>
-
-                </div>
-
-
-
 
             </div>
 

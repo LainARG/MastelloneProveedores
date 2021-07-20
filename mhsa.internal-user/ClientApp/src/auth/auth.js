@@ -35,6 +35,7 @@ export default async function login(props) {
                     config
                 )
                 .then((result) => {
+                    getToken();
                     let token = ("Bearer " + result.data);
                     console.log(token);
                     if (token.includes("unauthorized")){
@@ -51,5 +52,15 @@ export default async function login(props) {
                     
                 })
                 
-               
+
+
+    async function getToken() {
+
+        let token = await api.get("/auth").then((result) => {
+            localStorage.removeItem("tknPerms");
+            localStorage.setItem("tknPerms", JSON.stringify(jwt_decode(result.data)));
+        });
+    }
+
+
     }

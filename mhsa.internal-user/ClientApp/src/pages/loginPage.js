@@ -13,7 +13,7 @@ render(){
 
 return(
 <div>
-        <Header index={ index }/>
+<Header index={ index }/>
 <Body/>
 <Footer/>
 </div>

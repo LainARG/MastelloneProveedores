@@ -50,10 +50,6 @@
 }
 
 
-
-
-
-
 .navBarUserAvatarComponentContainer{
   display: inline-block;
   position: relative;
@@ -99,6 +95,6 @@
     display: inline-block;
     position: absolute;
     margin-left: 77%;
-    margin-top: -22%;
+    margin-top: -19.5%;
     z-index: 2000;
 }

@@ -154,7 +154,6 @@ export default function InternalUserProviderSelectBody() {
             objectData.localidad = allproviders[i].localidad;
             objectData.codigo_postal = allproviders[i].codigo_postal;
             objectData.telefono = allproviders[i].telefono;
-            console.log(allData[i]);
 
             objectDataBkp.proveedor = allproviders[i].codigo_proveedor;
             objectDataBkp.razon_social = allproviders[i].razon_social;
@@ -223,7 +222,6 @@ export default function InternalUserProviderSelectBody() {
         window.localStorage.removeItem("currentProvider");
         window.localStorage.setItem("currentProvider", JSON.stringify(row));
         window.location = "/internalUser/homePortalProvider";
-        console.log(row);
     }
 
   

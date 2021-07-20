@@ -10,17 +10,17 @@ using System.Text;
 
 namespace Repository.Repository
 {
-    public class TaxesRepository : BaseRepository, ITaxesRepository
+    public class DocumentTypesRepository : BaseRepository, IDocumentTypesRepository
     {
-        public TaxesRepository(MastelloneDBContext dbContext) : base(dbContext)
+        public DocumentTypesRepository(MastelloneDBContext dbContext) : base(dbContext)
         {
 
         }
 
-        public IEnumerable<Taxes> GetAll()
+        public IEnumerable<DocumentTypes> GetAll()
         {
 
-            return _dbContext.Contribuciones;
+            return _dbContext.Tipos_documento;
         
         }
 

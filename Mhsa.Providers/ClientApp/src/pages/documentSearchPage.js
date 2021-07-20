@@ -5,13 +5,15 @@ import Footer from '../components/footer';
 import DocumentSearchBody from '../components/documentSearchBody';
 import Navbar from '../components/navBar';
 
+const index = 2;
+
 class DocumentSearchPage extends React.Component{
 
 render(){
 
 return(
 <div>
-<Navbar/>
+<Navbar index={ index }/>
 <DocumentSearchBody/>
 <Footer/>
 </div>

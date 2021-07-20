@@ -11,146 +11,21 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import PaymentsContext from '../contexts/paymentsContext';
 import StatesContext from '../contexts/statesContext';
-import TaxesContext from '../contexts/taxesContext';
+import PaymentsFormsContext from '../contexts/paymentsFormsContext';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { createMuiTheme } from '@material-ui/core/styles'; 
 import pagination from '../pagination/pagination';
 import { makeStyles, Tabs, Tab } from '@material-ui/core';
-import GetAppIcon from '@material-ui/icons/GetApp';
-import AspectRatioIcon from '@material-ui/icons/AspectRatio';
 import { AiOutlineFilePdf } from "react-icons/ai";
 import { SiMicrosoftexcel } from "react-icons/si";
 
 
-function createData(fecha_doc, estado, tipo, numero, np, monto, detalle_pago) {
-
-    return { fecha_doc, estado, tipo, numero, np, monto, detalle_pago };
-}
 
 
 
-const useStyles = makeStyles({
-    root: {
-        width: '100%',
-    },
-    container: {
-        maxHeight: 440,
-    },
-    headerTable: {
-        fontWeight: 'bold',
-        color: '#797a7a',
-        backgroundColor: 'white',
-        opacity:'1'
-    },
-    rowsTable: {
-        fontWeight: 'bold',
-        color: '#000000',
-        backgroundColor: 'white',
-        opacity: '0.4'
+export default function PaymentsReportDetailsBody() {
 
-    },
-});
-
-const useTabStyles = makeStyles({
-
-
-    documentTabStyle: {
-        display: 'block',
-        width: '125%',
-        marginLeft: '0%'
-    },
-    btnTab0Style: {
-        display: 'inline',
-        backgroundColor: 'transparent',
-        cursor: 'pointer',
-        fontWeight: '900',
-        textTransform: 'none',
-        fontSize: 16,
-        marginLeft: '1%',
-        marginTop: "1%",
-        width: '20%',
-        minWidth: '20%',
-        maxHeight:'10px',
-        color: '#87847b'
-    },
-    btnTab0StyleDisabled: {
-        display: 'inline',
-        backgroundColor: 'transparent',
-        cursor: 'pointer',
-        fontWeight: '900',
-        textTransform: 'none',
-        fontSize: 16,
-        marginLeft: '1%',
-        marginTop: "1%",
-        width: '20%',
-        minWidth: '20%',
-        maxHeight: '10px',
-        color: '#87847b',
-        align: 'left',
-        backgroundColor: '#eeeeef'
-    },
-    btnTab1Style: {
-        display: 'inline',
-        backgroundColor: 'transparent',
-        cursor: 'pointer',
-        fontWeight: '900',
-        textTransform: 'capitalize',
-        fontSize: 16,
-        marginLeft: '0%',
-        marginTop: "1%",
-        width: '20%',
-        minWidth: '20%',
-        maxHeight: '10px',
-        color: '#87847b'
-    },
-    btnTab1StyleDisabled: {
-        display: 'inline',
-        backgroundColor: 'transparent',
-        cursor: 'pointer',
-        fontWeight: '900',
-        textTransform: 'capitalize',
-        fontSize: 16,
-        marginLeft: '0%',
-        marginTop: "1%",
-        width: '20%',
-        minWidth: '20%',
-        maxHeight: '10px',
-        color: '#87847b',
-        backgroundColor:'#eeeeef'
-    }
-
-})
-
-const documentTabsTheme = createMuiTheme({
-
-    overrides: {
-
-        MuiTab: {
-
-            wrapper: {
-
-                
-
-            },
-        },
-    },
-
-    palette: {
-        primary: {
-            main: '#000000'
-        },
-        secondary: {
-            main: '#009639'
-        }
-    }
-
-});
-
-
-
-export default function PaymentsReportNoDetailsBody() {
     const classes = useStyles();
-    const tabClasses = useTabStyles();
     const [allPays, setAllPays] = useState("");
     const [allTaxes, setAllTaxes] = useState("");
     const [allDataPrimaryTab, setAllDataPrimaryTab] = useState("");
@@ -175,13 +50,36 @@ export default function PaymentsReportNoDetailsBody() {
         if (allPays == "" || allTaxes == "") {
 
             PaymentsContext.fetchPayments().then((e) => { setAllPays(e) });
-            TaxesContext.fetchTaxes().then((e) => { setAllTaxes(e) });
+            PaymentsFormsContext.fetchPaymentsForms().then((e) => { setAllTaxes(e) });
             StatesContext.fetchStates().then((e) => { setAllStates(e); });
         } else {
             dataMapper(allPays, allTaxes);
         }
 
     }, [allPays]);
+
+
+    const useStyles = makeStyles({
+        root: {
+            width: '100%',
+        },
+        container: {
+            maxHeight: 440,
+        },
+        headerTable: {
+            fontWeight: 'bold',
+            color: '#797a7a',
+            backgroundColor: 'white',
+            opacity: '1'
+        },
+        rowsTable: {
+            fontWeight: 'bold',
+            color: '#000000',
+            backgroundColor: 'white',
+            opacity: '0.4'
+
+        },
+    });
 
 
     const columns = [

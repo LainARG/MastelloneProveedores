@@ -10,19 +10,14 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import PaymentsContext from '../contexts/paymentsContext';
-import TaxesContext from '../contexts/taxesContext';
+import PaymentsFormsContext from '../contexts/paymentsFormsContext';
 import { ThemeProvider } from '@material-ui/core/styles';
-import { createMuiTheme } from '@material-ui/core/styles'; 
+import { createMuiTheme } from '@material-ui/core/styles';
 import pagination from '../pagination/pagination';
 import { makeStyles, Tabs, Tab } from '@material-ui/core';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import AspectRatioIcon from '@material-ui/icons/AspectRatio';
 
-
-function createData(fecha_doc, estado, tipo, numero, np, monto, detalle_pago) {
-
-    return { fecha_doc, estado, tipo, numero, np, monto, detalle_pago };
-}
 
 
 
@@ -37,7 +32,7 @@ const useStyles = makeStyles({
         fontWeight: 'bold',
         color: '#797a7a',
         backgroundColor: 'white',
-        opacity:'1'
+        opacity: '1'
     },
     rowsTable: {
         fontWeight: 'bold',
@@ -67,7 +62,7 @@ const useTabStyles = makeStyles({
         marginTop: "1%",
         width: '20%',
         minWidth: '20%',
-        maxHeight:'10px',
+        maxHeight: '10px',
         color: '#87847b'
     },
     btnTab0StyleDisabled: {
@@ -113,7 +108,7 @@ const useTabStyles = makeStyles({
         minWidth: '20%',
         maxHeight: '10px',
         color: '#87847b',
-        backgroundColor:'#eeeeef'
+        backgroundColor: '#eeeeef'
     }
 
 })
@@ -126,7 +121,7 @@ const documentTabsTheme = createMuiTheme({
 
             wrapper: {
 
-                
+
 
             },
         },
@@ -149,38 +144,34 @@ export default function PaymentsFormsBody() {
     const classes = useStyles();
     const tabClasses = useTabStyles();
     const [allPays, setAllPays] = useState("");
-    const [allTaxes, setAllTaxes] = useState("");
+    const [allPaymentsForms, setAllPaymentsForms] = useState("");
     const [allDataPrimaryTab, setAllDataPrimaryTab] = useState("");
     const [allDataSecondaryTab, setAllDataSecondaryTab] = useState("");
     const [pageNumber, setPageNumber] = useState(1);
     const [primaryPageQuantity, setPrimaryPageQuantity] = useState(10);
     const [secondaryPageQuantity, setSecondaryPageQuantity] = useState(10);
-    const [contextCtrl, setContextCtrl] = useState(0);
     const [value, setValue] = useState(0);
     const [showTab, setShowTab] = useState(1);
     const [openFilterMenu, setOpenFilterMenu] = useState(false);
     const [anchorEl, setAnchorEl] = useState(false);
     const rowsPerPage = 4;
-    
-    
-    const setContext = () => {
-        
-            
-        setAllPays(PaymentsContext.allPayments);
-        setAllTaxes(TaxesContext.allTaxes);
-            dataMapper(allPays, allTaxes);
-        if (allPays!= "") {
-            setTimeout(function () { setContextCtrl(1); }, 100);
-            }
-    }
 
 
-useEffect(() => {
-    if (contextCtrl < 1) {
-        setContext();
-    } 
+
+
+
+    useEffect(() => {
+        if (allPays == "" || allPaymentsForms == "") {
+
+            PaymentsContext.fetchPayments().then((e) => { setAllPays(e) });
+            PaymentsFormsContext.fetchPaymentsForms().then((e) => { setAllPaymentsForms(e) });
+
+        } else {
+            dataMapper();
+
+        }
+
     });
-
 
     const columns = [
         {

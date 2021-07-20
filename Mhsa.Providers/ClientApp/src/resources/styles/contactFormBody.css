@@ -2,36 +2,76 @@
   display:block;
   position: relative;
   width: 100%;
-  height: 600px;
-  margin-left: 35%;
-  margin-bottom: 10%;
-  margin-top: 8%;
+  height: 450px;
+  padding-left: 25%;
+  margin-bottom: 15%;
+  margin-top: 4%;
 }
 
-.contactFormDescriptionLegendStyle{
-	display: block;
-	font-weight: bold;
-	margin-top:60px;
-	font-size: 22px;
-}
-
-.contactFormParagraphStyle{
+.contactModalMessage {
     display: block;
-    width: 35%;
+    font-size: 14px;
+    font-weight: bold;
+    color: #000;
+    opacity: 0.8;
+    text-align: justify;
+    text-justify: inter-word;
+    margin-left:0px;
+    width:95%;
+}
+.contactModalBtnStyle {
+    display: block;
+    position: relative;
+    z-index: 3000;
+    margin-left: 36%;
+    margin-top: 5%;
+    border-radius: 5px;
+    background-color: #009639;
+    border: 1px solid grey;
+    color: white;
+    font-weight: bold;
+    width: 25%;
+}
+
+.contactModalContainer {
+    display: inline-block;
+    background-color: white;
+    margin-top: 15%;
+    margin-left: 35%;
+    width: 450px;
+    height: 200px;
+    padding:2%;
+    border-radius: 5px;
+}
+
+.contactFormDescriptionLegendStyle {
+    display: block;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.contactFormParagraphStyle {
+    display: block;
     margin-top: -2%;
     font-size: 18px;
-    font-family: arial;
     font-weight: 500;
-    width: 27%;
+    width: 65%;
+    text-align: justify;
+    text-justify: inter-word;
 }
 
-.contactFormParagraphStyle1{
+.contactFormBodyFormMessage{
+    display:block;
+}
+
+.contactFormParagraphStyle1 {
     display: block;
-    margin-top: 0%;
+    margin-top: 1%;
     font-size: 18px;
-    font-family: arial;
     font-weight: 500;
-    width: 27%;
+    width: 65%;
+    text-align: justify;
+    text-justify: inter-word;
 }
 
 .contactFormSenderLegendStyle{
@@ -47,7 +87,7 @@
 .contactFormSenderInputStyle{
   display: inline-block;
    position: absolute;
-    width: 27%;
+    width: 50%;
     margin-top: 1.3%;
     margin-left:0%;
     background-color: #e8ebeb;
@@ -67,10 +107,10 @@
 .contactFormMessageInputStyle {
     display: inline-block;
     position: absolute;
-    width: 27%;
+    width: 50%;
     margin-top: 2.3%;
     margin-left: 0%;
-    height: 250px;
+    height: 150px;
     background-color: #e8ebeb;
     border-bottom-color: #F0F0F0;
     border-right-color: #F0F0F0;
@@ -81,7 +121,8 @@
 
 .contactFormBtnActionContainer{
    display: block;
-   margin-top: 280px;
-   margin-left: 6.7%;
+   position:relative;
+   margin-top: 16%;
+   margin-left: 21.5%;
    height: 5%;
 }

@@ -25,6 +25,7 @@ namespace mhsa.internal_user.Controllers
     {
         private readonly IConfiguration configuration;
         public static Object response;
+        public static string Token;
 
         public AuthController(IConfiguration configuration)
         {
@@ -54,9 +55,12 @@ namespace mhsa.internal_user.Controllers
                 loginData.IdAmbiente = int.Parse(configuration["Auth:IdAmbiente"]);
                 loginData.Secret = configuration["Auth:SecretKey"];
 
+            
+
                 HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(loginData), Encoding.UTF8);
                 httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
+                //object obj = JsonConvert.SerializeObject(loginData); Json a enviar en caso de requerir prueba externa
 
                 using (var httpClient = new HttpClient())
                 {
@@ -64,8 +68,7 @@ namespace mhsa.internal_user.Controllers
 
                     using (var response = await httpClient.PostAsync(configuration["Auth:Endpoint"], httpContent))
                     {
-                       
-                       
+                            Token = response.Content.ReadAsStringAsync().Result;
                             AuthController.response = response;
                             var key = Encoding.ASCII.GetBytes(configuration["Auth:SecretKey"]);
 
@@ -103,9 +106,9 @@ namespace mhsa.internal_user.Controllers
         }
 
         [HttpGet]
-        public async Task<string> getResponse()
+        public async Task<string> getToken()
         {
-            return AuthController.response.ToString();
+            return Token;
         }
 
     }

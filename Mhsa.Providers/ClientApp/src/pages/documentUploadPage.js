@@ -4,13 +4,15 @@ import Footer from '../components/footer';
 import DocumentUploadBody from '../components/documentUploadBody';
 import Navbar from '../components/navBar';
 
+const index = 2;
+
 class DocumentUploadPage extends React.Component{
 
 render(){
 
 return(
 <div>
-<Navbar/>
+<Navbar index={index} />
 <DocumentUploadBody/>
 <Footer/>
 </div>

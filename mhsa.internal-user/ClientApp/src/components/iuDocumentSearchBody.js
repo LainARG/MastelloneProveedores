@@ -10,6 +10,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import DocumentsContext from '../contexts/documentsContext';
+import ProvidersContext from '../contexts/providersContext';
 import DigitalDocumentsContext from '../contexts/digitalDocumentsContexts';
 import StatesContext from '../contexts/statesContext';
 import PaymentsContext from '../contexts/paymentsContext';
@@ -23,13 +24,6 @@ import { GrFormSchedule } from "react-icons/gr";
 import Button from '@material-ui/core/Button';
 import IuDocumentSearchResultBody from '../components/iuDocumentSearchResultBody';
 import StateTypesContext from '../contexts/stateTypesContext';
-
-
-function createData(fecha_doc, estado, tipo, numero, np, monto, detalle_pago) {
-
-    return { fecha_doc, estado, tipo, numero, np, monto, detalle_pago };
-}
-
 
 
 const useStyles = makeStyles({
@@ -266,6 +260,7 @@ export default function DocumentBody() {
     const [allPayments, setAllPayments] = useState("");
     const [allDigDocs, setAllDigDocs] = useState("");
     const [allStates, setAllStates] = useState("");
+    const [allProviders, setAllProviders] = useState("");
     const [pageNumber, setPageNumber] = useState(1);
     const [firstTabPageQuantity, setFirstTabPageQuantity] = useState(10);
     const [secondTabPageQuantity, setSecondTabPageQuantity] = useState(10);
@@ -281,7 +276,10 @@ export default function DocumentBody() {
     const [fileNameValue, setFileNameValue] = useState(null);
     const [sinceValue, setSinceValue] = useState(null);
     const [untilValue, setUntilValue] = useState(null);
+    const [sincePeriodValue, setSincePeriodValue] = useState(null);
+    const [untilPeriodValue, setUntilPeriodValue] = useState(null);
     const [stateValue, setStateValue] = useState('Cualquiera');
+    const [providerValue, setProviderValue] = useState('Cualquiera');
     const [dataContext, setDataContext] = useState(null);
     const [searchResult, setSearchResult] = useState(null);
     const [statesContext, setStatesContext] = useState(null);
@@ -294,90 +292,6 @@ export default function DocumentBody() {
             StateTypesContext.fetchStateTypes().then((e) => { setStateTypesContext(e); });
         }
     }, []);
-
-
-    function searchDigitalDocument() {
-
-
-
-        let fileName = fileNameValue;
-        let since = new Date(sinceValue).getTime();
-        let until = new Date(untilValue).getTime();
-        let state = stateValue;
-        let arrayData = [];
-        let searchState = [];
-
-
-
-        for (let i = 0; i < dataContext.length; i++) {
-
-            for (let j = 0; j < statesContext.length; j++) {
-                if (statesContext[j].id_estado == dataContext[i].id_estado) {
-                    searchState.push(statesContext[j].descripcion_abreviada);
-                }
-            }
-
-            let obj = {
-                filename: dataContext[i].nombre_archivo,
-                date: new Date(dataContext[i].fecha_carga).getTime(),
-                dateShow: dataContext[i].fecha_carga,
-                state: searchState[i],
-                type: dataContext[i].tipo_archivo,
-                user: dataContext[i].id_usuario_carga,
-                id_documento: dataContext[i].id_documento,
-                image: dataContext[i].imagen
-            }
-
-            if (obj.filename.includes(fileName) && state == obj.state || obj.filename.includes(fileName) && state == "Cualquiera" || obj.date >= since && obj.date <= until && state == obj.state || obj.date >= since && obj.date <= until && state == "Cualquiera" || state == obj.state && fileName == null) {
-                arrayData.push(obj);
-            }
-
-        }
-
-
-
-        if (arrayData.length == 0 && state == "Cualquiera" && since == 0 && until == 0) {
-
-            for (let i = 0; i < dataContext.length; i++) {
-
-                let obj = {
-                    filename: dataContext[i].nombre_archivo,
-                    date: new Date(dataContext[i].fecha_carga).getTime(),
-                    dateShow: dataContext[i].fecha_carga,
-                    state: searchState[i],
-                    user: dataContext[i].id_usuario_carga,
-                    id_documento: dataContext[i].id_documento,
-                    image: dataContext[i].imagen
-                }
-                arrayData.push(obj);
-
-            }
-
-        }
-
-        let indexToRemove = [];
-        let indexNotRemove = [];
-        for (let i = 0; i < arrayData.length; i++) {
-            for (let j = 0; j < arrayData.length; j++) {
-
-                if (arrayData[i].id_documento == arrayData[j].id_documento && i != j && !indexNotRemove.includes(j)) {
-                    indexToRemove.push(j);
-                    indexNotRemove.push(i);
-                }
-            }
-        }
-
-
-        for (let i = 0; i < indexToRemove.length; i++) {
-            for (let j = 0; j < arrayData.length; j++) {
-                if (indexToRemove[i] == j) {
-                    delete arrayData[j];
-                }
-            }
-        }
-
-        setSearchResult(arrayData);
-    }
 
 
     function DocumentSearch() {
@@ -408,103 +322,12 @@ export default function DocumentBody() {
 
 
 
-    function searchDigitalDocument() {
-
-
-
-        let fileName = fileNameValue;
-        let since = new Date(sinceValue).getTime();
-        let until = new Date(untilValue).getTime();
-        let state = stateValue;
-        let arrayData = [];
-        let searchState = [];
-
-
-
-        for (let i = 0; i < dataContext.length; i++) {
-
-            for (let j = 0; j < statesContext.length; j++) {
-                if (statesContext[j].id_estado == dataContext[i].id_estado) {
-                    searchState.push(statesContext[j].descripcion_abreviada);
-                }
-            }
-
-            let obj = {
-                filename: dataContext[i].nombre_archivo,
-                date: new Date(dataContext[i].fecha_carga).getTime(),
-                dateShow: dataContext[i].fecha_carga,
-                state: searchState[i],
-                type: dataContext[i].tipo_archivo,
-                user: dataContext[i].id_usuario_carga,
-                id_documento: dataContext[i].id_documento,
-                image: dataContext[i].imagen
-            }
-
-            if (obj.filename.includes(fileName) && state == obj.state || obj.filename.includes(fileName) && state == "Cualquiera" || obj.date >= since && obj.date <= until && state == obj.state || obj.date >= since && obj.date <= until && state == "Cualquiera" || state == obj.state && fileName == null) {
-                arrayData.push(obj);
-            }
-
-        }
-
-
-
-        if (arrayData.length == 0 && state == "Cualquiera" && since == 0 && until == 0) {
-
-            for (let i = 0; i < dataContext.length; i++) {
-
-                let obj = {
-                    filename: dataContext[i].nombre_archivo,
-                    date: new Date(dataContext[i].fecha_carga).getTime(),
-                    dateShow: dataContext[i].fecha_carga,
-                    state: searchState[i],
-                    user: dataContext[i].id_usuario_carga,
-                    id_documento: dataContext[i].id_documento,
-                    image: dataContext[i].imagen
-                }
-                arrayData.push(obj);
-
-            }
-
-        }
-
-        let indexToRemove = [];
-        let indexNotRemove = [];
-        for (let i = 0; i < arrayData.length; i++) {
-            for (let j = 0; j < arrayData.length; j++) {
-
-                if (arrayData[i].id_documento == arrayData[j].id_documento && i != j && !indexNotRemove.includes(j)) {
-                    indexToRemove.push(j);
-                    indexNotRemove.push(i);
-                }
-            }
-        }
-
-
-        for (let i = 0; i < indexToRemove.length; i++) {
-            for (let j = 0; j < arrayData.length; j++) {
-                if (indexToRemove[i] == j) {
-                    delete arrayData[j];
-                }
-            }
-        }
-
-        setSearchResult(arrayData);
-    }
-
-    const openModal = (props) => {
-        setPaymentDetailsProps(props);
-        setTimeout(function () { setModal(true); }, 100);
-
-    }
-
-    const closeModal = () => {
-        setModal(false);
-    }
 
     useEffect(() => {
 
         if (allDocs == "") {
             DocumentsContext.fetchDocuments().then((e) => { setAllDocs(e); });
+            ProvidersContext.fetchProviders().then((e) => { setAllProviders(e); });
             DigitalDocumentsContext.fetchDocuments().then((e) => { setAllDigDocs(e); });
             StatesContext.fetchStates().then((e) => { setAllStates(e); });
             PaymentsContext.fetchPayments().then((e) => { setAllPayments(e); });
@@ -574,37 +397,7 @@ export default function DocumentBody() {
 
     ];
 
-    const electronics_columns = [
-        {
-            id: 'Fecha_carga',
-            label: 'Fecha de carga',
-            minWidth: 150,
-            align: 'left',
-            format: (value) => value.toLocaleString('en-US'),
-        },
-        {
-            id: 'Estado',
-            label: 'Estado',
-            minWidth: 150,
-            align: 'left',
-            format: (value) => value.toLocaleString('en-US'),
-        },
-        {
-            id: 'Cargado_por',
-            label: 'Cargado por',
-            minWidth: 150,
-            align: 'left',
-            format: (value) => value.toFixed(2),
-        },
-        {
-            id: 'Descarga',
-            label: 'Descarga',
-            minWidth: 150,
-            align: 'right',
-            format: (value) => value.toFixed(2),
-        }
-
-    ];
+    
 
     const dataMapper = (alldocs) => {
         let allfirsttabdata = [];
@@ -786,9 +579,6 @@ export default function DocumentBody() {
 
     }
 
-    function documentReportRedirect() {
-        window.location = '/documents/report';
-    }
 
 
     const handleTabs = (e, val) => {
@@ -804,139 +594,8 @@ export default function DocumentBody() {
         setShowTab(1);
     }
 
-    const FilterMenuHandler = (e) => {
-        setAnchorEl(e.currentTarget);
-        setOpenFilterMenu(!openFilterMenu);
-    }
+    
 
-    function DocumentFilterMenu() {
-
-        return (
-
-            <div className="documentFilterMenuContainer">
-
-                <Menu
-                    anchorEl={anchorEl}
-                    keepMounted
-                    open={openFilterMenu}
-                    className={classes.documentFilterMenu}
-
-                >
-
-
-                    <span className={classes.documentFilterMenulegend1}>Estado</span>
-
-                    <select
-                        id="menuFilterStateSelect"
-                        className={classes.documentFilterMenuSelect1}
-                    >
-                        <option>Cualquiera</option>
-                        <option>En gestion adm.</option>
-                        <option>En proceso de pago</option>
-                        <option>A cobrar</option>
-                        <option>Cobro parcial</option>
-                        <option>Cobro total</option>
-                        <option>Rechazado</option>
-
-                    </select>
-
-
-                    <ThemeProvider theme={theme}>
-                        <p className={classes.documentFilterMenuWidth}></p>
-                        <span className={classes.documentFilterMenuBtn} onClick={CancelDocumentFiltering}>
-                            <span className={classes.documentFilterMenuBtn1}>Cancelar</span>
-                        </span>
-                        <span className={classes.documentFilterMenuBtn2} onClick={FilterDocumentAction}>
-                            <span className={classes.documentFilterMenuBtn3}>Filtrar</span>
-                        </span>
-                    </ThemeProvider>
-
-                </Menu>
-
-
-            </div>
-
-
-        );
-    }
-
-    function CancelDocumentFiltering() {
-
-        setAllFirstTabData(allFirstTabDataBackup);
-        setFirstTabPageQuantity(allFirstTabDataBackup.length);
-        setOpenFilterMenu(false);
-    }
-
-    function FilterDocumentAction(e) {
-
-        e.preventDefault();
-        setOpenFilterMenu(false);
-        let arrayPagedSuggestions = [];
-        let pagedSuggestions = [];
-        let menuFilterStateValue = document.getElementById("menuFilterStateSelect").value;
-
-        if (menuFilterStateValue == "Cualquiera") {
-            CancelDocumentFiltering();
-        } else if (allFirstTabData.length == allFirstTabDataBackup.length) {
-
-            let suggestions = JSON.parse(JSON.stringify(allFirstTabData));
-
-            for (let i = 0; i < allFirstTabData.length; i++) {
-                for (let j = 0; j < allFirstTabData[i].length; j++) {
-
-                    if (allFirstTabData[i][j] != undefined) {
-
-                        if (allFirstTabData[i][j].estado.toLowerCase() != menuFilterStateValue.toLowerCase()) {
-                            delete suggestions[i][j]
-
-                        } else {
-                            arrayPagedSuggestions.push(allFirstTabData[i][j]);
-                            pagedSuggestions = pagination(arrayPagedSuggestions, arrayPagedSuggestions.length, rowsPerPage);
-                        }
-                        setFirstTabPageQuantity(pagedSuggestions.length);
-                        setAllFirstTabData(pagedSuggestions);
-                    }
-                }
-            }
-        } else {
-            CancelDocumentFiltering();
-        }
-
-    }
-
-
-
-    function searchPrimaryPageSuggestionsHandler(e) {
-        e.preventDefault();
-        CancelDocumentFiltering();
-        let suggestions = [];
-
-
-        if (e.target.value == "") {
-            setAllFirstTabData(allFirstTabDataBackup);
-        } else {
-
-
-            for (let i = 0; i < allFirstTabData.length; i++) {
-                for (let j = 0; j < allFirstTabData[i].length; j++) {
-
-                    suggestions.push(allFirstTabData[i][j]);
-
-                }
-            }
-
-
-            suggestions = suggestions.filter(f => f != "");
-            suggestions = suggestions.filter(f => f != undefined);
-            suggestions = suggestions.filter(f => f.numero_documento.includes(e.target.value));
-            let pagedSuggestions = pagination(suggestions, suggestions.length, rowsPerPage);
-            setFirstTabPageQuantity(pagedSuggestions.length);
-            setAllFirstTabData(pagedSuggestions);
-
-
-
-        }
-    }
 
     function prepareBase64File(contentType, base64Data, fileName, index) {
         const linkSource = `data:${contentType};base64,${base64Data}`;
@@ -947,36 +606,163 @@ export default function DocumentBody() {
     }
 
 
-    const BodyModal = (
-        <div className="modalStyle">
-
-            <h2 className="modalTitleStyle">Detalle del pago.</h2>
-            <span className="modalNormalFontStyle">Acerca del documento Num. {paymentDetailsProps.numero_documento}</span>
-
-            <span className="modalBoldFontStyle">Num. de pago</span>
-            <span className="modalBoldFontStyle">Monto pagado</span>
-            <span className="modalBoldFontStyle">Estado</span><br />
-            <span className="modalNormalFontStyle1">{paymentDetailsProps.numero_pago}</span>
-            <span className="modalNormalFontStyle2">{paymentDetailsProps.monto_pago}</span>
-            <span className="modalNormalFontStyle3">{paymentDetailsProps.estado_pago}</span>
-
-            <button className="modalBtnStyle" onClick={() => closeModal()}>Cerrar</button>
-
-
-        </div>
-    );
-
     function downloadBase64File(index) {
 
         filesToDownload[index].click();
     }
 
+    function DocumentSearch() {
+        return (
+            <IuDocumentSearchResultBody props={searchResult} />
+        );
+    }
+
+
+    function searchDigitalDocument() {
+
+        setSearchResult("");
+        let inputFileName = fileNameValue;
+        let inputSince = new Date(sinceValue).getTime();
+        let inputUntil = new Date(untilValue).getTime();
+        let inputSincePeriod = new Date(sincePeriodValue).getTime();
+        let inputUntilPeriod = new Date(untilPeriodValue).getTime();
+        let inputProvider = providerValue;
+        let inputState = stateValue;
+        let results = [];
+        let finalResults = [];
+        let indexToRemove = [];
+
+        for (let i = 0; i < dataContext.length; i++) {
+
+            let currentState = dataContext[i].id_estado;
+            let currentProvider = dataContext[i].cuit;
+            let currentLoadTime = new Date(dataContext[i].fecha_carga).getTime();
+            let currentStateTime = new Date(dataContext[i].fecha_estado).getTime();
+            let matchState;
+            let matchProvider;
+
+            for (let j = 0; j < allStates.length; j++) {
+                if(currentState == allStates[j].id_estado) {
+                    matchState = allStates[j].descripcion_abreviada;
+                }
+            }
+
+            for (let j = 0; j < allProviders.length; j++) {
+                if (currentProvider == allProviders[j].cuit) {
+                    matchProvider = allProviders[j];
+                }
+            }
+
+            let obj = {
+
+                fecha_ingreso: dataContext[i].fecha_carga,
+                fecha_estado: dataContext[i].fecha_estado,
+                cuit:dataContext[i].cuit,
+                razon_social: matchProvider.razon_social,
+                nombre_archivo: dataContext[i].nombre_archivo,
+                estado: matchState,
+                descargar: dataContext[i].descargar,
+
+            }
+
+            if (obj.nombre_archivo.includes(inputFileName) && inputFileName != "") {
+                results.push(obj);
+            }
+            
+            if (obj.estado == inputState || inputState == "Cualquiera") {
+                results.push(obj);
+            }
+            
+            if (obj.razon_social.toLowerCase() == inputProvider.toLowerCase() || inputProvider == "Cualquiera") {
+                results.push(obj);
+            }
+
+            if (currentLoadTime >= inputSince && currentLoadTime <= inputUntil) {
+                results.push(obj);
+            }
+
+            if (currentStateTime >= inputSincePeriod && currentStateTime <= inputUntilPeriod) {
+                results.push(obj);
+            }
+
+
+            results.forEach(function (element, index) {
+                if (!element.nombre_archivo.includes(inputFileName) && inputFileName != "" && inputFileName != null) {
+                    indexToRemove.push(index);
+                    console.log("success")
+                    console.log(inputFileName);
+                }
+
+                if (element.estado != inputState && inputState != "Cualquiera") {
+                    indexToRemove.push(index);
+                }
+
+                if (element.razon_social.toLowerCase() != inputProvider.toLowerCase() && inputProvider != "Cualquiera") {
+                    indexToRemove.push(index);
+                }
+
+                if (inputSince != null && inputSince != "" && currentLoadTime < inputSince || inputUntil != null && inputUntil != "" && currentLoadTime > inputUntil) {
+                    indexToRemove.push(index);
+                }
+
+                if (inputSincePeriod != null && inputSincePeriod != "" && currentStateTime < inputSincePeriod || inputUntilPeriod != null && inputUntilPeriod != "" && currentStateTime > inputUntilPeriod) {
+                    indexToRemove.push(index);
+                }
+
+
+            });
+            
+        }
 
 
 
 
+        indexToRemove.forEach((element) => {
+            console.log(element);
+            delete results[element];
+        }
+        );
+
+        results.forEach((element) => {
+
+            if (!finalResults.includes(element)) {
+            finalResults.push(element);
+            }
+        });
+       
+        
+        setSearchResult(finalResults);
+
+    }
+
+    function rejectDocuments() {
+        console.log("Reject Doc");
+    }
 
 
+    function RejectDocumentForm() {
+
+        return (
+            <div className="rejectDocumentFormContainer">
+                <input type="checkbox" /><span className="rejectDocsStyle">Rechazar todos los documentos listados</span>
+                <div>
+                <span className="rejectDocForm3">Motivo de rechazo</span><br />
+                <select className="rejectDocForm" placeholder="Codigo archivo de rechazo">
+                    <option>Falta numero de nota de pedido</option>
+                    <option>Error de calculo</option>
+                    </select><br/>
+                </div>
+                <div>
+                <span className="rejectDocForm1">Observaciones</span><br />
+                    <textarea id="userMessage" className="rejectDocForm2" type="text" /><br /><br />
+                </div>
+                <button className="documentUploadBtn6" onClick={rejectDocuments}>
+                    Rechazar
+                </button>
+            </div>
+        );
+
+    }
 
 
 
@@ -1025,9 +811,10 @@ export default function DocumentBody() {
 
                     <span className="documentSearchFormLegend3">Proveedor</span>
 
-                    <select className="documentSearchFormSelect" onChange={(e) => setStateValue(e.target.value)}>
-                        <option selected value="Cualquiera">Advantive S.A.</option>
-                        <option selected value="Cualquiera">El Libertario S.A.</option>
+                    <select className="documentSearchFormSelect" onChange={(e) => setProviderValue(e.target.value)}>
+                        <option selected value="Cualquiera">Cualquiera</option>
+                        <option value="Advantive S.A.">Advantive S.A.</option>
+                        <option value="El Libertario S.A.">El Libertario S.A.</option>
                     </select>
 
                 </div>
@@ -1048,14 +835,14 @@ export default function DocumentBody() {
                 <div className="documentSearchFormContainer1">
 
                     <span className="documentSearchFormLegend1">Periodo de incorporacion</span>
-                    <input id="documentSearchFormInput1" className="documentSearchFormInput1" placeholder="AAAA/MM/DD" onChange={(e) =>                      setSinceValue(e.target.value)}></input>
+                    <input id="documentSearchFormInput1" className="documentSearchFormInput1" placeholder="AAAA/MM/DD" onChange={(e) =>setSincePeriodValue(e.target.value)}></input>
                     <GrFormSchedule className="documentSearchFormScheduleIcon" />
 
                 </div>
 
                 <div className="documentSearchFormContainer2">
 
-                    <input id="documentSearchFormInput2" className="documentSearchFormInput2" placeholder="AAAA/MM/DD" onChange={(e) =>                      setUntilValue(e.target.value)}></input>
+                    <input id="documentSearchFormInput2" className="documentSearchFormInput2" placeholder="AAAA/MM/DD" onChange={(e) =>setUntilPeriodValue(e.target.value)}></input>
                     <GrFormSchedule className="documentSearchFormScheduleIcon1" />
 
                 </div>
@@ -1064,14 +851,14 @@ export default function DocumentBody() {
                 <div className="documentSearchFormContainer1">
 
                     <span className="documentSearchFormLegend1">Periodo de estado</span>
-                    <input id="documentSearchFormInput1" className="documentSearchFormInput1" placeholder="AAAA/MM/DD" onChange={(e) =>                       setSinceValue(e.target.value)}></input>
+                    <input id="documentSearchFormInput1" className="documentSearchFormInput1" placeholder="AAAA/MM/DD" onChange={(e) =>setSinceValue(e.target.value)}></input>
                     <GrFormSchedule className="documentSearchFormScheduleIcon" />
 
                 </div>
 
                 <div className="documentSearchFormContainer2">
 
-                    <input id="documentSearchFormInput2" className="documentSearchFormInput2" placeholder="AAAA/MM/DD" onChange={(e) =>                       setUntilValue(e.target.value)}></input>
+                    <input id="documentSearchFormInput2" className="documentSearchFormInput2" placeholder="AAAA/MM/DD" onChange={(e) =>setUntilValue(e.target.value)}></input>
                     <GrFormSchedule className="documentSearchFormScheduleIcon1" />
 
                 </div>
@@ -1082,7 +869,7 @@ export default function DocumentBody() {
                 <div className="documentSearchFormContainer">
 
                     <span className="documentSearchFormLegend">Nombre de archivo</span>
-                    <input id="documentSearchFormInput" className="documentSearchFormInput" onChange={(e) => setFileNameValue                    (e.target.value)}></input>
+                    <input id="documentSearchFormInput" className="documentSearchFormInput" onChange={(e) => setFileNameValue(e.target.value)}></input>
 
 
                 </div>
@@ -1100,9 +887,8 @@ export default function DocumentBody() {
 
                 <div className="documentSearchResContainer">
 
-                    <DocumentSearch />
-
-                    <IuDocumentSearchResultBody/>
+                    <DocumentSearch/>
+                    <RejectDocumentForm />
 
                 </div>
 
@@ -1112,7 +898,11 @@ export default function DocumentBody() {
 
 
 
-    )}
+        )
+    }
+
+
+
     if (showTab == 1) {
         return (
             <div className="documentContentContainer">

@@ -222,13 +222,18 @@
 
 }
 
+.documentSearchResultResultsContainer{
+    display:block;
+    width:190%;
+}
+
 .documentSearchResultLegend1 {
     display: inline-block;
     font-weight: bold;
     font-size: 16px;
     color: #969696;
-    width: 10%;
-    margin-top:2%;
+    width: auto;
+    margin-top: 2%;
 }
 
 .documentSearchResultLegend2 {
@@ -236,8 +241,8 @@
     font-weight: bold;
     font-size: 16px;
     color: #969696;
-    width: 5%;
-    margin-left:4%;
+    width: auto;
+    margin-left: 4%;
     margin-top: 2%;
 }
 
@@ -246,8 +251,8 @@
     font-weight: bold;
     font-size: 16px;
     color: #969696;
-    width: 8%;
-    margin-left: 4%;
+    width: auto;
+    margin-left: 8%;
     margin-top: 2%;
 }
 
@@ -256,8 +261,18 @@
     font-weight: bold;
     font-size: 16px;
     color: #969696;
-    width: 12%;
-    margin-left: 4%;
+    width: auto;
+    margin-left: 6%;
+    margin-top: 2%;
+}
+
+.documentSearchResultLegend12 {
+    display: inline-block;
+    font-weight: bold;
+    font-size: 16px;
+    color: #969696;
+    width: auto;
+    margin-left: 7%;
     margin-top: 2%;
 }
 
@@ -272,55 +287,153 @@
 .documentSearchResultLegend5 {
     display: inline-block;
     font-weight: bold;
-    font-size: 16px;
+    font-size: 14px;
     color: #bababa;
-    width: 22%;
-    margin-top: 0%;
-    font-size: 13px;
-    margin-top: 2%;
+    width: 15%;
+    margin-left: -24%;
+    margin-top: 0.5%;
+    overflow: hidden;
 }
 
 .documentSearchResultLegend6 {
     display: inline-block;
     font-weight: bold;
-    font-size: 16px;
+    font-size: 14px;
     color: #bababa;
-    width: 22%;
-    margin-top: 0%;
-    font-size: 13px;
-    margin-top: 2%;
+    width: 15%;
+    margin-left: 0.5%;
+    margin-top: 0.5%;
+    overflow: hidden;
 }
 
 .documentSearchResultLegend7 {
     display: inline-block;
     font-weight: bold;
-    font-size: 16px;
+    font-size: 14px;
     color: #bababa;
-    width: 22%;
-    margin-top: 0%;
-    font-size: 13px;
-    margin-top: 2%;
+    width: 15%;
+    margin-left: 0%;
+    margin-top: 0.5%;
+    overflow: hidden;
 }
 
 .documentSearchResultLegend8 {
     display: inline-block;
-    position: absolute;
     font-weight: bold;
-    font-size: 16px;
+    font-size: 14px;
     color: #bababa;
-    width: auto;
-    margin-top: 0%;
-    margin-left: 17%;
-    font-size: 13px;
-    margin-top: 2%;
+    width: 15%;
+    margin-left: 2.5%;
+    margin-top: 0.5%;
+    overflow: hidden;
 }
 
-.documentSearchResultIcon{
+.documentSearchResultLegend9 {
+    display: inline-block;
+    font-weight: bold;
+    font-size: 14px;
+    color: #bababa;
+    width: 11%;
+    margin-left: 7.5%;
+    margin-top: 2%;
+    overflow: hidden;
+}
 
+
+.rejectDocForm {
+    display: inline-block;
+    position: absolute;
+    width: 27%;
+    margin-top: 1.3%;
+    margin-left: 0%;
+    background-color: #e8ebeb;
+    border-color: #F0F0F0;
+}
+
+.rejectDocumentFormContainer {
+    display: inline-block;
+    position: relative;
+    margin-top: 5%;
+    width: 100%;
+    height: 300px;
+}
+
+.rejectDocForm {
+    display: inline-block;
+    width:25%;
+    margin-left:400px;
+    
+}
+.rejectDocForm1 {
+    display: inline-block;
+    color: #969696;
+    margin-top: 30px;
+    width: auto;
+    font-weight: bold;
+    font-size: 16px;
+    margin-left: 400px;
+}
+
+
+
+.rejectDocForm2 {
+    display: inline-block;
+    width: 25%;
+    height: 250px;
+    margin-left: 400px;
+    background-color: lavender;
+}
+
+.rejectDocForm3 {
+    display: inline-block;
+    color: #969696;
+    margin-top: 30px;
+    width: auto;
+    font-weight: bold;
+    font-size: 16px;
+    margin-left: 400px;
+}
+
+
+.rejectDocsStyle {
+    display: inline-block;
+    position:absolute;
+    font-weight: bold;
+    font-size: 14px;
+    color: #969696;
+    margin-left: 0.5%;
+    margin-bottom:1%;
+}
+
+.rejectDocumentFormContainer {
+    display: block;
+    margin-top: 5%;
+    width:100%;
+
+}
+
+.documentSearchResultLegend10 {
+    display: inline-block;
+    font-weight: bold;
+    font-size: 14px;
+    color: #bababa;
+    width: 15%;
+    margin-left: 8%;
+    margin-top: 2%;
+    color: #009639;
+    overflow: hidden;
+}
+
+
+
+
+
+
+.documentSearchResultIcon{
     display:inline-block;
     width:20px;
     height:20px;
-    margin-left:20%;
+    margin-left:8%;
     cursor:pointer;
 }
 
@@ -363,6 +476,20 @@
     min-width: 100%;
     height: 30px;
     margin-top:10%;
+}
+
+.documentUploadBtn6 {
+    display: block;
+    background-color: #009639;
+    color: white;
+    border: none;
+    font-weight: bold;
+    font-size: 12px;
+    border-radius: 0.35em;
+    min-width: 15%;
+    height: 30px;
+    margin-top: 1%;
+    margin-left:460px;
 }
 
 

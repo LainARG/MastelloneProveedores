@@ -5,10 +5,10 @@ using Domain;
 
 namespace Service.Interfaces
 {
-    public interface ITaxesService
+    public interface IDocumentTypesService
     {
 
-        public IEnumerable<Taxes> GetAll();
+        public IEnumerable<DocumentTypes> GetAll();
 
     }
 }

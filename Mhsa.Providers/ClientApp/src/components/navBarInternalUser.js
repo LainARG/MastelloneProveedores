@@ -172,7 +172,7 @@ const navBarCloseUserMenu = (e)=>{
 
     const navBarCloseUserMenuSession = (e) => {
         setMenuState(false);
-        window.localStorage.removeItem("tknUsr");
+        window.localStorage.clear();
         window.location = "/auth";
     }
 

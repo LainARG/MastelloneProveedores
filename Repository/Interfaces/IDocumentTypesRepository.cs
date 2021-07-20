@@ -4,10 +4,10 @@ using Domain;
 
 namespace Repository.Interfaces
 {
-    public interface ITaxesRepository
+    public interface IDocumentTypesRepository
     {
 
-        public IEnumerable<Taxes> GetAll();
+        public IEnumerable<DocumentTypes> GetAll();
 
     }
 }

@@ -489,7 +489,7 @@ useEffect(() => {
                         objectData.retirar_en = allpays[i].lugar_retiro;
                         objectData.estado_pago = allpays[i].id_estado
                         objectData.imagen = alltaxes[j].imagen;
-                    objectData.tipo_imp = alltaxes[j].tipo_impuesto;
+                        objectData.tipo_imp = alltaxes[j].tipo_impuesto;
 
                         objectData.numero_imp = alltaxes[j].codigo_concepto;
                         alldataSTab.push(objectData);
