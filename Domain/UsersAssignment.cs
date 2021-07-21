@@ -12,10 +12,10 @@ namespace Domain
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key, Column(Order = 0)]
         public int Id_usuario { get; set; }
+        public Users Users { get; set; }
 
         public int Id_proveedor{ get; set; }
-
-       
+        public Providers Providers { get; set; }
 
         public UsersAssignment(int id_usuario, int id_proveedor) {
 

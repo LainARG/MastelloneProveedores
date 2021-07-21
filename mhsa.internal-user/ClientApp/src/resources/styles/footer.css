@@ -1,14 +1,13 @@
 
 .mainContainerFooter{
 	display: block;
-	position: relative;
+	position: absolute;
 	height: 40px;
-    width: 100%;
-    background-color: #009639;
-    color: white;
-    margin-top: 5%;
-    margin-bottom: 0px;
-    bottom: 0;
+  width: 100%;
+  background-color: #009639;
+  color: white;
+  margin-bottom: 0px;
+  bottom: 0;
 }
 
 

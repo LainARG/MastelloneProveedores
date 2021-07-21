@@ -5,6 +5,20 @@ namespace Repository
 {
     public class MastelloneDBContext : DbContext
     {
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<UsersAssignment>()
+                .HasKey(bc => new { bc.Id_usuario, bc.Id_proveedor });
+            modelBuilder.Entity<UsersAssignment>()
+                .HasOne(bc => bc.Users)
+                .WithMany(b => b.UsersAssignments)
+                .HasForeignKey(bc => bc.Id_usuario);
+            modelBuilder.Entity<UsersAssignment>()
+                .HasOne(bc => bc.Providers)
+                .WithMany(c => c.UsersAssignments)
+                .HasForeignKey(bc => bc.Id_proveedor);
+        }
+
         public DbSet<Users> Usuarios { get; set; }
 
         public DbSet<UsersAssignment> Usuarios_asignacion { get; set; }

@@ -9,6 +9,7 @@ namespace Service.Interfaces
     {
 
         public IEnumerable<Users> GetAll();
+        public IEnumerable<Users> GetAllWithDetails();
 
     }
 }

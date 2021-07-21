@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 import Footer from '../components/footer';
 import NavBarInternalUser from '../components/navBarInternalUser';
-import InternalUserProviderSelectBody from '../components/internalUserProviderSelectBody';
+import BackofficeUserManagement from '../components/backofficeUserManagement';
 
-class ProviderSelectInternalUserPage extends React.Component{
+class BackofficeUserPage extends React.Component{
 
 
 render(){
@@ -13,7 +13,7 @@ render(){
 return(
 <div>
     <NavBarInternalUser />
-    <InternalUserProviderSelectBody/>
+        <BackofficeUserManagement />
     <Footer/>
 </div>
 );
@@ -21,4 +21,4 @@ return(
 
 }
 
-export default ProviderSelectInternalUserPage;
+export default BackofficeUserPage;

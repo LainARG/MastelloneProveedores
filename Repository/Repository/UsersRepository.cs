@@ -1,4 +1,5 @@
 ﻿using Domain;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Repository.Interfaces;
 using System;
@@ -17,13 +18,22 @@ namespace Repository.Repository
 
         }
 
+        public DbSet<Users> Users { get; set; }
+        public DbSet<Providers> Providers { get; set; }
+
         public IEnumerable<Users> GetAll()
         {
-
             return _dbContext.Usuarios;
-        
+
         }
 
+        [Route("/details")]
+        public IEnumerable<Users> GetAllWithDetails()
+        {
+            return _dbContext.Usuarios
+                .Include(x => x.UsersAssignments)
+                .ThenInclude(a => a.Providers);
+        }
     }
 
 }

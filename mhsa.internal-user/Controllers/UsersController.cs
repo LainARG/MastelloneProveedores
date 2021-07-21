@@ -29,5 +29,12 @@ namespace mhsa.internal_user.Controllers
         {
             return service.GetAll();
         }
+
+        [HttpGet]
+        [Route("details")]
+        public IEnumerable<Users> GetAllWithDetails()
+        {
+            return service.GetAllWithDetails();
+        }
     }
 }
