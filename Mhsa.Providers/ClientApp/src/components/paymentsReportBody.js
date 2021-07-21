@@ -310,7 +310,7 @@ useEffect(() => {
             format: (value) => value.toLocaleString('en-US'),
         },
         {
-            id: 'partir_de',
+            id: 'a_partir_de',
             label: 'A partir de',
             minWidth: 150,
             align: 'left',
@@ -324,7 +324,7 @@ useEffect(() => {
             format: (value) => value.toFixed(2),
         },
         {
-            id: 'monto_bruto',
+            id: 'total_pago',
             label: 'Total pago',
             minWidth: 175,
             align: 'left',
@@ -405,111 +405,27 @@ useEffect(() => {
 
         for (let i = 0; i < allPays.length; i++) {
 
-            if (allPaymentDetail !="" && allStates !=""){
+            if (allPaymentDetail != "" && allStates != "") {
                 currentPaymentState = (allStates.filter(state => state.id_estado == allPays[i].id_estado))[0].descripcion_abreviada;
                 currentPaymentDetail = (allPaymentDetail.filter(paydetail => paydetail.id_pago == allPays[i].id_pago))[0];
             }
-            
-            console.log(currentPaymentState);
-            console.log(currentPaymentDetail);
-            
-
-        }
-/*
-            for (let h = 0; h < allPaymentDetail.length; h++) {
-
-                if (allpays[h].id_pago == allPaymentDetail[h].id_pago) {
-                    currentDetailPayment = allPaymentDetail[h];
+                let obj = {
+                    numero_pago: allPays[i].prefijo_pago + "-" + allPays[i].numero_pago,
+                    retirar_en: allPays[i].lugar_retiro,
+                    a_partir_de: allPays[i].fecha_disponible,
+                    estado_pago: currentPaymentState,
+                    total_pago: allPays[i].total_pago,
+                    detalle_pago: "ok"
                 }
-
-            }
-                let objectData = {
-                    numero_pago: null,
-                    retirar_en: null,
-                    estado_pago: null,
-                    monto_pago: null,
-                    detalle_pago: null,
-                    fecha_pago: null,
-                    tipo_pago: null,
-                    comprobante: null,
-            }
-
-            let objectData2 = {
-                numero_pago: null,
-                retirar_en: null,
-                estado_pago: null,
-                monto_pago: null,
-                detalle_pago: null,
-                fecha_pago: null,
-                tipo_pago: null,
-                comprobante: null,
-                detalle_numero_pago: null,
-                detalle_monto_pagado: null,
-                detalle_estado:null
-            }
-
-            objectData.numero_pago = allpays[i].prefijo_pago + "-" + allpays[i].numero_pago;
-            objectData.retirar_en = allpays[i].lugar_retiro;
-            objectData.fecha_pago = allpays[i].fecha_disponible;
-            objectData.monto_pago = allpays[i].total_pago;
-            objectData.estado_pago = currentStateValue;
-            objectData.detalle_numero_pago = currentDetailPayment.id_pago_detalle;
-            objectData.detalle_monto_pagado = currentDetailPayment.monto_pagado_documento;
-            objectData2.numero_pago = allpays[i].prefijo_pago + "-" + allpays[i].numero_pago;
-            objectData2.monto_pago = allpays[i].total_pago;
-            objectData2.fecha_pago = allpays[i].fecha_disponible;
-            objectData2.retirar_en = allpays[i].lugar_retiro;
-            objectData2.estado_pago = currentStateValue
-            objectData2.comprobante = null;
-            alldataPTab.push(objectData);
-            alldatabackup.push(objectData2);
-
-            }
-
-        
-            for (let i = 0; i < allpays.length; i++) {
-                for (let j = 0; j < alltaxes.length; j++) {
-
-                    let objectData = {
-                        numero_pago: null,
-                        retirar_en: null,
-                        estado_pago: null,
-                        monto_pago: null,
-                        detalle_pago: null,
-                        fecha_pago: null,
-                        tipo_pago: null,
-                        tipo_imp: null,
-                        numero_imp: null,
-                        comprobante: null,
-                        imagen: null,
-                        type: ""
-                    }
-
-                    
-                        objectData.numero_pago = allpays[i].prefijo_pago + "-" + allpays[i].numero_pago;
-                        objectData.monto_pago = allpays[i].total_pago;
-                        objectData.fecha_pago = allpays[i].fecha_disponible;
-                        objectData.retirar_en = allpays[i].lugar_retiro;
-                        objectData.estado_pago = allpays[i].id_estado
-                        objectData.imagen = alltaxes[j].imagen;
-                        objectData.tipo_imp = alltaxes[j].tipo_impuesto;
-                        objectData.numero_imp = alltaxes[j].codigo_concepto;
-                        alldataSTab.push(objectData);
-                    
-
-                }
-
+                alldataPTab.push(obj);
+            
         }
+
 
         
         let pagData = pagination(alldataPTab, alldataPTab.length, rowsPerPage);
-        let pagData1 = pagination(alldataSTab, alldataSTab.length, rowsPerPage);
-        let pagDataBackup = pagination(alldatabackup, alldatabackup.length, rowsPerPage);
         setPrimaryPageQuantity(pagData.length);
-        setSecondaryPageQuantity(pagData1.length);
         setAllDataPrimaryTab(pagData);
-        setPaymentsBackup(pagDataBackup);
-        setAllDataSecondaryTab(pagData1);*/
 
     }
 
@@ -933,10 +849,10 @@ useEffect(() => {
                                                                 </TableCell>
                                                             );
                                                         }
-                                                        else if (column.id == "partir_de") {
+                                                        else if (column.id == "a_partir_de") {
                                                             return (
                                                                 <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                    {row.fecha_pago}
+                                                                    {row.a_partir_de}
                                                                 </TableCell>
                                                             );
                                                         }
@@ -947,10 +863,10 @@ useEffect(() => {
                                                                 </TableCell>
                                                             );
                                                         }
-                                                        else if (column.id == "monto_bruto") {
+                                                        else if (column.id == "total_pago") {
                                                             return (
                                                                 <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                    {"$" + row.monto_pago}
+                                                                    {"$" + row.total_pago}
                                                                 </TableCell>
                                                             );
                                                         }

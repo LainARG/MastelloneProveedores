@@ -28,9 +28,10 @@ export class PaymentsContext {
  
 
     static async fetchPayments() {
-        const response = await api.get<Response, AxiosResponse<Response>>(
-            `/payments`
-        );
+        let prv: any = window.localStorage.getItem("prvInf");
+        console.log(prv);
+        const response = await api.post(
+            `/payments/getById`, {prv} );
         return response.data;
     }
 
