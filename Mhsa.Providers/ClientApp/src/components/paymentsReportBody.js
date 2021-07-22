@@ -644,7 +644,7 @@ useEffect(() => {
             <span className="modalBoldFontStyle">Monto pagado</span>
             <span className="modalBoldFontStyle">Estado</span><br />
             <span className="modalNormalFontStyle1">{paymentDetailsProps.numero_pago}</span>
-            <span className="modalNormalFontStyle2">{paymentDetailsProps.monto_pagado}</span>
+            <span className="modalNormalFontStyle2">{paymentDetailsProps.total_pago}</span>
             <span className="modalNormalFontStyle3">{paymentDetailsProps.estado_pago}</span>
 
             <button className="modalBtnStyle" onClick={() => closeModal()}>Cerrar</button>
