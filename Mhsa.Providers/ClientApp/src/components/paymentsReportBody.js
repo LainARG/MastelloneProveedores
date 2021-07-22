@@ -9,7 +9,6 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import PaymentsContext from '../contexts/paymentsContext';
-import PaymentsFormsContext from '../contexts/paymentsFormsContext';
 import StatesContext from '../contexts/statesContext';
 import PaymentDetailContext from '../contexts/paymentDetailContext';
 import { ThemeProvider } from '@material-ui/core/styles';
@@ -355,7 +354,7 @@ useEffect(() => {
             format: (value) => value.toLocaleString('en-US'),
         },
         {
-            id: 'fecha_pago',
+            id: 'fecha_disponible',
             label: 'Fecha de pago',
             minWidth: 150,
             align: 'left',
@@ -415,8 +414,7 @@ useEffect(() => {
                     retirar_en: allPays[i].lugar_retiro,
                     a_partir_de: allPays[i].fecha_disponible,
                     estado_pago: currentPaymentState,
-                    total_pago: allPays[i].total_pago,
-                    detalle_pago: "ok"
+                    total_pago: allPays[i].total_pago
                 }
                 alldataPTab.push(obj);
             
@@ -641,13 +639,13 @@ useEffect(() => {
         <div className="modalStyle">
 
             <h2 className="modalTitleStyle">Detalle del pago.</h2>
-            <span className="modalNormalFontStyle">Acerca del documento Num. {paymentDetailsProps.numero_documento}</span>
+            <span className="modalNormalFontStyle">Acerca del pago num. {paymentDetailsProps.numero_pago}</span>
 
             <span className="modalBoldFontStyle">Num. de pago</span>
             <span className="modalBoldFontStyle">Monto pagado</span>
             <span className="modalBoldFontStyle">Estado</span><br />
-            <span className="modalNormalFontStyle1">{paymentDetailsProps.detalle_numero_pago}</span>
-            <span className="modalNormalFontStyle2">{paymentDetailsProps.detalle_monto_pagado}</span>
+            <span className="modalNormalFontStyle1">{paymentDetailsProps.numero_pago}</span>
+            <span className="modalNormalFontStyle2">{paymentDetailsProps.monto_pagado}</span>
             <span className="modalNormalFontStyle3">{paymentDetailsProps.estado_pago}</span>
 
             <button className="modalBtnStyle" onClick={() => closeModal()}>Cerrar</button>
@@ -975,14 +973,14 @@ useEffect(() => {
                                                         else if (column.id == "fecha_emi") {
                                                             return (
                                                                 <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                    {row.fecha_pago}
+                                                                    {row.fecha_disponible}
                                                                 </TableCell>
                                                             );
                                                         }
-                                                        else if (column.id == "fecha_pago") {
+                                                        else if (column.id == "fecha_disponible") {
                                                             return (
                                                                 <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                    {row.fecha_pago}
+                                                                    {row.fecha_disponible}
                                                                 </TableCell>
                                                             );
                                                         }
@@ -1022,7 +1020,7 @@ useEffect(() => {
                                                                 
                                                                 <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
                                                                     <div className="downloadIconContainer">
-                                                                        <GrDocumentDownload className="documentSearchResultIcon" onChange={prepareBase64File("application/pdf", row.imagen, "comprobante_contribuciones", index)} onClick={(e) => downloadBase64File(i)} />
+                                                                        <GrDocumentDownload className="documentSearchResultIcon" onChange={prepareBase64File("application/pdf", row.imagen, "comprobante_contribuciones", index)} onClick={() => openModal(row)} />
                                                                     </div>
                                                                 </TableCell>
 
