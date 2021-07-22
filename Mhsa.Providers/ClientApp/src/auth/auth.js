@@ -12,7 +12,7 @@ export default function Auth() {
 
     const applicationParam = "WebProveedoresMH";
     const authUrl = "https://appsdesa.mastellone.com.ar:9993/auth";
-    const returnUrl = "http://d5d7ad8b4b43.ngrok.io/api/auth";
+    const returnUrl = "http://69f36f581f37.ngrok.io/api/auth";
     const queryString = authUrl + "?returnurl=" + returnUrl + "&aplicacion=" + applicationParam;
     let [allProviders, setAllProviders] = useState("");
     let [allUsers, setAllUsers] = useState("");

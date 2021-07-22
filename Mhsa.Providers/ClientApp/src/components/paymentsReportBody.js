@@ -279,7 +279,6 @@ useEffect(() => {
     if (fetchController == 0) {
 
         PaymentsContext.fetchPayments().then((e) => { setAllPays(e) });
-        PaymentsFormsContext.fetchPaymentsForms().then((e) => { setAllPaymentsForms(e) });
         StatesContext.fetchStates().then((e) => { setAllStates(e); });
         PaymentDetailContext.fetchPaymentDetail().then((e) => { setAllPaymentDetail(e); });
         setFetchController(1);
