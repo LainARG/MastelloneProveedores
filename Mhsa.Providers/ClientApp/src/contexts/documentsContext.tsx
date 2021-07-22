@@ -28,9 +28,9 @@ export class DocumentsContext {
 
    
     static async fetchDocuments() {
-        const response = await api.get<Response, AxiosResponse<Response>>(
-            `/documents`
-        );
+        let prv: any = window.localStorage.getItem("prvInf");
+        const response = await api.post(
+            `/documents/getById`, { prv });
         return response.data;
     }
 

@@ -9,5 +9,7 @@ namespace Repository.Interfaces
 
         public IEnumerable<Documents> GetAll();
 
+        public IEnumerable<Documents> GetById(object prv);
+
     }
 }

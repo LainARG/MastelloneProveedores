@@ -33,7 +33,6 @@ export class PaymentsFormsContext {
     constructor() { }
 
  
-
     static async fetchPaymentsForms() {
         const response = await api.get<Response, AxiosResponse<Response>>(
             `/paymentsforms`

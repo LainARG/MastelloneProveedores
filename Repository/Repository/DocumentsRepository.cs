@@ -24,6 +24,14 @@ namespace Repository.Repository
         
         }
 
+        public IEnumerable<Documents> GetById(object prv)
+        {
+            dynamic dyn = prv;
+            int providerId = dyn.prv;
+            IEnumerable<Documents> results = _dbContext.Documentos.Where(document => document.Id_proveedor == providerId);
+            return results;
+        }
+
     }
 
 }

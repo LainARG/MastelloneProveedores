@@ -29,7 +29,6 @@ export class PaymentsContext {
 
     static async fetchPayments() {
         let prv: any = window.localStorage.getItem("prvInf");
-        console.log(prv);
         const response = await api.post(
             `/payments/getById`, {prv} );
         return response.data;

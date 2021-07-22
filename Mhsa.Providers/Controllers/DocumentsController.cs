@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
 using Repository.Interfaces;
 using Service.Interfaces;
 
@@ -25,7 +26,15 @@ namespace Mhsa.Backoffice.Controllers
         [HttpGet]
         public IEnumerable<Documents> GetAll()
         {
-            return service.GetAll();
+          return service.GetAll();
+        }
+
+        [HttpPost]
+        [Route("getById")]
+        public IEnumerable<Documents> GetById(object prv)
+        {
+            dynamic prv1 = JObject.Parse(prv.ToString());
+            return service.GetById(prv1);
         }
     }
 }
