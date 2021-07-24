@@ -12,7 +12,7 @@ export default function Auth() {
 
     const applicationParam = "WebProveedoresMH";
     const authUrl = "https://appsdesa.mastellone.com.ar:9993/auth";
-    const returnUrl = "http://69f36f581f37.ngrok.io/api/auth";
+    const returnUrl = "http://6e50306f0a90.ngrok.io/api/auth";
     const queryString = authUrl + "?returnurl=" + returnUrl + "&aplicacion=" + applicationParam;
     let [allProviders, setAllProviders] = useState("");
     let [allUsers, setAllUsers] = useState("");
@@ -55,12 +55,14 @@ export default function Auth() {
                 let permissions = (jwt_decode(converted)).Funciones;
                 let splited = (jwt_decode(converted)).unique_name;
                 let currentUser;
-                let currentProvider;
+                let currentIdProvider;
+                let currentCuitProvider;
                 
                 if (splited.includes("go_") && splited.includes("@")) {/*if google service*/
                     splited = splited.substring(3, splited.length);
                     currentUser = allUsers.filter(user => user.mail == splited)[0].id_usuario;
-                    currentProvider = allUsersAssignment.filter(userAssign => userAssign.id_usuario == currentUser)[0].id_proveedor;
+                    currentIdProvider = allUsersAssignment.filter(userAssign => userAssign.id_usuario == currentUser)[0].id_proveedor;
+                    currentCuitProvider = allProviders.filter(provider => provider.id_proveedor == currentIdProvider)[0].cuit;
                 }
                 if (splited.includes("fb_") && splited.includes("@")) {/*if facebook service*/
                     splited = splited.substring(3, splited.length);
@@ -70,7 +72,8 @@ export default function Auth() {
                 window.localStorage.setItem("tknUsr", splited);
                 window.localStorage.setItem("tknPms", permissions);
                 window.localStorage.setItem("usrInf", currentUser);
-                window.localStorage.setItem("prvInf", currentProvider);
+                window.localStorage.setItem("prvInf", currentIdProvider);
+                window.localStorage.setItem("prvCuit", currentCuitProvider);
                 localStorage.setItem("tkn", "");
                 window.location.href = "/portal/providers";
             }

@@ -40,9 +40,9 @@ export class DigitalDocumentsContext {
 
    
     static async fetchDocuments() {
-        const response = await api.get<Response, AxiosResponse<Response>>(
-            `/digitalDocuments`
-        );
+        let prv: any = 452
+        const response = await api.post(
+            `/digitalDocuments/getById`, { prv });
         return response.data;
     }
 

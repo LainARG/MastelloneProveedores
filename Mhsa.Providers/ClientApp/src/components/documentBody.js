@@ -11,6 +11,7 @@ import TableRow from '@material-ui/core/TableRow';
 import DocumentsContext from '../contexts/documentsContext';
 import DigitalDocumentsContext from '../contexts/digitalDocumentsContexts';
 import StatesContext from '../contexts/statesContext';
+import UserContext from '../contexts/userContext';
 import PaymentsContext from '../contexts/paymentsContext';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { createMuiTheme } from '@material-ui/core/styles'; 
@@ -268,6 +269,7 @@ export default function DocumentBody() {
     const [allPayments, setAllPayments] = useState("");
     const [allDigDocs, setAllDigDocs] = useState("");
     const [allStates, setAllStates] = useState("");
+    const [allUsers, setAllUsers] = useState("");
     const [pageNumber, setPageNumber] = useState(1);
     const [firstTabPageQuantity, setFirstTabPageQuantity] = useState(10);
     const [secondTabPageQuantity, setSecondTabPageQuantity] = useState(10);
@@ -296,6 +298,7 @@ export default function DocumentBody() {
     useEffect(() => {
 
         if (allDocs == "") {
+            UserContext.fetchUsers().then((e) => { setAllUsers(e); });
             DocumentsContext.fetchDocuments().then((e) => { setAllDocs(e); });
             DigitalDocumentsContext.fetchDocuments().then((e) => { setAllDigDocs(e); });
             StatesContext.fetchStates().then((e) => { setAllStates(e); });
@@ -487,9 +490,10 @@ export default function DocumentBody() {
                 allfirsttabdata.push(objectData);
                 allfirsttabdatabackup.push(objectData2);
                     
-        }
+              }
 
-            for (let j = 0; j < allDigDocs.length; j++) {
+         for (let j = 0; j < allDigDocs.length; j++) {
+             let loadUser;
             let objectData = {
                 digDoc_fecha_carga: null,
                 digDoc_estado: null,
@@ -502,16 +506,19 @@ export default function DocumentBody() {
                 if (allStates[i].id_estado == allDigDocs[j].id_estado) {
                     stateStringValue = allStates[i].descripcion_abreviada;
                 }
-            }
+             }
 
+             if (allUsers != "") {
+                 loadUser = allUsers.filter(user => user.id_usuario == allDigDocs[j].id_usuario_carga)[0].mail;
+             }
+            
             objectData.digDoc_fecha_carga = allDigDocs[j].fecha_carga;
             objectData.digDoc_estado = stateStringValue;
-            objectData.digDoc_usu_carga = allDigDocs[j].id_usuario_carga;
+            objectData.digDoc_usu_carga = loadUser;
                 objectData.imagen = allDigDocs[j].imagen;
                 objectData.type = allDigDocs[j].tipo_archivo;
                 objectData.filename = allDigDocs[j].nombre_archivo;
             allsecondtabdata.push(objectData);
-
         }
          
         let pagFirstTabData = pagination(allfirsttabdata, allfirsttabdata.length, rowsPerPage);
@@ -1088,7 +1095,7 @@ export default function DocumentBody() {
                                                             else if (column.id == "Cargado_por") {
                                                                 return (
                                                                     <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                        {"Terry Wagner"}
+                                                                        {row.digDoc_usu_carga}
                                                                     </TableCell>
                                                                 );
                                                             }
