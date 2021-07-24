@@ -30,13 +30,6 @@ namespace Mhsa.Backoffice.Controllers
         }
 
         [HttpPost]
-        public IEnumerable<Payments> GetById(List<int> prv)
-        {
-            List<int> prv1 = (List<int>)prv;
-            return service.GetById(prv1);
-        }
-
-        [HttpPost]
         [Route("getById")]
         public IEnumerable<Payments> GetById(object prv)
         {

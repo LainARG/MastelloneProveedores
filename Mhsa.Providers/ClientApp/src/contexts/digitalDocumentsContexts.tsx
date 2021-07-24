@@ -40,7 +40,7 @@ export class DigitalDocumentsContext {
 
    
     static async fetchDocuments() {
-        let prv: any = 452
+        let prv: any = window.localStorage.getItem("prvCuit");
         const response = await api.post(
             `/digitalDocuments/getById`, { prv });
         return response.data;

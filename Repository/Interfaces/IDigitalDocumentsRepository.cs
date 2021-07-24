@@ -9,6 +9,8 @@ namespace Repository.Interfaces
 
         public IEnumerable<DigitalDocuments> GetAll();
 
+        public IEnumerable<DigitalDocuments> GetById(object prv);
+
         public void saveDigitalDocument(List<DigitalDocumentDTO> files);
 
     }

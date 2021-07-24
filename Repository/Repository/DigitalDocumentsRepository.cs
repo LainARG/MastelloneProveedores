@@ -27,6 +27,14 @@ namespace Repository.Repository
 
         }
 
+        public IEnumerable<DigitalDocuments> GetById(object prvLocal)
+        {
+            dynamic dyn = prvLocal;
+            decimal providerCuit = dyn.prv;
+            IEnumerable<DigitalDocuments> results = _dbContext.Documentos_electronicos.Where(document => document.Cuit == providerCuit);
+            return results;
+        }
+
         public void saveDigitalDocument(List<DigitalDocumentDTO> files)
         {
 

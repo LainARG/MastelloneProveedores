@@ -21,6 +21,11 @@ namespace Service
             return repository.GetAll();
         }
 
+        public IEnumerable<DigitalDocuments> GetById(object prv)
+        {
+            return repository.GetById(prv);
+        }
+
 
 
         public void saveDigitalDocument(List<DigitalDocumentDTO> files)

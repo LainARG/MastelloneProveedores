@@ -21,7 +21,7 @@ namespace mhsa.internal_user.Controllers
     [ApiController]
     [Authorize]
     [Route("api/{controller}")]
-    public class DigitalDocumentsController : ControllerBase
+    public class DigitalDocumentsController : ControllerBase, IDigitalDocumentsService
     {
 
         private readonly IDigitalDocumentsService service;
@@ -37,6 +37,11 @@ namespace mhsa.internal_user.Controllers
             return service.GetAll();
         }
 
+        public IEnumerable<DigitalDocuments> GetById(object prv)
+        {
+            throw new NotImplementedException();
+        }
+
         [HttpPost]
         [Route("post")]
         public void saveDigitalDocument(object files)
@@ -48,7 +53,10 @@ namespace mhsa.internal_user.Controllers
             service.saveDigitalDocument(filesToSave);
         }
 
-
+        public void saveDigitalDocument(List<DigitalDocumentDTO> files)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }

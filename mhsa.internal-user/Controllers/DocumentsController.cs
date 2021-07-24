@@ -29,5 +29,11 @@ namespace mhsa.internal_user.Controllers
         {
             return service.GetAll();
         }
+
+        [HttpPost]
+        public IEnumerable<Documents> GetById(object prv)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

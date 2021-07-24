@@ -1133,7 +1133,76 @@ export default function DocumentBody() {
                     </Paper>
                 </div>
             );
-        }
+    }
+    else if (showTab == 1 && allSecondTabData == "" || showTab == 1 && allSecondTabData == null || showTab == 1 && allSecondTabData == undefined) {
+        return (
+            <div className="documentContentContainer">
+
+
+                <div className="documentTabsContainer">
+
+                    <ThemeProvider theme={documentTabsTheme}>
+                        <Tabs classes={{ root: tabClasses.documentTabStyle, indicator: tabClasses.tabIndicator }} onChange={handleTabs}
+
+                            value={value} indicatorColor="secondary" textColor="primary"
+                            TabIndicatorProps={{
+                                style: { background: "#009639", width: "20%", height: "4%", marginLeft: "0%", top: '15px', position: 'absolute' }
+                            }}>
+                            <Tab className={tabClasses.btnTab0StyleDisabled} label='Mis Documentos.' onClick={firstTab}></Tab>
+                            <Tab className={tabClasses.btnTab1Style} label='Documentos Electronicos.' onClick={secondTab} />
+
+                        </Tabs>
+                    </ThemeProvider>
+
+
+                </div>
+
+                <div className="digDocumentIconContainer">
+                    <div className="digDocumentIconPoint" onClick={() => Redirector(uploadDocumentUrl)}>
+                        <ControlPointIcon fontSize="large" /> <b>Cargar</b>
+                    </div>
+                    <div className="digDocumentIconSettings" onClick={() => Redirector(searchDocumentUrl)}>
+                        <SettingsEthernetIcon fontSize="large" />&nbsp;<b>Consultar</b>
+                    </div>
+                </div>
+
+
+
+
+
+                <Paper className={classes.root}>
+
+
+                    <TableContainer className={classes.container}>
+                        <Table stickyHeader aria-label="sticky table">
+                            <TableHead>
+                                <TableRow>
+                                    {electronics_columns.map((column) => (
+                                        <TableCell className={classes.headerTable}
+                                            key={column.id}
+                                            align={column.align}
+                                            style={{ minWidth: column.minWidth }}
+                                        >
+                                            {column.label}
+                                        </TableCell>
+                                    ))}
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+
+                    <ThemeProvider theme={paginationTheme}>
+                        <div className="paginationContainerStyle">
+                            <Pagination count={secondTabPageQuantity} onChange={paginationHandler} />
+                        </div>
+                    </ThemeProvider>
+
+                </Paper>
+            </div>
+        );
+    }
     }
 
 
