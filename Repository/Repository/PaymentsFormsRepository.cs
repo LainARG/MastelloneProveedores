@@ -27,7 +27,13 @@ namespace Repository.Repository
 
         }
 
-       
+        public IEnumerable<PaymentsForms> GetById(object pmnt)
+        {
+            dynamic dyn = pmnt;
+            int paymentFormId = dyn.pmnt;
+            return _dbContext.Pagos_formas.Where(payment => payment.Id_pago == paymentFormId);
+        }
+
 
 
     }

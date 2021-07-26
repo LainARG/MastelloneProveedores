@@ -10,5 +10,7 @@ namespace Service.Interfaces
 
         public IEnumerable<PaymentDetail> GetAll();
 
+        public IEnumerable<PaymentDetail> GetById(object pmnt);
+
     }
 }

@@ -11,7 +11,6 @@ import TableRow from '@material-ui/core/TableRow';
 import PaymentsContext from '../contexts/paymentsContext';
 import StatesContext from '../contexts/statesContext';
 import PaymentsFormsContext from '../contexts/paymentsFormsContext';
-import PaymentDetailContext from '../contexts/paymentDetailContext';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { createMuiTheme } from '@material-ui/core/styles'; 
 import pagination from '../pagination/pagination';
@@ -241,10 +240,8 @@ export default function PaymentsReportBody() {
     const tabClasses = useTabStyles();
     const [allPays, setAllPays] = useState("");
     const [allPaymentsForms, setAllPaymentsForms] = useState("");
-    const [allPaymentDetail, setAllPaymentDetail] = useState("");
     const [allDataPrimaryTab, setAllDataPrimaryTab] = useState("");
     const [allDataSecondaryTab, setAllDataSecondaryTab] = useState("");
-    const [fetchController, setFetchController] = useState(0);
     const [paymentsBackup, setPaymentsBackup] = useState("");
     const [allStates, setAllStates] = useState("");
     const [pageNumber, setPageNumber] = useState(1);
@@ -273,19 +270,21 @@ export default function PaymentsReportBody() {
 
 useEffect(() => {
     
-    if (fetchController == 0) {
-
+    if (allPays == "") {
         PaymentsContext.fetchPayments().then((e) => { setAllPays(e) });
+    }
+    else if (allStates == "") {
         StatesContext.fetchStates().then((e) => { setAllStates(e); });
+    }
+    else if (allPaymentsForms == "") {
         PaymentsFormsContext.fetchPaymentsForms().then((e) => { setAllPaymentsForms(e); });
-        setFetchController(1);
-
-    } else {
+    }
+    else {
         dataMapper();
     }
         
 
-}, [allPays, allPaymentsForms, allPaymentDetail, allStates]);
+}, [allPays, allPaymentsForms, allStates]);
     
 
 
@@ -394,30 +393,30 @@ useEffect(() => {
         let alldataSTab = [];
         let alldatabackup = [];
         let currentPaymentState;
-        let currentPaymentDetail
         
        
 
         for (let i = 0; i < allPays.length; i++) {
 
-            if (allPaymentDetail != "" && allStates != "") {
+            if (allStates != "") {
                 currentPaymentState = (allStates.filter(state => state.id_estado == allPays[i].id_estado))[0].descripcion_abreviada;
-                currentPaymentDetail = (allPaymentDetail.filter(paydetail => paydetail.id_pago == allPays[i].id_pago))[0];
             }
-
+            console.log(currentPaymentState);
                 let obj = {
                     numero_pago: allPays[i].prefijo_pago + "-" + allPays[i].numero_pago,
                     retirar_en: allPays[i].lugar_retiro,
                     a_partir_de: allPays[i].fecha_disponible,
                     estado_pago: currentPaymentState,
-                    total_pago: allPays[i].total_pago
+                    total_pago: allPays[i].total_pago,
+                    id_pago: allPays[i].id_pago
                 }
                 let obj1 = {
                     numero_pago: allPays[i].prefijo_pago + "-" + allPays[i].numero_pago,
                     retirar_en: allPays[i].lugar_retiro,
                     a_partir_de: allPays[i].fecha_disponible,
                     estado_pago: currentPaymentState,
-                    total_pago: allPays[i].total_pago
+                    total_pago: allPays[i].total_pago,
+                    id_pago: allPays[i].id_pago
                 }
 
                 alldataPTab.push(obj);
@@ -447,7 +446,6 @@ useEffect(() => {
             
         }
 
-
         
         let pagData = pagination(alldataPTab, alldataPTab.length, rowsPerPage);
         let pagDataBackup = pagination(alldatabackup, alldatabackup.length, rowsPerPage);
@@ -457,7 +455,6 @@ useEffect(() => {
         setAllDataPrimaryTab(pagData);
         setAllDataSecondaryTab(pagData1);
         setPaymentsBackup(pagDataBackup);
-        console.log(alldataSTab);
     }
 
 
@@ -704,6 +701,14 @@ useEffect(() => {
 
     }
 
+    function showPaymentDetail(props) {
+
+        localStorage.removeItem("currentDetailPayment");
+        localStorage.setItem("currentDetailPayment",JSON.stringify(props));
+        window.location = '/payments/forms';
+
+    }
+
 
 
     if (allDataPrimaryTab == undefined || allDataPrimaryTab == null || allDataPrimaryTab == "" || allDataPrimaryTab.length == 0) {
@@ -904,8 +909,7 @@ useEffect(() => {
                                                         else if (column.id == "detalle_pago") {
                                                             return (
                                                                 <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                    <b><AspectRatioIcon fontSize="large" className="documentDownloadRowIcon" onClick={() => openModal(row)} /></b>
-                                                                    <PaymentDetailModal />
+                                                                    <b><AspectRatioIcon fontSize="large" className="documentDownloadRowIcon" onClick={() => showPaymentDetail(row)} /></b>
                                                                 </TableCell>
                                                             );
                                                         }
@@ -933,6 +937,7 @@ useEffect(() => {
                 </Paper>
             </div>
         );
+
     }
     if (showTab == 2 && allDataSecondaryTab != undefined && allDataSecondaryTab != "" && allDataSecondaryTab != null) {
         

@@ -27,9 +27,10 @@ export class PaymentDetailContext {
  
 
     static async fetchPaymentDetail() {
-        const response = await api.get<Response, AxiosResponse<Response>>(
-            `/paymentdetail`
-        );
+        let tkn = window.localStorage.getItem("currentDetailPayment") || "";
+        let pmnt = JSON.parse(tkn).id_pago;
+        const response = await api.post(
+            `/paymentdetail`, { pmnt });
         return response.data;
     }
 

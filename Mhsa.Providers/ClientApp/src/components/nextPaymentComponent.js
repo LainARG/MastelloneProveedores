@@ -1,12 +1,15 @@
 import React from 'react';
 import '../resources/styles/nextPaymentComponent.css';
-import AssignmentReturnedIcon from '@material-ui/icons/AssignmentReturned';
 import { GrDocumentDownload } from "react-icons/gr";
 import { IoIosArrowBack } from "react-icons/io";
 
 class NextPaymentComponent extends React.Component{
 
+	
+
 render(){
+
+	const payment = JSON.parse(localStorage.getItem("currentDetailPayment"));
 
 	return (
 
@@ -35,13 +38,11 @@ render(){
 
        
 
-	    
-
-			<span className="nextPaymentLegend6">0800-00525245</span>
-			<span className="nextPaymentLegend7">MHSA Tokio</span>
-			<span className="nextPaymentLegend8">12/04/1991</span>
-		    <span className="nextPaymentLegend9">A retirar</span>
-				<span className="nextPaymentLegend10">$ 452.0</span>
+				<span className="nextPaymentLegend6">{ payment.numero_pago }</span>
+				<span className="nextPaymentLegend7">{ payment.retirar_en }</span>
+				<span className="nextPaymentLegend8">{ payment.a_partir_de }</span>
+				<span className="nextPaymentLegend9">{ payment.estado_pago }</span>
+				<span className="nextPaymentLegend10">{ payment.total_pago }</span>
 
 		    </div>
         

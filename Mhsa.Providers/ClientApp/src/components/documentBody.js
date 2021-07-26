@@ -9,6 +9,8 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import DocumentsContext from '../contexts/documentsContext';
+import PaymentDetailContext from '../contexts/paymentDetailContext';
+import DocumentTypesContext from '../contexts/documentTypesContext';
 import DigitalDocumentsContext from '../contexts/digitalDocumentsContexts';
 import StatesContext from '../contexts/statesContext';
 import UserContext from '../contexts/userContext';
@@ -265,6 +267,8 @@ export default function DocumentBody() {
     const [allFirstTabData, setAllFirstTabData] = useState("");
     const [allFirstTabDataBackup, setAllFirstTabDataBackup] = useState("");
     const [allSecondTabData, setAllSecondTabData] = useState("");
+    const [allPaymentDetail, setAllPaymentDetail] = useState("");
+    const [allDocumentTypes, setAllDocumentTypes] = useState("");
     const [allSearchData, setAllSearchData] = useState("");
     const [allPayments, setAllPayments] = useState("");
     const [allDigDocs, setAllDigDocs] = useState("");
@@ -286,6 +290,7 @@ export default function DocumentBody() {
    
 
     const openModal = (props) => {
+        console.log(props);
         setPaymentDetailsProps(props);
         setTimeout(function () { setModal(true); }, 100);
         
@@ -303,6 +308,8 @@ export default function DocumentBody() {
             DigitalDocumentsContext.fetchDocuments().then((e) => { setAllDigDocs(e); });
             StatesContext.fetchStates().then((e) => { setAllStates(e); });
             PaymentsContext.fetchPayments().then((e) => { setAllPayments(e); });
+            DocumentTypesContext.fetchDocumentTypes().then((e) => { setAllDocumentTypes(e); });
+            PaymentDetailContext.fetchPaymentDetail().then((e) => { setAllPaymentDetail(e); });
         } else {
             dataMapper(allDocs);
         }
@@ -401,6 +408,8 @@ export default function DocumentBody() {
         let allpayments = [];
         let paymentStateStringValue = "";
         let stateStringValue = "";
+        let currentDocumentType = "";
+        let currentPaymentDetail = "";
 
             for (let j = 0; j < allDocs.length;j++) {
                 let objectData = {
@@ -418,7 +427,10 @@ export default function DocumentBody() {
                     digDoc_fecha_carga: null,
                     digDoc_estado: null,
                     digDoc_usu_carga: null,
-                    digDoc_descarga: null
+                    digDoc_descarga: null,
+                    detail_pay_numero:null,
+                    detail_pay_monto:null,
+                    detail_pay_estado:null
                 }
 
                 let objectData2 = {
@@ -458,13 +470,18 @@ export default function DocumentBody() {
                     }
                    
                 }
-
-                   
+                
+                if (allDocumentTypes != "") {
+                    currentDocumentType = allDocumentTypes.filter(docType => docType.id_tipo_documento == alldocs[j].id_tipo_documento)[0].descripcion;
+                }
+                if (allPaymentDetail != "") {
+                    currentPaymentDetail = allPaymentDetail.filter(payDet => payDet.id_documento == alldocs[j].id_documento)[0];
+                }
 
 
                     objectData.fecha_documento = alldocs[j].fecha_documento;
                     objectData.estado = stateStringValue;
-                    objectData.tipo = alldocs[j].id_tipo_documento;
+                    objectData.tipo = currentDocumentType;
                     objectData.numero_documento = alldocs[j].letra_documento + "-" + alldocs[j].prefijo_documento+"-"+alldocs[j].numero_documento;
                     objectData.nota_pedido = alldocs[j].nota_pedido;
                     objectData.monto = alldocs[j].monto;
@@ -476,7 +493,7 @@ export default function DocumentBody() {
 
                     objectData2.fecha_documento = alldocs[j].fecha_documento;
                     objectData2.estado = stateStringValue;
-                    objectData2.tipo = alldocs[j].id_tipo_documento;
+                    objectData2.tipo = currentDocumentType;
                     objectData2.numero_documento = alldocs[j].letra_documento + "-" + alldocs[j].prefijo_documento + "-" + alldocs[j].numero_documento;
                     objectData2.nota_pedido = alldocs[j].nota_pedido;
                     objectData2.monto = alldocs[j].monto;
@@ -743,7 +760,8 @@ export default function DocumentBody() {
         filesToDownload[index].click();
         }
 
-        const BodyModal = (
+    const BodyModal = (
+
         <div className="modalStyle">
 
             <h2 className="modalTitleStyle">Detalle del pago.</h2>
@@ -753,8 +771,8 @@ export default function DocumentBody() {
             <span className="modalBoldFontStyle">Monto pagado</span>
             <span className="modalBoldFontStyle">Estado</span><br/>
             <span className="modalNormalFontStyle1">{paymentDetailsProps.numero_pago}</span>
-            <span className="modalNormalFontStyle2">{paymentDetailsProps.monto_pago}</span>
-            <span className="modalNormalFontStyle3">{paymentDetailsProps.estado_pago}</span>
+            <span className="modalNormalFontStyle2">{paymentDetailsProps.monto}</span>
+            <span className="modalNormalFontStyle3">{paymentDetailsProps.estado}</span>
             
             <button className="modalBtnStyle" onClick={() => closeModal()}>Cerrar</button>
             
@@ -763,8 +781,6 @@ export default function DocumentBody() {
     );
 
     const PaymentDetailModal = (props) => {
-
-        
         return (
             <div>
 
@@ -1011,7 +1027,86 @@ export default function DocumentBody() {
                     </Paper>
                 </div>
             );
-        }
+    }
+    if (showTab == 0 && allFirstTabData == "" || showTab == 0 && allFirstTabData == null || showTab == 0 && allFirstTabData == undefined) {
+
+        return (
+            <div className="documentContentContainer">
+
+                <div className="documentTabsContainer">
+
+                    <ThemeProvider theme={documentTabsTheme}>
+                        <Tabs classes={{ root: tabClasses.documentTabStyle, indicator: tabClasses.tabIndicator }} onChange={handleTabs}
+
+                            value={value} indicatorColor="secondary" textColor="primary"
+                            TabIndicatorProps={{
+                                style: { background: "#009639", width: "20%", height: "4%", marginLeft: "0%", top: '15px', position: 'absolute' }
+                            }}>
+                            <Tab className={tabClasses.btnTab0Style} label='Mis Documentos.' onClick={firstTab}></Tab>
+                            <Tab className={tabClasses.btnTab1StyleDisabled} label='Documentos Electronicos.' onClick={secondTab} />
+
+                        </Tabs>
+                    </ThemeProvider>
+
+
+                </div>
+
+
+
+
+
+
+                <Paper className={classes.root}>
+
+                    <div className="documentReportIconContainer" onClick={documentReportRedirect}>
+                        <AssignmentReturnedIcon fontSize="large" /><span className="documentReportIconLegend">Reporte</span>
+                    </div>
+
+                    <div className="documentIconContainer1" >
+                        <TuneIcon fontSize="large" onClick={FilterMenuHandler} />
+                        <DocumentFilterMenu />
+                    </div>
+
+                    <div className="documentSearchBarContainer1">
+                        <input type="text" placeholder="Buscar por num. de documento" className="documentSearchBar1" onChange={searchPrimaryPageSuggestionsHandler} />
+                    </div>
+
+                    <div className="documentIconContainer2">
+                        <SearchRoundedIcon fontSize="large" />
+                    </div>
+
+                    <TableContainer className={classes.container}>
+                        <Table stickyHeader aria-label="sticky table">
+                            <TableHead>
+                                <TableRow>
+                                    {columns.map((column) => (
+                                        <TableCell className={classes.headerTable}
+                                            key={column.id}
+                                            align={column.align}
+                                            style={{ minWidth: column.minWidth }}
+                                        >
+                                            {column.label}
+                                        </TableCell>
+                                    ))}
+                                </TableRow>
+                            </TableHead>
+                            <TableBody id="documentTable">
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+
+                    <ThemeProvider theme={paginationTheme}>
+                        <div className="paginationContainerStyle">
+                            <Pagination count={firstTabPageQuantity} onChange={paginationHandler} />
+                        </div>
+                    </ThemeProvider>
+
+                </Paper>
+            </div>
+        );
+    }
+
+
     if (showTab == 1 && allSecondTabData != "" ) {
             return (
                 <div className="documentContentContainer">
