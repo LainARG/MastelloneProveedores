@@ -18,6 +18,9 @@ export interface IDocuments {
         Monto: any;
         Nota_pedido: any;
         Id_estado: any;
+        estado: any;
+        tipo: any;
+        detalle_pago_monto: any;
 }
 
 

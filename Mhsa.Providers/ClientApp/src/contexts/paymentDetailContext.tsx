@@ -34,6 +34,13 @@ export class PaymentDetailContext {
         return response.data;
     }
 
+    static async fetchAllPaymentDetail() {
+        
+        const response = await api.get(
+            `/paymentdetail`);
+        return response.data;
+    }
+
 
 
 }

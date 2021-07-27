@@ -290,7 +290,6 @@ export default function DocumentBody() {
    
 
     const openModal = (props) => {
-        console.log(props);
         setPaymentDetailsProps(props);
         setTimeout(function () { setModal(true); }, 100);
         
@@ -303,22 +302,35 @@ export default function DocumentBody() {
     useEffect(() => {
 
         if (allDocs == "") {
-            UserContext.fetchUsers().then((e) => { setAllUsers(e); });
             DocumentsContext.fetchDocuments().then((e) => { setAllDocs(e); });
+        }
+        else if (allUsers == "") {
+            UserContext.fetchUsers().then((e) => { setAllUsers(e); });
+        }
+        else if (allDigDocs == "") {
             DigitalDocumentsContext.fetchDocuments().then((e) => { setAllDigDocs(e); });
+        }
+        else if (allStates == "") {
             StatesContext.fetchStates().then((e) => { setAllStates(e); });
+        }
+        else if (allPayments == "") {
             PaymentsContext.fetchPayments().then((e) => { setAllPayments(e); });
+        }
+        else if (allDocumentTypes == "") {
             DocumentTypesContext.fetchDocumentTypes().then((e) => { setAllDocumentTypes(e); });
-            PaymentDetailContext.fetchPaymentDetail().then((e) => { setAllPaymentDetail(e); });
-        } else {
-            dataMapper(allDocs);
+        }
+        else if (allPaymentDetail == "") {
+            PaymentDetailContext.fetchAllPaymentDetail().then((e) => { setAllPaymentDetail(e); });
+        }
+        else {
+            dataMapper();
         }
 
-    }, [allDocs, allDigDocs, modal]);
+    }, [allDocs, allDigDocs, allUsers, allStates, allPayments, allDocumentTypes, allPaymentDetail]);
 
     const columns = [
         {
-            id: 'Fecha_doc',
+            id: 'fecha_documento',
             label: 'Fecha de doc.',
             minWidth: 150,
             align: 'left',
@@ -401,143 +413,55 @@ export default function DocumentBody() {
 
     ];
 
-    const dataMapper = (alldocs) => {
+    const dataMapper = () => {
+
         let allfirsttabdata = [];
         let allfirsttabdatabackup = [];
         let allsecondtabdata = [];
-        let allpayments = [];
-        let paymentStateStringValue = "";
-        let stateStringValue = "";
-        let currentDocumentType = "";
-        let currentPaymentDetail = "";
-
-            for (let j = 0; j < allDocs.length;j++) {
-                let objectData = {
-                    fecha_documento: null,
-                    estado: null,
-                    tipo: null,
-                    type: null,
-                    filename: null,
-                    numero_documento: null,
-                    numero_pago: null,
-                    monto_bruto: null,
-                    monto_pago: null,
-                    estado_pago: null,
-                    observaciones_pago: null,
-                    digDoc_fecha_carga: null,
-                    digDoc_estado: null,
-                    digDoc_usu_carga: null,
-                    digDoc_descarga: null,
-                    detail_pay_numero:null,
-                    detail_pay_monto:null,
-                    detail_pay_estado:null
-                }
-
-                let objectData2 = {
-                    fecha_documento: null,
-                    estado: null,
-                    tipo: null,
-                    numero_documento: null,
-                    numero_pago: null,
-                    monto_bruto: null,
-                    monto_pago: null,
-                    estado_pago: null,
-                    observaciones_pago: null
-                }
-
-                for (let i = 0; i < allPayments.length; i++) {
-                    for (let j = 0; j < alldocs.length; j++) {
-
-                        if (allPayments[i].numero_pago == alldocs[j].numero_pago) {
-                            allpayments.push(allPayments[i]);
-                        }
-
-                    }
-                }
-
-                for (let i = 0; i < allpayments.length; i++) {
-
-                    if (i < allStates.length && allStates[i].id_estado == allpayments[j].id_estado) {
-                        paymentStateStringValue = allStates[i].descripcion_abreviada;
-                    }
-
-                }
-
-                for (let i = 0; i < alldocs.length; i++) {
-
-                    if (i < allStates.length && allStates[i].id_estado == alldocs[j].id_estado && allStates[i] != undefined) {
-                        stateStringValue = allStates[i].descripcion_abreviada;
-                    }
-                   
-                }
-                
-                if (allDocumentTypes != "") {
-                    currentDocumentType = allDocumentTypes.filter(docType => docType.id_tipo_documento == alldocs[j].id_tipo_documento)[0].descripcion;
-                }
-                if (allPaymentDetail != "") {
-                    currentPaymentDetail = allPaymentDetail.filter(payDet => payDet.id_documento == alldocs[j].id_documento)[0];
-                }
 
 
-                    objectData.fecha_documento = alldocs[j].fecha_documento;
-                    objectData.estado = stateStringValue;
-                    objectData.tipo = currentDocumentType;
-                    objectData.numero_documento = alldocs[j].letra_documento + "-" + alldocs[j].prefijo_documento+"-"+alldocs[j].numero_documento;
-                    objectData.nota_pedido = alldocs[j].nota_pedido;
-                    objectData.monto = alldocs[j].monto;
-                    objectData.numero_pago = alldocs[j].numero_pago;
-                    if (allpayments[j] != undefined) {
-                        objectData.estado_pago = paymentStateStringValue;
-                        objectData.monto_pago = allpayments[j].total_pago;
-                    }
 
-                    objectData2.fecha_documento = alldocs[j].fecha_documento;
-                    objectData2.estado = stateStringValue;
-                    objectData2.tipo = currentDocumentType;
-                    objectData2.numero_documento = alldocs[j].letra_documento + "-" + alldocs[j].prefijo_documento + "-" + alldocs[j].numero_documento;
-                    objectData2.nota_pedido = alldocs[j].nota_pedido;
-                    objectData2.monto = alldocs[j].monto;
-                    objectData2.numero_pago = alldocs[j].numero_pago;
-                    if (allpayments[j] != undefined) {
-                    objectData2.estado_pago = paymentStateStringValue;
-                    objectData2.monto_pago = allpayments[j].total_pago;
-                    }
-                    
-                    
-                allfirsttabdata.push(objectData);
-                allfirsttabdatabackup.push(objectData2);
-                    
-              }
+        for (let i = 0; i < allDocs.length; i++){
 
-         for (let j = 0; j < allDigDocs.length; j++) {
-             let loadUser;
-            let objectData = {
-                digDoc_fecha_carga: null,
-                digDoc_estado: null,
-                digDoc_usu_carga: null,
-                imagen: null
+            let state = allStates.filter(state => state.id_estado == allDocs[i].id_estado);
+            if (state != null && state != undefined && state != "") {
+                allDocs[i].estado = state[0].descripcion_abreviada;
             }
-
-            for (let i = 0; i < allStates.length; i++) {
-
-                if (allStates[i].id_estado == allDigDocs[j].id_estado) {
-                    stateStringValue = allStates[i].descripcion_abreviada;
+            let documentTypes = allDocumentTypes.filter(doc => doc.id_tipo_documento == allDocs[i].id_tipo_documento);
+            if (documentTypes != null && documentTypes != undefined && documentTypes != "") {
+                allDocs[i].tipo = documentTypes[0].descripcion;
+            }
+            let detailPayment = allPaymentDetail.filter(payment => payment.id_documento == allDocs[i].id_documento);
+            if (detailPayment != null && detailPayment != undefined && detailPayment != "") {
+                allDocs[i].detalle_pago_monto = detailPayment[0].monto_pagado_documento;
+                let paymentId = detailPayment[0].id_pago;
+                let paymentNumber = allPayments.filter(payment => payment.id_pago == paymentId);
+                if (paymentNumber != undefined && paymentNumber != "" && paymentNumber != null) {
+                    paymentNumber = paymentNumber[0].numero_pago;
+                    allDocs[i].numero_pago = paymentNumber;
                 }
-             }
-
-             if (allUsers != "") {
-                 loadUser = allUsers.filter(user => user.id_usuario == allDigDocs[j].id_usuario_carga)[0].mail;
-             }
+            }
             
-            objectData.digDoc_fecha_carga = allDigDocs[j].fecha_carga;
-            objectData.digDoc_estado = stateStringValue;
-            objectData.digDoc_usu_carga = loadUser;
-                objectData.imagen = allDigDocs[j].imagen;
-                objectData.type = allDigDocs[j].tipo_archivo;
-                objectData.filename = allDigDocs[j].nombre_archivo;
-            allsecondtabdata.push(objectData);
+            allfirsttabdata.push(allDocs[i]);
+
         }
-         
+
+        for (let i = 0; i < allDigDocs.length; i++) {
+
+            let state = allStates.filter(state => state.id_estado == allDocs[i].id_estado);
+            if (state != null && state != undefined && state != "") {
+                allDigDocs[i].estado = state[0].descripcion_abreviada;
+            }
+            let user = allUsers.filter(user => user.id_usuario == allDigDocs[i].id_usuario_carga);
+            if (user != null && user != undefined && user != "") {
+                allDigDocs[i].usuario = user[0].mail;
+            }
+            allsecondtabdata.push(allDigDocs[i]);
+
+        }
+
+        
+
         let pagFirstTabData = pagination(allfirsttabdata, allfirsttabdata.length, rowsPerPage);
         let pagSecondTabData = pagination(allsecondtabdata, allsecondtabdata.length, rowsPerPage);
         let pagFirstTabDataBackup = pagination(allfirsttabdatabackup, allfirsttabdatabackup.length, rowsPerPage);
@@ -771,7 +695,7 @@ export default function DocumentBody() {
             <span className="modalBoldFontStyle">Monto pagado</span>
             <span className="modalBoldFontStyle">Estado</span><br/>
             <span className="modalNormalFontStyle1">{paymentDetailsProps.numero_pago}</span>
-            <span className="modalNormalFontStyle2">{paymentDetailsProps.monto}</span>
+            <span className="modalNormalFontStyle2">{paymentDetailsProps.detalle_pago_monto }</span>
             <span className="modalNormalFontStyle3">{paymentDetailsProps.estado}</span>
             
             <button className="modalBtnStyle" onClick={() => closeModal()}>Cerrar</button>
@@ -951,7 +875,7 @@ export default function DocumentBody() {
 
 
                                                             for (let i = 0; i < allFirstTabData.length; i++) {
-                                                                if (column.id == "Fecha_doc") {
+                                                                if (column.id == "fecha_documento") {
                                                                     return (
                                                                         <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
                                                                             {row.fecha_documento}
@@ -1176,21 +1100,21 @@ export default function DocumentBody() {
                                                             if (column.id == "Fecha_carga") {
                                                                 return (
                                                                     <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                        {row.digDoc_fecha_carga}
+                                                                        {row.fecha_carga}
                                                                     </TableCell>
                                                                 );
                                                             }
                                                             else if (column.id == "Estado") {
                                                                 return (
                                                                     <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                        {row.digDoc_estado}
+                                                                        {row.estado}
                                                                     </TableCell>
                                                                 );
                                                             }
                                                             else if (column.id == "Cargado_por") {
                                                                 return (
                                                                     <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                        {row.digDoc_usu_carga}
+                                                                        {row.usuario}
                                                                     </TableCell>
                                                                 );
                                                             }

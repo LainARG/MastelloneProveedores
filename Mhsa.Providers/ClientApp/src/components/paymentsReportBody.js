@@ -401,7 +401,6 @@ useEffect(() => {
             if (allStates != "") {
                 currentPaymentState = (allStates.filter(state => state.id_estado == allPays[i].id_estado))[0].descripcion_abreviada;
             }
-            console.log(currentPaymentState);
                 let obj = {
                     numero_pago: allPays[i].prefijo_pago + "-" + allPays[i].numero_pago,
                     retirar_en: allPays[i].lugar_retiro,

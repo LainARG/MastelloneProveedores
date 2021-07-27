@@ -29,7 +29,12 @@ export interface IDigitalDocuments {
 
         Tamano_archivo :any;
 
-        Imagen :any;
+        Imagen: any;
+
+        Estado: any;
+
+        Usuario: any;
+
 }
 
 
