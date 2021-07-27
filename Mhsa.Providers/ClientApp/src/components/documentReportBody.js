@@ -9,9 +9,12 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import DocumentsContext from '../contexts/documentsContext';
-import PaymentsContext from '../contexts/paymentsContext';
-import StatesContext from '../contexts/statesContext';
+import PaymentDetailContext from '../contexts/paymentDetailContext';
+import DocumentTypesContext from '../contexts/documentTypesContext';
 import DigitalDocumentsContext from '../contexts/digitalDocumentsContexts';
+import StatesContext from '../contexts/statesContext';
+import UserContext from '../contexts/userContext';
+import PaymentsContext from '../contexts/paymentsContext';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { createMuiTheme } from '@material-ui/core/styles'; 
 import pagination from '../pagination/pagination';
@@ -155,6 +158,10 @@ export default function DocumentReportBody() {
     const [allData, setAllData] = useState("");
     const [allDigDocs, setAllDigDocs] = useState("");
     const [allStates, setAllStates] = useState("");
+    const [allPaymentDetail, setAllPaymentDetail] = useState("");
+    const [allDocumentTypes, setAllDocumentTypes] = useState("");
+    const [allPayments, setAllPayments] = useState("");
+    const [allUsers, setAllUsers] = useState("");
     const [dataChargeController, setDataChargeController] = useState(0);
     const [pageNumber, setPageNumber] = useState(1);
     const [pageQuantity, setPageQuantity] = useState(10);
@@ -168,15 +175,34 @@ export default function DocumentReportBody() {
 
 
     useEffect(() => {
-        if (allDocs == "" || allStates== "") {
+
+        if (allDocs == "") {
             DocumentsContext.fetchDocuments().then((e) => { setAllDocs(e); });
+        }
+        else if (allUsers == "") {
+            UserContext.fetchUsers().then((e) => { setAllUsers(e); });
+        }
+        else if (allDigDocs == "") {
+            DigitalDocumentsContext.fetchDocuments().then((e) => { setAllDigDocs(e); });
+        }
+        else if (allStates == "") {
             StatesContext.fetchStates().then((e) => { setAllStates(e); });
         }
-        if (allDocs != "" && allStates != "" && dataChargeController != 1) {
+        else if (allPayments == "") {
+            PaymentsContext.fetchPayments().then((e) => { setAllPayments(e); });
+        }
+        else if (allDocumentTypes == "") {
+            DocumentTypesContext.fetchDocumentTypes().then((e) => { setAllDocumentTypes(e); });
+        }
+        else if (allPaymentDetail == "") {
+            PaymentDetailContext.fetchAllPaymentDetail().then((e) => { setAllPaymentDetail(e); });
+        }
+        else {
             dataMapper();
         }
+        
 
-    });
+    }, [allDocs, allDigDocs, allUsers, allStates, allPayments, allDocumentTypes, allPaymentDetail]);
 
     const columns = [
         {
@@ -226,29 +252,21 @@ export default function DocumentReportBody() {
 
 
     const dataMapper = () => {
-        setDataChargeController(1);
+
+
         let alldata = [];
 
-        
         for (let i = 0; i < allDocs.length; i++) {
-
-            let documentState = (allStates.filter(state => state.id_estado == allDocs[i].id_estado))[0].descripcion_abreviada;
-            let documentNumber = allDocs[i].letra_documento + "-" + allDocs[i].prefijo_documento + "-" + allDocs[i].numero_documento;
-
-            let obj = {
-                    fecha_carga: allDocs[i].fecha_documento,
-                    estado: documentState,
-                    tipo: null,
-                    numero_documento: documentNumber,
-                    numero_pago: allDocs[i].numero_pago,
-                    monto: allDocs[i].monto,
-                    nota_pedido: allDocs[i].nota_pedido
+            let state = allStates.filter(state => state.id_estado == allDocs[i].id_estado);
+            if (state != null && state != undefined && state != "") {
+                allDocs[i].estado = state[0].descripcion_abreviada;
             }
-
-            alldata.push(obj);                
-
+            let documentTypes = allDocumentTypes.filter(doc => doc.id_tipo_documento == allDocs[i].id_tipo_documento);
+            if (documentTypes != null && documentTypes != undefined && documentTypes != "") {
+                allDocs[i].tipo = documentTypes[0].descripcion;
             }
-        
+            alldata.push(allDocs[i]);
+        }
 
         let pagData = pagination(alldata, alldata.length, rowsPerPage);
         setPageQuantity(pagData.length);
@@ -300,7 +318,6 @@ export default function DocumentReportBody() {
         }
 
     }
-
 
     if (allData == undefined || allData == null || allData == "") {
 
@@ -355,7 +372,7 @@ export default function DocumentReportBody() {
 
                                             <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                                                 {columns.map((column) => {
-
+                                                    console.log(row);
                                                     for (let i = 0; i < allData.length; i++) {
                                                         if (column.id == "fecha_carga") {
                                                             return (
@@ -378,7 +395,7 @@ export default function DocumentReportBody() {
                                                                 </TableCell>
                                                             );
                                                         }
-                                                        else if (column.id == "numero") {
+                                                        else if (column.id == "numero_documento") {
                                                             return (
                                                                 <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
                                                                     {row.numero_documento}
