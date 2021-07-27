@@ -29,5 +29,10 @@ namespace mhsa.internal_user.Controllers
         {
             return service.GetAll();
         }
+
+        public IEnumerable<PaymentDetail> GetById(object pmnt)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
