@@ -40,10 +40,16 @@ export class DigitalDocumentsContext {
 
    
     static async fetchDocuments() {
-        const response = await api.get<Response, AxiosResponse<Response>>(
-            `/digitalDocuments`
-        );
-        return response.data;
+
+        let providerCuit = window.localStorage.getItem("currentProvider") || "";
+        let prv = JSON.parse(providerCuit).cuit;
+        const response = await api.post(`/digitalDocuments/getById`, { prv });
+        if (response.data != "") {
+            return response.data;
+        }
+        else {
+            return null;
+        }
     }
 
     static async setDocument(files: any) {

@@ -284,13 +284,17 @@ export default function DocumentBody() {
     const [searchResult, setSearchResult] = useState(null);
     const [statesContext, setStatesContext] = useState(null);
     const [stateTypesContext, setStateTypesContext] = useState(null);
+    const [currentProvider, setCurrentProvider] = useState("");
+
 
     useEffect(() => {
+        setCurrentProvider(JSON.parse(window.localStorage.getItem("currentProvider") || "").razon_social);
         if (dataContext == null || statesContext == null || stateTypesContext == null) {
             DigitalDocumentsContext.fetchDocuments().then((e) => { setDataContext(e); });
             StatesContext.fetchStates().then((e) => { setStatesContext(e); });
             StateTypesContext.fetchStateTypes().then((e) => { setStateTypesContext(e); });
         }
+
     }, []);
 
 
@@ -322,20 +326,28 @@ export default function DocumentBody() {
 
 
 
-
     useEffect(() => {
 
         if (allDocs == "") {
             DocumentsContext.fetchDocuments().then((e) => { setAllDocs(e); });
+        }
+        if (allProviders == "") {
             ProvidersContext.fetchProviders().then((e) => { setAllProviders(e); });
+        }
+        if (allDigDocs == "") {
             DigitalDocumentsContext.fetchDocuments().then((e) => { setAllDigDocs(e); });
+        }
+        if (allStates == "") {
             StatesContext.fetchStates().then((e) => { setAllStates(e); });
+        }
+        if (allPayments == "") {
             PaymentsContext.fetchPayments().then((e) => { setAllPayments(e); });
-        } else {
+        }
+        else {
             dataMapper(allDocs);
         }
 
-    }, [allDocs, allDigDocs, modal]);
+    }, [allDocs, allDigDocs, allProviders, allStates, allPayments]);
 
     const columns = [
         {
@@ -400,6 +412,7 @@ export default function DocumentBody() {
     
 
     const dataMapper = (alldocs) => {
+        console.log("datamaper");
         let allfirsttabdata = [];
         let allfirsttabdatabackup = [];
         let allsecondtabdata = [];
@@ -407,129 +420,19 @@ export default function DocumentBody() {
         let paymentStateStringValue = "";
         let stateStringValue = "";
 
-        for (let j = 0; j < allDocs.length; j++) {
-            let objectData = {
-                fecha_documento: null,
-                estado: null,
-                tipo: null,
-                type: null,
-                filename: null,
-                numero_documento: null,
-                numero_pago: null,
-                monto_bruto: null,
-                monto_pago: null,
-                estado_pago: null,
-                observaciones_pago: null,
-                digDoc_fecha_carga: null,
-                digDoc_estado: null,
-                digDoc_usu_carga: null,
-                digDoc_descarga: null
-            }
-
-            let objectData2 = {
-                fecha_documento: null,
-                estado: null,
-                tipo: null,
-                numero_documento: null,
-                numero_pago: null,
-                monto_bruto: null,
-                monto_pago: null,
-                estado_pago: null,
-                observaciones_pago: null
-            }
-
-            for (let i = 0; i < allPayments.length; i++) {
-                for (let j = 0; j < alldocs.length; j++) {
-
-                    if (allPayments[i].numero_pago == alldocs[j].numero_pago) {
-                        allpayments.push(allPayments[i]);
-                    }
-
-                }
-            }
-
-            for (let i = 0; i < allpayments.length; i++) {
-
-                if (i < allStates.length && allStates[i].id_estado == allpayments[j].id_estado) {
-                    paymentStateStringValue = allStates[i].descripcion_abreviada;
-                }
-
-            }
-
-            for (let i = 0; i < alldocs.length; i++) {
-
-                if (i < allStates.length && allStates[i].id_estado == alldocs[j].id_estado && allStates[i] != undefined) {
-                    stateStringValue = allStates[i].descripcion_abreviada;
-                }
-
-            }
-
-
-
-
-            objectData.fecha_documento = alldocs[j].fecha_documento;
-            objectData.estado = stateStringValue;
-            objectData.tipo = alldocs[j].id_tipo_documento;
-            objectData.numero_documento = alldocs[j].letra_documento + "-" + alldocs[j].prefijo_documento + "-" + alldocs[j].numero_documento;
-            objectData.nota_pedido = alldocs[j].nota_pedido;
-            objectData.monto = alldocs[j].monto;
-            objectData.numero_pago = alldocs[j].numero_pago;
-            if (allpayments[j] != undefined) {
-                objectData.estado_pago = paymentStateStringValue;
-                objectData.monto_pago = allpayments[j].total_pago;
-            }
-
-            objectData2.fecha_documento = alldocs[j].fecha_documento;
-            objectData2.estado = stateStringValue;
-            objectData2.tipo = alldocs[j].id_tipo_documento;
-            objectData2.numero_documento = alldocs[j].letra_documento + "-" + alldocs[j].prefijo_documento + "-" + alldocs[j].numero_documento;
-            objectData2.nota_pedido = alldocs[j].nota_pedido;
-            objectData2.monto = alldocs[j].monto;
-            objectData2.numero_pago = alldocs[j].numero_pago;
-            if (allpayments[j] != undefined) {
-                objectData2.estado_pago = paymentStateStringValue;
-                objectData2.monto_pago = allpayments[j].total_pago;
-            }
-
-
-            allfirsttabdata.push(objectData);
-            allfirsttabdatabackup.push(objectData2);
-
+        if (allDigDocs != "" && allDigDocs != undefined && allDigDocs != null) {
+            allfirsttabdata = allDigDocs.filter(digdoc => digdoc.id_documento_electronico > 0);
+            allfirsttabdatabackup = allDigDocs.filter(digdoc => digdoc.id_documento_electronico > 0);
         }
-
-        for (let j = 0; j < allDigDocs.length; j++) {
-            let objectData = {
-                digDoc_fecha_carga: null,
-                digDoc_estado: null,
-                digDoc_usu_carga: null,
-                imagen: null
-            }
-
-            for (let i = 0; i < allStates.length; i++) {
-
-                if (allStates[i].id_estado == allDigDocs[j].id_estado) {
-                    stateStringValue = allStates[i].descripcion_abreviada;
-                }
-            }
-
-            objectData.digDoc_fecha_carga = allDigDocs[j].fecha_carga;
-            objectData.digDoc_estado = stateStringValue;
-            objectData.digDoc_usu_carga = allDigDocs[j].id_usuario_carga;
-            objectData.imagen = allDigDocs[j].imagen;
-            objectData.type = allDigDocs[j].tipo_archivo;
-            objectData.filename = allDigDocs[j].nombre_archivo;
-            allsecondtabdata.push(objectData);
-
-        }
-
+        
         let pagFirstTabData = pagination(allfirsttabdata, allfirsttabdata.length, rowsPerPage);
-        let pagSecondTabData = pagination(allsecondtabdata, allsecondtabdata.length, rowsPerPage);
+        /*let pagSecondTabData = pagination(allsecondtabdata, allsecondtabdata.length, rowsPerPage);*/
         let pagFirstTabDataBackup = pagination(allfirsttabdatabackup, allfirsttabdatabackup.length, rowsPerPage);
         setFirstTabPageQuantity(pagFirstTabData.length);
-        setSecondTabPageQuantity(pagSecondTabData.length);
+        /*setSecondTabPageQuantity(pagSecondTabData.length);*/
         setAllFirstTabData(pagFirstTabData);
         setAllFirstTabDataBackup(pagFirstTabDataBackup);
-        setAllSecondTabData(pagSecondTabData);
+        /*setAllSecondTabData(pagSecondTabData);*/
         setAllSearchData(pagFirstTabData);
     }
 
@@ -631,6 +534,7 @@ export default function DocumentBody() {
         let results = [];
         let finalResults = [];
         let indexToRemove = [];
+        
 
         for (let i = 0; i < dataContext.length; i++) {
 
@@ -812,9 +716,7 @@ export default function DocumentBody() {
                     <span className="documentSearchFormLegend3">Proveedor</span>
 
                     <select className="documentSearchFormSelect" onChange={(e) => setProviderValue(e.target.value)}>
-                        <option selected value="Cualquiera">Cualquiera</option>
-                        <option value="Advantive S.A.">Advantive S.A.</option>
-                        <option value="El Libertario S.A.">El Libertario S.A.</option>
+                        <option selected value="Cualquiera">{ currentProvider }</option>
                     </select>
 
                 </div>
@@ -824,10 +726,11 @@ export default function DocumentBody() {
                     <span className="documentSearchFormLegend3">Estado</span>
 
                     <select className="documentSearchFormSelect" onChange={(e) => setStateValue(e.target.value)}>
-                        <option selected value="Cualquiera">Cualquiera</option>
-                        <option value="Incorporado">Incorporado</option>
-                        <option value="Recepcionado">Recepcionado</option>
-                        <option value="Rechazado">Rechazado</option>
+
+                        {allStates.map((state) => (
+                            <option selected value="Cualquiera">{ state.descripcion_abreviada }</option>
+                        ))}
+                        
                     </select>
 
                 </div>

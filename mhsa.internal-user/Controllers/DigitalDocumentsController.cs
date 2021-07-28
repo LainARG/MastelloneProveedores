@@ -37,9 +37,11 @@ namespace mhsa.internal_user.Controllers
             return service.GetAll();
         }
 
+        [HttpPost]
+        [Route("getById")]
         public IEnumerable<DigitalDocuments> GetById(object prv)
         {
-            throw new NotImplementedException();
+           return service.GetById(prv);
         }
 
         [HttpPost]

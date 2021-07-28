@@ -311,8 +311,8 @@
     font-weight: bold;
     font-size: 14px;
     color: #bababa;
-    width: 15%;
-    margin-left: 0%;
+    width: 20%;
+    margin-left: -2%;
     margin-top: 0.5%;
     overflow: hidden;
 }
@@ -323,7 +323,7 @@
     font-size: 14px;
     color: #bababa;
     width: 15%;
-    margin-left: 2.5%;
+    margin-left: -2%;
     margin-top: 0.5%;
     overflow: hidden;
 }
@@ -334,7 +334,7 @@
     font-size: 14px;
     color: #bababa;
     width: 11%;
-    margin-left: 7.5%;
+    margin-left: 3%;
     margin-top: 2%;
     overflow: hidden;
 }
@@ -418,22 +418,18 @@
     font-size: 14px;
     color: #bababa;
     width: 15%;
-    margin-left: 8%;
+    margin-left: 6%;
     margin-top: 2%;
     color: #009639;
     overflow: hidden;
 }
 
 
-
-
-
-
 .documentSearchResultIcon{
     display:inline-block;
     width:20px;
     height:20px;
-    margin-left:8%;
+    margin-left:5%;
     cursor:pointer;
 }
 
