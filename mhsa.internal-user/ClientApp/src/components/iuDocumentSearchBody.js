@@ -10,6 +10,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import DocumentsContext from '../contexts/documentsContext';
+import DocumentsReasonRejectionContext from '../contexts/documentsReasonRejectionContext';
 import ProvidersContext from '../contexts/providersContext';
 import DigitalDocumentsContext from '../contexts/digitalDocumentsContexts';
 import StatesContext from '../contexts/statesContext';
@@ -258,6 +259,7 @@ export default function DocumentBody() {
     const [allSecondTabData, setAllSecondTabData] = useState("");
     const [allSearchData, setAllSearchData] = useState("");
     const [allPayments, setAllPayments] = useState("");
+    const [allDocumentsReasonRejection, setAllDocumentsReasonRejection] = useState("");
     const [allDigDocs, setAllDigDocs] = useState("");
     const [allStates, setAllStates] = useState("");
     const [allProviders, setAllProviders] = useState("");
@@ -266,10 +268,6 @@ export default function DocumentBody() {
     const [secondTabPageQuantity, setSecondTabPageQuantity] = useState(10);
     const [value, setValue] = useState(0);
     const [showTab, setShowTab] = useState(0);
-    const [openFilterMenu, setOpenFilterMenu] = useState(false);
-    const [anchorEl, setAnchorEl] = useState(false);
-    const [modal, setModal] = useState(false);
-    const [paymentDetailsProps, setPaymentDetailsProps] = useState(false);
     let filesToDownload = new Array();
     const rowsPerPage = 4;
 
@@ -280,22 +278,12 @@ export default function DocumentBody() {
     const [untilPeriodValue, setUntilPeriodValue] = useState(null);
     const [stateValue, setStateValue] = useState('Cualquiera');
     const [providerValue, setProviderValue] = useState('Cualquiera');
-    const [dataContext, setDataContext] = useState(null);
+    const [dataContext, setDataContext] = useState("");
     const [searchResult, setSearchResult] = useState(null);
-    const [statesContext, setStatesContext] = useState(null);
-    const [stateTypesContext, setStateTypesContext] = useState(null);
+    const [statesContext, setStatesContext] = useState("");
+    const [stateTypesContext, setStateTypesContext] = useState("");
     const [currentProvider, setCurrentProvider] = useState("");
 
-
-    useEffect(() => {
-        setCurrentProvider(JSON.parse(window.localStorage.getItem("currentProvider") || "").razon_social);
-        if (dataContext == null || statesContext == null || stateTypesContext == null) {
-            DigitalDocumentsContext.fetchDocuments().then((e) => { setDataContext(e); });
-            StatesContext.fetchStates().then((e) => { setStatesContext(e); });
-            StateTypesContext.fetchStateTypes().then((e) => { setStateTypesContext(e); });
-        }
-
-    }, []);
 
 
     function DocumentSearch() {
@@ -327,7 +315,7 @@ export default function DocumentBody() {
 
 
     useEffect(() => {
-
+        setCurrentProvider(JSON.parse(window.localStorage.getItem("currentProvider") || "").razon_social);
         if (allDocs == "") {
             DocumentsContext.fetchDocuments().then((e) => { setAllDocs(e); });
         }
@@ -343,11 +331,14 @@ export default function DocumentBody() {
         if (allPayments == "") {
             PaymentsContext.fetchPayments().then((e) => { setAllPayments(e); });
         }
+        if (allDocumentsReasonRejection == "") {
+            DocumentsReasonRejectionContext.fetchDocumentsReasonRejection().then((e) => { setAllDocumentsReasonRejection(e); });
+        }
         else {
             dataMapper(allDocs);
         }
 
-    }, [allDocs, allDigDocs, allProviders, allStates, allPayments]);
+    }, [allDocs, allDigDocs, allProviders, allStates, allPayments, allDocumentsReasonRejection]);
 
     const columns = [
         {
@@ -498,8 +489,6 @@ export default function DocumentBody() {
     }
 
     
-
-
     function prepareBase64File(contentType, base64Data, fileName, index) {
         const linkSource = `data:${contentType};base64,${base64Data}`;
         const downloadLink = document.createElement("a");
@@ -534,19 +523,18 @@ export default function DocumentBody() {
         let results = [];
         let finalResults = [];
         let indexToRemove = [];
-        
 
-        for (let i = 0; i < dataContext.length; i++) {
+        for (let i = 0; i < allDigDocs.length; i++) {
 
-            let currentState = dataContext[i].id_estado;
-            let currentProvider = dataContext[i].cuit;
-            let currentLoadTime = new Date(dataContext[i].fecha_carga).getTime();
-            let currentStateTime = new Date(dataContext[i].fecha_estado).getTime();
+            let currentState = allDigDocs[i].id_estado;
+            let currentProvider = allDigDocs[i].cuit;
+            let currentLoadTime = new Date(allDigDocs[i].fecha_carga).getTime();
+            let currentStateTime = new Date(allDigDocs[i].fecha_estado).getTime();
             let matchState;
             let matchProvider;
 
             for (let j = 0; j < allStates.length; j++) {
-                if(currentState == allStates[j].id_estado) {
+                if (currentState == allStates[j].id_estado) {
                     matchState = allStates[j].descripcion_abreviada;
                 }
             }
@@ -559,24 +547,24 @@ export default function DocumentBody() {
 
             let obj = {
 
-                fecha_ingreso: dataContext[i].fecha_carga,
-                fecha_estado: dataContext[i].fecha_estado,
-                cuit:dataContext[i].cuit,
+                fecha_ingreso: allDigDocs[i].fecha_carga,
+                fecha_estado: allDigDocs[i].fecha_estado,
+                cuit: allDigDocs[i].cuit,
                 razon_social: matchProvider.razon_social,
-                nombre_archivo: dataContext[i].nombre_archivo,
+                nombre_archivo: allDigDocs[i].nombre_archivo,
                 estado: matchState,
-                descargar: dataContext[i].descargar,
+                descargar: allDigDocs[i].descargar,
 
             }
 
             if (obj.nombre_archivo.includes(inputFileName) && inputFileName != "") {
                 results.push(obj);
             }
-            
+
             if (obj.estado == inputState || inputState == "Cualquiera") {
                 results.push(obj);
             }
-            
+
             if (obj.razon_social.toLowerCase() == inputProvider.toLowerCase() || inputProvider == "Cualquiera") {
                 results.push(obj);
             }
@@ -593,8 +581,6 @@ export default function DocumentBody() {
             results.forEach(function (element, index) {
                 if (!element.nombre_archivo.includes(inputFileName) && inputFileName != "" && inputFileName != null) {
                     indexToRemove.push(index);
-                    console.log("success")
-                    console.log(inputFileName);
                 }
 
                 if (element.estado != inputState && inputState != "Cualquiera") {
@@ -615,8 +601,9 @@ export default function DocumentBody() {
 
 
             });
-            
+
         }
+
 
 
 
@@ -651,10 +638,11 @@ export default function DocumentBody() {
                 <input type="checkbox" /><span className="rejectDocsStyle">Rechazar todos los documentos listados</span>
                 <div>
                 <span className="rejectDocForm3">Motivo de rechazo</span><br />
-                <select className="rejectDocForm" placeholder="Codigo archivo de rechazo">
-                    <option>Falta numero de nota de pedido</option>
-                    <option>Error de calculo</option>
-                    </select><br/>
+                    <select className="rejectDocForm" placeholder="Codigo archivo de rechazo">
+                        {allDocumentsReasonRejection.map((option) => (
+                            <option>{option.descripcion_rechazo}</option>
+                        ))}
+                </select><br/>
                 </div>
                 <div>
                 <span className="rejectDocForm1">Observaciones</span><br />
@@ -664,6 +652,7 @@ export default function DocumentBody() {
                     Rechazar
                 </button>
             </div>
+
         );
 
     }
@@ -726,9 +715,9 @@ export default function DocumentBody() {
                     <span className="documentSearchFormLegend3">Estado</span>
 
                     <select className="documentSearchFormSelect" onChange={(e) => setStateValue(e.target.value)}>
-
+                        <option selected value="Cualquiera">Cualquiera</option>
                         {allStates.map((state) => (
-                            <option selected value="Cualquiera">{ state.descripcion_abreviada }</option>
+                            <option>{ state.descripcion_abreviada }</option>
                         ))}
                         
                     </select>

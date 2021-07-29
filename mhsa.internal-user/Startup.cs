@@ -41,6 +41,8 @@ namespace mhsa.internal_user
             services.AddTransient<IUsersRepository, UsersRepository>();
             services.AddTransient<IDocumentsService, DocumentsService>();
             services.AddTransient<IDocumentsRepository, DocumentsRepository>();
+            services.AddTransient<IDocumentsReasonRejectionService, DocumentsReasonRejectionService>();
+            services.AddTransient<IDocumentsReasonRejectionRepository, DocumentsReasonRejectionRepository>();
             services.AddTransient<IPaymentsService, PaymentsService>();
             services.AddTransient<IPaymentsRepository, PaymentsRepository>();
             services.AddTransient<IDigitalDocumentsService, DigitalDocumentsService>();

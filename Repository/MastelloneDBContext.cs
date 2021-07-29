@@ -31,6 +31,8 @@ namespace Repository
 
         public DbSet<Documents> Documentos { get; set; }
 
+        public DbSet<DocumentsReasonRejection> Motivos_rechazo_documento { get; set; }
+        
         public DbSet<DocumentTypes> Tipos_documento { get; set; }
 
         public DbSet<Payments> Pagos { get; set; }
