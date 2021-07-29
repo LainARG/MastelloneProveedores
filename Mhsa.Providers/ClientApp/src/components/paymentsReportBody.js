@@ -268,21 +268,21 @@ export default function PaymentsReportBody() {
 
 
 
-useEffect(() => {
-    
+    useEffect(() => {
+
+    if (allPays != "") {
+        dataMapper();
+    }
     if (allPays == "") {
         PaymentsContext.fetchPayments().then((e) => { setAllPays(e) });
     }
-    else if (allStates == "") {
+    if (allStates == "") {
         StatesContext.fetchStates().then((e) => { setAllStates(e); });
     }
-    else if (allPaymentsForms == "") {
+    if (allPaymentsForms == "") {
         PaymentsFormsContext.fetchPaymentsForms().then((e) => { setAllPaymentsForms(e); });
     }
-    else {
-        dataMapper();
-    }
-        
+    
 
 }, [allPays, allPaymentsForms, allStates]);
     
@@ -389,6 +389,7 @@ useEffect(() => {
   
 
     const dataMapper = () => {
+        console.log("data data")
         let alldataPTab = [];
         let alldataSTab = [];
         let alldatabackup = [];
@@ -397,8 +398,7 @@ useEffect(() => {
        
 
         for (let i = 0; i < allPays.length; i++) {
-
-            if (allStates != "") {
+            if (allStates!= "" && allStates != undefined && allStates != null) {
                 currentPaymentState = (allStates.filter(state => state.id_estado == allPays[i].id_estado))[0].descripcion_abreviada;
             }
                 let obj = {
@@ -422,27 +422,29 @@ useEffect(() => {
                 alldatabackup.push(obj1);
         }
 
-        for (let i = 0; i < allPaymentsForms.length; i++) {
-            let currentPayment;
-            let currentObject = allPaymentsForms[i];
+        if (allPaymentsForms != "" && allPaymentsForms != undefined && allPaymentsForms != null) {
+            for (let i = 0; i < allPaymentsForms.length; i++) {
+                let currentPayment;
+                let currentObject = allPaymentsForms[i];
 
-            if (allPays != "") {
-                currentPayment = (allPays.filter(payment => payment.id_pago.toString() == currentObject.id_pago.toString()))[0];
-            }
-
-            if (currentPayment != undefined && currentPayment != "" && currentPayment != null){
-                let obj = {
-                    numero_pago: currentPayment.prefijo_pago + "-" + currentPayment.numero_pago,
-                    fecha_emision: currentObject.fecha_emision,
-                    fecha_pago: currentObject.fecha_pago,
-                    tipo: currentObject.descripcion,
-                    numero: currentObject.numero,
-                    importe: currentObject.importe,
-                    comprobante: currentObject.imagen
+                if (allPays != "") {
+                    currentPayment = (allPays.filter(payment => payment.id_pago.toString() == currentObject.id_pago.toString()))[0];
                 }
-                alldataSTab.push(obj);
+
+                if (currentPayment != undefined && currentPayment != "" && currentPayment != null) {
+                    let obj = {
+                        numero_pago: currentPayment.prefijo_pago + "-" + currentPayment.numero_pago,
+                        fecha_emision: currentObject.fecha_emision,
+                        fecha_pago: currentObject.fecha_pago,
+                        tipo: currentObject.descripcion,
+                        numero: currentObject.numero,
+                        importe: currentObject.importe,
+                        comprobante: currentObject.imagen
+                    }
+                    alldataSTab.push(obj);
+                }
+
             }
-            
         }
 
         
@@ -1091,7 +1093,7 @@ useEffect(() => {
             </div>
         );
         
-    } else if (showTab == 2 && allDataSecondaryTab != undefined || showTab == 2 && allDataSecondaryTab != null || showTab == 2 && allDataSecondaryTab != ""){
+    } else if (showTab == 2 && allDataSecondaryTab == undefined || showTab == 2 && allDataSecondaryTab == null || showTab == 2 && allDataSecondaryTab == ""){
 
         return(
              <div className = "documentContentContainer" >
@@ -1142,7 +1144,20 @@ useEffect(() => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                                         </TableBody>
+                                {
+
+                                    <TableRow hover role="checkbox" className="valueNotFoundContainer">
+
+                                  
+                                    <div>
+                                        <h3>No existen formas de pago registradas para este proveedor.</h3>
+                                    </div>
+                                  
+                                 </TableRow>
+                                 
+
+                                }
+                            </TableBody>
                         </Table>
                     </TableContainer>
 

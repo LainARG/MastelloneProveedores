@@ -35,11 +35,17 @@ export class PaymentsFormsContext {
  
     static async fetchPaymentsForms() {
         let tkn = window.localStorage.getItem("currentDetailPayment") || "";
-        let pmnt = JSON.parse(tkn).id_pago;
-        const response = await api.post(
-            `/paymentsforms/getById`, { pmnt});
-
-        return response.data;
+        let pmnt;
+        if (JSON.parse(tkn).id_pago != undefined) {
+            pmnt = JSON.parse(tkn).id_pago;
+            const response = await api.post(
+                `/paymentsforms/getById`, { pmnt });
+            return response.data;
+        }
+        else{
+            return "";
+        }
+        
     }
 
 

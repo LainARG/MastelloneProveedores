@@ -29,7 +29,8 @@ export default function Router(){
 return(
 
 <BrowserRouter>
-<Switch>
+		<Switch>
+  <Route exact path='/' component={LoginPage} />
   <Route exact path='/login' component={LoginPage}/>
   <Route exact path='/login/accountkeyformat' component={KeyFormatPage}/>
   <Route exact path='/login/accountkeyforgot' component={KeyForgottenPage}/>
