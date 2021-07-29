@@ -166,7 +166,13 @@ const NavBarInternalUser = (props) => {
 
                 break;
             case 1:
-                window.location = '/test2';
+                let prv = window.localStorage.getItem("currentProvider") || "Proveedor no seleccionado";
+                if (prv != "Proveedor no seleccionado") {
+                    window.location = '/internalUser/homePortalProvider';
+                }
+                else {
+                    alert("Debe seleccionar un proveedor");
+                }
                 break;
         }
     }
@@ -174,6 +180,11 @@ const NavBarInternalUser = (props) => {
 
     const classes = useStyles();
 
+    function navBarDirHandler(e) {
+        console.log(e);
+        console.log(e.target);
+        console.log(e.target.value);
+    }
 
     return (
         <div className="navBarContainer">
@@ -206,8 +217,8 @@ const NavBarInternalUser = (props) => {
                                     style: { background: "#009639", width: "2%", height: "6%", marginLeft: "12%" }
                                 }}>
 
-                                <Tab className={classes.btn0Style} label='Seleccion proveedor'></Tab>
-                                <Tab className={classes.btn0Style} label='Administrar documentos' />
+                                <Tab className={classes.btn0Style}  label='Seleccion proveedor'></Tab>
+                                <Tab className={classes.btn0Style}  label='Administrar documentos' />
                             </Tabs>
                         </Toolbar>
                     </AppBar>

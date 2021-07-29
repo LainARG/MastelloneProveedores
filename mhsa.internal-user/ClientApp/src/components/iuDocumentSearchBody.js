@@ -278,12 +278,9 @@ export default function DocumentBody() {
     const [untilPeriodValue, setUntilPeriodValue] = useState(null);
     const [stateValue, setStateValue] = useState('Cualquiera');
     const [providerValue, setProviderValue] = useState('Cualquiera');
-    const [dataContext, setDataContext] = useState("");
     const [searchResult, setSearchResult] = useState(null);
-    const [statesContext, setStatesContext] = useState("");
-    const [stateTypesContext, setStateTypesContext] = useState("");
     const [currentProvider, setCurrentProvider] = useState("");
-
+    const [rejectFormState, setRejectFormState] = useState(false);
 
 
     function DocumentSearch() {
@@ -403,13 +400,9 @@ export default function DocumentBody() {
     
 
     const dataMapper = (alldocs) => {
-        console.log("datamaper");
         let allfirsttabdata = [];
         let allfirsttabdatabackup = [];
-        let allsecondtabdata = [];
-        let allpayments = [];
-        let paymentStateStringValue = "";
-        let stateStringValue = "";
+
 
         if (allDigDocs != "" && allDigDocs != undefined && allDigDocs != null) {
             allfirsttabdata = allDigDocs.filter(digdoc => digdoc.id_documento_electronico > 0);
@@ -511,7 +504,6 @@ export default function DocumentBody() {
 
 
     function searchDigitalDocument() {
-
         setSearchResult("");
         let inputFileName = fileNameValue;
         let inputSince = new Date(sinceValue).getTime();
@@ -605,11 +597,7 @@ export default function DocumentBody() {
         }
 
 
-
-
-
         indexToRemove.forEach((element) => {
-            console.log(element);
             delete results[element];
         }
         );
@@ -623,7 +611,13 @@ export default function DocumentBody() {
        
         
         setSearchResult(finalResults);
-
+        let element = document.getElementById("documentRejectContainer");
+        if (finalResults[0] != null && finalResults[0] != "" && finalResults[0] != undefined) {
+            element.removeAttribute("hidden");
+        }
+        else {
+            element.setAttribute("hidden", true);
+        }
     }
 
     function rejectDocuments() {
@@ -779,8 +773,10 @@ export default function DocumentBody() {
 
                 <div className="documentSearchResContainer">
 
-                    <DocumentSearch/>
+                    <DocumentSearch />
+                    <div id="documentRejectContainer" hidden>
                     <RejectDocumentForm />
+                    </div>
 
                 </div>
 

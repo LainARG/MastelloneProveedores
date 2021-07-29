@@ -146,6 +146,10 @@ export default function InternalUserProviderSelectBody() {
 
 
     useEffect(() => {
+        let prv = window.localStorage.getItem("currentProvider") || "Proveedor no seleccionado";
+        if (prv != "Proveedor no seleccionado") {
+            window.localStorage.removeItem("currentProvider");
+        }
         if (allProviders == "") {
             ProvidersContext.fetchProviders().then((e) => {setAllProviders(e)});
         }
