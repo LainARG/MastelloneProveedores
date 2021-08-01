@@ -47,6 +47,14 @@ export default function Auth() {
         window.location.href = queryString;
     }
 
+    function InvalidUser() {
+        return (
+            <div>
+                <h1>Usuario no autorizado!</h1>
+            </div>
+        );
+    }
+
     async function getToken() {
 
         await api.get(`/auth/token`).then((response) => {
@@ -60,24 +68,35 @@ export default function Auth() {
                 
                 if (splited.includes("go_") && splited.includes("@")) {/*if google service*/
                     splited = splited.substring(3, splited.length);
-                    currentUser = allUsers.filter(user => user.mail == splited)[0].id_usuario;
-                    currentIdProvider = allUsersAssignment.filter(userAssign => userAssign.id_usuario == currentUser)[0].id_proveedor;
-                    currentCuitProvider = allProviders.filter(provider => provider.id_proveedor == currentIdProvider)[0].cuit;
+                    let currentUs = allUsers.filter(user => user.mail == splited);
+                    if (currentUs[0] != undefined && currentUs[0] != "" && currentUs[0] != null) {
+                        currentUser = currentUs[0].id_usuario;
+                    }
+                    let currentIdProv = allUsersAssignment.filter(userAssign => userAssign.id_usuario == currentUser);
+                    if (currentIdProv[0] != undefined && currentIdProv[0] != "" && currentIdProv[0] != null) {
+                        currentIdProvider = currentIdProv[0].id_proveedor;
+                    }
+                    let currentCuitProv = allProviders.filter(provider => provider.id_proveedor == currentIdProvider);
+                    if (currentCuitProv[0] != undefined && currentCuitProv[0] != "" && currentCuitProv[0] != null) {
+                        currentCuitProvider = currentCuitProv[0].cuit;
+                    }
                 }
-                if (splited.includes("fb_") && splited.includes("@")) {/*if facebook service*/
-                    splited = splited.substring(3, splited.length);
-                    currentUser = allUsers.filter(user => user.mail == splited)[0].id_usuario;
-                }
-
-                window.localStorage.setItem("tknUsr", splited);
-                window.localStorage.setItem("tknPms", permissions);
-                window.localStorage.setItem("usrInf", currentUser);
-                window.localStorage.setItem("prvInf", currentIdProvider);
-                window.localStorage.setItem("prvCuit", currentCuitProvider);
-                localStorage.setItem("tkn", "");
-                window.location.href = "/portal/providers";
+                
+             if (currentUser != undefined && currentIdProvider != undefined) {
+                    window.localStorage.setItem("tknUsr", splited);
+                    window.localStorage.setItem("tknPms", permissions);
+                    window.localStorage.setItem("usrInf", currentUser);
+                    window.localStorage.setItem("prvInf", currentIdProvider);
+                    window.localStorage.setItem("prvCuit", currentCuitProvider);
+                    localStorage.setItem("tkn", "");
+                    window.location.href = "/portal/providers";
+             }
+             else {
+                    localStorage.setItem("tkn", "");
+                    window.location.href = "/invalidUser";
             }
-            else{
+            }
+            else {
                 localStorage.setItem("tkn", "");
                 window.location.href = "/auth";
             }

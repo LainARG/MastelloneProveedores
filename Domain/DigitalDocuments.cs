@@ -43,6 +43,9 @@ namespace Domain
             this.Imagen = img;
             this.Id_estado = 9;
             this.Tamano_archivo = size;
+            this.Fecha_carga = DateTime.Today.ToString();
+            this.Hora_carga = DateTime.Now.ToString();
+            this.Fecha_estado = DateTime.Today;
 
         }
 

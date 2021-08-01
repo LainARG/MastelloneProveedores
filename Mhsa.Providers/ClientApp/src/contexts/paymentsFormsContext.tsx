@@ -32,7 +32,22 @@ export class PaymentsFormsContext {
 
     constructor() { }
 
- 
+    static async fetchAllPaymentsForms() {
+        let tkn = window.localStorage.getItem("prvInf") || "";
+        let prv;
+        if (JSON.parse(tkn) != undefined) {
+            prv = JSON.parse(tkn);
+            const response = await api.post(
+                `/paymentsforms/getAllByProviderId`, { prv });
+            if (response != undefined && response.data[0] != undefined) {
+                return response.data;
+            }
+            else {
+                return null;
+            }
+        }
+    }
+
     static async fetchPaymentsForms() {
         let tkn = window.localStorage.getItem("currentDetailPayment") || "";
         let pmnt;
@@ -40,12 +55,13 @@ export class PaymentsFormsContext {
             pmnt = JSON.parse(tkn).id_pago;
             const response = await api.post(
                 `/paymentsforms/getById`, { pmnt });
-            return response.data;
+            if (response != undefined && response.data[0] != undefined) {
+                return response.data;
+            }
+            else {
+                return null;
+            }
         }
-        else{
-            return "";
-        }
-        
     }
 
 

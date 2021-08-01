@@ -38,7 +38,7 @@ export default function DocumentUploadBody() {
        
         for (let i = 0; i < e.length; i++) {
             let obj = {
-                img: "",
+                img: "img",
                 id: 0,
                 name: "",
                 date: "",
@@ -85,6 +85,7 @@ export default function DocumentUploadBody() {
        
 
     function sendFiles(files) {
+        console.log(files);
         DigitalDocumentsContext.setDocument(files);
     }
 

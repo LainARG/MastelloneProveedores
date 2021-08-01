@@ -304,25 +304,25 @@ export default function DocumentBody() {
         if (allDocs == "") {
             DocumentsContext.fetchDocuments().then((e) => { setAllDocs(e); });
         }
-        else if (allUsers == "") {
+        if (allUsers == "") {
             UserContext.fetchUsers().then((e) => { setAllUsers(e); });
         }
-        else if (allDigDocs == "") {
+        if (allDigDocs == "") {
             DigitalDocumentsContext.fetchDocuments().then((e) => { setAllDigDocs(e); });
         }
-        else if (allStates == "") {
+        if (allStates == "") {
             StatesContext.fetchStates().then((e) => { setAllStates(e); });
         }
-        else if (allPayments == "") {
+        if (allPayments == "") {
             PaymentsContext.fetchPayments().then((e) => { setAllPayments(e); });
         }
-        else if (allDocumentTypes == "") {
+        if (allDocumentTypes == "") {
             DocumentTypesContext.fetchDocumentTypes().then((e) => { setAllDocumentTypes(e); });
         }
-        else if (allPaymentDetail == "") {
+        if (allPaymentDetail == "") {
             PaymentDetailContext.fetchAllPaymentDetail().then((e) => { setAllPaymentDetail(e); });
         }
-        else {
+        else if(allDigDocs != "" && allDocs != ""){
             dataMapper();
         }
 
@@ -418,48 +418,50 @@ export default function DocumentBody() {
         let allfirsttabdata = [];
         let allfirsttabdatabackup = [];
         let allsecondtabdata = [];
+        console.log(allDocs);
 
+        if (allDocs != null && allDocs != undefined) {
+            for (let i = 0; i < allDocs.length; i++) {
 
-
-        for (let i = 0; i < allDocs.length; i++){
-
-            let state = allStates.filter(state => state.id_estado == allDocs[i].id_estado);
-            if (state != null && state != undefined && state != "") {
-                allDocs[i].estado = state[0].descripcion_abreviada;
-            }
-            let documentTypes = allDocumentTypes.filter(doc => doc.id_tipo_documento == allDocs[i].id_tipo_documento);
-            if (documentTypes != null && documentTypes != undefined && documentTypes != "") {
-                allDocs[i].tipo = documentTypes[0].descripcion;
-            }
-            let detailPayment = allPaymentDetail.filter(payment => payment.id_documento == allDocs[i].id_documento);
-            if (detailPayment != null && detailPayment != undefined && detailPayment != "") {
-                allDocs[i].detalle_pago_monto = detailPayment[0].monto_pagado_documento;
-                let paymentId = detailPayment[0].id_pago;
-                let paymentNumber = allPayments.filter(payment => payment.id_pago == paymentId);
-                if (paymentNumber != undefined && paymentNumber != "" && paymentNumber != null) {
-                    paymentNumber = paymentNumber[0].numero_pago;
-                    allDocs[i].numero_pago = paymentNumber;
+                let state = allStates.filter(state => state.id_estado == allDocs[i].id_estado);
+                if (state != null && state != undefined && state != "") {
+                    allDocs[i].estado = state[0].descripcion_abreviada;
                 }
-            }
-            
-            allfirsttabdata.push(allDocs[i]);
+                let documentTypes = allDocumentTypes.filter(doc => doc.id_tipo_documento == allDocs[i].id_tipo_documento);
+                if (documentTypes != null && documentTypes != undefined && documentTypes != "") {
+                    allDocs[i].tipo = documentTypes[0].descripcion;
+                }
+                let detailPayment = allPaymentDetail.filter(payment => payment.id_documento == allDocs[i].id_documento);
+                if (detailPayment != null && detailPayment != undefined && detailPayment != "") {
+                    allDocs[i].detalle_pago_monto = detailPayment[0].monto_pagado_documento;
+                    let paymentId = detailPayment[0].id_pago;
+                    let paymentNumber = allPayments.filter(payment => payment.id_pago == paymentId);
+                    if (paymentNumber != undefined && paymentNumber != "" && paymentNumber != null) {
+                        paymentNumber = paymentNumber[0].numero_pago;
+                        allDocs[i].numero_pago = paymentNumber;
+                    }
+                }
 
+                allfirsttabdata.push(allDocs[i]);
+
+            }
         }
+        if (allDigDocs != null && allDigDocs != undefined) {
 
-        for (let i = 0; i < allDigDocs.length; i++) {
+            for (let i = 0; i < allDigDocs.length; i++) {
 
-            let state = allStates.filter(state => state.id_estado == allDocs[i].id_estado);
-            if (state != null && state != undefined && state != "") {
-                allDigDocs[i].estado = state[0].descripcion_abreviada;
+                let state = allStates.filter(state => state.id_estado == allDocs[i].id_estado);
+                if (state != null && state != undefined && state != "") {
+                    allDigDocs[i].estado = state[0].descripcion_abreviada;
+                }
+                let user = allUsers.filter(user => user.id_usuario == allDigDocs[i].id_usuario_carga);
+                if (user != null && user != undefined && user != "") {
+                    allDigDocs[i].usuario = user[0].mail;
+                }
+                allsecondtabdata.push(allDigDocs[i]);
+
             }
-            let user = allUsers.filter(user => user.id_usuario == allDigDocs[i].id_usuario_carga);
-            if (user != null && user != undefined && user != "") {
-                allDigDocs[i].usuario = user[0].mail;
-            }
-            allsecondtabdata.push(allDigDocs[i]);
-
         }
-
         
 
         let pagFirstTabData = pagination(allfirsttabdata, allfirsttabdata.length, rowsPerPage);
@@ -723,7 +725,7 @@ export default function DocumentBody() {
     function Redirector(url) {
         window.location = url;
     }
-
+    
 
     if (allFirstTabData == undefined || allFirstTabData == null || allFirstTabData == "" || allFirstTabData == 0) {
 
@@ -784,7 +786,8 @@ export default function DocumentBody() {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                { CancelDocumentFiltering }
+                                {CancelDocumentFiltering}
+                                <h5>No existen documentos para este proveedor!</h5>
                             </TableBody>
                         </Table>
                     </TableContainer>
@@ -1208,6 +1211,7 @@ export default function DocumentBody() {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
+                                <h5>No existen documentos electronicos para este proveedor!</h5>
                             </TableBody>
                         </Table>
                     </TableContainer>

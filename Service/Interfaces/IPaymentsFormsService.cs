@@ -12,5 +12,7 @@ namespace Service.Interfaces
 
         public IEnumerable<PaymentsForms> GetById(object pmnt);
 
+        public IEnumerable<PaymentsForms> GetByProviderId(object prv);
+
     }
 }

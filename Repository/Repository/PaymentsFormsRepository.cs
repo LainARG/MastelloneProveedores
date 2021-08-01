@@ -34,6 +34,23 @@ namespace Repository.Repository
             return _dbContext.Pagos_formas.Where(payment => payment.Id_pago == paymentFormId);
         }
 
+        public IEnumerable<PaymentsForms> GetByProviderId(object prv)
+        {
+            dynamic dyn = prv;
+            int providerId = dyn.prv;
+            IEnumerable<Payments> pays = _dbContext.Pagos.Where(payment => payment.Id_proveedor == providerId);
+            IEnumerable<PaymentsForms> paymentForms = Enumerable.Empty<PaymentsForms>();
+            List<PaymentsForms> results = new List<PaymentsForms>();
+            foreach (var i in pays)
+            {
+            IEnumerable<PaymentsForms> paymentForm = _dbContext.Pagos_formas.Where(payment => payment.Id_pago == i.Id_pago);
+                foreach (var j in paymentForm)
+                {
+                    results.Add(j);
+                }
+            }
+            return results;
+        }
 
 
     }

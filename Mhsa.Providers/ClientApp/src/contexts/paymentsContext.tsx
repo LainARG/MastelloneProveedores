@@ -31,7 +31,12 @@ export class PaymentsContext {
         let prv: any = window.localStorage.getItem("prvInf");
         const response = await api.post(
             `/payments/getById`, {prv} );
-        return response.data;
+        if (response != undefined && response.data[0] != undefined) {
+            return response.data;
+        }
+        else {
+            return null;
+        }
     }
 
 

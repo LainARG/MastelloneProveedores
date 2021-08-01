@@ -270,19 +270,20 @@ export default function PaymentsReportBody() {
 
     useEffect(() => {
 
-    if (allPays != "") {
-        dataMapper();
-    }
-    if (allPays == "") {
-        PaymentsContext.fetchPayments().then((e) => { setAllPays(e) });
-    }
-    if (allStates == "") {
-        StatesContext.fetchStates().then((e) => { setAllStates(e); });
-    }
-    if (allPaymentsForms == "") {
-        PaymentsFormsContext.fetchPaymentsForms().then((e) => { setAllPaymentsForms(e); });
-    }
-    
+        if (allPays != "" && allPaymentsForms != "") {
+            dataMapper();
+        }
+        else {
+            if (allPays == "") {
+                PaymentsContext.fetchPayments().then((e) => { setAllPays(e) });
+            }
+            if (allStates == "") {
+                StatesContext.fetchStates().then((e) => { setAllStates(e); });
+            }
+            if (allPaymentsForms == "") {
+                PaymentsFormsContext.fetchAllPaymentsForms().then((e) => { setAllPaymentsForms(e); });
+            }
+        }
 
 }, [allPays, allPaymentsForms, allStates]);
     
@@ -389,18 +390,18 @@ export default function PaymentsReportBody() {
   
 
     const dataMapper = () => {
-        console.log("data data")
+
         let alldataPTab = [];
         let alldataSTab = [];
         let alldatabackup = [];
         let currentPaymentState;
         
        
-
-        for (let i = 0; i < allPays.length; i++) {
-            if (allStates!= "" && allStates != undefined && allStates != null) {
-                currentPaymentState = (allStates.filter(state => state.id_estado == allPays[i].id_estado))[0].descripcion_abreviada;
-            }
+        if (allPays != null && allPays != undefined) {
+            for (let i = 0; i < allPays.length; i++) {
+                if (allStates != "" && allStates != undefined && allStates != null) {
+                    currentPaymentState = (allStates.filter(state => state.id_estado == allPays[i].id_estado))[0].descripcion_abreviada;
+                }
                 let obj = {
                     numero_pago: allPays[i].prefijo_pago + "-" + allPays[i].numero_pago,
                     retirar_en: allPays[i].lugar_retiro,
@@ -420,8 +421,8 @@ export default function PaymentsReportBody() {
 
                 alldataPTab.push(obj);
                 alldatabackup.push(obj1);
+            }
         }
-
         if (allPaymentsForms != "" && allPaymentsForms != undefined && allPaymentsForms != null) {
             for (let i = 0; i < allPaymentsForms.length; i++) {
                 let currentPayment;
@@ -538,10 +539,6 @@ export default function PaymentsReportBody() {
         filesToDownload[index] = downloadLink;
     }
 
-    function downloadBase64File(index) {
-
-        filesToDownload[index].click();
-    }
 
 
 
@@ -684,24 +681,7 @@ export default function PaymentsReportBody() {
         </div>
     );
 
-    const PaymentDetailModal = (props) => {
-
-
-        return (
-            <div>
-
-                <Modal
-                    open={modal}
-                    onClose={openModal}
-                >
-                    {BodyModal}
-
-                </Modal>
-            </div>
-        );
-
-    }
-
+    
     function showPaymentDetail(props) {
 
         localStorage.removeItem("currentDetailPayment");
@@ -710,11 +690,10 @@ export default function PaymentsReportBody() {
 
     }
 
+    if (allDataPrimaryTab == undefined && showTab == 1 || allDataPrimaryTab == null && showTab == 1 || allDataPrimaryTab == "" && showTab == 1 || allDataPrimaryTab.length == 0 && showTab == 1) {
 
-
-    if (allDataPrimaryTab == undefined || allDataPrimaryTab == null || allDataPrimaryTab == "" || allDataPrimaryTab.length == 0) {
-
-
+        console.log("entering3")
+        console.log(showTab);
         return (
             <div className="documentContentContainer">
 
@@ -777,7 +756,9 @@ export default function PaymentsReportBody() {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                { }
+                                <TableRow hover role="checkbox" className="valueNotFoundContainer">
+                                    <h5>No existen pagos relacionados a este proveedor</h5>
+                                </TableRow>
                             </TableBody>
                         </Table>
                     </TableContainer>
@@ -794,7 +775,7 @@ export default function PaymentsReportBody() {
     
     }
     if (showTab == 1 && allDataPrimaryTab != undefined && allDataPrimaryTab != "" && allDataPrimaryTab != null) {
-
+        console.log("entering4")
         return (
             <div className="documentContentContainer">
 
@@ -940,8 +921,8 @@ export default function PaymentsReportBody() {
         );
 
     }
-    if (showTab == 2 && allDataSecondaryTab != undefined && allDataSecondaryTab != "" && allDataSecondaryTab != null) {
-        
+    if (showTab == 2 && allDataSecondaryTab != undefined && allDataSecondaryTab != "" && allDataSecondaryTab != null && allDataSecondaryTab.length > 0) {
+       console.log("entering2")
         return (
             <div className="documentContentContainer">
 
@@ -1092,9 +1073,10 @@ export default function PaymentsReportBody() {
                 </Paper>
             </div>
         );
-        
-    } else if (showTab == 2 && allDataSecondaryTab == undefined || showTab == 2 && allDataSecondaryTab == null || showTab == 2 && allDataSecondaryTab == ""){
 
+    }
+    else if (showTab == 2 && allDataSecondaryTab == undefined || showTab == 2 && allDataSecondaryTab == null || showTab == 2 && allDataSecondaryTab == "" || allDataSecondaryTab.length == 0) {
+        console.log("entering1")
         return(
              <div className = "documentContentContainer" >
 
@@ -1148,9 +1130,9 @@ export default function PaymentsReportBody() {
 
                                     <TableRow hover role="checkbox" className="valueNotFoundContainer">
 
-                                  
+                                   
                                     <div>
-                                        <h3>No existen formas de pago registradas para este proveedor.</h3>
+                                        <h5>No existen formas de pago registradas para este proveedor.</h5>
                                     </div>
                                   
                                  </TableRow>

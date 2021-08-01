@@ -36,5 +36,14 @@ namespace Mhsa.Backoffice.Controllers
             dynamic pmntLocal = JObject.Parse(pmnt.ToString());
             return service.GetById(pmntLocal);
         }
+
+
+        [HttpPost]
+        [Route("getAllByProviderId")]
+        public IEnumerable<PaymentsForms> GetByProviderId(object prv)
+        {
+            dynamic prvLocal = JObject.Parse(prv.ToString());
+            return service.GetByProviderId(prvLocal);
+        }
     }
 }

@@ -22,6 +22,7 @@ import Auth from '../auth/auth';
 import ProviderSelectInternalUserPage from '../pages/providerSelectInternalUserPage';
 import IuPortalHomeProvidersPage from '../pages/iuPortalHomeProvidersPage';
 import IuPaymentsReportPage from '../pages/iuPaymentsReportPage';
+import InvalidUserComponent from '../components/invalidUserComponent';
 
 
 export default function Router(){
@@ -30,6 +31,7 @@ return(
 
 <BrowserRouter>
 		<Switch>
+  <Route exact path='/invalidUser' component={InvalidUserComponent} />
   <Route exact path='/' component={LoginPage} />
   <Route exact path='/login' component={LoginPage}/>
   <Route exact path='/login/accountkeyformat' component={KeyFormatPage}/>

@@ -48,7 +48,12 @@ export class DigitalDocumentsContext {
         let prv: any = window.localStorage.getItem("prvCuit");
         const response = await api.post(
             `/digitalDocuments/getById`, { prv });
-        return response.data;
+        if (response != undefined && response.data[0] != undefined) {
+            return response.data;
+        }
+        else {
+            return null;
+        }
     }
 
     static async setDocument(files: any) {

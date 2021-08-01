@@ -105,7 +105,7 @@ export default function PortalHomeBody() {
     }
     else {
         return (
-            <div>Validando usuario...</div>
+            <div>Usuario inválido!</div>
         );
 
     }
