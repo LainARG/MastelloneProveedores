@@ -65,6 +65,7 @@ export default function Auth() {
                 let currentUser;
                 let currentIdProvider;
                 let currentCuitProvider;
+                let currentNameProvider;
                 
                 if (splited.includes("go_") && splited.includes("@")) {/*if google service*/
                     splited = splited.substring(3, splited.length);
@@ -79,6 +80,7 @@ export default function Auth() {
                     let currentCuitProv = allProviders.filter(provider => provider.id_proveedor == currentIdProvider);
                     if (currentCuitProv[0] != undefined && currentCuitProv[0] != "" && currentCuitProv[0] != null) {
                         currentCuitProvider = currentCuitProv[0].cuit;
+                        currentNameProvider = currentCuitProv[0].razon_social;
                     }
                 }
                 
@@ -88,6 +90,7 @@ export default function Auth() {
                     window.localStorage.setItem("usrInf", currentUser);
                     window.localStorage.setItem("prvInf", currentIdProvider);
                     window.localStorage.setItem("prvCuit", currentCuitProvider);
+                    window.localStorage.setItem("prvName", currentNameProvider);
                     localStorage.setItem("tkn", "");
                     window.location.href = "/portal/providers";
              }

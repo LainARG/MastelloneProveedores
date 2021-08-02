@@ -692,8 +692,7 @@ export default function PaymentsReportBody() {
 
     if (allDataPrimaryTab == undefined && showTab == 1 || allDataPrimaryTab == null && showTab == 1 || allDataPrimaryTab == "" && showTab == 1 || allDataPrimaryTab.length == 0 && showTab == 1) {
 
-        console.log("entering3")
-        console.log(showTab);
+        
         return (
             <div className="documentContentContainer">
 
@@ -775,7 +774,7 @@ export default function PaymentsReportBody() {
     
     }
     if (showTab == 1 && allDataPrimaryTab != undefined && allDataPrimaryTab != "" && allDataPrimaryTab != null) {
-        console.log("entering4")
+       
         return (
             <div className="documentContentContainer">
 
@@ -922,7 +921,7 @@ export default function PaymentsReportBody() {
 
     }
     if (showTab == 2 && allDataSecondaryTab != undefined && allDataSecondaryTab != "" && allDataSecondaryTab != null && allDataSecondaryTab.length > 0) {
-       console.log("entering2")
+       
         return (
             <div className="documentContentContainer">
 
@@ -1076,7 +1075,7 @@ export default function PaymentsReportBody() {
 
     }
     else if (showTab == 2 && allDataSecondaryTab == undefined || showTab == 2 && allDataSecondaryTab == null || showTab == 2 && allDataSecondaryTab == "" || allDataSecondaryTab.length == 0) {
-        console.log("entering1")
+        
         return(
              <div className = "documentContentContainer" >
 

@@ -85,7 +85,6 @@ export default function DocumentUploadBody() {
        
 
     function sendFiles(files) {
-        console.log(files);
         DigitalDocumentsContext.setDocument(files);
     }
 

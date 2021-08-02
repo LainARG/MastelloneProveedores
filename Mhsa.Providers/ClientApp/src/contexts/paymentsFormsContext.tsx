@@ -39,6 +39,7 @@ export class PaymentsFormsContext {
             prv = JSON.parse(tkn);
             const response = await api.post(
                 `/paymentsforms/getAllByProviderId`, { prv });
+            console.log(response.data);
             if (response != undefined && response.data[0] != undefined) {
                 return response.data;
             }

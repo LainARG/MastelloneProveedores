@@ -24,24 +24,40 @@ export class PaymentDetailContext {
 
     constructor() { }
 
- 
+
 
     static async fetchPaymentDetail() {
         let tkn = window.localStorage.getItem("currentDetailPayment") || "";
         let pmnt = JSON.parse(tkn).id_pago;
         const response = await api.post(
             `/paymentdetail`, { pmnt });
-        return response.data;
+        if (response != undefined && response.data[0] != undefined) {
+            return response.data;
+        }
+        else {
+            return null;
+        }
     }
 
-    static async fetchAllPaymentDetail() {
-        
-        const response = await api.get(
-            `/paymentdetail`);
-        return response.data;
+
+    static async fetchPaymentDetailByProvider() {
+        let tkn = window.localStorage.getItem("prvInf") || "";
+        let prv;
+        if (JSON.parse(tkn) != undefined) {
+            prv = JSON.parse(tkn);
+            const response = await api.post(
+                `/paymentdetail/getByProvider`, { prv });
+            if (response != undefined && response.data[0] != undefined) {
+                return response.data;
+            }
+            else {
+                return null;
+            }
+        }
+
+
+
     }
-
-
 
 }
 

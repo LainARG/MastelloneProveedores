@@ -418,7 +418,6 @@ export default function DocumentBody() {
         let allfirsttabdata = [];
         let allfirsttabdatabackup = [];
         let allsecondtabdata = [];
-        console.log(allDocs);
 
         if (allDocs != null && allDocs != undefined) {
             for (let i = 0; i < allDocs.length; i++) {
