@@ -195,7 +195,7 @@ export default function DocumentReportBody() {
             DocumentTypesContext.fetchDocumentTypes().then((e) => { setAllDocumentTypes(e); });
         }
         else if (allPaymentDetail == "") {
-            PaymentDetailContext.fetchAllPaymentDetail().then((e) => { setAllPaymentDetail(e); });
+            PaymentDetailContext.fetchPaymentDetailByProvider().then((e) => { setAllPaymentDetail(e); });
         }
         else {
             dataMapper();
