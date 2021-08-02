@@ -84,8 +84,14 @@ export default function DocumentUploadBody() {
     }
        
 
-    function sendFiles(files) {
+    function sendFiles(files, index) {
         DigitalDocumentsContext.setDocument(files);
+        setTimeout(function () { alert("Documentos cargados correctamente"); }, 1000);
+        setTimeout(function () {
+            let delFiles = [];
+            setFileState(delFiles);
+        }, 900);
+        
     }
 
     const theme = createMuiTheme({
