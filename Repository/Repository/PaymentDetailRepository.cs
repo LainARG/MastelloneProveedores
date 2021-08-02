@@ -30,7 +30,7 @@ namespace Repository.Repository
         public IEnumerable<PaymentDetail> GetById(object pmnt)
         {
             dynamic dyn = pmnt;
-            int paymentDetailId = dyn.payment;
+            int paymentDetailId = dyn.pmnt;
             IEnumerable<PaymentDetail> results = _dbContext.Pagos_detalle.Where(payment => payment.Id_pago == paymentDetailId);
            return results;
         }

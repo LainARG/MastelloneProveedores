@@ -317,10 +317,6 @@ export default function PaymentsReportDetailsBody() {
                         <span className="nextPaymentLegend4">Estado</span>
                         <span className="nextPaymentLegend5">Total pago</span><br />
 
-
-
-
-
                         <span className="nextPaymentLegend6">0800-00525245</span>
                         <span className="nextPaymentLegend7">MHSA Tokio</span>
                         <span className="nextPaymentLegend8">12/04/1991</span>
