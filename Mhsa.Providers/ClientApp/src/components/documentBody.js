@@ -320,7 +320,7 @@ export default function DocumentBody() {
             DocumentTypesContext.fetchDocumentTypes().then((e) => { setAllDocumentTypes(e); });
         }
         if (allPaymentDetail == "") {
-            PaymentDetailContext.fetchAllPaymentDetail().then((e) => { setAllPaymentDetail(e); });
+            PaymentDetailContext.fetchPaymentDetailByProvider().then((e) => { setAllPaymentDetail(e); });
         }
         else if(allDigDocs != "" && allDocs != ""){
             dataMapper();
