@@ -22,9 +22,8 @@ namespace Repository.Repository
 
         public IEnumerable<Providers> GetAll()
         {
-
-            return _dbContext.Proveedores;
-
+            return _dbContext.Proveedores
+                .Include(x => x.UsersAssignments);
         }
 
        

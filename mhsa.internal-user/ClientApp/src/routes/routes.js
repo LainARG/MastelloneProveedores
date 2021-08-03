@@ -13,6 +13,8 @@ import iuUserViewPage from "../pages/iuUserViewPage";
 import ContactPage from "../pages/contactPage";
 import DocumentPage from "../pages/documentPage";
 import BackofficeUserPage from "../pages/backofficeUserPage"
+import BackofficeStatisticsPage from "../pages/backofficeStatisticsPage"
+import BackofficeAreasPage from "../pages/backofficeAreasPage"
 
 export default function Router() {
   return (
@@ -61,6 +63,16 @@ export default function Router() {
           exact
           path="/backoffice/users"
           component={BackofficeUserPage}
+        />
+        <Route
+          exact
+          path="/backoffice/statistics"
+          component={BackofficeStatisticsPage}
+        />
+        <Route
+          exact
+          path="/backoffice/areas"
+          component={BackofficeAreasPage}
         />
         <Route
           exact
