@@ -34,5 +34,10 @@ namespace mhsa.internal_user.Controllers
         {
             throw new NotImplementedException();
         }
+
+        public IEnumerable<PaymentDetail> GetByProvider(object prv)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
