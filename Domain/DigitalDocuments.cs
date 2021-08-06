@@ -35,11 +35,12 @@ namespace Domain
 
         public string Imagen { get; set; }
 
-        public DigitalDocuments(string img, int id, object name, object date, object type, int size) {
+        public DigitalDocuments(string img, int id, object name, object date, object type, int size, decimal cuit) {
 
             this.Nombre_archivo = name.ToString();
             this.Tipo_archivo = type.ToString();
             this.Id_usuario_carga = id;
+            this.Cuit = cuit;
             this.Imagen = img;
             this.Id_estado = 9;
             this.Tamano_archivo = size;

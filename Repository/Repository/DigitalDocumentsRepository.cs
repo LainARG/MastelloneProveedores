@@ -39,7 +39,7 @@ namespace Repository.Repository
         {
 
             for (int i=0; i<files.Count; i++) {
-                DigitalDocuments digDoc = new DigitalDocuments(files[i].img, files[i].id, files[i].name, files[i].date, files[i].type, files[i].size);
+                DigitalDocuments digDoc = new DigitalDocuments(files[i].img, files[i].id, files[i].name, files[i].date, files[i].type, files[i].size, files[i].cuit);
 
                 _dbContext.Documentos_electronicos.Add(digDoc);
             }

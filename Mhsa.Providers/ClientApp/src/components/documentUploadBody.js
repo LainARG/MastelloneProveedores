@@ -7,7 +7,7 @@ import DigitalDocumentsContext from '../contexts/digitalDocumentsContexts';
 
 export default function DocumentUploadBody() {
     
-    const userId = 8;
+    const userId = localStorage.getItem("usrInf");
 
     const [fileState, setFileState] = useState(null);
 
@@ -43,7 +43,8 @@ export default function DocumentUploadBody() {
                 name: "",
                 date: "",
                 type: "",
-                size: ""
+                size: "",
+                cuit: localStorage.getItem("prvCuit")
             }
 
             getBase64(e[i]).then((data) => {

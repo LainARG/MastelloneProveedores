@@ -9,9 +9,10 @@ public class DigitalDocumentDTO
 	public object date;
 	public object type;
 	public int size;
+	public decimal cuit;
 
 
-	public DigitalDocumentDTO(string img, int id, object name, object date, object type,int size)
+	public DigitalDocumentDTO(string img, int id, object name, object date, object type,int size, decimal cuit)
 	{
 		this.img = img;
 		this.id = id;
@@ -19,6 +20,7 @@ public class DigitalDocumentDTO
 		this.date = date;
 		this.size = size;
 		this.type = type;
+		this.cuit = cuit;
 	}
 
 
