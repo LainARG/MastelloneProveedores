@@ -20,8 +20,10 @@ namespace Repository.Repository
         public IEnumerable<Documents> GetAll()
         {
 
-            return _dbContext.Documentos;
-        
+            return _dbContext.Documentos
+                .Include(x => x.Providers)
+                .Include(x => x.States)
+                .Include(x => x.DocumentTypes);
         }
 
     }

@@ -24,9 +24,16 @@ export default function InternalUserProviderSelectBody() {
   const history = useHistory();
   const columns = [
     {
-      id: "razon_social",
-      label: "Razon Social",
+      id: "fecha",
+      label: "Fecha",
       width: 75,
+      align: "left",
+      format: (value) => value.toLocaleString("en-US"),
+    },
+    {
+      id: "tipo_usuario",
+      label: "Tipo de usuario",
+      minWidth: 150,
       align: "left",
       format: (value) => value.toLocaleString("en-US"),
     },
@@ -38,17 +45,17 @@ export default function InternalUserProviderSelectBody() {
       format: (value) => value.toLocaleString("en-US"),
     },
     {
-      id: "usuarios_asociados",
-      label: "Cantidad de usuarios asociados",
+      id: "razon_social",
+      label: "Razón social",
       minWidth: 150,
       align: "left",
       format: (value) => value.toLocaleString("en-US"),
     },
     {
-      id: "GoProvider",
-      label: "Detalle",
+      id: "usuario",
+      label: "Usuario",
       minWidth: 150,
-      align: "right",
+      align: "left",
       format: (value) => value.toLocaleString("en-US"),
     },
   ];
@@ -107,9 +114,9 @@ export default function InternalUserProviderSelectBody() {
   const rowsPerPage = 10;
 
   useEffect(() => {
-    ProvidersContext.fetchProviders().then((e) => {
-      setAllProviders(e);
-    });
+    // ProvidersContext.fetchProviders().then((e) => {
+    //   setAllProviders(e);
+    // });
   }, []);
 
   useEffect(() => {
@@ -201,7 +208,7 @@ export default function InternalUserProviderSelectBody() {
         </Box>
       </Box>
 
-
+      <Box mb={6}>
       <TableContainer className={classes.container}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
@@ -231,14 +238,24 @@ export default function InternalUserProviderSelectBody() {
                   >
                     {columns.map((column) => {
                       for (let i = 0; i < allData.length; i++) {
-                        if (column.id === "razon_social") {
+                        if (column.id === "fecha") {
                           return (
                             <TableCell
                               key={column.id}
                               align={column.align}
                               className={classes.cellTable}
                             >
-                              {row.razon_social}
+                              {}
+                            </TableCell>
+                          );
+                        } else if (column.id === "tipo_usuario") {
+                          return (
+                            <TableCell
+                              key={column.id}
+                              align={column.align}
+                              className={classes.cellTable}
+                            >
+                              {}
                             </TableCell>
                           );
                         } else if (column.id === "cuit") {
@@ -248,26 +265,27 @@ export default function InternalUserProviderSelectBody() {
                               align={column.align}
                               className={classes.cellTable}
                             >
-                              {row.cuit}
+                              {}
                             </TableCell>
                           );
-                        } else if (column.id === "usuarios_asociados") {
+                        } else if (column.id === "razon_social") {
                           return (
                             <TableCell
                               key={column.id}
                               align={column.align}
                               className={classes.cellTable}
                             >
-                              {row.mail}
+                              {}
                             </TableCell>
                           );
-                        } else if (column.id === "GoProvider") {
+                        } else if (column.id === "usuario") {
                           return (
-                            <TableCell key={column.id} align={column.align}>
-                              <LaunchIcon
-                                className={classes.iconButton}
-                                onClick={() => ProviderSelected(row)}
-                              />
+                            <TableCell
+                              key={column.id}
+                              align={column.align}
+                              className={classes.cellTable}
+                            >
+                              {}
                             </TableCell>
                           );
                         }
@@ -279,6 +297,7 @@ export default function InternalUserProviderSelectBody() {
           </TableBody>
         </Table>
       </TableContainer>
+      </Box>
     </div>
   );
 }

@@ -3,6 +3,7 @@ import "../resources/styles/providerSelectBody.css";
 import UserContext from "../contexts/userContext";
 import SearchRoundedIcon from "@material-ui/icons/SearchRounded";
 import pagination from "../pagination/pagination";
+import CreateIcon from '@material-ui/icons/Create';
 import {
   TableBody,
   TableCell,
@@ -222,6 +223,10 @@ export default function BackofficeInternalUserList() {
                               <LaunchIcon
                                 className={classes.iconButton}
                                 onClick={() => ProviderSelected(row)}
+                              />
+                              <CreateIcon
+                                className={classes.iconButton}
+                                // onClick={() => ProviderSelected(row)}
                               />
                             </TableCell>
                           );

@@ -3,6 +3,8 @@ import "../resources/styles/providerSelectBody.css";
 import ProvidersContext from "../contexts/providersContext";
 import SearchRoundedIcon from "@material-ui/icons/SearchRounded";
 import pagination from "../pagination/pagination";
+import CreateIcon from '@material-ui/icons/Create';
+import DeleteIcon from '@material-ui/icons/Delete';
 import {
   TableBody,
   TableCell,
@@ -267,6 +269,12 @@ export default function InternalUserProviderSelectBody() {
                               <LaunchIcon
                                 className={classes.iconButton}
                                 onClick={() => ProviderSelected(row)}
+                              />
+                              <CreateIcon
+                                className={classes.iconButton}
+                              />
+                              <DeleteIcon
+                                className={classes.iconButton}
                               />
                             </TableCell>
                           );

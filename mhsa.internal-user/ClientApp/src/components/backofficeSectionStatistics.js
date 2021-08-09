@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../resources/styles/providerSelectBody.css";
-import ProvidersContext from "../contexts/providersContext";
+import VisitsContext from "../contexts/visitsContext";
 import SearchRoundedIcon from "@material-ui/icons/SearchRounded";
 import pagination from "../pagination/pagination";
 import {
@@ -24,22 +24,22 @@ export default function InternalUserProviderSelectBody() {
   const history = useHistory();
   const columns = [
     {
-      id: "razon_social",
-      label: "Razon Social",
+      id: "fecha_ingreso",
+      label: "Fecha de  ingreso",
       width: 75,
       align: "left",
       format: (value) => value.toLocaleString("en-US"),
     },
     {
-      id: "cuit",
-      label: "CUIT",
+      id: "seccion_visitada",
+      label: "Sección visitada",
       minWidth: 150,
       align: "left",
       format: (value) => value.toLocaleString("en-US"),
     },
     {
-      id: "usuarios_asociados",
-      label: "Cantidad de usuarios asociados",
+      id: "cantidad_visitas",
+      label: "Cantidad de visitas",
       minWidth: 150,
       align: "left",
       format: (value) => value.toLocaleString("en-US"),
@@ -107,7 +107,7 @@ export default function InternalUserProviderSelectBody() {
   const rowsPerPage = 10;
 
   useEffect(() => {
-    ProvidersContext.fetchProviders().then((e) => {
+    VisitsContext.fetchVisits().then((e) => {
       setAllProviders(e);
     });
   }, []);

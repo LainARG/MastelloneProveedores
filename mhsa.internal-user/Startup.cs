@@ -51,6 +51,8 @@ namespace mhsa.internal_user
             services.AddTransient<IStateTypesRepository, StateTypesRepository>();
             services.AddTransient<IProvidersService, ProvidersService>();
             services.AddTransient<IProvidersRepository, ProvidersRepository>();
+            services.AddTransient<IVisitsService, VisitsService>();
+            services.AddTransient<IVisitsRepository, VisitsRepository>();
             services.AddTransient<IPaymentDetailService, PaymentDetailService>();
             services.AddTransient<IPaymentDetailRepository, PaymentDetailRepository>();
             services.AddTransient<IPaymentsFormsService, PaymentsFormsService>();

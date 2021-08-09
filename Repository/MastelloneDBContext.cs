@@ -39,6 +39,8 @@ namespace Repository
 
         public DbSet<States> Estados { get; set; }
 
+        public DbSet<Visits> Visitas { get; set; }
+
         public DbSet<StateTypes> Tipos_estado { get; set; }
 
         public MastelloneDBContext(DbContextOptions<MastelloneDBContext> options)

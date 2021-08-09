@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.SqlTypes;
 
 namespace Domain
@@ -28,6 +29,15 @@ namespace Domain
         public int Nota_pedido{ get; set; }
 
         public int Id_estado { get; set; }
+
+        [ForeignKey("Id_proveedor")]
+        public ICollection<Providers> Providers { get; set; }
+
+        [ForeignKey("Id_estado")]
+        public ICollection<States> States { get; set; }
+
+        [ForeignKey("Id_tipo_documento")]
+        public ICollection<DocumentTypes> DocumentTypes { get; set; }
 
 
 

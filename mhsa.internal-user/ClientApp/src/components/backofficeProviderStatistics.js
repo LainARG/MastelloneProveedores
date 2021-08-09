@@ -451,7 +451,7 @@ export default function BackofficeProviderStatistics() {
           fontSize="large"
         />
       </div>
-
+      <Box mb={4}>
       <TableContainer className={classes.container}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
@@ -529,6 +529,7 @@ export default function BackofficeProviderStatistics() {
           </TableBody>
         </Table>
       </TableContainer>
+      </Box>
     </div>
   );
 }

@@ -24,6 +24,13 @@ export default function InternalUserProviderSelectBody() {
   const history = useHistory();
   const columns = [
     {
+      id: "fecha_ingreso",
+      label: "Fecha de ingreso",
+      width: 75,
+      align: "left",
+      format: (value) => value.toLocaleString("en-US"),
+    },
+    {
       id: "razon_social",
       label: "Razon Social",
       width: 75,
@@ -38,8 +45,8 @@ export default function InternalUserProviderSelectBody() {
       format: (value) => value.toLocaleString("en-US"),
     },
     {
-      id: "usuarios_asociados",
-      label: "Cantidad de usuarios asociados",
+      id: "cantodad_visitas",
+      label: "Cantidad de visitas",
       minWidth: 150,
       align: "left",
       format: (value) => value.toLocaleString("en-US"),
