@@ -16,13 +16,12 @@ namespace Domain
         public int Id_documento_electronico { get; set; }
         public string Observaciones { get; set; }
         public string Mail_informacion_rechazo { get; set; }
-        public DateTime Fecha_rechazo { get; set; }
+        public string Fecha_rechazo { get; set; }
         public string Usuario_rechazo { get; set; }
         
 
-        public DigitalDocumentsRejected(int id_rechazo, int codigo_motivo_rechazo, int id_documento_electronico, string observaciones, string mail_informacion_rechazo, DateTime fecha_rechazo, string usuario_rechazo)
+        public DigitalDocumentsRejected(int codigo_motivo_rechazo, int id_documento_electronico, string observaciones, string mail_informacion_rechazo, string fecha_rechazo, string usuario_rechazo)
         {
-            this.Id_rechazo = id_rechazo;
             this.Codigo_motivo_rechazo = codigo_motivo_rechazo;
             this.Id_documento_electronico = id_documento_electronico;
             this.Observaciones = observaciones;

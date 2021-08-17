@@ -551,7 +551,8 @@ export default function DocumentBody() {
                 descargar: allDigDocs[i].descargar,
                 id_documento_electronico: allDigDocs[i].id_documento_electronico,
                 usuario_rechazo: window.localStorage.getItem("iUserName"),
-                codigo_motivo_rechazo:null,
+                codigo_motivo_rechazo: null,
+                fecha_rechazo: new Date().toLocaleDateString()
             }
 
             if (obj.nombre_archivo.includes(inputFileName) && inputFileName != "") {
@@ -627,17 +628,18 @@ export default function DocumentBody() {
 
     function rejectDocuments() {
 
-        let element = document.getElementById("reasonReject");
+        let reaject = document.getElementById("reasonReject");
+        let rejdet = document.getElementById("rejectDetails");
         let reasonCode;
+        let rejectDetail = rejdet.value;
         allDocumentsReasonRejection.filter((reason) => {
-            console.log(reason.descripcion_rechazo);
-            console.log(element.value);
-            if (reason.descripcion_rechazo.includes(element.value)) {
+            if (reason.descripcion_rechazo.includes(reaject.value)) {
                 reasonCode = reason.codigo_motivo_rechazo;
             }
         });
 
         searchResult.forEach(element => element.codigo_motivo_rechazo = reasonCode);
+        searchResult.forEach(element => element.observaciones = rejectDetail);
         DigitalDocumentsRejectedContext.rejectDocuments(searchResult);
 
     }
@@ -657,7 +659,7 @@ export default function DocumentBody() {
                 </div>
                 <div>
                 <span className="rejectDocForm1">Observaciones</span><br />
-                    <textarea id="userMessage" className="rejectDocForm2" type="text" /><br /><br />
+                    <textarea id="rejectDetails" className="rejectDocForm2" type="text" /><br /><br />
                 </div>
                 <button className="documentUploadBtn6" onClick={rejectDocuments}>
                     Rechazar

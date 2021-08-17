@@ -30,13 +30,13 @@ namespace Repository.Repository
           public void saveDigitalDocumentRejected(List<DigitalDocumentRejectedDTO> files)
         {
 
-         //    for (int i=0; i<files.Count; i++) {
-         //       DigitalDocuments digDoc = new DigitalDocuments(files[i].img, files[i].id, files[i].name, files[i].date, files[i].type, files[i].size, files[i].cuit);
+             for (int i=0; i<files.Count; i++) {
+                DigitalDocumentsRejected digDoc = new DigitalDocumentsRejected(files[i].Codigo_motivo_rechazo, files[i].Id_documento_electronico, files[i].Observaciones, files[i].Mail_informacion_rechazo, files[i].Fecha_rechazo, files[i].Usuario_rechazo);
 
-         //       _dbContext.Documentos_electronicos.Add(digDoc);
-         //   }
+               _dbContext.Documentos_electronicos_rechazos.Add(digDoc);
+            }
 
-         //   _dbContext.SaveChanges();
+             _dbContext.SaveChanges();
 
         }
 
