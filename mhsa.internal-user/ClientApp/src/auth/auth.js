@@ -24,7 +24,6 @@ import jwt_decode from "jwt-decode";
 export default async function login(props) {
     let credentials = JSON.parse(props);
             
-            console.log(credentials);
             await api
                 .post(
                     "/auth",

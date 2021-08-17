@@ -66,10 +66,7 @@ namespace Mhsa.Backoffice
 
             app.UseRouting();
 
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+           
 
             app.UseAuthentication();
 

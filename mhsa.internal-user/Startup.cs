@@ -47,6 +47,8 @@ namespace mhsa.internal_user
             services.AddTransient<IPaymentsRepository, PaymentsRepository>();
             services.AddTransient<IDigitalDocumentsService, DigitalDocumentsService>();
             services.AddTransient<IDigitalDocumentsRepository, DigitalDocumentsRepository>();
+            services.AddTransient<IDigitalDocumentsRejectedService, DigitalDocumentsRejectedService>();
+            services.AddTransient<IDigitalDocumentsRejectedRepository, DigitalDocumentsRejectedRepository>();
             services.AddTransient<IStatesService, StatesService>();
             services.AddTransient<IStatesRepository, StatesRepository>();
             services.AddTransient<IStateTypesService, StateTypesService>();
@@ -94,10 +96,7 @@ namespace mhsa.internal_user
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            
 
             app.UseHttpsRedirection();
 

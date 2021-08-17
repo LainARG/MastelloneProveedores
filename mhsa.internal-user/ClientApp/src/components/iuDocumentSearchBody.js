@@ -13,6 +13,7 @@ import DocumentsContext from '../contexts/documentsContext';
 import DocumentsReasonRejectionContext from '../contexts/documentsReasonRejectionContext';
 import ProvidersContext from '../contexts/providersContext';
 import DigitalDocumentsContext from '../contexts/digitalDocumentsContexts';
+import DigitalDocumentsRejectedContext from '../contexts/digitalDocumentsRejectedContexts';
 import StatesContext from '../contexts/statesContext';
 import PaymentsContext from '../contexts/paymentsContext';
 import { ThemeProvider } from '@material-ui/core/styles';
@@ -265,7 +266,6 @@ export default function DocumentBody() {
     const [allProviders, setAllProviders] = useState("");
     const [pageNumber, setPageNumber] = useState(1);
     const [firstTabPageQuantity, setFirstTabPageQuantity] = useState(10);
-    const [secondTabPageQuantity, setSecondTabPageQuantity] = useState(10);
     const [value, setValue] = useState(0);
     const [showTab, setShowTab] = useState(0);
     let filesToDownload = new Array();
@@ -502,6 +502,9 @@ export default function DocumentBody() {
         );
     }
 
+    function checkAllDigDocInputs() {
+
+    }
 
     function searchDigitalDocument() {
         setSearchResult("");
@@ -546,7 +549,9 @@ export default function DocumentBody() {
                 nombre_archivo: allDigDocs[i].nombre_archivo,
                 estado: matchState,
                 descargar: allDigDocs[i].descargar,
-
+                id_documento_electronico: allDigDocs[i].id_documento_electronico,
+                usuario_rechazo: window.localStorage.getItem("iUserName"),
+                codigo_motivo_rechazo:null,
             }
 
             if (obj.nombre_archivo.includes(inputFileName) && inputFileName != "") {
@@ -621,18 +626,30 @@ export default function DocumentBody() {
     }
 
     function rejectDocuments() {
-        console.log("Reject Doc");
-    }
 
+        let element = document.getElementById("reasonReject");
+        let reasonCode;
+        allDocumentsReasonRejection.filter((reason) => {
+            console.log(reason.descripcion_rechazo);
+            console.log(element.value);
+            if (reason.descripcion_rechazo.includes(element.value)) {
+                reasonCode = reason.codigo_motivo_rechazo;
+            }
+        });
+
+        searchResult.forEach(element => element.codigo_motivo_rechazo = reasonCode);
+        DigitalDocumentsRejectedContext.rejectDocuments(searchResult);
+
+    }
 
     function RejectDocumentForm() {
 
         return (
             <div className="rejectDocumentFormContainer">
-                <input type="checkbox" /><span className="rejectDocsStyle">Rechazar todos los documentos listados</span>
+                <input type="checkbox" /><span className="rejectDocsStyle" onChange={ checkAllDigDocInputs }>Rechazar todos los documentos listados</span>
                 <div>
                 <span className="rejectDocForm3">Motivo de rechazo</span><br />
-                    <select className="rejectDocForm" placeholder="Codigo archivo de rechazo">
+                    <select id="reasonReject" className="rejectDocForm" placeholder="Codigo archivo de rechazo">
                         {allDocumentsReasonRejection.map((option) => (
                             <option>{option.descripcion_rechazo}</option>
                         ))}
@@ -656,7 +673,73 @@ export default function DocumentBody() {
 
     if (allFirstTabData == undefined || allFirstTabData == null || allFirstTabData == "" || allFirstTabData == 0) {
 
-        return(<h1>Loading...</h1>)
+        return (
+            
+            <div className="documentContentContainer">
+
+
+                <div className="documentTabsContainer">
+
+                    <ThemeProvider theme={documentTabsTheme}>
+                        <Tabs classes={{ root: tabClasses.documentTabStyle, indicator: tabClasses.tabIndicator }} onChange={handleTabs}
+
+                            value={value} indicatorColor="secondary" textColor="primary"
+                            TabIndicatorProps={{
+                                style: { background: "#009639", width: "30%", height: "4%", marginLeft: "0%", top: '15px', position: 'absolute' }
+                            }}>
+                            <Tab className={tabClasses.btnTab0StyleDisabled} label='Administrar documentos electronicos.' onClick={firstTab}></Tab>
+                            <Tab className={tabClasses.btnTab1Style} label='Documentos Rechazados.' onClick={secondTab} />
+
+                        </Tabs>
+                    </ThemeProvider>
+
+
+                </div>
+
+
+
+
+                <Paper className={classes.root}>
+
+
+
+
+
+                    <TableContainer className={classes.container}>
+                        <Table stickyHeader aria-label="sticky table">
+                            <TableHead>
+                                <TableRow>
+                                    {columns.map((column) => (
+                                        <TableCell className={classes.headerTable}
+                                            key={column.id}
+                                            align={column.align}
+                                            style={{ minWidth: column.minWidth }}
+                                        >
+                                            {column.label}
+                                        </TableCell>
+                                    ))}
+                                </TableRow>
+                            </TableHead>
+                            <TableBody id="documentTable">
+                                <TableRow>
+                                    <h5 className="documentSearchBodyVoidResultMsg">No existen documentos para este proveedor</h5>
+                                </TableRow>
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+
+                <ThemeProvider theme={paginationTheme}>
+                    <div className="paginationContainerStyle">
+                        <Pagination count={firstTabPageQuantity} onChange={paginationHandler} />
+                    </div>
+                </ThemeProvider>
+
+                </Paper>
+            </div >
+        );
+
+            
+            
 
     }
 
