@@ -4,6 +4,7 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import { GrDocumentDownload } from "react-icons/gr";
 
 
+
 export default function IuDocumentSearchResultBody(props) {
     
     const [showData, setShowData] = useState(props);
@@ -11,7 +12,7 @@ export default function IuDocumentSearchResultBody(props) {
 
     useEffect(() => {
         
-
+        console.log("effectiveeffect")
     }, [showData, props]);
 
     const theme = createMuiTheme({
@@ -34,12 +35,13 @@ export default function IuDocumentSearchResultBody(props) {
     }
 
     function downloadBase64File(index) {
-        
         filesToDownload[index].click();
     }
 
-   
     
+    function checkBoxNotif(e, i) {
+        showData.props[i].checked = !showData.props[i].checked;
+    }
 
     function ShowDataResult() {
 
@@ -56,7 +58,7 @@ export default function IuDocumentSearchResultBody(props) {
                         <span className="documentSearchResultLegend8">{index.nombre_archivo}</span>
                         <span className="documentSearchResultLegend9">{index.estado}</span>
                         <GrDocumentDownload className="documentSearchResultIcon" onChange={prepareBase64File(index.type, index.image, index.filename, i)} onClick={(e) => downloadBase64File(i)} />
-                        <input className="documentSearchResultLegend10" type="checkbox" />
+                        <input checked={index.checked} className="documentSearchResultLegend10" type="checkbox" onClick={(e) => checkBoxNotif(e, i)} />
 
                     </div>
 

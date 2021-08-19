@@ -25,7 +25,6 @@ import { GrDocumentDownload } from "react-icons/gr";
 import { GrFormSchedule } from "react-icons/gr";
 import Button from '@material-ui/core/Button';
 import IuDocumentSearchResultBody from '../components/iuDocumentSearchResultBody';
-import StateTypesContext from '../contexts/stateTypesContext';
 
 
 const useStyles = makeStyles({
@@ -280,7 +279,6 @@ export default function DocumentBody() {
     const [providerValue, setProviderValue] = useState('Cualquiera');
     const [searchResult, setSearchResult] = useState(null);
     const [currentProvider, setCurrentProvider] = useState("");
-    const [rejectFormState, setRejectFormState] = useState(false);
 
 
     function DocumentSearch() {
@@ -313,6 +311,9 @@ export default function DocumentBody() {
 
     useEffect(() => {
         setCurrentProvider(JSON.parse(window.localStorage.getItem("currentProvider") || "").razon_social);
+        if (window.localStorage.getItem("allCheckController") == null || window.localStorage.getItem("allCheckController") == "" || window.localStorage.getItem("allCheckController") == undefined) {
+            window.localStorage.setItem("allCheckController", false);
+        }
         if (allDocs == "") {
             DocumentsContext.fetchDocuments().then((e) => { setAllDocs(e); });
         }
@@ -502,8 +503,23 @@ export default function DocumentBody() {
         );
     }
 
-    function checkAllDigDocInputs() {
-
+    function checkAllDigDocInputs(e) {
+        let allCheckController = window.localStorage.getItem("allCheckController");
+        if (allCheckController == false.toString()) {
+            allCheckController = true;
+            window.localStorage.setItem("allCheckController", allCheckController);
+        }
+        else {
+            allCheckController = false;
+            window.localStorage.setItem("allCheckController", allCheckController);
+        }
+        
+        console.log(allCheckController);
+        searchResult.filter(result =>  result.checked = allCheckController );
+        var elements = Array.from(document.getElementsByTagName("input"));
+        elements.filter((result) => {
+            result.checked = e.target.checked;
+        });
     }
 
     function searchDigitalDocument() {
@@ -552,7 +568,8 @@ export default function DocumentBody() {
                 id_documento_electronico: allDigDocs[i].id_documento_electronico,
                 usuario_rechazo: window.localStorage.getItem("iUserName"),
                 codigo_motivo_rechazo: null,
-                fecha_rechazo: new Date().toLocaleDateString()
+                fecha_rechazo: new Date().toLocaleDateString(),
+                checked : null
             }
 
             if (obj.nombre_archivo.includes(inputFileName) && inputFileName != "") {
@@ -640,7 +657,8 @@ export default function DocumentBody() {
 
         searchResult.forEach(element => element.codigo_motivo_rechazo = reasonCode);
         searchResult.forEach(element => element.observaciones = rejectDetail);
-        DigitalDocumentsRejectedContext.rejectDocuments(searchResult);
+        let results = searchResult.filter(result => result.checked == true);
+        DigitalDocumentsRejectedContext.rejectDocuments(results);
 
     }
 
@@ -648,8 +666,8 @@ export default function DocumentBody() {
 
         return (
             <div className="rejectDocumentFormContainer">
-                <input type="checkbox" /><span className="rejectDocsStyle" onChange={ checkAllDigDocInputs }>Rechazar todos los documentos listados</span>
-                <div>
+                <input type="checkbox" onClick={(e) => checkAllDigDocInputs(e) } /><span className="rejectDocsStyle">Rechazar todos los documentos listados</span>
+            <div>
                 <span className="rejectDocForm3">Motivo de rechazo</span><br />
                     <select id="reasonReject" className="rejectDocForm" placeholder="Codigo archivo de rechazo">
                         {allDocumentsReasonRejection.map((option) => (

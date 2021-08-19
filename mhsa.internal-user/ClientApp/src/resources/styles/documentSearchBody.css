@@ -1,4 +1,4 @@
-﻿documentSearchBodyVoidResultMsg
+﻿
 
 .documentUploadContainer {
     display:inline-block;
@@ -7,12 +7,16 @@
     min-width:100%;
 }
 
+body{
+    margin:0;
+    padding:0;
+}
+
 .iuDocumentSearchBody {
     display: inline-block;
     margin-left: 4%;
     margin-top: 5%;
-    min-width: 100%;
-    min-height:400px;
+    width: 100%;
 }
 
 .documentSearchBodyVoidResultMsg{
@@ -296,8 +300,8 @@
     font-weight: bold;
     font-size: 14px;
     color: #bababa;
-    width: 15%;
-    margin-left: -22%;
+    width: 14%;
+    margin-left: -24%;
     margin-top: 0.5%;
     overflow: hidden;
 }
@@ -308,7 +312,7 @@
     font-size: 14px;
     color: #bababa;
     width: 15%;
-    margin-left: -1.5%;
+    margin-left: 0%;
     margin-top: 0.5%;
     overflow: hidden;
 }
@@ -319,7 +323,7 @@
     font-size: 14px;
     color: #bababa;
     width: 20%;
-    margin-left: -2%;
+    margin-left: -4%;
     margin-top: 0.5%;
     overflow: hidden;
 }
@@ -330,7 +334,7 @@
     font-size: 14px;
     color: #bababa;
     width: 15%;
-    margin-left: -2%;
+    margin-left: 0%;
     margin-top: 0.5%;
     overflow: hidden;
 }
@@ -341,7 +345,7 @@
     font-size: 14px;
     color: #bababa;
     width: 11%;
-    margin-left: 3%;
+    margin-left: 2.5%;
     margin-top: 2%;
     overflow: hidden;
 }
