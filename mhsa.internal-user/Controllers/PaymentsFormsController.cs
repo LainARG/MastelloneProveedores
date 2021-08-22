@@ -3,16 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Domain;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
 using Repository.Interfaces;
 using Service.Interfaces;
 
-namespace mhsa.internal_user.Controllers
+namespace Mhsa.Backoffice.Controllers
 {
     [ApiController]
-    [Authorize]
     [Route("api/{controller}")]
     public class PaymentsFormsController : ControllerBase, IPaymentsFormsService
     {
@@ -30,14 +29,21 @@ namespace mhsa.internal_user.Controllers
             return service.GetAll();
         }
 
+        [HttpPost]
+        [Route("getById")]
         public IEnumerable<PaymentsForms> GetById(object pmnt)
         {
-            throw new NotImplementedException();
+            dynamic pmntLocal = JObject.Parse(pmnt.ToString());
+            return service.GetById(pmntLocal);
         }
 
+
+        [HttpPost]
+        [Route("getAllByProviderId")]
         public IEnumerable<PaymentsForms> GetByProviderId(object prv)
         {
-            throw new NotImplementedException();
+            dynamic prvLocal = JObject.Parse(prv.ToString());
+            return service.GetByProviderId(prvLocal);
         }
     }
 }

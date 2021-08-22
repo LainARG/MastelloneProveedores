@@ -7,7 +7,7 @@ interface Response {
 
 export interface IDigitalDocuments {
 
-        Id_documento_electronico: any;
+        Id_documento: any;
 
         Id_usuario_carga: any;
 
@@ -29,7 +29,12 @@ export interface IDigitalDocuments {
 
         Tamano_archivo :any;
 
-        Imagen :any;
+        Imagen: any;
+
+        Estado: any;
+
+        Usuario: any;
+
 }
 
 
@@ -40,11 +45,10 @@ export class DigitalDocumentsContext {
 
    
     static async fetchDocuments() {
-
-        let providerCuit = window.localStorage.getItem("currentProvider") || "";
-        let prv = JSON.parse(providerCuit).cuit;
-        const response = await api.post(`/digitalDocuments/getById`, { prv });
-        if (response.data != "") {
+        let prv: any = window.localStorage.getItem("prvCuit");
+        const response = await api.post(
+            `/digitalDocuments/getById`, { prv });
+        if (response != undefined && response.data[0] != undefined) {
             return response.data;
         }
         else {

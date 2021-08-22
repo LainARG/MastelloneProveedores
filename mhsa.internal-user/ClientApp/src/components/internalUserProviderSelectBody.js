@@ -213,6 +213,8 @@ export default function InternalUserProviderSelectBody() {
     function ProviderSelected(row) {
         window.localStorage.removeItem("currentProvider");
         window.localStorage.setItem("currentProvider", JSON.stringify(row));
+        window.localStorage.setItem("prvInf", row.id_proveedor);
+        window.localStorage.setItem("prvCuit", row.cuit);
         window.location = "/internalUser/homePortalProvider";
         console.log(row);
     }

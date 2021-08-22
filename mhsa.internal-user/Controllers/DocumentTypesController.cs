@@ -13,28 +13,20 @@ namespace Mhsa.Backoffice.Controllers
 {
     [ApiController]
     [Route("api/{controller}")]
-    public class DocumentsController : ControllerBase,  IDocumentsService
+    public class DocumentTypesController : ControllerBase,  IDocumentTypesService
     {
 
-        private readonly IDocumentsService service; 
+        private readonly IDocumentTypesService service; 
         
-        public DocumentsController(IDocumentsService service)
+        public DocumentTypesController(IDocumentTypesService service)
         {
             this.service = service;
         }
 
         [HttpGet]
-        public IEnumerable<Documents> GetAll()
+        public IEnumerable<DocumentTypes> GetAll()
         {
           return service.GetAll();
-        }
-
-        [HttpPost]
-        [Route("getById")]
-        public IEnumerable<Documents> GetById(object prv)
-        {
-            dynamic prv1 = JObject.Parse(prv.ToString());
-            return service.GetById(prv1);
         }
     }
 }

@@ -61,6 +61,8 @@ namespace mhsa.internal_user
             services.AddTransient<IPaymentsFormsRepository, PaymentsFormsRepository>();
             services.AddTransient<IUsersAssignmentService, UsersAssignmentService>();
             services.AddTransient<IUsersAssignmentRepository, UsersAssignmentRepository>();
+            services.AddTransient<IDocumentTypesService, DocumentTypesService>();
+            services.AddTransient<IDocumentTypesRepository, DocumentTypesRepository>();
 
             var key = Encoding.ASCII.GetBytes(Configuration.GetValue<string>("Auth:SecretKey"));
 

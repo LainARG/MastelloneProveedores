@@ -24,16 +24,40 @@ export class PaymentDetailContext {
 
     constructor() { }
 
- 
+
 
     static async fetchPaymentDetail() {
-        const response = await api.get<Response, AxiosResponse<Response>>(
-            `/paymentdetail`
-        );
-        return response.data;
+        let tkn = window.localStorage.getItem("currentDetailPayment") || "";
+        let pmnt = JSON.parse(tkn).id_pago;
+        const response = await api.post(
+            `/paymentdetail`, { pmnt });
+        if (response != undefined && response.data[0] != undefined) {
+            return response.data;
+        }
+        else {
+            return null;
+        }
     }
 
 
+    static async fetchPaymentDetailByProvider() {
+        let tkn = window.localStorage.getItem("prvInf") || "";
+        let prv;
+        if (JSON.parse(tkn) != undefined) {
+            prv = JSON.parse(tkn);
+            const response = await api.post(
+                `/paymentdetail/getByProvider`, { prv });
+            if (response != undefined && response.data[0] != undefined) {
+                return response.data;
+            }
+            else {
+                return null;
+            }
+        }
+
+
+
+    }
 
 }
 
