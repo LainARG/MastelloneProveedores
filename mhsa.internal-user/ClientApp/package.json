@@ -9,6 +9,7 @@
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.57",
     "@material/menu": "^10.0.0",
+    "@react-pdf/renderer": "^2.0.19",
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
     "carbon-components": "^10.32.1",

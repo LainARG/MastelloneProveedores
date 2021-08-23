@@ -47,9 +47,9 @@ return(
   <Route exact path='/documents/upload' component={DocumentUploadPage}/>
   <Route exact path='/payments' component={PaymentsReportPage}/>
   <Route exact path='/payments/report/detail' component={PaymentsReportDetailsPage} />
+  <Route exact path='/payments/report/nodetail' component={PaymentsReportNoDetailsPage} />
   <Route exact path='/Test1' component={IuPaymentsReportPage} />
   <Route exact path='/payments/forms' component={PaymentsFormsPage} />
-  <Route exact path='/payments/report/nodetail' component={PaymentsReportNoDetailsPage} />
   <Route exact path='/auth' component={Auth} />
   <Route exact path='/portal/internalUser' component={PortalHomeInternalUserPage} />
   <Route exact path='/internalUser/providerSelect' component={ProviderSelectInternalUserPage} />

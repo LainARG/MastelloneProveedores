@@ -120,31 +120,6 @@ const useTabStyles = makeStyles({
 
 })
 
-const documentTabsTheme = createMuiTheme({
-
-    overrides: {
-
-        MuiTab: {
-
-            wrapper: {
-
-                
-
-            },
-        },
-    },
-
-    palette: {
-        primary: {
-            main: '#000000'
-        },
-        secondary: {
-            main: '#009639'
-        }
-    }
-
-});
-
 
 
 export default function DocumentReportBody() {
@@ -169,15 +144,13 @@ export default function DocumentReportBody() {
     useEffect(() => {
 
 
-        if (allPays == "" || allDocs == "") {
+        if (allPays == "" || allStates == "") {
 
-            DocumentsContext.fetchDocuments().then((e) => { setAllDocs(e) });
             PaymentsContext.fetchPayments().then((e) => { setAllPays(e); });
             StatesContext.fetchStates().then((e) => { setAllStates(e) });
-            
-        } else {
-            
-            dataMapper(allDocs, allPays);
+        }
+        else {
+             dataMapper();
         }
 
     }, [allPays]);
@@ -222,44 +195,24 @@ export default function DocumentReportBody() {
     ];
 
 
-    const dataMapper = (alldocs, allpays) => {
-        let alldata = [];
-        let allstates = allStates;
-        let stateValue = "estado invalido";
+    const dataMapper = () => {
+        let alldata;
 
-        for (let i = 0; i < alldocs.length; i++) {
-            for (let j = 0; j < allpays.length; j++) {
-                let objectData = {
-                    fecha_documento: null,
-                    estado: null,
-                    tipo: null,
-                    numero_documento: null,
-                    numero_pago: null,
-                    monto_bruto: null
+        if (allData != null) {
+            alldata = allPays.filter((payment) => {
+                if (payment.id_pago > 0 && payment.id_estado > 0) {
+                    payment.id_estado = allStates.filter(state => state.id_estado == payment.id_estado)[0].descripcion_abreviada;
+                    return payment;
                 }
-                
-                if (alldocs[i].numero_pago == allpays[j].numero_pago) {
-                    for (let h = 0; h < allstates.length; h++) {
-                        if (allpays[j].id_estado == allstates[h].id_estado) {
-                            stateValue = allstates[h].descripcion_abreviada;
-                        }
-                    }
-                    objectData.fecha_documento = alldocs[i].fecha_documento;
-                    objectData.lugar_retiro = allpays[j].lugar_retiro;
-                    objectData.fecha_disponible = allpays[j].fecha_disponible;
-                    objectData.estado = stateValue;
-                    objectData.total_pago = allpays[j].total_pago;
-                    objectData.numero_pago = allpays[j].numero_pago;
-                    alldata.push(objectData);
-                }
-               
-
-            }
+            });
         }
-         
-        let pagData = pagination(alldata, alldata.length, rowsPerPage);
-        setPageQuantity(pagData.length);
-        setAllData(pagData);
+
+        if (alldata != undefined) {
+            let pagData = pagination(alldata, alldata.length, rowsPerPage);
+            setPageQuantity(pagData.length);
+            setAllData(pagData);
+        }
+      
     }
 
 
@@ -310,26 +263,6 @@ export default function DocumentReportBody() {
 
 
 
-    const handleTabs = (e, val) => {
-        setValue(val);
-        
-    }
-
-    const firstTab = () => {
-        setShowTab(1);
-    }
-
-    const secondTab = () => {
-        setShowTab(2);
-    }
-       
-    const FilterMenuHandler = (e) => {
-        setAnchorEl(e.currentTarget);
-        setOpenFilterMenu(!openFilterMenu);
-    }
-
-
-
     if (allData == undefined || allData == null || allData == "") {
 
         
@@ -358,11 +291,11 @@ export default function DocumentReportBody() {
                         <AiOutlineFilePdf className="documentReportPdfIcon" />
                     
                     <div className="documentReportLegend2">
-                        <span> <b>CUIT:</b> 23-36156368-9</span>
+                        <span> <b>CUIT:</b> { localStorage.getItem("prvCuit") }</span>
                     </div>
 
                     <div className="documentReportLegend3">
-                        <span> <b>Proveedor:</b> CARTOCOR S.A.</span>
+                        <span> <b>Proveedor:</b> { localStorage.getItem("prvName") }</span>
                     </div>
                     
                     <div className="documentReportLegend1">
@@ -388,7 +321,7 @@ export default function DocumentReportBody() {
                                 {
 
                                     allData[pageNumber - 1].map((row) => {
-
+                                        
                                         return (
 
                                             <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
@@ -420,7 +353,7 @@ export default function DocumentReportBody() {
                                                         else if (column.id == "estado") {
                                                             return (
                                                                 <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                    {row.estado}
+                                                                    {row.id_estado}
                                                                 </TableCell>
                                                             );
                                                         }

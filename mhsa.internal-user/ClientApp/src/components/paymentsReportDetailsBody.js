@@ -12,159 +12,58 @@ import TableRow from '@material-ui/core/TableRow';
 import PaymentsContext from '../contexts/paymentsContext';
 import StatesContext from '../contexts/statesContext';
 import PaymentsFormsContext from '../contexts/paymentsFormsContext';
+import PaymentDetailContext from '../contexts/paymentDetailContext';
+import DocumentsContext from '../contexts/documentsContext';
+import DocumentTypesContext from '../contexts/documentTypesContext';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { createMuiTheme } from '@material-ui/core/styles'; 
 import pagination from '../pagination/pagination';
 import { makeStyles, Tabs, Tab } from '@material-ui/core';
-import GetAppIcon from '@material-ui/icons/GetApp';
-import AspectRatioIcon from '@material-ui/icons/AspectRatio';
 import { AiOutlineFilePdf } from "react-icons/ai";
 import { SiMicrosoftexcel } from "react-icons/si";
 
 
-function createData(fecha_doc, estado, tipo, numero, np, monto, detalle_pago) {
-
-    return { fecha_doc, estado, tipo, numero, np, monto, detalle_pago };
-}
 
 
 
-const useStyles = makeStyles({
-    root: {
-        width: '100%',
-    },
-    container: {
-        maxHeight: 440,
-    },
-    headerTable: {
-        fontWeight: 'bold',
-        color: '#797a7a',
-        backgroundColor: 'white',
-        opacity:'1'
-    },
-    rowsTable: {
-        fontWeight: 'bold',
-        color: '#000000',
-        backgroundColor: 'white',
-        opacity: '0.4'
+export default function PaymentsReportDetailsBody() {
 
-    },
-});
-
-const useTabStyles = makeStyles({
-
-
-    documentTabStyle: {
-        display: 'block',
-        width: '125%',
-        marginLeft: '0%'
-    },
-    btnTab0Style: {
-        display: 'inline',
-        backgroundColor: 'transparent',
-        cursor: 'pointer',
-        fontWeight: '900',
-        textTransform: 'none',
-        fontSize: 16,
-        marginLeft: '1%',
-        marginTop: "1%",
-        width: '20%',
-        minWidth: '20%',
-        maxHeight:'10px',
-        color: '#87847b'
-    },
-    btnTab0StyleDisabled: {
-        display: 'inline',
-        backgroundColor: 'transparent',
-        cursor: 'pointer',
-        fontWeight: '900',
-        textTransform: 'none',
-        fontSize: 16,
-        marginLeft: '1%',
-        marginTop: "1%",
-        width: '20%',
-        minWidth: '20%',
-        maxHeight: '10px',
-        color: '#87847b',
-        align: 'left',
-        backgroundColor: '#eeeeef'
-    },
-    btnTab1Style: {
-        display: 'inline',
-        backgroundColor: 'transparent',
-        cursor: 'pointer',
-        fontWeight: '900',
-        textTransform: 'capitalize',
-        fontSize: 16,
-        marginLeft: '0%',
-        marginTop: "1%",
-        width: '20%',
-        minWidth: '20%',
-        maxHeight: '10px',
-        color: '#87847b'
-    },
-    btnTab1StyleDisabled: {
-        display: 'inline',
-        backgroundColor: 'transparent',
-        cursor: 'pointer',
-        fontWeight: '900',
-        textTransform: 'capitalize',
-        fontSize: 16,
-        marginLeft: '0%',
-        marginTop: "1%",
-        width: '20%',
-        minWidth: '20%',
-        maxHeight: '10px',
-        color: '#87847b',
-        backgroundColor:'#eeeeef'
-    }
-
-})
-
-const documentTabsTheme = createMuiTheme({
-
-    overrides: {
-
-        MuiTab: {
-
-            wrapper: {
-
-                
-
-            },
+    const useStyles = makeStyles({
+        root: {
+            width: '100%',
         },
-    },
-
-    palette: {
-        primary: {
-            main: '#000000'
+        container: {
+            maxHeight: 440,
         },
-        secondary: {
-            main: '#009639'
-        }
-    }
+        headerTable: {
+            fontWeight: 'bold',
+            color: '#797a7a',
+            backgroundColor: 'white',
+            opacity: '1'
+        },
+        rowsTable: {
+            fontWeight: 'bold',
+            color: '#000000',
+            backgroundColor: 'white',
+            opacity: '0.4'
 
-});
+        },
+    });
 
 
-
-export default function PaymentsReportNoDetailsBody() {
     const classes = useStyles();
-    const tabClasses = useTabStyles();
     const [allPays, setAllPays] = useState("");
-    const [allTaxes, setAllTaxes] = useState("");
-    const [allDataPrimaryTab, setAllDataPrimaryTab] = useState("");
+    const [allDocs, setAllDocs] = useState("");
+    const [allPaymentForms, setAllPaymentForms] = useState("");
+    const [allPaymentDetails, setAllPaymentDetails] = useState("");
+    const [allDocumentTypes, setAllDocumentTypes] = useState("");
     const [allStates, setAllStates] = useState("");
+    const [allDataPrimaryTab, setAllDataPrimaryTab] = useState("");
     const [allDataSecondaryTab, setAllDataSecondaryTab] = useState("");
+    const [allDataTertiaryTab, setAllDataTertiaryTab] = useState("");
     const [pageNumber, setPageNumber] = useState(1);
-    const [primaryPageQuantity, setPrimaryPageQuantity] = useState(10);
-    const [secondaryPageQuantity, setSecondaryPageQuantity] = useState(10);
-    const [contextCtrl, setContextCtrl] = useState(0);
-    const [value, setValue] = useState(0);
-    const [showTab, setShowTab] = useState(1);
-    const [openFilterMenu, setOpenFilterMenu] = useState(false);
-    const [anchorEl, setAnchorEl] = useState(false);
-    const rowsPerPage = 4;
+    const [pageQuantity, setPageQuantity] = useState(10);
+    
     
    
 
@@ -172,16 +71,32 @@ export default function PaymentsReportNoDetailsBody() {
     useEffect(() => {
 
 
-        if (allPays == "" || allTaxes == "") {
-
+        if (allPays == "") {
             PaymentsContext.fetchPayments().then((e) => { setAllPays(e) });
-            PaymentsFormsContext.fetchPaymentsForms().then((e) => { setAllTaxes(e) });
-            StatesContext.fetchStates().then((e) => { setAllStates(e); });
-        } else {
-            dataMapper(allPays, allTaxes);
+        }
+        else if (allPaymentDetails == "") {
+            PaymentDetailContext.fetchPaymentDetailByProvider().then((e) => { setAllPaymentDetails(e) });
+        }
+        if (allDocs == "") {
+            DocumentsContext.fetchDocuments().then((e) => { setAllDocs(e) });
+        }
+        if (allDocumentTypes == "") {
+            DocumentTypesContext.fetchDocumentTypes().then((e) => { setAllDocumentTypes(e) });
+        }
+        if (allPaymentForms == "") {
+            PaymentsFormsContext.fetchAllPaymentsForms().then((e) => { setAllPaymentForms(e) });
+        }
+        if (allStates == "") {
+            StatesContext.fetchStates().then((e) => { setAllStates(e) });
         }
 
-    }, [allPays]);
+        else {
+            dataMapper();
+        }
+
+    }, [allPays, allDocs, allPaymentForms, allPaymentDetails]);
+
+
 
 
     const columns = [
@@ -262,73 +177,55 @@ export default function PaymentsReportNoDetailsBody() {
     ];
 
     const dataMapper = (allpays, alltaxes) => {
-        let alldataPTab = [];
-        let alldataSTab = [];
-        
-        for (let i = 0; i < allpays.length; i++) {
+        if (allPays != null && allDocs != null && allPaymentForms != null && allPaymentDetails != null && allPaymentForms != "") {
+            let alldataPTab = [];
+            let alldataSTab = [];
+            let alldataTTab = [];
+            let STab;
+            let paysDet;
+            let docs = [];
+
             
-                let objectData = {
-                    numero_pago: null,
-                    retirar_en: null,
-                    estado_pago: null,
-                    total_pago: null,
-                    detalle_pago: null,
-                    fecha_disponible: null,
-                    tipo_pago: null,
-                    comprobante: null,
-            }
-
-            objectData.numero_pago = allpays[i].numero_pago;
-            objectData.retirar_en = allpays[i].lugar_retiro;
-            objectData.estado_pago = allpays[i].id_estado;
-            objectData.monto_pago = allpays[i].monto_bruto;
-            objectData.detalle_pago = allpays[i].observaciones_pago;
-            objectData.fecha_disponible = allpays[i].fecha_disponible;
-            objectData.tipo_pago = allpays[i].tipo_pago;
-            objectData.comprobante = null;
-            alldataPTab.push(objectData);
-            }
-
-        
-            for (let i = 0; i < allpays.length; i++) {
-                for (let j = 0; j < alltaxes.length; j++) {
-
-                    let objectData = {
-                        numero_pago: null,
-                        retirar_en: null,
-                        estado_pago: null,
-                        monto_pago: null,
-                        detalle_pago: null,
-                        fecha_disponible: null,
-                        tipo_pago: null,
-                        tipo_imp: null,
-                        numero_imp: null,
-                        comprobante: null,
-                    }
-
-                    
-                        objectData.numero_pago = allpays[i].numero_pago;
-                        objectData.retirar_en = allpays[i].direccion_retiro;
-                        objectData.estado_pago = allpays[i].estado_pago
-                        objectData.monto_pago = allpays[i].monto_bruto;
-                        objectData.detalle_pago = allpays[i].observaciones_pago;
-                        objectData.fecha_disponible = allpays[i].fecha_disponible;
-                        objectData.tipo_pago = allpays[i].tipo_pago;
-                        objectData.comprobante = null;
-                        objectData.tipo_imp = alltaxes[j].tipo_impuesto;
-                        objectData.numero_imp = alltaxes[j].codigo_concepto;
-                        alldataSTab.push(objectData);
-                    
-
+            
+            alldataPTab = allPays.filter((payment, index) => {
+                let state = allStates.filter(state => state.id_estado == payment.id_estado);
+                
+                STab = allPaymentForms.filter(pf => pf.id_pago == payment.id_pago);
+                if (STab != undefined && STab[0] != undefined) {
+                    alldataSTab.push(STab);
                 }
 
-            }
-        let pagData = pagination(alldataPTab, alldataPTab.length, rowsPerPage);
-        let pagData1 = pagination(alldataSTab, alldataSTab.length, rowsPerPage);
-        setPrimaryPageQuantity(pagData.length);
-        setSecondaryPageQuantity(pagData1.length);
-        setAllDataPrimaryTab(pagData);
-        setAllDataSecondaryTab(pagData1);
+                paysDet = allPaymentDetails.filter(pd => pd.id_pago == payment.id_pago);
+
+                paysDet.filter(pd => {
+
+                    allDocs.filter((doc) => {
+                        if (pd.id_documento == doc.id_documento) {
+                            if (!docs.includes(doc)) {
+                                docs.push(doc);
+                            } 
+                        }
+                    });
+                });
+                console.log(docs);
+                alldataTTab.push(docs);
+                docs = [];
+
+                if (state[0] != undefined) {
+                    state = state[0].descripcion_abreviada;
+                    payment.estado = state;
+                    return payment;
+                }
+            });
+
+            console.log(alldataTTab);
+
+            let pagData = pagination(alldataPTab, alldataPTab.length, 1);
+            setPageQuantity(pagData.length);
+            setAllDataPrimaryTab(pagData);
+            setAllDataSecondaryTab(alldataSTab);
+            setAllDataTertiaryTab(alldataTTab);
+        }
     }
 
 
@@ -379,45 +276,11 @@ export default function PaymentsReportNoDetailsBody() {
 
 
 
-    const handleTabs = (e, val) => {
-        setValue(val);
-        
-    }
-
-    const firstTab = () => {
-        setShowTab(1);
-    }
-
-    const secondTab = () => {
-        setShowTab(2);
-    }
-       
-    const FilterMenuHandler = (e) => {
-        setAnchorEl(e.currentTarget);
-        setOpenFilterMenu(!openFilterMenu);
-    }
-
-
-
     if (allDataPrimaryTab == undefined || allDataPrimaryTab == null || allDataPrimaryTab == "") {
 
         
         return (
-            <h1>Loading data...</h1>
-
-        );
-
-    }
-    if (showTab == 1) {
-
-        return (
             <div className="documentContentContainer">
-
-               
-
-                
-
-
 
 
                 <Paper className={classes.root}>
@@ -434,11 +297,11 @@ export default function PaymentsReportNoDetailsBody() {
                     <AiOutlineFilePdf className="paymentReportPdfIcon" />
 
                     <div className="documentReportLegend2">
-                        <span> <b>CUIT:</b> 23-36156368-9</span>
+                        <span> <b>CUIT:</b> {localStorage.getItem("prvCuit")}</span>
                     </div>
 
                     <div className="documentReportLegend3">
-                        <span> <b>Proveedor:</b> CARTOCOR S.A.</span>
+                        <span> <b>Proveedor:</b> {localStorage.getItem("prvName")}</span>
                     </div>
 
                     <div className="documentReportLegend1">
@@ -453,10 +316,6 @@ export default function PaymentsReportNoDetailsBody() {
                         <span className="nextPaymentLegend3">A partir de</span>
                         <span className="nextPaymentLegend4">Estado</span>
                         <span className="nextPaymentLegend5">Total pago</span><br />
-
-
-
-
 
                         <span className="nextPaymentLegend6">0800-00525245</span>
                         <span className="nextPaymentLegend7">MHSA Tokio</span>
@@ -488,10 +347,104 @@ export default function PaymentsReportNoDetailsBody() {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+
+
+
+
+
+
+                    <ThemeProvider theme={paginationTheme}>
+                        <div className="paginationContainerStyle">
+                            <Pagination count={pageQuantity} onChange={paginationHandler} />
+                        </div>
+                    </ThemeProvider>
+
+                </Paper>
+            </div>
+        );
+    }
+
+
+    if (allDataPrimaryTab != undefined || allDataPrimaryTab != null || allDataPrimaryTab != "") {
+
+        return (
+            <div className="documentContentContainer">
+
+
+                <Paper className={classes.root}>
+
+                    <div className="documentReportLegend">
+                        <span> Reporte - Mis Pagos </span>
+                    </div>
+
+
+                    <SiMicrosoftexcel className="paymentReportExcelIcon" />
+
+
+
+                    <AiOutlineFilePdf className="paymentReportPdfIcon" />
+
+                    <div className="documentReportLegend2">
+                        <span> <b>CUIT:</b> { localStorage.getItem("prvCuit") }</span>
+                    </div>
+
+                    <div className="documentReportLegend3">
+                        <span> <b>Proveedor:</b> { localStorage.getItem("prvName") }</span>
+                    </div>
+
+                    <div className="documentReportLegend1">
+                        <span> Detallado</span>
+                    </div>
+
+
+                    <div className="nextPaymentTableLegend">
+
+                        <span className="nextPaymentLegend1">Numero de pago</span>
+                        <span className="nextPaymentLegend2">Retirar en</span>
+                        <span className="nextPaymentLegend3">A partir de</span>
+                        <span className="nextPaymentLegend4">Estado</span>
+                        <span className="nextPaymentLegend5">Total pago</span><br />
+
+
+
+
+
+                        <span className="nextPaymentLegend6">{allDataPrimaryTab[pageNumber - 1][0].numero_pago}</span>
+                        <span className="nextPaymentLegend7">{allDataPrimaryTab[pageNumber - 1][0].lugar_retiro}</span>
+                        <span className="nextPaymentLegend8">{allDataPrimaryTab[pageNumber - 1][0].fecha_disponible}</span>
+                        <span className="nextPaymentLegend9">{allDataPrimaryTab[pageNumber - 1][0].estado}</span>
+                        <span className="nextPaymentLegend10">$ {allDataPrimaryTab[pageNumber - 1][0].total_pago}</span>
+
+                    </div>
+
+                    <div className="paymentFormReportLegend">
+                        <span> Formas de pago.</span>
+                    </div>
+
+
+
+                    <TableContainer className={classes.container}>
+                        <Table stickyHeader aria-label="sticky table">
+                            <TableHead>
+                                <TableRow>
+                                    {columns.map((column) => (
+                                        <TableCell className={classes.headerTable}
+                                            key={column.id}
+                                            align={column.align}
+                                            style={{ minWidth: column.minWidth }}
+                                        >
+                                            {column.label}
+                                        </TableCell>
+                                    ))}
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
                                 {
 
-                                    allDataPrimaryTab[pageNumber - 1].map((row) => {
-
+                                    allDataSecondaryTab[pageNumber - 1].map((row) => {
                                         return (
 
                                             <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
@@ -502,35 +455,35 @@ export default function PaymentsReportNoDetailsBody() {
                                                         if (column.id == "fecha_emision") {
                                                             return (
                                                                 <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                    {row.fecha_disponible}
+                                                                    {row.fecha_emision}
                                                                 </TableCell>
                                                             );
                                                         }
                                                         else if (column.id == "fecha_pago") {
                                                             return (
                                                                 <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                    {row.fecha_disponible}
+                                                                    {row.fecha_pago}
                                                                 </TableCell>
                                                             );
                                                         }
                                                         else if (column.id == "tipo") {
                                                             return (
                                                                 <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                    {"Cheque"}
+                                                                    {row.descripcion}
                                                                 </TableCell>
                                                             );
                                                         }
                                                         else if (column.id == "numero") {
                                                             return (
                                                                 <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                    {row.numero_pago}
+                                                                    {row.numero}
                                                                 </TableCell>
                                                             );
                                                         }
                                                         else if (column.id == "importe") {
                                                             return (
                                                                 <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                    {"$" + row.monto_pago}
+                                                                    {"$" + row.importe}
                                                                 </TableCell>
                                                             );
                                                         }
@@ -574,7 +527,7 @@ export default function PaymentsReportNoDetailsBody() {
                             <TableBody>
                                 {
 
-                                    allDataSecondaryTab[pageNumber - 1].map((row) => {
+                                    allDataTertiaryTab[pageNumber - 1].map((row) => {
 
                                         return (
 
@@ -586,7 +539,7 @@ export default function PaymentsReportNoDetailsBody() {
                                                         if (column.id == "fecha_documento") {
                                                             return (
                                                                 <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                    {row.fecha_disponible}
+                                                                    {row.fecha_documento}
                                                                 </TableCell>
                                                             );
                                                         }
@@ -604,7 +557,7 @@ export default function PaymentsReportNoDetailsBody() {
                                                             return (
 
                                                                 <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                    {row.numero_imp}
+                                                                    {row.numero_documento}
                                                                 </TableCell>
 
 
@@ -614,7 +567,7 @@ export default function PaymentsReportNoDetailsBody() {
                                                             return (
 
                                                                 <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                    {row.numero_imp}
+                                                                    {row.nota_pedido}
                                                                 </TableCell>
 
 
@@ -624,7 +577,7 @@ export default function PaymentsReportNoDetailsBody() {
                                                             return (
 
                                                                 <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                    {"$" + row.monto_pago}
+                                                                    {"$" + row.monto}
                                                                 </TableCell>
 
 
@@ -654,7 +607,7 @@ export default function PaymentsReportNoDetailsBody() {
 
                     <ThemeProvider theme={paginationTheme}>
                         <div className="paginationContainerStyle">
-                            <Pagination count={primaryPageQuantity} onChange={paginationHandler} />
+                            <Pagination count={pageQuantity} onChange={paginationHandler} />
                         </div>
                     </ThemeProvider>
 
