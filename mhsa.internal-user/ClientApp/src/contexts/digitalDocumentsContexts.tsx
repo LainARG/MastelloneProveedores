@@ -62,6 +62,14 @@ export class DigitalDocumentsContext {
             `/digitalDocuments/post`, files);
     }
 
+    static async setReceivedState(id: any) {
+        await api.post(`/digitalDocuments/updateReceive`, { id });
+    }
+
+    static async setRejectedState(id: any) {
+        await api.post(`/digitalDocuments/updateReject`, { id });
+    }
+
 }
 
 export default DigitalDocumentsContext;

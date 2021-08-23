@@ -11,5 +11,6 @@ namespace Repository.Interfaces
 
         public void saveDigitalDocumentRejected(List<DigitalDocumentRejectedDTO> files);
 
+
     }
 }

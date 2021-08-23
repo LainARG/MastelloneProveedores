@@ -59,6 +59,20 @@ namespace mhsa.internal_user.Controllers
         {
             throw new NotImplementedException();
         }
+
+        [HttpPost]
+        [Route("updateReceive")]
+        public void setReceivedState(object id)
+        {
+            service.setReceivedState(id);
+        }
+
+        [HttpPost]
+        [Route("updateReject")]
+        public void setRejectedState(object id)
+        {
+            service.setRejectedState(id);
+        }
     }
 
 }

@@ -684,10 +684,14 @@ export default function DocumentBody() {
         filesToDownload[index] = downloadLink;
         }
 
-        function downloadBase64File(index) {
+    function downloadBase64File(index, rowId) {
+          receivedState(rowId);
+          filesToDownload[index].click();
+    }
 
-        filesToDownload[index].click();
-        }
+    function receivedState(id) {
+        DigitalDocumentsContext.setReceivedState(id);
+    }
 
     const BodyModal = (
 
@@ -1128,7 +1132,7 @@ export default function DocumentBody() {
                                                                 return (
                                                                     <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
                                                                         <div className="downloadIconContainer">
-                                                                            <GrDocumentDownload className="documentSearchResultIcon" onChange={prepareBase64File(row.type, row.imagen, row.filename, index)} onClick={(e) => downloadBase64File(i)} />
+                                                                            <GrDocumentDownload className="documentSearchResultIcon" onChange={prepareBase64File(row.type, row.imagen, row.filename, index, row)} onClick={(e) => downloadBase64File(i, row.id_documento_electronico)} />
                                                                         </div>
                                                                     </TableCell>
                                                                 );

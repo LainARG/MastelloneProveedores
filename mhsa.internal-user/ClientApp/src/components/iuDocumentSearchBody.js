@@ -658,7 +658,8 @@ export default function DocumentBody() {
         searchResult.forEach(element => element.codigo_motivo_rechazo = reasonCode);
         searchResult.forEach(element => element.observaciones = rejectDetail);
         let results = searchResult.filter(result => result.checked == true);
-        DigitalDocumentsRejectedContext.rejectDocuments(results);
+        let updatedResults = results.filter(result => DigitalDocumentsContext.setRejectedState(result.id_documento_electronico));
+        DigitalDocumentsRejectedContext.rejectDocuments(updatedResults);
 
     }
 

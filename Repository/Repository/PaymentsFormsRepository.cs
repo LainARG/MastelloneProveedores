@@ -31,7 +31,7 @@ namespace Repository.Repository
         {
             dynamic dyn = pmnt;
             int paymentFormId = dyn.pmnt;
-            return _dbContext.Pagos_formas.Where(payment => payment.Id_pago == paymentFormId);
+            return _dbContext.Pagos_formas.Where(payment => payment.Id_pago == paymentFormId && payment.Descripcion.Contains(""));
         }
 
         public IEnumerable<PaymentsForms> GetByProviderId(object prv)
@@ -43,7 +43,8 @@ namespace Repository.Repository
             List<PaymentsForms> results = new List<PaymentsForms>();
             foreach (var i in pays)
             {
-            IEnumerable<PaymentsForms> paymentForm = _dbContext.Pagos_formas.Where(payment => payment.Id_pago == i.Id_pago);
+               
+                IEnumerable<PaymentsForms> paymentForm = _dbContext.Pagos_formas.Where(payment => payment.Id_pago == i.Id_pago && payment.Descripcion.Contains("Ret"));
                 foreach (var j in paymentForm)
                 {
                     results.Add(j);

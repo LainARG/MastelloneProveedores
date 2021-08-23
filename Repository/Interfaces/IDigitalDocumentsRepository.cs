@@ -13,5 +13,9 @@ namespace Repository.Interfaces
 
         public void saveDigitalDocument(List<DigitalDocumentDTO> files);
 
+        public void setReceivedState(object id);
+
+        public void setRejectedState(object id);
+
     }
 }
