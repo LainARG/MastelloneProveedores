@@ -32,7 +32,7 @@ return(
 <BrowserRouter>
 		<Switch>
   <Route exact path='/invalidUser' component={InvalidUserComponent} />
-  <Route exact path='/' component={LoginPage} />
+  <Route exact path='/' component={Auth} />
   <Route exact path='/login' component={LoginPage}/>
   <Route exact path='/login/accountkeyformat' component={KeyFormatPage}/>
   <Route exact path='/login/accountkeyforgot' component={KeyForgottenPage}/>
