@@ -56,6 +56,16 @@ namespace Mhsa.Backoffice.Controllers
         {
             throw new NotImplementedException();
         }
+
+        public void setReceivedState(object id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void setRejectedState(object id)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }
