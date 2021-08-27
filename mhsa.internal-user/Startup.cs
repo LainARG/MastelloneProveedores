@@ -18,7 +18,6 @@ using Repository.Interfaces;
 using Repository.Repository;
 using Repository;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
-//using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 
 namespace mhsa.internal_user
 {
@@ -34,9 +33,6 @@ namespace mhsa.internal_user
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
-            services.AddDbContext<MastelloneDBContext>(options => options.UseSqlServer(
-            Configuration.GetConnectionString("DefaultConnection")));
             services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<IUsersRepository, UsersRepository>();
             services.AddTransient<IDocumentsService, DocumentsService>();
@@ -86,8 +82,8 @@ namespace mhsa.internal_user
                 configuration.RootPath = "ClientApp/build";
             });
 
-            services.AddDbContext<MastelloneDBContext>(options =>
-                    options.UseLazyLoadingProxies(false).UseSqlServer(Configuration.GetConnectionString("CursosCTX")));
+            services.AddDbContext<MastelloneDBContext>(options => options.UseSqlServer(
+           Configuration.GetConnectionString("DefaultConnection")));
 
             services.Configure<ApiBehaviorOptions>(options =>
             {
