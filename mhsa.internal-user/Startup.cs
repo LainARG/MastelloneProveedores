@@ -81,6 +81,11 @@ namespace mhsa.internal_user
                 };
             });
 
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "ClientApp/build";
+            });
+
             services.AddDbContext<MastelloneDBContext>(options =>
                     options.UseLazyLoadingProxies(false).UseSqlServer(Configuration.GetConnectionString("CursosCTX")));
 
@@ -98,31 +103,40 @@ namespace mhsa.internal_user
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            
 
+            if (env.IsDevelopment() || env.EnvironmentName == "Staging")
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseHsts();
+            }
             app.UseHttpsRedirection();
+            app.UseSpaStaticFiles(new StaticFileOptions { RequestPath = "/clientapp/build" });
+
 
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
 
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=api/users}/{action=GetAll}");
+                    pattern: "{controller=home}/{action=*}");
             });
 
             app.UseSpa(spa =>
             {
-               spa.Options.SourcePath = "ClientApp";
+                spa.Options.SourcePath = "ClientApp";
 
                 if (env.IsDevelopment())
                 {
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 }
             });
+
 
 
         }

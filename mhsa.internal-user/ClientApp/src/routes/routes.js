@@ -20,7 +20,8 @@ import BackofficeUserPage from "../pages/backofficeUserPage"
 export default function Router() {
   return (
     <BrowserRouter>
-      <Switch>
+          <Switch>
+        <Route exact path="/" component={LoginPage} />
         <Route exact path="/login" component={LoginPage} />
         <Route exact path="/auth" component={Auth} />
         <Route exact path="/contact" component={ContactPage} />

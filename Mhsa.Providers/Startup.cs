@@ -71,14 +71,15 @@ namespace Mhsa.Backoffice
             app.UseAuthentication();
 
             app.UseCors("AllowAllOriginsPolicy");
-           
+
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=api/users}/{action=GetAll}");
+                    pattern: "{controller=home}/{action=*}");
             });
+
 
             app.UseSpa(spa =>
             {
