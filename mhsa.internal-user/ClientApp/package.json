@@ -2,6 +2,7 @@
   "name": "mastellone.front.api",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://localhost/backend",
   "dependencies": {
     "@adobe/react-spectrum": "^3.9.0",
     "@babel/runtime": "^7.15.3",
@@ -51,7 +52,8 @@
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-react": "^7.23.2",
-    "typescript": "^3.9.9"
+    "typescript": "^3.9.9",
+    "webpack-cli": "^4.8.0"
   },
   "eslintConfig": {
     "extends": "react-app"

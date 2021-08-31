@@ -18,9 +18,9 @@ import DocumentPage from "../pages/documentPage";
 import BackofficeUserPage from "../pages/backofficeUserPage"
 
 export default function Router() {
-  return (
+    return (
     <BrowserRouter>
-          <Switch>
+      <Switch>
         <Route exact path="/" component={LoginPage} />
         <Route exact path="/login" component={LoginPage} />
         <Route exact path="/auth" component={Auth} />

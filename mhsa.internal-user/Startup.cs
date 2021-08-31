@@ -100,13 +100,9 @@ namespace mhsa.internal_user
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
 
-            if (env.IsDevelopment() || env.EnvironmentName == "Staging")
+            if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseHsts();
             }
             app.UseHttpsRedirection();
             app.UseSpaStaticFiles(new StaticFileOptions { RequestPath = "/clientapp/build" });
@@ -126,11 +122,8 @@ namespace mhsa.internal_user
             app.UseSpa(spa =>
             {
                 spa.Options.SourcePath = "ClientApp";
-
-                if (env.IsDevelopment())
-                {
-                    spa.UseReactDevelopmentServer(npmScript: "start");
-                }
+                spa.UseReactDevelopmentServer(npmScript: "start");
+                
             });
 
 
