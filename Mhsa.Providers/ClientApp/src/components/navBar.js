@@ -184,6 +184,7 @@ const Navbar = (props) => {
         window.localStorage.removeItem("tknPms");
         window.localStorage.removeItem("usrInf");
         window.localStorage.removeItem("prvInf");
+        window.localStorage.removeItem("prvNns");
         window.localStorage.removeItem("tkn");
         window.localStorage.clear();
         setMenuState(false);

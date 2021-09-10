@@ -8,7 +8,7 @@ namespace Domain
     public class PaymentDetail
     {
         [Key]
-        public int Id_pago_detalle { get; set; }
+        public int Id_pagos_detalle { get; set; }
 
         public int Id_pago { get; set; }
 

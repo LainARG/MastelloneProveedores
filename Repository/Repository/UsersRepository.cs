@@ -23,9 +23,42 @@ namespace Repository.Repository
 
         public IEnumerable<Users> GetAll()
         {
+            object obj = _dbContext.Usuarios;
             return _dbContext.Usuarios;
 
         }
+
+        public void SetTimeLog(object userId)
+        {
+            dynamic dyn = userId;
+            int id = dyn.id;
+
+            IEnumerable<Users> user = _dbContext.Usuarios.Where(user => user.Id_usuario == id);
+
+            foreach (var i in user)
+            {
+                i.Fecha_ult_ingreso = DateTime.Now;
+            }
+
+            _dbContext.SaveChanges();
+        }
+
+        public IEnumerable<Documents> GetNewness(object userId)
+        {
+            dynamic dyn = userId;
+            int id = dyn.id;
+            DateTime lastUserLog = new DateTime();
+            IEnumerable<Users> user = _dbContext.Usuarios.Where(user => user.Id_usuario == id);
+            foreach (var i in user)
+            {
+                lastUserLog = i.Fecha_ult_ingreso;
+            }
+            
+            IEnumerable<Documents> docs = _dbContext.Documentos.Where(doc => doc.Fecha_documento>= lastUserLog);
+
+            return docs;
+        }
+
 
         [Route("/details")]
         public IEnumerable<Users> GetAllWithDetails()

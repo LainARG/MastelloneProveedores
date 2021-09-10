@@ -19,9 +19,7 @@ namespace Repository.Repository
 
         public IEnumerable<Documents> GetAll()
         {
-
-            return _dbContext.Documentos;
-        
+            throw new NotImplementedException();
         }
 
         public IEnumerable<Documents> GetById(object prv)

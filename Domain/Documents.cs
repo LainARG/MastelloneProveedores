@@ -29,6 +29,7 @@ namespace Domain
 
         public int Id_estado { get; set; }
 
+        public DateTime Fecha_actualizacion { get; set; }
 
 
 

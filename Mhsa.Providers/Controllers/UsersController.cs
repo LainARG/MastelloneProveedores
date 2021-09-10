@@ -28,6 +28,20 @@ namespace Mhsa.Backoffice.Controllers
             return service.GetAll();
         }
 
+        [HttpPost]
+        [Route("setTimeLog")]
+        public void SetTimeLog(object userId)
+        {
+          service.SetTimeLog(userId);
+        }
+
+        [HttpPost]
+        [Route("getNewness")]
+        public IEnumerable<Documents> GetNewness(object userId)
+        {
+           return service.GetNewness(userId);
+        }
+
         public IEnumerable<Users> GetAllWithDetails()
         {
             return service.GetAllWithDetails();

@@ -5,6 +5,7 @@ import jwt_decode from "jwt-decode";
 import ProvidersContext from '../contexts/providersContext';
 import UsersAssignmentContext from '../contexts/usersAssignmentContexts';
 import UserContext from '../contexts/userContext';
+import NotificationContext from '../contexts/notificationsContext';
 
 
 export default function Auth() {
@@ -12,7 +13,7 @@ export default function Auth() {
 
     const applicationParam = "WebProveedoresMH";
     const authUrl = "https://appsdesa.mastellone.com.ar:9993/auth";
-    const returnUrl = "http://desa.sip-laserenisima.com.ar/api/auth";
+    const returnUrl = "http://15fb-201-213-211-124.ngrok.io/api/auth";
     const queryString = authUrl + "?returnurl=" + returnUrl + "&aplicacion=" + applicationParam;
     let [allProviders, setAllProviders] = useState("");
     let [allUsers, setAllUsers] = useState("");
@@ -24,7 +25,7 @@ export default function Auth() {
         if (allUsers == "") {
             UserContext.fetchUsers().then((e) => { setAllUsers(e) });
         }
-        else if (allUsersAssignment == "") {
+        else if (allUsersAssignment == "" && allUsersAssignment != null) {
             UsersAssignmentContext.fetchUsersAssignment().then((e) => { setAllUsersAssignment(e) });
         }
         else if (allProviders == "") {
@@ -91,12 +92,19 @@ export default function Auth() {
                     window.localStorage.setItem("prvInf", currentIdProvider);
                     window.localStorage.setItem("prvCuit", currentCuitProvider);
                     window.localStorage.setItem("prvName", currentNameProvider);
+                    NotificationContext.getNewness().then((data)=>{
+                    window.localStorage.setItem("prvNns", JSON.stringify(data));
+                    });
                     localStorage.setItem("tkn", "");
+                    NotificationContext.setUserLogTime();
+                   
                     window.location.href = "/portal/providers";
              }
              else {
                     localStorage.setItem("tkn", "");
-                    window.location.href = "/invalidUser";
+                    console.log(currentUser);
+                    console.log(currentIdProvider);
+                   
             }
             }
             else {

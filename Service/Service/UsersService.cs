@@ -5,7 +5,7 @@ using Service.Interfaces;
 
 namespace Service
 {
-    public class UsersService: IUsersRepository, IUsersService
+    public class UsersService : IUsersRepository, IUsersService
     {
         public readonly IUsersRepository repository;
 
@@ -18,6 +18,15 @@ namespace Service
         public IEnumerable<Users> GetAll()
         {
             return repository.GetAll();
+        }
+
+        public void SetTimeLog(object userId){
+            repository.SetTimeLog(userId);
+        }
+
+        public IEnumerable<Documents> GetNewness(object userId)
+        {
+            return repository.GetNewness(userId);
         }
 
         public IEnumerable<Users> GetAllWithDetails()

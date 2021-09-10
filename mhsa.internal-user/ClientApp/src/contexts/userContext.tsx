@@ -21,10 +21,15 @@ export interface IUser {
    
 
     static async fetchUsers(){
-    const response = await api.get<Response, AxiosResponse<Response>>(
+        const response: any = await api.get<Response, AxiosResponse<Response>>(
         `/users`
     );
-    return response.data;
+        if (response != undefined && response.data[0] != undefined) {
+            return response.data;
+        }
+        else {
+            return null;
+        }
     }
 
 

@@ -8,7 +8,7 @@ interface Response {
 
 export interface IPaymentDetail {
 
-        Id_pago_detalle: any;
+        Id_pagos_detalle: any;
 
         Id_pago: any;
 

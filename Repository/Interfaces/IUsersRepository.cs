@@ -9,6 +9,8 @@ namespace Repository.Interfaces
 
         public IEnumerable<Users> GetAll();
         public IEnumerable<Users> GetAllWithDetails();
+        public void SetTimeLog(object userId);
+        public IEnumerable<Documents> GetNewness(object userId);
 
     }
 }

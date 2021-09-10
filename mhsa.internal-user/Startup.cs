@@ -33,6 +33,9 @@ namespace mhsa.internal_user
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllers();
+            services.AddDbContext<MastelloneDBContext>(options => options.UseSqlServer(
+            Configuration.GetConnectionString("DefaultConnection")));
             services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<IUsersRepository, UsersRepository>();
             services.AddTransient<IDocumentsService, DocumentsService>();
@@ -82,8 +85,6 @@ namespace mhsa.internal_user
                 configuration.RootPath = "ClientApp/build";
             });
 
-            services.AddDbContext<MastelloneDBContext>(options => options.UseSqlServer(
-           Configuration.GetConnectionString("DefaultConnection")));
 
             services.Configure<ApiBehaviorOptions>(options =>
             {
@@ -93,17 +94,17 @@ namespace mhsa.internal_user
             services.AddControllersWithViews().AddNewtonsoftJson(
                 x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
-            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
 
-            if (env.IsDevelopment())
+            if (env.IsDevelopment() || env.EnvironmentName == "Staging")
             {
                 app.UseDeveloperExceptionPage();
             }
+
             app.UseHttpsRedirection();
             app.UseSpaStaticFiles(new StaticFileOptions { RequestPath = "/clientapp/build" });
 
@@ -122,8 +123,11 @@ namespace mhsa.internal_user
             app.UseSpa(spa =>
             {
                 spa.Options.SourcePath = "ClientApp";
-                spa.UseReactDevelopmentServer(npmScript: "start");
-                
+
+                if (env.IsDevelopment())
+                {
+                    spa.UseReactDevelopmentServer(npmScript: "start");
+                }
             });
 
 

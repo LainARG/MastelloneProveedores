@@ -21,6 +21,7 @@ export interface IDocuments {
         estado: any;
         tipo: any;
         detalle_pago_monto: any;
+        fecha_actualizacion: any;
 }
 
 

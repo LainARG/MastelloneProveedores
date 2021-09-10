@@ -32,6 +32,9 @@ namespace Mhsa.Backoffice
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllers();
+            services.AddDbContext<MastelloneDBContext>(options => options.UseSqlServer(
+            Configuration.GetConnectionString("DefaultConnection")));
             services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<IUsersRepository, UsersRepository>();
             services.AddTransient<IDocumentsService, DocumentsService>();
@@ -76,17 +79,44 @@ namespace Mhsa.Backoffice
             services.AddControllersWithViews().AddNewtonsoftJson(
                 x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
-            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
 
-            if (env.IsDevelopment())
+            /* if (env.IsDevelopment())
+             {
+                 app.UseDeveloperExceptionPage();
+             }
+             app.UseHttpsRedirection();
+
+             app.UseRouting();
+             app.UseAuthentication();
+             app.UseAuthorization();
+
+             app.UseEndpoints(endpoints =>
+             {
+                 endpoints.MapControllerRoute(
+                     name: "default",
+                     pattern: "{controller=home}/{action=*}");
+             });
+
+             app.UseSpa(spa =>
+             {
+
+                 spa.Options.SourcePath = "ClientApp";
+                 if (env.IsDevelopment())
+                 {
+                     spa.UseReactDevelopmentServer(npmScript: "start");
+                 }
+             });*/
+
+            if (env.IsDevelopment() || env.EnvironmentName == "Staging")
             {
                 app.UseDeveloperExceptionPage();
             }
+
             app.UseHttpsRedirection();
             app.UseSpaStaticFiles(new StaticFileOptions { RequestPath = "/clientapp/build" });
 
@@ -106,10 +136,11 @@ namespace Mhsa.Backoffice
             {
                 spa.Options.SourcePath = "ClientApp";
 
+                if (env.IsDevelopment())
+                {
                     spa.UseReactDevelopmentServer(npmScript: "start");
-                
+                }
             });
-
 
         }
     }

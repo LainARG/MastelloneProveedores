@@ -36,5 +36,10 @@ namespace mhsa.internal_user.Controllers
         {
             return service.GetAllWithDetails();
         }
+
+        public void SetTimeLog(object userId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

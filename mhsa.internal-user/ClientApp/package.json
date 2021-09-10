@@ -2,7 +2,6 @@
   "name": "mastellone.front.api",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://localhost/backend",
   "dependencies": {
     "@adobe/react-spectrum": "^3.9.0",
     "@babel/runtime": "^7.15.3",
@@ -59,8 +58,9 @@
     "extends": "react-app"
   },
   "scripts": {
-    "start": "rimraf ./build && react-scripts start",
+    "start": "react-scripts start",
     "build:iis": "env-cmd -f .env.iis react-scripts build",
+    "build": "react-scripts build",
     "test": "cross-env CI=true react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "lint": "eslint ./src/"
