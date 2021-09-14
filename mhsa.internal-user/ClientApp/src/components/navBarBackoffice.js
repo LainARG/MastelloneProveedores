@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import image from "../resources/images/logo.svg";
 import "../resources/styles/navBar.css";
+import { useHistory } from "react-router-dom";
 import {
   AppBar,
   Toolbar,
@@ -32,6 +33,16 @@ const useStyles = makeStyles({
   tabStyle: {
     display: "block",
     width: "100%",
+    "& .indicator": {
+      display: "flex",
+      justifyContent: "center",
+      backgroundColor: "transparent",
+      "& > span": {
+        maxWidth: 40,
+        width: "100%",
+        backgroundColor: "orange"
+      }
+    }
   },
   logoStyle: {
     display: "inlineBlock",
@@ -50,10 +61,7 @@ const useStyles = makeStyles({
     marginTop: "1%",
     width: "auto",
     minWidth: "auto",
-    color: "#d1d1d1",
-    "&.indicator": {
-      widht: "0.5vm",
-    },
+    color: "#999",
   },
   dropdownStyle: {
     "&:hover,&:focus,&:active": {
@@ -118,7 +126,7 @@ const theme = createMuiTheme({
   },
 });
 
-const NavBarInternalUser = (props) => {
+const NavBarBackoffice = (props) => {
   const [dropdownValue, setDropdownValue] = useState(false);
 
   const [menuState, setMenuState] = useState(false);
@@ -149,15 +157,27 @@ const NavBarInternalUser = (props) => {
     setDropdownValue(!dropdownValue);
   };
 
+  const history = useHistory();
+
   const handleTabs = (e, val) => {
     setValue(val);
     switch (val) {
       case 0:
-        window.location = "/internalUser/providerSelect";
-
+        history.push('/backoffice/users')
         break;
       case 1:
-        window.location = "/test2";
+        history.push('/backoffice/users')
+        break;
+      case 2:
+        history.push('/backoffice/statistics')
+        break;
+      case 3:
+        history.push('/backoffice/areas')
+        break;
+      case 4:
+        history.push('/backoffice/communications')
+        break;
+      default:
         break;
     }
   };
@@ -183,7 +203,7 @@ const NavBarInternalUser = (props) => {
                   toggle={DropdownAction}
                 >
                   <DropdownToggle caret className={classes.dropdownStyle}>
-                    Portal - Usuario interno
+                    Portal - BackOffice
                   </DropdownToggle>
                   <DropdownMenu>
                     <DropdownItem>Portal - BackOffice</DropdownItem>
@@ -194,7 +214,6 @@ const NavBarInternalUser = (props) => {
 
               <Tabs
                 classes={{ root: classes.tabStyle }}
-                TabIndicatorProps={classes.indicator}
                 onChange={handleTabs}
                 value={index}
                 indicatorColor="secondary"
@@ -204,17 +223,33 @@ const NavBarInternalUser = (props) => {
                     background: "#009639",
                     width: "2%",
                     height: "6%",
-                    marginLeft: "12%",
                   },
+                  children: <span />
                 }}
               >
                 <Tab
                   className={classes.btn0Style}
-                  label="Seleccion proveedor"
-                ></Tab>
+                  label="Inicio"
+                />
                 <Tab
                   className={classes.btn0Style}
-                  label="Administrar documentos"
+                  label="Usuarios"
+                />
+                <Tab
+                  className={classes.btn0Style}
+                  label="Estadísticas"
+                />
+                <Tab
+                  className={classes.btn0Style}
+                  label="Áreas"
+                />
+                <Tab
+                  className={classes.btn0Style}
+                  label="Comunicaciones"
+                />
+                <Tab
+                  className={classes.btn0Style}
+                  label="Ajustes"
                 />
               </Tabs>
             </Toolbar>
@@ -276,4 +311,4 @@ const NavBarInternalUser = (props) => {
   );
 };
 
-export default NavBarInternalUser;
+export default NavBarBackoffice;

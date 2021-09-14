@@ -1,13 +1,12 @@
 
 .mainContainerFooter{
-	display: block;
-	position: absolute;
-	height: 40px;
+  position: fixed;
+  bottom: 0;
   width: 100%;
+  left: 0;
+	height: 40px;
   background-color: #009639;
   color: white;
-  margin-bottom: 0px;
-  /* bottom: 0; */
 }
 
 

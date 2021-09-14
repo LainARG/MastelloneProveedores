@@ -14,6 +14,8 @@ import ContactPage from "../pages/contactPage";
 import DocumentPage from "../pages/documentPage";
 import BackofficeUserPage from "../pages/backofficeUserPage"
 import BackofficeStatisticsPage from "../pages/backofficeStatisticsPage"
+import BackofficeCommunicationsPage from "../pages/backofficeCommunicationsPage"
+import BackofficeCommunicationsPageCreate from "../pages/backofficeCommunicationsPageCreate"
 import BackofficeAreasPage from "../pages/backofficeAreasPage"
 
 export default function Router() {
@@ -68,6 +70,16 @@ export default function Router() {
           exact
           path="/backoffice/statistics"
           component={BackofficeStatisticsPage}
+        />
+        <Route
+          exact
+          path="/backoffice/communications/create"
+          component={BackofficeCommunicationsPageCreate}
+        />
+        <Route
+          exact
+          path="/backoffice/communications"
+          component={BackofficeCommunicationsPage}
         />
         <Route
           exact

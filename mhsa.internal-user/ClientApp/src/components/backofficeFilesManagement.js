@@ -3,6 +3,10 @@ import "../resources/styles/providerSelectBody.css";
 import ProvidersContext from "../contexts/providersContext";
 import SearchRoundedIcon from "@material-ui/icons/SearchRounded";
 import pagination from "../pagination/pagination";
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import TuneIcon from '@material-ui/icons/Tune';
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
+import GetAppIcon from '@material-ui/icons/GetApp';
 import {
   TableBody,
   TableCell,
@@ -11,54 +15,70 @@ import {
   TableContainer,
   TableHead,
   Table,
-  Tooltip,
   Box,
   Typography,
   Button,
 } from "@material-ui/core";
 import LaunchIcon from "@material-ui/icons/Launch";
 import { useHistory } from "react-router";
-import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, XAxis, YAxis } from "recharts";
 
-export default function InternalUserProviderSelectBody() {
+export default function BackofficeFilesManagement() {
   const history = useHistory();
   const columns = [
     {
-      id: "fecha_ingreso",
-      label: "Fecha de ingreso",
+      id: "fecha_subida",
+      label: "Fecha de subida",
       width: 75,
       align: "left",
       format: (value) => value.toLocaleString("en-US"),
     },
     {
-      id: "razon_social",
-      label: "Razon Social",
+      id: "nombre_archivo",
+      label: "Nombre del archivo",
       width: 75,
       align: "left",
       format: (value) => value.toLocaleString("en-US"),
     },
     {
-      id: "cuit",
-      label: "CUIT",
+      id: "usuario_subido",
+      label: "Subido por",
       minWidth: 150,
       align: "left",
       format: (value) => value.toLocaleString("en-US"),
     },
     {
-      id: "cantidad_visitas",
-      label: "Cantidad de visitas",
-      minWidth: 150,
-      align: "left",
-      format: (value) => value.toLocaleString("en-US"),
-    },
-    {
-      id: "GoProvider",
-      label: "Detalle",
+      id: "acciones",
+      label: "Acciones",
       minWidth: 150,
       align: "right",
       format: (value) => value.toLocaleString("en-US"),
     },
   ];
+
+  const files = [
+    [
+      {
+        fechaSubida:'15/08/2021',
+        nombre:'Prueba 1',
+        uploader:'Testing User',
+      },
+      {
+        fechaSubida:'15/08/2021',
+        nombre:'Prueba 2',
+        uploader:'Testing User',
+      },
+      {
+        fechaSubida:'15/08/2021',
+        nombre:'Prueba 3',
+        uploader:'Testing User',
+      },
+      {
+        fechaSubida:'15/08/2021',
+        nombre:'Prueba 4',
+        uploader:'Testing User',
+      },
+    ]
+  ]
 
   const useStyles = makeStyles({
     cellTable: {
@@ -106,21 +126,21 @@ export default function InternalUserProviderSelectBody() {
     }
   });
 
-  const [allProviders, setAllProviders] = useState([]);
-  const [allData, setAllData] = useState([]);
+  const [allProviders, setAllProviders] = useState(files);
+  const [allData, setAllData] = useState(files);
   const [allDataBkp, setAllDataBkp] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
   const classes = useStyles();
   const rowsPerPage = 10;
 
   useEffect(() => {
-    ProvidersContext.fetchProviders().then((e) => {
-      setAllProviders(e);
-    });
+    // ProvidersContext.fetchProviders().then((e) => {
+    //   setAllProviders(e);
+    // });
   }, []);
 
   useEffect(() => {
-    dataMapper(allProviders);
+    // dataMapper(allProviders);
   }, [allProviders]);
 
   const dataMapper = (allproviders) => {
@@ -184,21 +204,23 @@ export default function InternalUserProviderSelectBody() {
 
   return (
     <div>
-      <Box mt={2}>
-        <Box p={2}>
-          <Typography className={classes.bold} variant="h4">
-            Estadísticas de uso por usuarios.
-          </Typography>
+      <Box display="flex" my={4} justifyContent="space-between">
+        <Box display="flex" alignItems="center">
+          <Box mr={1}>
+            <AddCircleOutlineIcon fontSize="large"/>
+          </Box>
+          <Typography className="bold" variant="body1">Subir archivo</Typography>
         </Box>
-      </Box>
-      <Box display="flex" justifyContent="flex-end" mb={2} mr={3}>
-        <Box display="flex" maxWidth="25%">
-          <input
-            className="internalUserProviderSelectSearchBar documentSearchBar1"
-            type="text"
-            placeholder="Buscar proveedor"
-            onChange={searchProviderSuggestionsHandler}
-          />
+        <Box display="flex" maxWidth="35%">
+          <TuneIcon fontSize="large"/>
+          <Box mx={1}>
+            <input
+              className="internalUserProviderSelectSearchBar documentSearchBar1"
+              type="text"
+              placeholder="Buscar archivo"
+              onChange={searchProviderSuggestionsHandler}
+            />
+          </Box>
           <div className="internalUserProviderSelectSearchIconContainer">
             <SearchRoundedIcon
               className="internalUserProviderSelectSearchIcon"
@@ -238,43 +260,45 @@ export default function InternalUserProviderSelectBody() {
                   >
                     {columns.map((column) => {
                       for (let i = 0; i < allData.length; i++) {
-                        if (column.id === "razon_social") {
+                        if (column.id === "fecha_subida") {
                           return (
                             <TableCell
                               key={column.id}
                               align={column.align}
                               className={classes.cellTable}
                             >
-                              {row.razon_social}
+                              {row.fechaSubida}
                             </TableCell>
                           );
-                        } else if (column.id === "cuit") {
+                        } else if (column.id === "nombre_archivo") {
                           return (
                             <TableCell
                               key={column.id}
                               align={column.align}
                               className={classes.cellTable}
                             >
-                              {row.cuit}
+                              {row.nombre}
                             </TableCell>
                           );
-                        } else if (column.id === "usuarios_asociados") {
+                        } else if (column.id === "usuario_subido") {
                           return (
                             <TableCell
                               key={column.id}
                               align={column.align}
                               className={classes.cellTable}
                             >
-                              {row.mail}
+                              {row.uploader}
                             </TableCell>
                           );
-                        } else if (column.id === "GoProvider") {
+                        } else if (column.id === "acciones") {
                           return (
                             <TableCell key={column.id} align={column.align}>
-                              <LaunchIcon
+                              <GetAppIcon className={classes.iconButton}/>
+                              <DeleteOutlineIcon className={classes.iconButton}/>
+                              {/* <LaunchIcon
                                 className={classes.iconButton}
                                 onClick={() => ProviderSelected(row)}
-                              />
+                              /> */}
                             </TableCell>
                           );
                         }

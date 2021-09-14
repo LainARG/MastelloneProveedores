@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 import Footer from '../components/footer';
 import NavBarBackoffice from '../components/navBarBackoffice';
-import BackofficeStatisticsManagement from '../components/backofficeStatisticsManagement';
+import BackofficeCommunicationsCreate from '../components/backofficeCommunicationsCreate';
 
-class BackofficeStatisticsPage extends React.Component{
+class BackofficeCommunicationsPageCreate extends React.Component{
 
 
 render(){
@@ -13,7 +13,7 @@ render(){
 return(
 <div>
     <NavBarBackoffice />
-        <BackofficeStatisticsManagement />
+        <BackofficeCommunicationsCreate />
     <Footer/>
 </div>
 );
@@ -21,4 +21,4 @@ return(
 
 }
 
-export default BackofficeStatisticsPage;
+export default BackofficeCommunicationsPageCreate;
