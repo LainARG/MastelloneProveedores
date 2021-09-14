@@ -282,13 +282,7 @@ export default function NoticesBody() {
     const [paymentDetailsProps, setPaymentDetailsProps] = useState(false);
     let filesToDownload = new Array();
     const rowsPerPage = 4;
-   
 
-    const openModal = (props) => {
-        setPaymentDetailsProps(props);
-        setTimeout(function () { setModal(true); }, 100);
-        
-    }
 
     const closeModal = () => {
         setModal(false);
@@ -703,23 +697,10 @@ export default function NoticesBody() {
         localStorage.setItem("currentNotice", JSON.stringify(notice));
         window.location = "/notices/view";
     }
- 
-    const PaymentDetailModal = (props) => {
 
-        
-        return (
-            <div>
-
-                <Modal
-                    open={ modal }
-                    onClose={ openModal }
-                >
-                    { BodyModal }
-
-                </Modal>
-            </div>
-        );
-
+    const OpenCommonNotice = (notice) => {
+        localStorage.setItem("currentNotice", JSON.stringify(notice));
+        window.location = "/notices/common-view";
     }
 
     function Redirector(url) {
@@ -896,7 +877,6 @@ export default function NoticesBody() {
                                                                             :
                                                                                 <b><CheckIcon fontSize="large" className="documentDownloadRowIcon" onClick={() => OpenNotice(row)} /></b>
                                                                             }
-                                                                            <PaymentDetailModal />
                                                                         </TableCell>
                                                                     );
                                                                 }
@@ -952,7 +932,7 @@ export default function NoticesBody() {
                                                                 }
                                                                 else if (column.id == "titulo_aviso") {
                                                                     return (
-                                                                        <TableCell key={column.id} align={column.align} className={classes.rowsTable} onClick={() => openModal(row)}>
+                                                                        <TableCell key={column.id} align={column.align} className={classes.rowsTable} onClick={() => OpenCommonNotice(row)}>
                                                                             {row.titulo_aviso}
                                                                         </TableCell>
                                                                     );
@@ -1071,7 +1051,6 @@ export default function NoticesBody() {
                                                                         :
                                                                             <b><CheckIcon fontSize="large" className="documentDownloadRowIcon" onClick={() => OpenNotice(row)} /></b>
                                                                         }
-                                                                        <PaymentDetailModal />
                                                                     </TableCell>
                                                                 );
                                                             }
@@ -1127,7 +1106,7 @@ export default function NoticesBody() {
                                                                 }
                                                                 else if (column.id == "titulo_aviso") {
                                                                     return (
-                                                                        <TableCell key={column.id} align={column.align} className={classes.rowsTable} onClick={() => OpenNotice(row)}>
+                                                                        <TableCell key={column.id} align={column.align} className={classes.rowsTable} onClick={() => OpenCommonNotice(row)}>
                                                                             {row.titulo_aviso}
                                                                         </TableCell>
                                                                     );
