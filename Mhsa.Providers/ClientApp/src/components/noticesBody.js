@@ -360,33 +360,17 @@ export default function NoticesBody() {
 
             for (let j = 0; j < allDocs.length;j++) {
                 let objectData = {
-                    fecha_documento: null,
-                    estado: null,
-                    tipo: null,
-                    type: null,
-                    filename: null,
-                    numero_documento: null,
-                    numero_pago: null,
-                    monto_bruto: null,
-                    monto_pago: null,
-                    estado_pago: null,
-                    observaciones_pago: null,
-                    digDoc_fecha_carga: null,
-                    digDoc_estado: null,
-                    digDoc_usu_carga: null,
-                    digDoc_descarga: null
+                    fecha_aviso: null,
+                    titulo_aviso: null,
+                    cuerpo_aviso: null,
+                    conformidad: null,
                 }
 
                 let objectData2 = {
-                    fecha_documento: null,
-                    estado: null,
-                    tipo: null,
-                    numero_documento: null,
-                    numero_pago: null,
-                    monto_bruto: null,
-                    monto_pago: null,
-                    estado_pago: null,
-                    observaciones_pago: null
+                    fecha_aviso: null,
+                    titulo_aviso: null,
+                    cuerpo_aviso: null,
+                    conformidad: null,
                 }
 
                 for (let i = 0; i < allPayments.length; i++) {
@@ -1143,7 +1127,7 @@ export default function NoticesBody() {
                                                                 }
                                                                 else if (column.id == "titulo_aviso") {
                                                                     return (
-                                                                        <TableCell key={column.id} align={column.align} className={classes.rowsTable} onClick={() => openModal(row)}>
+                                                                        <TableCell key={column.id} align={column.align} className={classes.rowsTable} onClick={() => OpenNotice(row)}>
                                                                             {row.titulo_aviso}
                                                                         </TableCell>
                                                                     );
