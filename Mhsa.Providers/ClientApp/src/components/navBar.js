@@ -213,7 +213,7 @@ const Navbar = (props) => {
                 setTimeout(function () { window.location = '/contact'; }, 100);
                 break;
             case 4:
-                // code block
+                setTimeout(function () { window.location = '/notices'; }, 100);
                 break;
         }
     }

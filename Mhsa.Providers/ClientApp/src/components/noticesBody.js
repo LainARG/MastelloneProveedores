@@ -715,6 +715,11 @@ export default function NoticesBody() {
         </div>
     );
 
+    const OpenNotice = (notice) => {
+        localStorage.setItem("currentNotice", JSON.stringify(notice));
+        window.location = "/notices/view";
+    }
+ 
     const PaymentDetailModal = (props) => {
 
         
@@ -903,9 +908,9 @@ export default function NoticesBody() {
                                                                         <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
                                                                             {
                                                                             row.titulo_aviso ?                
-                                                                                <b><CloseIcon fontSize="large" className="documentDownloadRowIcon" onClick={() => openModal(row)} /></b>
+                                                                                <b><CloseIcon fontSize="large" className="documentDownloadRowIcon" onClick={() => OpenNotice(row)} /></b>
                                                                             :
-                                                                                <b><CheckIcon fontSize="large" className="documentDownloadRowIcon" onClick={() => openModal(row)} /></b>
+                                                                                <b><CheckIcon fontSize="large" className="documentDownloadRowIcon" onClick={() => OpenNotice(row)} /></b>
                                                                             }
                                                                             <PaymentDetailModal />
                                                                         </TableCell>
@@ -1078,9 +1083,9 @@ export default function NoticesBody() {
                                                                     <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
                                                                         {
                                                                         row.titulo_aviso ?                
-                                                                            <b><CloseIcon fontSize="large" className="documentDownloadRowIcon" onClick={() => openModal(row)} /></b>
+                                                                            <b><CloseIcon fontSize="large" className="documentDownloadRowIcon" onClick={() => OpenNotice(row)} /></b>
                                                                         :
-                                                                            <b><CheckIcon fontSize="large" className="documentDownloadRowIcon" onClick={() => openModal(row)} /></b>
+                                                                            <b><CheckIcon fontSize="large" className="documentDownloadRowIcon" onClick={() => OpenNotice(row)} /></b>
                                                                         }
                                                                         <PaymentDetailModal />
                                                                     </TableCell>

@@ -11,6 +11,7 @@ import KeyFormatPortalPage from '../pages/keyFormatPortalPage';
 import KeyForgottenPage from '../pages/keyForgottenPage';
 import DocumentPage from '../pages/documentPage';
 import NoticesPage from '../pages/noticesPage';
+import NoticesViewPage from '../pages/noticesViewPage';
 import DocumentReportPage from '../pages/documentReportPage';
 import DocumentSearchPage from '../pages/documentSearchPage';
 import DocumentUploadPage from '../pages/documentUploadPage';
@@ -40,6 +41,7 @@ return(
   <Route exact path='/portal/providers' component={PortalHomeProvidersPage}/>
   <Route exact path='/portal/format' component={KeyFormatPortalPage}/>
   <Route exact path='/notices' component={NoticesPage}/>
+  <Route exact path='/notices/view' component={NoticesViewPage}/>
   <Route exact path='/documents' component={DocumentPage}/>
   <Route exact path='/documents/report' component={DocumentReportPage}/>
   <Route exact path='/documents/search' component={DocumentSearchPage}/>
