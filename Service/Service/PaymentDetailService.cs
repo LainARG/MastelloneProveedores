@@ -21,6 +21,14 @@ namespace Service
             return repository.GetAll();
         }
 
-        
+        public IEnumerable<PaymentDetail> GetById(object pmnt)
+        {
+            return repository.GetById(pmnt);
+        }
+
+        public IEnumerable<PaymentDetail> GetByProvider(object prv)
+        {
+            return repository.GetByProvider(prv);
+        }
     }
 }

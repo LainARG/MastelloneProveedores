@@ -19,11 +19,15 @@ namespace Repository.Repository
 
         public IEnumerable<Documents> GetAll()
         {
+            throw new NotImplementedException();
+        }
 
-            return _dbContext.Documentos
-                .Include(x => x.Providers)
-                .Include(x => x.States)
-                .Include(x => x.DocumentTypes);
+        public IEnumerable<Documents> GetById(object prv)
+        {
+            dynamic dyn = prv;
+            int providerId = dyn.prv;
+            IEnumerable<Documents> results = _dbContext.Documentos.Where(document => document.Id_proveedor == providerId);
+            return results;
         }
 
     }

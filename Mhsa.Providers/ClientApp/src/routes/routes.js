@@ -25,6 +25,7 @@ import Auth from '../auth/auth';
 import ProviderSelectInternalUserPage from '../pages/providerSelectInternalUserPage';
 import IuPortalHomeProvidersPage from '../pages/iuPortalHomeProvidersPage';
 import IuPaymentsReportPage from '../pages/iuPaymentsReportPage';
+import InvalidUserComponent from '../components/invalidUserComponent';
 
 
 export default function Router(){
@@ -32,7 +33,9 @@ export default function Router(){
 return(
 
 <BrowserRouter>
-<Switch>
+		<Switch>
+  <Route exact path='/invalidUser' component={InvalidUserComponent} />
+  <Route exact path='/' component={Auth} />
   <Route exact path='/login' component={LoginPage}/>
   <Route exact path='/login/accountkeyformat' component={KeyFormatPage}/>
   <Route exact path='/login/accountkeyforgot' component={KeyForgottenPage}/>
@@ -50,9 +53,9 @@ return(
   <Route exact path='/documents/upload' component={DocumentUploadPage}/>
   <Route exact path='/payments' component={PaymentsReportPage}/>
   <Route exact path='/payments/report/detail' component={PaymentsReportDetailsPage} />
+  <Route exact path='/payments/report/nodetail' component={PaymentsReportNoDetailsPage} />
   <Route exact path='/Test1' component={IuPaymentsReportPage} />
   <Route exact path='/payments/forms' component={PaymentsFormsPage} />
-  <Route exact path='/payments/report/nodetail' component={PaymentsReportNoDetailsPage} />
   <Route exact path='/auth' component={Auth} />
   <Route exact path='/portal/internalUser' component={PortalHomeInternalUserPage} />
   <Route exact path='/internalUser/providerSelect' component={ProviderSelectInternalUserPage} />

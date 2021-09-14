@@ -40,7 +40,6 @@ export class ProvidersContext {
         const response = await api.get<Response, AxiosResponse<Response>>(
             `/providers`
         );
-        console.log(response.data);
         return response.data;
         
     }

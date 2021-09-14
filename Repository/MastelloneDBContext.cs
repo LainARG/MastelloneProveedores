@@ -31,11 +31,17 @@ namespace Repository
 
         public DbSet<Documents> Documentos { get; set; }
 
+        public DbSet<DocumentsReasonRejection> Motivos_rechazo_documento { get; set; }
+        
         public DbSet<DocumentTypes> Tipos_documento { get; set; }
 
         public DbSet<Payments> Pagos { get; set; }
 
+        public DbSet<Notices> Avisos { get; set; }
+
         public DbSet<DigitalDocuments> Documentos_electronicos { get; set; }
+
+        public DbSet<DigitalDocumentsRejected> Documentos_electronicos_rechazos { get; set; }
 
         public DbSet<States> Estados { get; set; }
 

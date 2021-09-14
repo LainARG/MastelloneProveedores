@@ -10,8 +10,10 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import DocumentsContext from '../contexts/documentsContext';
+import DocumentsReasonRejectionContext from '../contexts/documentsReasonRejectionContext';
 import ProvidersContext from '../contexts/providersContext';
 import DigitalDocumentsContext from '../contexts/digitalDocumentsContexts';
+import DigitalDocumentsRejectedContext from '../contexts/digitalDocumentsRejectedContexts';
 import StatesContext from '../contexts/statesContext';
 import PaymentsContext from '../contexts/paymentsContext';
 import { ThemeProvider } from '@material-ui/core/styles';
@@ -23,7 +25,6 @@ import { GrDocumentDownload } from "react-icons/gr";
 import { GrFormSchedule } from "react-icons/gr";
 import Button from '@material-ui/core/Button';
 import IuDocumentSearchResultBody from '../components/iuDocumentSearchResultBody';
-import StateTypesContext from '../contexts/stateTypesContext';
 
 
 const useStyles = makeStyles({
@@ -258,18 +259,14 @@ export default function DocumentBody() {
     const [allSecondTabData, setAllSecondTabData] = useState("");
     const [allSearchData, setAllSearchData] = useState("");
     const [allPayments, setAllPayments] = useState("");
+    const [allDocumentsReasonRejection, setAllDocumentsReasonRejection] = useState("");
     const [allDigDocs, setAllDigDocs] = useState("");
     const [allStates, setAllStates] = useState("");
     const [allProviders, setAllProviders] = useState("");
     const [pageNumber, setPageNumber] = useState(1);
     const [firstTabPageQuantity, setFirstTabPageQuantity] = useState(10);
-    const [secondTabPageQuantity, setSecondTabPageQuantity] = useState(10);
     const [value, setValue] = useState(0);
     const [showTab, setShowTab] = useState(0);
-    const [openFilterMenu, setOpenFilterMenu] = useState(false);
-    const [anchorEl, setAnchorEl] = useState(false);
-    const [modal, setModal] = useState(false);
-    const [paymentDetailsProps, setPaymentDetailsProps] = useState(false);
     let filesToDownload = new Array();
     const rowsPerPage = 4;
 
@@ -280,18 +277,8 @@ export default function DocumentBody() {
     const [untilPeriodValue, setUntilPeriodValue] = useState(null);
     const [stateValue, setStateValue] = useState('Cualquiera');
     const [providerValue, setProviderValue] = useState('Cualquiera');
-    const [dataContext, setDataContext] = useState(null);
     const [searchResult, setSearchResult] = useState(null);
-    const [statesContext, setStatesContext] = useState(null);
-    const [stateTypesContext, setStateTypesContext] = useState(null);
-
-    useEffect(() => {
-        if (dataContext == null || statesContext == null || stateTypesContext == null) {
-            DigitalDocumentsContext.fetchDocuments().then((e) => { setDataContext(e); });
-            StatesContext.fetchStates().then((e) => { setStatesContext(e); });
-            StateTypesContext.fetchStateTypes().then((e) => { setStateTypesContext(e); });
-        }
-    }, []);
+    const [currentProvider, setCurrentProvider] = useState("");
 
 
     function DocumentSearch() {
@@ -322,20 +309,34 @@ export default function DocumentBody() {
 
 
 
-
     useEffect(() => {
-
+        setCurrentProvider(JSON.parse(window.localStorage.getItem("currentProvider") || "").razon_social);
+        if (window.localStorage.getItem("allCheckController") == null || window.localStorage.getItem("allCheckController") == "" || window.localStorage.getItem("allCheckController") == undefined) {
+            window.localStorage.setItem("allCheckController", false);
+        }
         if (allDocs == "") {
             DocumentsContext.fetchDocuments().then((e) => { setAllDocs(e); });
+        }
+        if (allProviders == "") {
             ProvidersContext.fetchProviders().then((e) => { setAllProviders(e); });
+        }
+        if (allDigDocs == "") {
             DigitalDocumentsContext.fetchDocuments().then((e) => { setAllDigDocs(e); });
+        }
+        if (allStates == "") {
             StatesContext.fetchStates().then((e) => { setAllStates(e); });
+        }
+        if (allPayments == "") {
             PaymentsContext.fetchPayments().then((e) => { setAllPayments(e); });
-        } else {
+        }
+        if (allDocumentsReasonRejection == "") {
+            DocumentsReasonRejectionContext.fetchDocumentsReasonRejection().then((e) => { setAllDocumentsReasonRejection(e); });
+        }
+        else {
             dataMapper(allDocs);
         }
 
-    }, [allDocs, allDigDocs, modal]);
+    }, [allDocs, allDigDocs, allProviders, allStates, allPayments, allDocumentsReasonRejection]);
 
     const columns = [
         {
@@ -402,134 +403,21 @@ export default function DocumentBody() {
     const dataMapper = (alldocs) => {
         let allfirsttabdata = [];
         let allfirsttabdatabackup = [];
-        let allsecondtabdata = [];
-        let allpayments = [];
-        let paymentStateStringValue = "";
-        let stateStringValue = "";
-
-        for (let j = 0; j < allDocs.length; j++) {
-            let objectData = {
-                fecha_documento: null,
-                estado: null,
-                tipo: null,
-                type: null,
-                filename: null,
-                numero_documento: null,
-                numero_pago: null,
-                monto_bruto: null,
-                monto_pago: null,
-                estado_pago: null,
-                observaciones_pago: null,
-                digDoc_fecha_carga: null,
-                digDoc_estado: null,
-                digDoc_usu_carga: null,
-                digDoc_descarga: null
-            }
-
-            let objectData2 = {
-                fecha_documento: null,
-                estado: null,
-                tipo: null,
-                numero_documento: null,
-                numero_pago: null,
-                monto_bruto: null,
-                monto_pago: null,
-                estado_pago: null,
-                observaciones_pago: null
-            }
-
-            for (let i = 0; i < allPayments.length; i++) {
-                for (let j = 0; j < alldocs.length; j++) {
-
-                    if (allPayments[i].numero_pago == alldocs[j].numero_pago) {
-                        allpayments.push(allPayments[i]);
-                    }
-
-                }
-            }
-
-            for (let i = 0; i < allpayments.length; i++) {
-
-                if (i < allStates.length && allStates[i].id_estado == allpayments[j].id_estado) {
-                    paymentStateStringValue = allStates[i].descripcion_abreviada;
-                }
-
-            }
-
-            for (let i = 0; i < alldocs.length; i++) {
-
-                if (i < allStates.length && allStates[i].id_estado == alldocs[j].id_estado && allStates[i] != undefined) {
-                    stateStringValue = allStates[i].descripcion_abreviada;
-                }
-
-            }
 
 
-
-
-            objectData.fecha_documento = alldocs[j].fecha_documento;
-            objectData.estado = stateStringValue;
-            objectData.tipo = alldocs[j].id_tipo_documento;
-            objectData.numero_documento = alldocs[j].letra_documento + "-" + alldocs[j].prefijo_documento + "-" + alldocs[j].numero_documento;
-            objectData.nota_pedido = alldocs[j].nota_pedido;
-            objectData.monto = alldocs[j].monto;
-            objectData.numero_pago = alldocs[j].numero_pago;
-            if (allpayments[j] != undefined) {
-                objectData.estado_pago = paymentStateStringValue;
-                objectData.monto_pago = allpayments[j].total_pago;
-            }
-
-            objectData2.fecha_documento = alldocs[j].fecha_documento;
-            objectData2.estado = stateStringValue;
-            objectData2.tipo = alldocs[j].id_tipo_documento;
-            objectData2.numero_documento = alldocs[j].letra_documento + "-" + alldocs[j].prefijo_documento + "-" + alldocs[j].numero_documento;
-            objectData2.nota_pedido = alldocs[j].nota_pedido;
-            objectData2.monto = alldocs[j].monto;
-            objectData2.numero_pago = alldocs[j].numero_pago;
-            if (allpayments[j] != undefined) {
-                objectData2.estado_pago = paymentStateStringValue;
-                objectData2.monto_pago = allpayments[j].total_pago;
-            }
-
-
-            allfirsttabdata.push(objectData);
-            allfirsttabdatabackup.push(objectData2);
-
+        if (allDigDocs != "" && allDigDocs != undefined && allDigDocs != null) {
+            allfirsttabdata = allDigDocs.filter(digdoc => digdoc.id_documento_electronico > 0);
+            allfirsttabdatabackup = allDigDocs.filter(digdoc => digdoc.id_documento_electronico > 0);
         }
-
-        for (let j = 0; j < allDigDocs.length; j++) {
-            let objectData = {
-                digDoc_fecha_carga: null,
-                digDoc_estado: null,
-                digDoc_usu_carga: null,
-                imagen: null
-            }
-
-            for (let i = 0; i < allStates.length; i++) {
-
-                if (allStates[i].id_estado == allDigDocs[j].id_estado) {
-                    stateStringValue = allStates[i].descripcion_abreviada;
-                }
-            }
-
-            objectData.digDoc_fecha_carga = allDigDocs[j].fecha_carga;
-            objectData.digDoc_estado = stateStringValue;
-            objectData.digDoc_usu_carga = allDigDocs[j].id_usuario_carga;
-            objectData.imagen = allDigDocs[j].imagen;
-            objectData.type = allDigDocs[j].tipo_archivo;
-            objectData.filename = allDigDocs[j].nombre_archivo;
-            allsecondtabdata.push(objectData);
-
-        }
-
+        
         let pagFirstTabData = pagination(allfirsttabdata, allfirsttabdata.length, rowsPerPage);
-        let pagSecondTabData = pagination(allsecondtabdata, allsecondtabdata.length, rowsPerPage);
+        /*let pagSecondTabData = pagination(allsecondtabdata, allsecondtabdata.length, rowsPerPage);*/
         let pagFirstTabDataBackup = pagination(allfirsttabdatabackup, allfirsttabdatabackup.length, rowsPerPage);
         setFirstTabPageQuantity(pagFirstTabData.length);
-        setSecondTabPageQuantity(pagSecondTabData.length);
+        /*setSecondTabPageQuantity(pagSecondTabData.length);*/
         setAllFirstTabData(pagFirstTabData);
         setAllFirstTabDataBackup(pagFirstTabDataBackup);
-        setAllSecondTabData(pagSecondTabData);
+        /*setAllSecondTabData(pagSecondTabData);*/
         setAllSearchData(pagFirstTabData);
     }
 
@@ -595,8 +483,6 @@ export default function DocumentBody() {
     }
 
     
-
-
     function prepareBase64File(contentType, base64Data, fileName, index) {
         const linkSource = `data:${contentType};base64,${base64Data}`;
         const downloadLink = document.createElement("a");
@@ -617,9 +503,26 @@ export default function DocumentBody() {
         );
     }
 
+    function checkAllDigDocInputs(e) {
+        let allCheckController = window.localStorage.getItem("allCheckController");
+        if (allCheckController == false.toString()) {
+            allCheckController = true;
+            window.localStorage.setItem("allCheckController", allCheckController);
+        }
+        else {
+            allCheckController = false;
+            window.localStorage.setItem("allCheckController", allCheckController);
+        }
+        
+        console.log(allCheckController);
+        searchResult.filter(result =>  result.checked = allCheckController );
+        var elements = Array.from(document.getElementsByTagName("input"));
+        elements.filter((result) => {
+            result.checked = e.target.checked;
+        });
+    }
 
     function searchDigitalDocument() {
-
         setSearchResult("");
         let inputFileName = fileNameValue;
         let inputSince = new Date(sinceValue).getTime();
@@ -632,17 +535,17 @@ export default function DocumentBody() {
         let finalResults = [];
         let indexToRemove = [];
 
-        for (let i = 0; i < dataContext.length; i++) {
+        for (let i = 0; i < allDigDocs.length; i++) {
 
-            let currentState = dataContext[i].id_estado;
-            let currentProvider = dataContext[i].cuit;
-            let currentLoadTime = new Date(dataContext[i].fecha_carga).getTime();
-            let currentStateTime = new Date(dataContext[i].fecha_estado).getTime();
+            let currentState = allDigDocs[i].id_estado;
+            let currentProvider = allDigDocs[i].cuit;
+            let currentLoadTime = new Date(allDigDocs[i].fecha_carga).getTime();
+            let currentStateTime = new Date(allDigDocs[i].fecha_estado).getTime();
             let matchState;
             let matchProvider;
 
             for (let j = 0; j < allStates.length; j++) {
-                if(currentState == allStates[j].id_estado) {
+                if (currentState == allStates[j].id_estado) {
                     matchState = allStates[j].descripcion_abreviada;
                 }
             }
@@ -655,24 +558,28 @@ export default function DocumentBody() {
 
             let obj = {
 
-                fecha_ingreso: dataContext[i].fecha_carga,
-                fecha_estado: dataContext[i].fecha_estado,
-                cuit:dataContext[i].cuit,
+                fecha_ingreso: allDigDocs[i].fecha_carga,
+                fecha_estado: allDigDocs[i].fecha_estado,
+                cuit: allDigDocs[i].cuit,
                 razon_social: matchProvider.razon_social,
-                nombre_archivo: dataContext[i].nombre_archivo,
+                nombre_archivo: allDigDocs[i].nombre_archivo,
                 estado: matchState,
-                descargar: dataContext[i].descargar,
-
+                descargar: allDigDocs[i].descargar,
+                id_documento_electronico: allDigDocs[i].id_documento_electronico,
+                usuario_rechazo: window.localStorage.getItem("iUserName"),
+                codigo_motivo_rechazo: null,
+                fecha_rechazo: new Date().toLocaleDateString(),
+                checked : null
             }
 
             if (obj.nombre_archivo.includes(inputFileName) && inputFileName != "") {
                 results.push(obj);
             }
-            
+
             if (obj.estado == inputState || inputState == "Cualquiera") {
                 results.push(obj);
             }
-            
+
             if (obj.razon_social.toLowerCase() == inputProvider.toLowerCase() || inputProvider == "Cualquiera") {
                 results.push(obj);
             }
@@ -689,8 +596,6 @@ export default function DocumentBody() {
             results.forEach(function (element, index) {
                 if (!element.nombre_archivo.includes(inputFileName) && inputFileName != "" && inputFileName != null) {
                     indexToRemove.push(index);
-                    console.log("success")
-                    console.log(inputFileName);
                 }
 
                 if (element.estado != inputState && inputState != "Cualquiera") {
@@ -711,14 +616,11 @@ export default function DocumentBody() {
 
 
             });
-            
+
         }
 
 
-
-
         indexToRemove.forEach((element) => {
-            console.log(element);
             delete results[element];
         }
         );
@@ -732,34 +634,57 @@ export default function DocumentBody() {
        
         
         setSearchResult(finalResults);
-
+        let element = document.getElementById("documentRejectContainer");
+        if (finalResults[0] != null && finalResults[0] != "" && finalResults[0] != undefined) {
+            element.removeAttribute("hidden");
+        }
+        else {
+            element.setAttribute("hidden", true);
+        }
     }
 
     function rejectDocuments() {
-        console.log("Reject Doc");
-    }
 
+        let reaject = document.getElementById("reasonReject");
+        let rejdet = document.getElementById("rejectDetails");
+        let reasonCode;
+        let rejectDetail = rejdet.value;
+        allDocumentsReasonRejection.filter((reason) => {
+            if (reason.descripcion_rechazo.includes(reaject.value)) {
+                reasonCode = reason.codigo_motivo_rechazo;
+            }
+        });
+
+        searchResult.forEach(element => element.codigo_motivo_rechazo = reasonCode);
+        searchResult.forEach(element => element.observaciones = rejectDetail);
+        let results = searchResult.filter(result => result.checked == true);
+        let updatedResults = results.filter(result => DigitalDocumentsContext.setRejectedState(result.id_documento_electronico));
+        DigitalDocumentsRejectedContext.rejectDocuments(updatedResults);
+
+    }
 
     function RejectDocumentForm() {
 
         return (
             <div className="rejectDocumentFormContainer">
-                <input type="checkbox" /><span className="rejectDocsStyle">Rechazar todos los documentos listados</span>
-                <div>
+                <input type="checkbox" onClick={(e) => checkAllDigDocInputs(e) } /><span className="rejectDocsStyle">Rechazar todos los documentos listados</span>
+            <div>
                 <span className="rejectDocForm3">Motivo de rechazo</span><br />
-                <select className="rejectDocForm" placeholder="Codigo archivo de rechazo">
-                    <option>Falta numero de nota de pedido</option>
-                    <option>Error de calculo</option>
-                    </select><br/>
+                    <select id="reasonReject" className="rejectDocForm" placeholder="Codigo archivo de rechazo">
+                        {allDocumentsReasonRejection.map((option) => (
+                            <option>{option.descripcion_rechazo}</option>
+                        ))}
+                </select><br/>
                 </div>
                 <div>
                 <span className="rejectDocForm1">Observaciones</span><br />
-                    <textarea id="userMessage" className="rejectDocForm2" type="text" /><br /><br />
+                    <textarea id="rejectDetails" className="rejectDocForm2" type="text" /><br /><br />
                 </div>
                 <button className="documentUploadBtn6" onClick={rejectDocuments}>
                     Rechazar
                 </button>
             </div>
+
         );
 
     }
@@ -769,7 +694,73 @@ export default function DocumentBody() {
 
     if (allFirstTabData == undefined || allFirstTabData == null || allFirstTabData == "" || allFirstTabData == 0) {
 
-        return(<h1>Loading...</h1>)
+        return (
+            
+            <div className="documentContentContainer">
+
+
+                <div className="documentTabsContainer">
+
+                    <ThemeProvider theme={documentTabsTheme}>
+                        <Tabs classes={{ root: tabClasses.documentTabStyle, indicator: tabClasses.tabIndicator }} onChange={handleTabs}
+
+                            value={value} indicatorColor="secondary" textColor="primary"
+                            TabIndicatorProps={{
+                                style: { background: "#009639", width: "30%", height: "4%", marginLeft: "0%", top: '15px', position: 'absolute' }
+                            }}>
+                            <Tab className={tabClasses.btnTab0StyleDisabled} label='Administrar documentos electronicos.' onClick={firstTab}></Tab>
+                            <Tab className={tabClasses.btnTab1Style} label='Documentos Rechazados.' onClick={secondTab} />
+
+                        </Tabs>
+                    </ThemeProvider>
+
+
+                </div>
+
+
+
+
+                <Paper className={classes.root}>
+
+
+
+
+
+                    <TableContainer className={classes.container}>
+                        <Table stickyHeader aria-label="sticky table">
+                            <TableHead>
+                                <TableRow>
+                                    {columns.map((column) => (
+                                        <TableCell className={classes.headerTable}
+                                            key={column.id}
+                                            align={column.align}
+                                            style={{ minWidth: column.minWidth }}
+                                        >
+                                            {column.label}
+                                        </TableCell>
+                                    ))}
+                                </TableRow>
+                            </TableHead>
+                            <TableBody id="documentTable">
+                                <TableRow>
+                                    <h5 className="documentSearchBodyVoidResultMsg">No existen documentos para este proveedor</h5>
+                                </TableRow>
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+
+                <ThemeProvider theme={paginationTheme}>
+                    <div className="paginationContainerStyle">
+                        <Pagination count={firstTabPageQuantity} onChange={paginationHandler} />
+                    </div>
+                </ThemeProvider>
+
+                </Paper>
+            </div >
+        );
+
+            
+            
 
     }
 
@@ -812,9 +803,7 @@ export default function DocumentBody() {
                     <span className="documentSearchFormLegend3">Proveedor</span>
 
                     <select className="documentSearchFormSelect" onChange={(e) => setProviderValue(e.target.value)}>
-                        <option selected value="Cualquiera">Cualquiera</option>
-                        <option value="Advantive S.A.">Advantive S.A.</option>
-                        <option value="El Libertario S.A.">El Libertario S.A.</option>
+                        <option selected value="Cualquiera">{ currentProvider }</option>
                     </select>
 
                 </div>
@@ -825,9 +814,10 @@ export default function DocumentBody() {
 
                     <select className="documentSearchFormSelect" onChange={(e) => setStateValue(e.target.value)}>
                         <option selected value="Cualquiera">Cualquiera</option>
-                        <option value="Incorporado">Incorporado</option>
-                        <option value="Recepcionado">Recepcionado</option>
-                        <option value="Rechazado">Rechazado</option>
+                        {allStates.map((state) => (
+                            <option>{ state.descripcion_abreviada }</option>
+                        ))}
+                        
                     </select>
 
                 </div>
@@ -887,8 +877,10 @@ export default function DocumentBody() {
 
                 <div className="documentSearchResContainer">
 
-                    <DocumentSearch/>
+                    <DocumentSearch />
+                    <div id="documentRejectContainer" hidden>
                     <RejectDocumentForm />
+                    </div>
 
                 </div>
 

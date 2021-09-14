@@ -7,7 +7,7 @@ interface Response {
 
 export interface IDigitalDocuments {
 
-        Id_documento_electronico: any;
+        Id_documento: any;
 
         Id_usuario_carga: any;
 
@@ -29,7 +29,12 @@ export interface IDigitalDocuments {
 
         Tamano_archivo :any;
 
-        Imagen :any;
+        Imagen: any;
+
+        Estado: any;
+
+        Usuario: any;
+
 }
 
 
@@ -40,16 +45,29 @@ export class DigitalDocumentsContext {
 
    
     static async fetchDocuments() {
-        const response = await api.get<Response, AxiosResponse<Response>>(
-            `/digitalDocuments`
-        );
-        return response.data;
+        let prv: any = window.localStorage.getItem("prvCuit");
+        const response = await api.post(
+            `/digitalDocuments/getById`, { prv });
+        if (response != undefined && response.data[0] != undefined) {
+            return response.data;
+        }
+        else {
+            return null;
+        }
     }
 
     static async setDocument(files: any) {
 
         const response = await api.post<Response, AxiosResponse<Response>>(
             `/digitalDocuments/post`, files);
+    }
+
+    static async setReceivedState(id: any) {
+        await api.post(`/digitalDocuments/updateReceive`, { id });
+    }
+
+    static async setRejectedState(id: any) {
+        await api.post(`/digitalDocuments/updateReject`, { id });
     }
 
 }

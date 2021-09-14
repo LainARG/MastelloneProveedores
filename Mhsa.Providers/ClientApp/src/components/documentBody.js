@@ -9,8 +9,11 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import DocumentsContext from '../contexts/documentsContext';
+import PaymentDetailContext from '../contexts/paymentDetailContext';
+import DocumentTypesContext from '../contexts/documentTypesContext';
 import DigitalDocumentsContext from '../contexts/digitalDocumentsContexts';
 import StatesContext from '../contexts/statesContext';
+import UserContext from '../contexts/userContext';
 import PaymentsContext from '../contexts/paymentsContext';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { createMuiTheme } from '@material-ui/core/styles'; 
@@ -264,10 +267,13 @@ export default function DocumentBody() {
     const [allFirstTabData, setAllFirstTabData] = useState("");
     const [allFirstTabDataBackup, setAllFirstTabDataBackup] = useState("");
     const [allSecondTabData, setAllSecondTabData] = useState("");
+    const [allPaymentDetail, setAllPaymentDetail] = useState("");
+    const [allDocumentTypes, setAllDocumentTypes] = useState("");
     const [allSearchData, setAllSearchData] = useState("");
     const [allPayments, setAllPayments] = useState("");
     const [allDigDocs, setAllDigDocs] = useState("");
     const [allStates, setAllStates] = useState("");
+    const [allUsers, setAllUsers] = useState("");
     const [pageNumber, setPageNumber] = useState(1);
     const [firstTabPageQuantity, setFirstTabPageQuantity] = useState(10);
     const [secondTabPageQuantity, setSecondTabPageQuantity] = useState(10);
@@ -297,18 +303,34 @@ export default function DocumentBody() {
 
         if (allDocs == "") {
             DocumentsContext.fetchDocuments().then((e) => { setAllDocs(e); });
+        }
+        if (allUsers == "") {
+            UserContext.fetchUsers().then((e) => { setAllUsers(e); });
+        }
+        if (allDigDocs == "") {
             DigitalDocumentsContext.fetchDocuments().then((e) => { setAllDigDocs(e); });
+        }
+        if (allStates == "") {
             StatesContext.fetchStates().then((e) => { setAllStates(e); });
+        }
+        if (allPayments == "") {
             PaymentsContext.fetchPayments().then((e) => { setAllPayments(e); });
-        } else {
-            dataMapper(allDocs);
+        }
+        if (allDocumentTypes == "") {
+            DocumentTypesContext.fetchDocumentTypes().then((e) => { setAllDocumentTypes(e); });
+        }
+        if (allPaymentDetail == "") {
+            PaymentDetailContext.fetchPaymentDetailByProvider().then((e) => { setAllPaymentDetail(e); });
+        }
+        else if(allDigDocs != "" && allDocs != ""){
+            dataMapper();
         }
 
-    }, [allDocs, allDigDocs, modal]);
+    }, [allDocs, allDigDocs, allUsers, allStates, allPayments, allDocumentTypes, allPaymentDetail]);
 
     const columns = [
         {
-            id: 'Fecha_doc',
+            id: 'fecha_documento',
             label: 'Fecha de doc.',
             minWidth: 150,
             align: 'left',
@@ -391,129 +413,56 @@ export default function DocumentBody() {
 
     ];
 
-    const dataMapper = (alldocs) => {
+    const dataMapper = () => {
+
         let allfirsttabdata = [];
         let allfirsttabdatabackup = [];
         let allsecondtabdata = [];
-        let allpayments = [];
-        let paymentStateStringValue = "";
-        let stateStringValue = "";
 
-            for (let j = 0; j < allDocs.length;j++) {
-                let objectData = {
-                    fecha_documento: null,
-                    estado: null,
-                    tipo: null,
-                    type: null,
-                    filename: null,
-                    numero_documento: null,
-                    numero_pago: null,
-                    monto_bruto: null,
-                    monto_pago: null,
-                    estado_pago: null,
-                    observaciones_pago: null,
-                    digDoc_fecha_carga: null,
-                    digDoc_estado: null,
-                    digDoc_usu_carga: null,
-                    digDoc_descarga: null
+        if (allDocs != null && allDocs != undefined) {
+            for (let i = 0; i < allDocs.length; i++) {
+
+                let state = allStates.filter(state => state.id_estado == allDocs[i].id_estado);
+                if (state != null && state != undefined && state != "") {
+                    allDocs[i].estado = state[0].descripcion_abreviada;
                 }
-
-                let objectData2 = {
-                    fecha_documento: null,
-                    estado: null,
-                    tipo: null,
-                    numero_documento: null,
-                    numero_pago: null,
-                    monto_bruto: null,
-                    monto_pago: null,
-                    estado_pago: null,
-                    observaciones_pago: null
+                let documentTypes = allDocumentTypes.filter(doc => doc.id_tipo_documento == allDocs[i].id_tipo_documento);
+                if (documentTypes != null && documentTypes != undefined && documentTypes != "") {
+                    allDocs[i].tipo = documentTypes[0].descripcion;
                 }
-
-                for (let i = 0; i < allPayments.length; i++) {
-                    for (let j = 0; j < alldocs.length; j++) {
-
-                        if (allPayments[i].numero_pago == alldocs[j].numero_pago) {
-                            allpayments.push(allPayments[i]);
-                        }
-
+                let detailPayment = allPaymentDetail.filter(payment => payment.id_documento == allDocs[i].id_documento);
+                if (detailPayment != null && detailPayment != undefined && detailPayment != "") {
+                    allDocs[i].detalle_pago_monto = detailPayment[0].monto_pagado_documento;
+                    let paymentId = detailPayment[0].id_pago;
+                    let paymentNumber = allPayments.filter(payment => payment.id_pago == paymentId);
+                    if (paymentNumber != undefined && paymentNumber != "" && paymentNumber != null) {
+                        paymentNumber = paymentNumber[0].numero_pago;
+                        allDocs[i].numero_pago = paymentNumber;
                     }
                 }
 
-                for (let i = 0; i < allpayments.length; i++) {
+                allfirsttabdata.push(allDocs[i]);
 
-                    if (i < allStates.length && allStates[i].id_estado == allpayments[j].id_estado) {
-                        paymentStateStringValue = allStates[i].descripcion_abreviada;
-                    }
-
-                }
-
-                for (let i = 0; i < alldocs.length; i++) {
-
-                    if (i < allStates.length && allStates[i].id_estado == alldocs[j].id_estado && allStates[i] != undefined) {
-                        stateStringValue = allStates[i].descripcion_abreviada;
-                    }
-                   
-                }
-
-                   
-
-
-                    objectData.fecha_documento = alldocs[j].fecha_documento;
-                    objectData.estado = stateStringValue;
-                    objectData.tipo = alldocs[j].id_tipo_documento;
-                    objectData.numero_documento = alldocs[j].letra_documento + "-" + alldocs[j].prefijo_documento+"-"+alldocs[j].numero_documento;
-                    objectData.nota_pedido = alldocs[j].nota_pedido;
-                    objectData.monto = alldocs[j].monto;
-                    objectData.numero_pago = alldocs[j].numero_pago;
-                    if (allpayments[j] != undefined) {
-                        objectData.estado_pago = paymentStateStringValue;
-                        objectData.monto_pago = allpayments[j].total_pago;
-                    }
-
-                    objectData2.fecha_documento = alldocs[j].fecha_documento;
-                    objectData2.estado = stateStringValue;
-                    objectData2.tipo = alldocs[j].id_tipo_documento;
-                    objectData2.numero_documento = alldocs[j].letra_documento + "-" + alldocs[j].prefijo_documento + "-" + alldocs[j].numero_documento;
-                    objectData2.nota_pedido = alldocs[j].nota_pedido;
-                    objectData2.monto = alldocs[j].monto;
-                    objectData2.numero_pago = alldocs[j].numero_pago;
-                    if (allpayments[j] != undefined) {
-                    objectData2.estado_pago = paymentStateStringValue;
-                    objectData2.monto_pago = allpayments[j].total_pago;
-                    }
-                    
-                    
-                allfirsttabdata.push(objectData);
-                allfirsttabdatabackup.push(objectData2);
-                    
-        }
-
-            for (let j = 0; j < allDigDocs.length; j++) {
-            let objectData = {
-                digDoc_fecha_carga: null,
-                digDoc_estado: null,
-                digDoc_usu_carga: null,
-                imagen: null
             }
-
-            for (let i = 0; i < allStates.length; i++) {
-
-                if (allStates[i].id_estado == allDigDocs[j].id_estado) {
-                    stateStringValue = allStates[i].descripcion_abreviada;
-                }
-            }
-
-            objectData.digDoc_fecha_carga = allDigDocs[j].fecha_carga;
-            objectData.digDoc_estado = stateStringValue;
-            objectData.digDoc_usu_carga = allDigDocs[j].id_usuario_carga;
-                objectData.imagen = allDigDocs[j].imagen;
-                objectData.type = allDigDocs[j].tipo_archivo;
-                objectData.filename = allDigDocs[j].nombre_archivo;
-            allsecondtabdata.push(objectData);
-
         }
-         
+        if (allDigDocs != null && allDigDocs != undefined) {
+
+            for (let i = 0; i < allDigDocs.length; i++) {
+
+                let state = allStates.filter(state => state.id_estado == allDocs[i].id_estado);
+                if (state != null && state != undefined && state != "") {
+                    allDigDocs[i].estado = state[0].descripcion_abreviada;
+                }
+                let user = allUsers.filter(user => user.id_usuario == allDigDocs[i].id_usuario_carga);
+                if (user != null && user != undefined && user != "") {
+                    allDigDocs[i].usuario = user[0].mail;
+                }
+                allsecondtabdata.push(allDigDocs[i]);
+
+            }
+        }
+        
+
         let pagFirstTabData = pagination(allfirsttabdata, allfirsttabdata.length, rowsPerPage);
         let pagSecondTabData = pagination(allsecondtabdata, allsecondtabdata.length, rowsPerPage);
         let pagFirstTabDataBackup = pagination(allfirsttabdatabackup, allfirsttabdatabackup.length, rowsPerPage);
@@ -736,7 +685,8 @@ export default function DocumentBody() {
         filesToDownload[index].click();
         }
 
-        const BodyModal = (
+    const BodyModal = (
+
         <div className="modalStyle">
 
             <h2 className="modalTitleStyle">Detalle del pago.</h2>
@@ -746,8 +696,8 @@ export default function DocumentBody() {
             <span className="modalBoldFontStyle">Monto pagado</span>
             <span className="modalBoldFontStyle">Estado</span><br/>
             <span className="modalNormalFontStyle1">{paymentDetailsProps.numero_pago}</span>
-            <span className="modalNormalFontStyle2">{paymentDetailsProps.monto_pago}</span>
-            <span className="modalNormalFontStyle3">{paymentDetailsProps.estado_pago}</span>
+            <span className="modalNormalFontStyle2">{paymentDetailsProps.detalle_pago_monto }</span>
+            <span className="modalNormalFontStyle3">{paymentDetailsProps.estado}</span>
             
             <button className="modalBtnStyle" onClick={() => closeModal()}>Cerrar</button>
             
@@ -756,8 +706,6 @@ export default function DocumentBody() {
     );
 
     const PaymentDetailModal = (props) => {
-
-        
         return (
             <div>
 
@@ -776,7 +724,7 @@ export default function DocumentBody() {
     function Redirector(url) {
         window.location = url;
     }
-
+    
 
     if (allFirstTabData == undefined || allFirstTabData == null || allFirstTabData == "" || allFirstTabData == 0) {
 
@@ -837,7 +785,8 @@ export default function DocumentBody() {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                { CancelDocumentFiltering }
+                                {CancelDocumentFiltering}
+                                <h5>No existen documentos para este proveedor!</h5>
                             </TableBody>
                         </Table>
                     </TableContainer>
@@ -928,7 +877,7 @@ export default function DocumentBody() {
 
 
                                                             for (let i = 0; i < allFirstTabData.length; i++) {
-                                                                if (column.id == "Fecha_doc") {
+                                                                if (column.id == "fecha_documento") {
                                                                     return (
                                                                         <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
                                                                             {row.fecha_documento}
@@ -1004,7 +953,86 @@ export default function DocumentBody() {
                     </Paper>
                 </div>
             );
-        }
+    }
+    if (showTab == 0 && allFirstTabData == "" || showTab == 0 && allFirstTabData == null || showTab == 0 && allFirstTabData == undefined) {
+
+        return (
+            <div className="documentContentContainer">
+
+                <div className="documentTabsContainer">
+
+                    <ThemeProvider theme={documentTabsTheme}>
+                        <Tabs classes={{ root: tabClasses.documentTabStyle, indicator: tabClasses.tabIndicator }} onChange={handleTabs}
+
+                            value={value} indicatorColor="secondary" textColor="primary"
+                            TabIndicatorProps={{
+                                style: { background: "#009639", width: "20%", height: "4%", marginLeft: "0%", top: '15px', position: 'absolute' }
+                            }}>
+                            <Tab className={tabClasses.btnTab0Style} label='Mis Documentos.' onClick={firstTab}></Tab>
+                            <Tab className={tabClasses.btnTab1StyleDisabled} label='Documentos Electronicos.' onClick={secondTab} />
+
+                        </Tabs>
+                    </ThemeProvider>
+
+
+                </div>
+
+
+
+
+
+
+                <Paper className={classes.root}>
+
+                    <div className="documentReportIconContainer" onClick={documentReportRedirect}>
+                        <AssignmentReturnedIcon fontSize="large" /><span className="documentReportIconLegend">Reporte</span>
+                    </div>
+
+                    <div className="documentIconContainer1" >
+                        <TuneIcon fontSize="large" onClick={FilterMenuHandler} />
+                        <DocumentFilterMenu />
+                    </div>
+
+                    <div className="documentSearchBarContainer1">
+                        <input type="text" placeholder="Buscar por num. de documento" className="documentSearchBar1" onChange={searchPrimaryPageSuggestionsHandler} />
+                    </div>
+
+                    <div className="documentIconContainer2">
+                        <SearchRoundedIcon fontSize="large" />
+                    </div>
+
+                    <TableContainer className={classes.container}>
+                        <Table stickyHeader aria-label="sticky table">
+                            <TableHead>
+                                <TableRow>
+                                    {columns.map((column) => (
+                                        <TableCell className={classes.headerTable}
+                                            key={column.id}
+                                            align={column.align}
+                                            style={{ minWidth: column.minWidth }}
+                                        >
+                                            {column.label}
+                                        </TableCell>
+                                    ))}
+                                </TableRow>
+                            </TableHead>
+                            <TableBody id="documentTable">
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+
+                    <ThemeProvider theme={paginationTheme}>
+                        <div className="paginationContainerStyle">
+                            <Pagination count={firstTabPageQuantity} onChange={paginationHandler} />
+                        </div>
+                    </ThemeProvider>
+
+                </Paper>
+            </div>
+        );
+    }
+
+
     if (showTab == 1 && allSecondTabData != "" ) {
             return (
                 <div className="documentContentContainer">
@@ -1074,21 +1102,21 @@ export default function DocumentBody() {
                                                             if (column.id == "Fecha_carga") {
                                                                 return (
                                                                     <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                        {row.digDoc_fecha_carga}
+                                                                        {row.fecha_carga}
                                                                     </TableCell>
                                                                 );
                                                             }
                                                             else if (column.id == "Estado") {
                                                                 return (
                                                                     <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                        {row.digDoc_estado}
+                                                                        {row.estado}
                                                                     </TableCell>
                                                                 );
                                                             }
                                                             else if (column.id == "Cargado_por") {
                                                                 return (
                                                                     <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                        {"Terry Wagner"}
+                                                                        {row.usuario}
                                                                     </TableCell>
                                                                 );
                                                             }
@@ -1126,7 +1154,77 @@ export default function DocumentBody() {
                     </Paper>
                 </div>
             );
-        }
+    }
+    else if (showTab == 1 && allSecondTabData == "" || showTab == 1 && allSecondTabData == null || showTab == 1 && allSecondTabData == undefined) {
+        return (
+            <div className="documentContentContainer">
+
+
+                <div className="documentTabsContainer">
+
+                    <ThemeProvider theme={documentTabsTheme}>
+                        <Tabs classes={{ root: tabClasses.documentTabStyle, indicator: tabClasses.tabIndicator }} onChange={handleTabs}
+
+                            value={value} indicatorColor="secondary" textColor="primary"
+                            TabIndicatorProps={{
+                                style: { background: "#009639", width: "20%", height: "4%", marginLeft: "0%", top: '15px', position: 'absolute' }
+                            }}>
+                            <Tab className={tabClasses.btnTab0StyleDisabled} label='Mis Documentos.' onClick={firstTab}></Tab>
+                            <Tab className={tabClasses.btnTab1Style} label='Documentos Electronicos.' onClick={secondTab} />
+
+                        </Tabs>
+                    </ThemeProvider>
+
+
+                </div>
+
+                <div className="digDocumentIconContainer">
+                    <div className="digDocumentIconPoint" onClick={() => Redirector(uploadDocumentUrl)}>
+                        <ControlPointIcon fontSize="large" /> <b>Cargar</b>
+                    </div>
+                    <div className="digDocumentIconSettings" onClick={() => Redirector(searchDocumentUrl)}>
+                        <SettingsEthernetIcon fontSize="large" />&nbsp;<b>Consultar</b>
+                    </div>
+                </div>
+
+
+
+
+
+                <Paper className={classes.root}>
+
+
+                    <TableContainer className={classes.container}>
+                        <Table stickyHeader aria-label="sticky table">
+                            <TableHead>
+                                <TableRow>
+                                    {electronics_columns.map((column) => (
+                                        <TableCell className={classes.headerTable}
+                                            key={column.id}
+                                            align={column.align}
+                                            style={{ minWidth: column.minWidth }}
+                                        >
+                                            {column.label}
+                                        </TableCell>
+                                    ))}
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                <h5>No existen documentos electronicos para este proveedor!</h5>
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+
+                    <ThemeProvider theme={paginationTheme}>
+                        <div className="paginationContainerStyle">
+                            <Pagination count={secondTabPageQuantity} onChange={paginationHandler} />
+                        </div>
+                    </ThemeProvider>
+
+                </Paper>
+            </div>
+        );
+    }
     }
 
 

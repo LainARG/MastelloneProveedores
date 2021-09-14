@@ -5,6 +5,7 @@ import jwt_decode from "jwt-decode";
 import ProvidersContext from '../contexts/providersContext';
 import UsersAssignmentContext from '../contexts/usersAssignmentContexts';
 import UserContext from '../contexts/userContext';
+import NotificationContext from '../contexts/notificationsContext';
 
 
 export default function Auth() {
@@ -12,7 +13,7 @@ export default function Auth() {
 
     const applicationParam = "WebProveedoresMH";
     const authUrl = "https://appsdesa.mastellone.com.ar:9993/auth";
-    const returnUrl = "http://be0bbbdd7038.ngrok.io/api/auth";
+    const returnUrl = "http://e04d-201-213-211-124.ngrok.io/api/auth";
     const queryString = authUrl + "?returnurl=" + returnUrl + "&aplicacion=" + applicationParam;
     let [allProviders, setAllProviders] = useState("");
     let [allUsers, setAllUsers] = useState("");
@@ -24,7 +25,7 @@ export default function Auth() {
         if (allUsers == "") {
             UserContext.fetchUsers().then((e) => { setAllUsers(e) });
         }
-        else if (allUsersAssignment == "") {
+        else if (allUsersAssignment == "" && allUsersAssignment != null) {
             UsersAssignmentContext.fetchUsersAssignment().then((e) => { setAllUsersAssignment(e) });
         }
         else if (allProviders == "") {
@@ -47,6 +48,14 @@ export default function Auth() {
         window.location.href = queryString;
     }
 
+    function InvalidUser() {
+        return (
+            <div>
+                <h1>Usuario no autorizado!</h1>
+            </div>
+        );
+    }
+
     async function getToken() {
 
         await api.get(`/auth/token`).then((response) => {
@@ -55,26 +64,50 @@ export default function Auth() {
                 let permissions = (jwt_decode(converted)).Funciones;
                 let splited = (jwt_decode(converted)).unique_name;
                 let currentUser;
-                let currentProvider;
+                let currentIdProvider;
+                let currentCuitProvider;
+                let currentNameProvider;
                 
                 if (splited.includes("go_") && splited.includes("@")) {/*if google service*/
                     splited = splited.substring(3, splited.length);
-                    currentUser = allUsers.filter(user => user.mail == splited)[0].id_usuario;
-                    currentProvider = allUsersAssignment.filter(userAssign => userAssign.id_usuario == currentUser)[0].id_proveedor;
+                    let currentUs = allUsers.filter(user => user.mail == splited);
+                    if (currentUs[0] != undefined && currentUs[0] != "" && currentUs[0] != null) {
+                        currentUser = currentUs[0].id_usuario;
+                    }
+                    let currentIdProv = allUsersAssignment.filter(userAssign => userAssign.id_usuario == currentUser);
+                    if (currentIdProv[0] != undefined && currentIdProv[0] != "" && currentIdProv[0] != null) {
+                        currentIdProvider = currentIdProv[0].id_proveedor;
+                    }
+                    let currentCuitProv = allProviders.filter(provider => provider.id_proveedor == currentIdProvider);
+                    if (currentCuitProv[0] != undefined && currentCuitProv[0] != "" && currentCuitProv[0] != null) {
+                        currentCuitProvider = currentCuitProv[0].cuit;
+                        currentNameProvider = currentCuitProv[0].razon_social;
+                    }
                 }
-                if (splited.includes("fb_") && splited.includes("@")) {/*if facebook service*/
-                    splited = splited.substring(3, splited.length);
-                    currentUser = allUsers.filter(user => user.mail == splited)[0].id_usuario;
-                }
-
-                window.localStorage.setItem("tknUsr", splited);
-                window.localStorage.setItem("tknPms", permissions);
-                window.localStorage.setItem("usrInf", currentUser);
-                window.localStorage.setItem("PrvInf", currentProvider);
-                localStorage.setItem("tkn", "");
-                window.location.href = "/portal/providers";
+                
+             if (currentUser != undefined && currentIdProvider != undefined) {
+                    window.localStorage.setItem("tknUsr", splited);
+                    window.localStorage.setItem("tknPms", permissions);
+                    window.localStorage.setItem("usrInf", currentUser);
+                    window.localStorage.setItem("prvInf", currentIdProvider);
+                    window.localStorage.setItem("prvCuit", currentCuitProvider);
+                    window.localStorage.setItem("prvName", currentNameProvider);
+                    NotificationContext.getNewness().then((data)=>{
+                    window.localStorage.setItem("prvNns", JSON.stringify(data));
+                    });
+                    localStorage.setItem("tkn", "");
+                    NotificationContext.setUserLogTime();
+                   
+                    window.location.href = "/portal/providers";
+             }
+             else {
+                    localStorage.setItem("tkn", "");
+                    console.log(currentUser);
+                    console.log(currentIdProvider);
+                   
             }
-            else{
+            }
+            else {
                 localStorage.setItem("tkn", "");
                 window.location.href = "/auth";
             }

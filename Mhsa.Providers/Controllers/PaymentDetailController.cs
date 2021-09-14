@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
 using Repository.Interfaces;
 using Service.Interfaces;
 
@@ -26,6 +27,20 @@ namespace Mhsa.Backoffice.Controllers
         public IEnumerable<PaymentDetail> GetAll()
         {
             return service.GetAll();
+        }
+
+        public IEnumerable<PaymentDetail> GetById(object pmnt)
+        {
+            dynamic pmntLocal = JObject.Parse(pmnt.ToString());
+            return service.GetById(pmntLocal);
+        }
+
+        [HttpPost]
+        [Route("getByProvider")]
+        public IEnumerable<PaymentDetail> GetByProvider(object prvd)
+        {
+            dynamic prv = JObject.Parse(prvd.ToString());
+            return service.GetByProvider(prv);
         }
     }
 }

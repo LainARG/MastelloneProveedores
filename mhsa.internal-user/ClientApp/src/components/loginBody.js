@@ -95,22 +95,6 @@ return(
        Ingresar
  </Button>
  </div><br/><br/><br/>
- 
- <span className="loginBodyOrLegendStyle">  -o bien mediante- </span><br/><br/>
-
- <div className="loginBodyGmailBtnContainer">
- <ThemeProvider theme={theme}>
- <Button className="loginBodyGmailBtnStyle" color="primary" variant="outlined" startIcon={gmailIcon()}>
-      <span className="loginBodyTextGmailBtnStyle"> Gmail</span>
- </Button>
- </ThemeProvider>
- </div>
-
-  <div className="loginBodyFbBtnContainer">
- <Button onClick={dataConsoleTry} className="loginBodyFbBtnStyle" color="primary" variant="outlined" startIcon={fbIcon()}>
-       <span className="loginBodyTextfbBtnStyle">Facebook</span>
- </Button>
- </div><br/><br/><br/>
 
 </form>
 </div>

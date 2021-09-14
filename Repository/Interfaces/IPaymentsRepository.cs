@@ -9,5 +9,7 @@ namespace Repository.Interfaces
 
         public IEnumerable<Payments> GetAll();
 
+        public IEnumerable<Payments> GetById(object prv);
+
     }
 }

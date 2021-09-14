@@ -18,6 +18,10 @@ export interface IDocuments {
         Monto: any;
         Nota_pedido: any;
         Id_estado: any;
+        estado: any;
+        tipo: any;
+        detalle_pago_monto: any;
+        fecha_actualizacion: any;
 }
 
 
@@ -28,10 +32,15 @@ export class DocumentsContext {
 
    
     static async fetchDocuments() {
-        const response = await api.get<Response, AxiosResponse<Response>>(
-            `/documents`
-        );
-        return response.data;
+        let prv: any = window.localStorage.getItem("prvInf");
+        const response = await api.post(
+            `/documents/getById`, { prv });
+        if (response != undefined && response.data[0] != undefined) {
+            return response.data;
+        }
+        else {
+            return null;
+        }
     }
 
 

@@ -21,11 +21,24 @@ namespace Service
             return repository.GetAll();
         }
 
-
+        public IEnumerable<DigitalDocuments> GetById(object prv)
+        {
+            return repository.GetById(prv);
+        }
 
         public void saveDigitalDocument(List<DigitalDocumentDTO> files)
         {
             repository.saveDigitalDocument(files);
+        }
+
+        public void setReceivedState(object id)
+        {
+            repository.setReceivedState(id);
+        }
+
+        public void setRejectedState(object id)
+        {
+            repository.setRejectedState(id);
         }
 
     }

@@ -12,14 +12,14 @@ using Repository.Interfaces;
 using Service.Interfaces;
 using System.Diagnostics;
 using Newtonsoft.Json;
-using javax.jws;
 using RestSharp;
+using Newtonsoft.Json.Linq;
 
 namespace Mhsa.Backoffice.Controllers
 {
     [ApiController]
     [Route("api/{controller}")]
-    public class DigitalDocumentsController : ControllerBase
+    public class DigitalDocumentsController : ControllerBase, IDigitalDocumentsService
     {
 
         private readonly IDigitalDocumentsService service;
@@ -36,17 +36,35 @@ namespace Mhsa.Backoffice.Controllers
         }
 
         [HttpPost]
+        [Route("getById")]
+        public IEnumerable<DigitalDocuments> GetById(object prv)
+        {
+            dynamic prvLocal = JObject.Parse(prv.ToString());
+            return service.GetById(prvLocal);
+        }
+
+        [HttpPost]
         [Route("post")]
         public void saveDigitalDocument(object files)
         {
-
             List<DigitalDocumentDTO> filesToSave = JsonConvert.DeserializeObject<List<DigitalDocumentDTO>>(files.ToString());
-
-
             service.saveDigitalDocument(filesToSave);
         }
 
+        public void saveDigitalDocument(List<DigitalDocumentDTO> files)
+        {
+            throw new NotImplementedException();
+        }
 
+        public void setReceivedState(object id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void setRejectedState(object id)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }

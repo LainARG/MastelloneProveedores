@@ -29,7 +29,12 @@ export interface IDigitalDocuments {
 
         Tamano_archivo :any;
 
-        Imagen :any;
+        Imagen: any;
+
+        Estado: any;
+
+        Usuario: any;
+
 }
 
 
@@ -40,10 +45,15 @@ export class DigitalDocumentsContext {
 
    
     static async fetchDocuments() {
-        const response = await api.get<Response, AxiosResponse<Response>>(
-            `/digitalDocuments`
-        );
-        return response.data;
+        let prv: any = window.localStorage.getItem("prvCuit");
+        const response = await api.post(
+            `/digitalDocuments/getById`, { prv });
+        if (response != undefined && response.data[0] != undefined) {
+            return response.data;
+        }
+        else {
+            return null;
+        }
     }
 
     static async setDocument(files: any) {

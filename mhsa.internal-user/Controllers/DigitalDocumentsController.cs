@@ -12,7 +12,6 @@ using Repository.Interfaces;
 using Service.Interfaces;
 using System.Diagnostics;
 using Newtonsoft.Json;
-using javax.jws;
 using RestSharp;
 using Microsoft.AspNetCore.Authorization;
 
@@ -21,7 +20,7 @@ namespace mhsa.internal_user.Controllers
     [ApiController]
     [Authorize]
     [Route("api/{controller}")]
-    public class DigitalDocumentsController : ControllerBase
+    public class DigitalDocumentsController : ControllerBase, IDigitalDocumentsService
     {
 
         private readonly IDigitalDocumentsService service;
@@ -38,6 +37,13 @@ namespace mhsa.internal_user.Controllers
         }
 
         [HttpPost]
+        [Route("getById")]
+        public IEnumerable<DigitalDocuments> GetById(object prv)
+        {
+           return service.GetById(prv);
+        }
+
+        [HttpPost]
         [Route("post")]
         public void saveDigitalDocument(object files)
         {
@@ -48,7 +54,24 @@ namespace mhsa.internal_user.Controllers
             service.saveDigitalDocument(filesToSave);
         }
 
+        public void saveDigitalDocument(List<DigitalDocumentDTO> files)
+        {
+            throw new NotImplementedException();
+        }
 
+        [HttpPost]
+        [Route("updateReceive")]
+        public void setReceivedState(object id)
+        {
+            service.setReceivedState(id);
+        }
+
+        [HttpPost]
+        [Route("updateReject")]
+        public void setRejectedState(object id)
+        {
+            service.setRejectedState(id);
+        }
     }
 
 }

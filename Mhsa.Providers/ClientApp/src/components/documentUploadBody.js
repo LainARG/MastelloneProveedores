@@ -7,7 +7,7 @@ import DigitalDocumentsContext from '../contexts/digitalDocumentsContexts';
 
 export default function DocumentUploadBody() {
     
-    const userId = 8;
+    const userId = localStorage.getItem("usrInf");
 
     const [fileState, setFileState] = useState(null);
 
@@ -38,12 +38,13 @@ export default function DocumentUploadBody() {
        
         for (let i = 0; i < e.length; i++) {
             let obj = {
-                img: "",
+                img: "img",
                 id: 0,
                 name: "",
                 date: "",
                 type: "",
-                size: ""
+                size: "",
+                cuit: localStorage.getItem("prvCuit")
             }
 
             getBase64(e[i]).then((data) => {
@@ -84,8 +85,14 @@ export default function DocumentUploadBody() {
     }
        
 
-    function sendFiles(files) {
+    function sendFiles(files, index) {
         DigitalDocumentsContext.setDocument(files);
+        setTimeout(function () { alert("Documentos cargados correctamente"); }, 1000);
+        setTimeout(function () {
+            let delFiles = [];
+            setFileState(delFiles);
+        }, 900);
+        
     }
 
     const theme = createMuiTheme({

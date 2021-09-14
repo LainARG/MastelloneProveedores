@@ -25,10 +25,15 @@ export class StatesContext {
 
     static async fetchStates() {
         
-        const response = await api.get<Response, AxiosResponse<Response>>(
+        const response = await api.get(
             `/states`
         );
-        return response.data;
+        if (response != undefined && response.data[0] != undefined) {
+            return response.data;
+        }
+        else {
+            return null;
+        }
     }
 
    

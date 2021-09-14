@@ -3,8 +3,10 @@ import '../resources/styles/providerSelectBody.css';
 import ProvidersContext from '../contexts/providersContext';
 import SearchRoundedIcon from '@material-ui/icons/SearchRounded';
 import pagination from '../pagination/pagination';
+import Pagination from '@material-ui/lab/Pagination';
 import { TableBody, TableCell, TableRow, makeStyles, Paper, TableContainer, TableHead, Table } from '@material-ui/core';
 import { IoChevronForwardCircleSharp } from "react-icons/io5";
+import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 
 export default function InternalUserProviderSelectBody() {
@@ -70,6 +72,39 @@ export default function InternalUserProviderSelectBody() {
         }
     ];
 
+    const paginationTheme = createMuiTheme({
+
+
+        MuiTouchRipple: {
+            root: {
+
+                display: 'none'
+
+            }
+        },
+
+        overrides: {
+
+            MuiPaginationItem: {
+
+                page: {
+
+                    '&:hover': {
+                        color: '#000000',
+                        fontWeight: 'bold'
+                    },
+                    '&.Mui-selected': {
+                        color: '#000000',
+                        fontWeight: 'bold',
+                        border: 'none',
+                        background: 'none',
+                        backgroundColor: 'transparent'
+                    },
+
+                },
+            },
+        },
+    });
 
     const useStyles = makeStyles({
         cellsTable: {
@@ -105,74 +140,56 @@ export default function InternalUserProviderSelectBody() {
     const [allData, setAllData] = useState("");
     const [allDataBkp, setAllDataBkp] = useState("");
     const [pageNumber, setPageNumber] = useState(1);
+    const [pageQuantity, setPageQuantity] = useState(0);
     const classes = useStyles();
     const rowsPerPage = 10;
 
 
     useEffect(() => {
+        let prv = window.localStorage.getItem("currentProvider") || "Proveedor no seleccionado";
+        if (prv != "Proveedor no seleccionado") {
+            window.localStorage.removeItem("currentProvider");
+        }
         if (allProviders == "") {
-            ProvidersContext.fetchProviders().then((e) => {
-                setAllProviders(e);
-            });
-
-        } else if (allData == "" && typeof(allData) == "string") {
-            dataMapper(allProviders);
+            ProvidersContext.fetchProviders().then((e) => {setAllProviders(e)});
+        }
+        else {
+            dataMapper();
         }
 
-    }, [allProviders, allData]);
+    }, [allProviders]);
+
+
+     
+
 
     const dataMapper = (allproviders) => {
         let alldata = [];
         let alldatabkp = [];
 
-        for (let i = 0; i < allproviders.length; i++) {
-
-            let objectData = {
-                proveedor: null,
-                razon_social: null,
-                cuit: null,
-                domicilio: null,
-                localidad: null,
-                codigo_postal: null,
-                telefono:null
-
-            }
-            let objectDataBkp = {
-                proveedor: null,
-                razon_social: null,
-                cuit: null,
-                domicilio: null,
-                localidad: null,
-                codigo_postal: null,
-                telefono: null
-            }
-            
-            objectData.proveedor = allproviders[i].codigo_proveedor;
-            objectData.razon_social = allproviders[i].razon_social;
-            objectData.cuit = allproviders[i].cuit;
-            objectData.domicilio= allproviders[i].domicilio;
-            objectData.localidad = allproviders[i].localidad;
-            objectData.codigo_postal = allproviders[i].codigo_postal;
-            objectData.telefono = allproviders[i].telefono;
-            console.log(allData[i]);
-
-            objectDataBkp.proveedor = allproviders[i].codigo_proveedor;
-            objectDataBkp.razon_social = allproviders[i].razon_social;
-            objectDataBkp.cuit = allproviders[i].cuit;
-            objectDataBkp.domicilio = allproviders[i].domicilio;
-            objectDataBkp.localidad = allproviders[i].localidad;
-            objectDataBkp.codigo_postal = allproviders[i].codigo_postal;
-            objectData.telefono = allproviders[i].telefono;
-            alldata.push(objectData);
-            alldatabkp.push(objectDataBkp);
-         }
+        alldata = allProviders.filter(provider => provider.id_proveedor > 0);
+        alldatabkp = allProviders.filter(provider => provider.id_proveedor > 0);
 
         let pagData = pagination(alldata, alldata.length, rowsPerPage);
         let pagDataBkp = pagination(alldatabkp, alldatabkp.length, rowsPerPage);
+        setPageQuantity(pagData.length);
         setAllData(pagData);
         setAllDataBkp(pagDataBkp);
         }
 
+
+
+
+
+    const paginationHandler = (e) => {
+        if (e.target.ariaLabel != undefined) {
+            let label = e.target.ariaLabel;
+            let nPage = label.split(" ");
+            let pageNum = parseInt(nPage[nPage.length - 1]);
+            setPageNumber(pageNum);
+        }
+
+    }
 
     function searchProviderSuggestionsHandler(e) {
         e.preventDefault();
@@ -180,40 +197,14 @@ export default function InternalUserProviderSelectBody() {
         let suggestions = [];
         
 
-        if (userTyping == "" || userTyping.includes(" ")) {
+        if (userTyping == "") {
             setAllData(allDataBkp);
         }
         else {
-            
-            for (let i = 0; i < allDataBkp.length; i++) {
-                for (let j = 0; j < allDataBkp[i].length; j++) {
-                    let objectData = {
-                        proveedor: allDataBkp[i][j].proveedor,
-                        razon_social: allDataBkp[i][j].razon_social,
-                        cuit: allDataBkp[i][j].cuit,
-                        domicilio: allDataBkp[i][j].domicilio,
-                        localidad: allDataBkp[i][j].localidad,
-                        codigo_postal: allDataBkp[i][j].codigo_postal,
-                        telefono: allDataBkp[i][j].telefono
-                    }
-                    suggestions.push(objectData);
-                }
-            }
 
-            for (let i = 0; i < suggestions.length; i++) {
-               
-                if (suggestions[i].cuit != undefined && suggestions[i].cuit.toString().includes(userTyping.toString())) {
-                    
-                } else {
-                    delete suggestions[i];
-                    suggestions = suggestions.filter(f => f != undefined);
-                    setAllData(pagination(suggestions, suggestions.length, rowsPerPage));
-                }
-
-            
-            }
-           
-            
+            suggestions = allProviders.filter(provider => provider.cuit.toString().includes(userTyping.toString()));
+            setAllData(pagination(suggestions, suggestions.length, rowsPerPage));
+            setPageQuantity(allData.length);
         }
        
         
@@ -222,6 +213,8 @@ export default function InternalUserProviderSelectBody() {
     function ProviderSelected(row) {
         window.localStorage.removeItem("currentProvider");
         window.localStorage.setItem("currentProvider", JSON.stringify(row));
+        window.localStorage.setItem("prvInf", row.id_proveedor);
+        window.localStorage.setItem("prvCuit", row.cuit);
         window.location = "/internalUser/homePortalProvider";
         console.log(row);
     }
@@ -280,7 +273,7 @@ export default function InternalUserProviderSelectBody() {
                                             if (column.id == "Proveedor") {
                                                 return (
                                                     <TableCell key={column.id} align={column.align} className={classes.cellTable}>
-                                                        {row.proveedor}
+                                                        {row.codigo_proveedor}
                                                     </TableCell>
                                                 );
                                             }
@@ -322,7 +315,13 @@ export default function InternalUserProviderSelectBody() {
                          </TableBody>
                     </Table>
                  </TableContainer>
-                                
+
+                    <ThemeProvider theme={paginationTheme}>
+                        <div className="paginationContainerStyle">
+                            <Pagination count={pageQuantity} onChange={paginationHandler} />
+                        </div>
+                    </ThemeProvider>
+
                </Paper> 
 
 
@@ -371,9 +370,6 @@ export default function InternalUserProviderSelectBody() {
                     </TableContainer>
 
                 </Paper>
-
-
-
 
 
 

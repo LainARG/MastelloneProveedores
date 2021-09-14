@@ -9,14 +9,15 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import PaymentsContext from '../contexts/paymentsContext';
 import PaymentsFormsContext from '../contexts/paymentsFormsContext';
+import PaymentDetailContext from '../contexts/paymentDetailContext';
+import DocumentsContext from '../contexts/documentsContext';
+import DocumentTypesContext from '../contexts/documentTypesContext';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
 import pagination from '../pagination/pagination';
 import { makeStyles, Tabs, Tab } from '@material-ui/core';
-import GetAppIcon from '@material-ui/icons/GetApp';
-import AspectRatioIcon from '@material-ui/icons/AspectRatio';
+import { GrDocumentDownload } from "react-icons/gr";
 
 
 
@@ -145,6 +146,9 @@ export default function PaymentsFormsBody() {
     const tabClasses = useTabStyles();
     const [allPays, setAllPays] = useState("");
     const [allPaymentsForms, setAllPaymentsForms] = useState("");
+    const [allPaymentDetails, setAllPaymentDetails] = useState("");
+    const [allDocuments, setAllDocuments] = useState("");
+    const [allDocumentTypes, setAllDocumentTypes] = useState("");
     const [allDataPrimaryTab, setAllDataPrimaryTab] = useState("");
     const [allDataSecondaryTab, setAllDataSecondaryTab] = useState("");
     const [pageNumber, setPageNumber] = useState(1);
@@ -161,61 +165,69 @@ export default function PaymentsFormsBody() {
 
 
     useEffect(() => {
-        if (allPays == "" || allPaymentsForms == "") {
 
-            PaymentsContext.fetchPayments().then((e) => { setAllPays(e) });
+        if (allPaymentsForms == "") {
             PaymentsFormsContext.fetchPaymentsForms().then((e) => { setAllPaymentsForms(e) });
-
-        } else {
+        }
+        else if (allPaymentDetails == "") {
+            PaymentDetailContext.fetchPaymentDetail().then((e) => { setAllPaymentDetails(e) });
+        }
+        else if (allDocuments == "") {
+            DocumentsContext.fetchDocuments().then((e) => { setAllDocuments(e) });
+        }
+        else if (allDocumentTypes == ""){
+            DocumentTypesContext.fetchDocumentTypes().then((e) => { setAllDocumentTypes(e) });
+        }
+        else {
             dataMapper();
-
         }
 
-    });
+    }, [allPaymentsForms, allPaymentDetails, allDocuments, allDocumentTypes]);
 
     const columns = [
         {
-            id: 'numero_pago',
-            label: 'Numero de pago',
+            id: 'fecha_emision',
+            label: 'Fecha emision',
             minWidth: 150,
             align: 'left',
             format: (value) => value.toLocaleString('en-US'),
         },
         {
-            id: 'retirar_en',
-            label: 'Retirar en',
+            id: 'fecha_pago',
+            label: 'Fecha pago',
             minWidth: 150,
             align: 'left',
             format: (value) => value.toLocaleString('en-US'),
         },
         {
-            id: 'partir_de',
-            label: 'A partir de',
+            id: 'tipo',
+            label: 'tipo',
             minWidth: 150,
             align: 'left',
-            format: (value) => value.toFixed(2),
+            format: (value) => value.toLocaleString('en-US'),
         },
         {
-            id: 'estado_pago',
-            label: 'Estado',
-            minWidth: 175,
-            align: 'left',
-            format: (value) => value.toFixed(2),
-        },
-        {
-            id: 'monto_bruto',
-            label: 'Total pago',
-            minWidth: 175,
-            align: 'left',
-            format: (value) => value.toFixed(2),
-        },
-        {
-            id: 'detalle_pago',
-            label: 'Detalle del pago',
+            id: 'numero',
+            label: 'numero',
             minWidth: 150,
             align: 'left',
-            format: (value) => value.toFixed(2),
+            format: (value) => value.toLocaleString('en-US'),
+        },
+        {
+            id: 'importe',
+            label: 'importe',
+            minWidth: 150,
+            align: 'left',
+            format: (value) => value.toLocaleString('en-US'),
+        },
+        {
+            id: 'comprobante',
+            label: 'comprobante',
+            minWidth: 150,
+            align: 'left',
+            format: (value) => value.toLocaleString('en-US'),
         }
+        
     ];
 
     const retention_columns= [
@@ -257,72 +269,35 @@ export default function PaymentsFormsBody() {
 
     ];
 
-    const dataMapper = (allpays, alltaxes) => {
+    const dataMapper = () => {
         let alldataPTab = [];
         let alldataSTab = [];
+        let paymentId = JSON.parse(localStorage.getItem("currentDetailPayment")).id_pago;
+        let detailPayments;
+
+
+        alldataPTab = allPaymentsForms.filter(payment => payment.id_pago == paymentId);
+        detailPayments = allPaymentDetails.filter(payment => payment.id_pago == paymentId);
+
+        for (let i = 0; i < detailPayments.length; i++){
+            let currentObject = detailPayments[i];
+            let document = allDocuments.filter(doc => doc.id_documento == currentObject.id_documento)[0];
+            if (document != undefined || document != null || document != "") {
+                alldataSTab.push(document);
+            }
+
+        }
         
-        for (let i = 0; i < allpays.length; i++) {
+        
             
-                let objectData = {
-                    numero_pago: null,
-                    retirar_en: null,
-                    estado_pago: null,
-                    monto_pago: null,
-                    detalle_pago: null,
-                    fecha_pago: null,
-                    tipo_pago: null,
-                    comprobante: null,
-            }
-
-            objectData.numero_pago = allpays[i].numero_pago;
-            objectData.retirar_en = allpays[i].direccion_retiro;
-            objectData.estado_pago = allpays[i].estado_pago
-            objectData.monto_pago = allpays[i].monto_bruto;
-            objectData.detalle_pago = allpays[i].observaciones_pago;
-            objectData.fecha_pago = allpays[i].fecha_pago_retiro;
-            objectData.tipo_pago = allpays[i].tipo_pago;
-            objectData.comprobante = null;
-            alldataPTab.push(objectData);
-            }
-
+            let pagData = pagination(alldataPTab, alldataPTab.length, rowsPerPage);
+            let pagData1 = pagination(alldataSTab, alldataSTab.length, rowsPerPage);
+            setPrimaryPageQuantity(pagData.length);
+            setSecondaryPageQuantity(pagData1.length);
+            setAllDataPrimaryTab(pagData);
+            setAllDataSecondaryTab(pagData1);
+            
         
-            for (let i = 0; i < allpays.length; i++) {
-                for (let j = 0; j < alltaxes.length; j++) {
-
-                    let objectData = {
-                        numero_pago: null,
-                        retirar_en: null,
-                        estado_pago: null,
-                        monto_pago: null,
-                        detalle_pago: null,
-                        fecha_pago: null,
-                        tipo_pago: null,
-                        tipo_imp: null,
-                        numero_imp: null,
-                        comprobante: null,
-                    }
-
-                    if (allpays[i].numero_pago == alltaxes[j].numero_pago) {
-                        objectData.numero_pago = allpays[i].prefijo_pago+"-"+allpays[i].numero_pago;
-                        objectData.monto_pago = allpays[i].total_pago;
-                        objectData.fecha_pago = allpays[i].fecha_disponible;
-                        objectData.retirar_en = allpays[i].lugar_retiro;
-                        objectData.estado_pago = allpays[i].id_estado
-                        objectData.comprobante = null;
-                        objectData.tipo_imp = alltaxes[j].tipo_impuesto;
-                        objectData.numero_imp = alltaxes[j].codigo_concepto;
-                        alldataSTab.push(objectData);
-                    }
-
-                }
-
-            }
-        let pagData = pagination(alldataPTab, alldataPTab.length, rowsPerPage);
-        let pagData1 = pagination(alldataSTab, alldataSTab.length, rowsPerPage);
-        setPrimaryPageQuantity(pagData.length);
-        setSecondaryPageQuantity(pagData1.length);
-        setAllDataPrimaryTab(pagData);
-        setAllDataSecondaryTab(pagData1);
     }
 
 
@@ -395,21 +370,12 @@ export default function PaymentsFormsBody() {
 
     if (allDataPrimaryTab == undefined || allDataPrimaryTab == null || allDataPrimaryTab == "") {
 
-        
-        return (
-            <h1>Loading data...</h1>
-
-        );
-
-    }
-    if (showTab == 1) {
-
         return (
             <div className="documentContentContainer">
 
                 <div className="paymentFormsNextPaymentContainer">
-                <NextPaymentComponent/>
-                 </div>
+                    <NextPaymentComponent />
+                </div>
 
                 <div className="documentTabsContainer">
 
@@ -421,7 +387,7 @@ export default function PaymentsFormsBody() {
                                 style: { background: "#009639", width: "20%", height: "4%", marginLeft: "0%", top: '15px', position: 'absolute' }
                             }}>
                             <Tab className={tabClasses.btnTab0Style} label='Formas de pago.' onClick={firstTab}></Tab>
-                            <Tab className={tabClasses.btnTab1StyleDisabled} label='Documentos.' onClick={secondTab}/>
+                            <Tab className={tabClasses.btnTab1StyleDisabled} label='Documentos.' onClick={secondTab} />
 
                         </Tabs>
                     </ThemeProvider>
@@ -429,7 +395,72 @@ export default function PaymentsFormsBody() {
 
                 </div>
 
-                
+
+
+
+
+
+                <Paper className={classes.root}>
+
+
+                    <TableContainer className={classes.container}>
+                        <Table stickyHeader aria-label="sticky table">
+                            <TableHead>
+                                <TableRow>
+                                    {columns.map((column) => (
+                                        <TableCell className={classes.headerTable}
+                                            key={column.id}
+                                            align={column.align}
+                                            style={{ minWidth: column.minWidth }}
+                                        >
+                                            {column.label}
+                                        </TableCell>
+                                    ))}
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+
+                    <ThemeProvider theme={paginationTheme}>
+                        <div className="paginationContainerStyle">
+                            <Pagination count={primaryPageQuantity} onChange={paginationHandler} />
+                        </div>
+                    </ThemeProvider>
+
+                </Paper>
+            </div>
+        );
+    }
+    if (showTab == 1 && allDataPrimaryTab != "" && allDataPrimaryTab != null && allDataPrimaryTab != undefined) {
+
+        return (
+            <div className="documentContentContainer">
+
+                <div className="paymentFormsNextPaymentContainer">
+                    <NextPaymentComponent />
+                </div>
+
+                <div className="documentTabsContainer">
+
+                    <ThemeProvider theme={documentTabsTheme}>
+                        <Tabs classes={{ root: tabClasses.documentTabStyle, indicator: tabClasses.tabIndicator }} onChange={handleTabs}
+
+                            value={value} indicatorColor="secondary" textColor="primary"
+                            TabIndicatorProps={{
+                                style: { background: "#009639", width: "20%", height: "4%", marginLeft: "0%", top: '15px', position: 'absolute' }
+                            }}>
+                            <Tab className={tabClasses.btnTab0Style} label='Formas de pago.' onClick={firstTab}></Tab>
+                            <Tab className={tabClasses.btnTab1StyleDisabled} label='Documentos.' onClick={secondTab} />
+
+                        </Tabs>
+                    </ThemeProvider>
+
+
+                </div>
+
+
 
 
 
@@ -464,45 +495,45 @@ export default function PaymentsFormsBody() {
 
 
                                                     for (let i = 0; i < allDataPrimaryTab.length; i++) {
-                                                        if (column.id == "numero_pago") {
+                                                        if (column.id == "fecha_emision") {
                                                             return (
                                                                 <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                    {row.numero_pago}
+                                                                    {row.fecha_emision}
                                                                 </TableCell>
                                                             );
                                                         }
-                                                        else if (column.id == "retirar_en") {
-                                                            return (
-                                                                <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                    {row.retirar_en}
-                                                                </TableCell>
-                                                            );
-                                                        }
-                                                        else if (column.id == "partir_de") {
+                                                        else if (column.id == "fecha_pago") {
                                                             return (
                                                                 <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
                                                                     {row.fecha_pago}
                                                                 </TableCell>
                                                             );
                                                         }
-                                                        else if (column.id == "estado_pago") {
+                                                        else if (column.id == "tipo") {
                                                             return (
                                                                 <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                    {row.estado_pago}
+                                                                    {row.descripcion}
                                                                 </TableCell>
                                                             );
                                                         }
-                                                        else if (column.id == "monto_bruto") {
+                                                        else if (column.id == "numero") {
                                                             return (
                                                                 <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                    {"$" + row.monto_pago}
+                                                                    {row.numero}
                                                                 </TableCell>
                                                             );
                                                         }
-                                                        else if (column.id == "detalle_pago") {
+                                                        else if (column.id == "importe") {
                                                             return (
                                                                 <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                   <b><AspectRatioIcon fontSize="large" className="documentDownloadRowIcon"/></b>
+                                                                    {"$" + row.importe}
+                                                                </TableCell>
+                                                            );
+                                                        }
+                                                        else if (column.id == "comprobante") {
+                                                            return (
+                                                                <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
+                                                                    <b><GrDocumentDownload fontSize="large" className="documentDownloadRowIcon" /></b>
                                                                 </TableCell>
                                                             );
                                                         }
@@ -531,16 +562,17 @@ export default function PaymentsFormsBody() {
             </div>
         );
     }
-    if (showTab == 2) {
-         return (
-             <div className="documentContentContainer">
+    if (showTab == 2 && allDataSecondaryTab != null && allDataSecondaryTab != "" && allDataSecondaryTab != undefined) {
+
+        return (
+            <div className="documentContentContainer">
 
 
-                 <div className="paymentFormsNextPaymentContainer">
-                     <NextPaymentComponent />
-                 </div>
+                <div className="paymentFormsNextPaymentContainer">
+                    <NextPaymentComponent />
+                </div>
 
-               
+
                 <div className="documentTabsContainer">
 
                     <ThemeProvider theme={documentTabsTheme}>
@@ -550,7 +582,7 @@ export default function PaymentsFormsBody() {
                             TabIndicatorProps={{
                                 style: { background: "#009639", width: "20%", height: "4%", marginLeft: "0%", top: '15px', position: 'absolute' }
                             }}>
-                             <Tab className={tabClasses.btnTab0StyleDisabled} label='Formas de Pago' onClick={firstTab}></Tab>
+                            <Tab className={tabClasses.btnTab0StyleDisabled} label='Formas de Pago' onClick={firstTab}></Tab>
                             <Tab className={tabClasses.btnTab1Style} label='Documentos.' onClick={secondTab} />
 
                         </Tabs>
@@ -559,14 +591,14 @@ export default function PaymentsFormsBody() {
 
                 </div>
 
-                
+
 
 
 
 
                 <Paper className={classes.root}>
 
-                  
+
                     <TableContainer className={classes.container}>
                         <Table stickyHeader aria-label="sticky table">
                             <TableHead>
@@ -585,8 +617,8 @@ export default function PaymentsFormsBody() {
                             <TableBody>
                                 {
 
-                                     allDataSecondaryTab[pageNumber - 1].map((row) => {
-
+                                    allDataSecondaryTab[pageNumber - 1].map((row) => {
+                                        let type = allDocumentTypes.filter(doc => doc.id_tipo_documento == row.id_tipo_documento)[0].descripcion;
                                         return (
 
                                             <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
@@ -597,25 +629,25 @@ export default function PaymentsFormsBody() {
                                                         if (column.id == "fecha_documento") {
                                                             return (
                                                                 <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                    {row.fecha_pago}
+                                                                    {row.fecha_documento}
                                                                 </TableCell>
                                                             );
                                                         }
                                                         else if (column.id == "tipo") {
                                                             return (
-                                                                
-                                                                    <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                        {row.tipo_imp}
-                                                                    </TableCell>
-                                                                    
-                                                               
+
+                                                                <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
+                                                                    {type}
+                                                                </TableCell>
+
+
                                                             );
                                                         }
                                                         else if (column.id == "numero") {
                                                             return (
 
                                                                 <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                    {row.numero_imp}
+                                                                    {row.numero_documento}
                                                                 </TableCell>
 
 
@@ -625,7 +657,7 @@ export default function PaymentsFormsBody() {
                                                             return (
 
                                                                 <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                    {row.numero_imp}
+                                                                    {row.nota_pedido}
                                                                 </TableCell>
 
 
@@ -633,17 +665,17 @@ export default function PaymentsFormsBody() {
                                                         }
                                                         else if (column.id == "importe") {
                                                             return (
-                                                                
-                                                                    <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
-                                                                        {"$" + row.monto_pago}
-                                                                    </TableCell>
 
-                                                               
+                                                                <TableCell key={column.id} align={column.align} className={classes.rowsTable}>
+                                                                    {"$" + row.monto}
+                                                                </TableCell>
+
+
                                                             );
                                                         }
 
-                                                       
-                                                        
+
+
                                                     }
 
                                                 })
@@ -654,6 +686,69 @@ export default function PaymentsFormsBody() {
                                     })
 
                                 }
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+
+                    <ThemeProvider theme={paginationTheme}>
+                        <div className="paginationContainerStyle">
+                            <Pagination count={secondaryPageQuantity} onChange={paginationHandler} />
+                        </div>
+                    </ThemeProvider>
+
+                </Paper>
+            </div>
+        );
+    }
+    if (showTab == 2 && allDataSecondaryTab == "" || showTab == 2 && allDataSecondaryTab == null || showTab == 2 && allDataSecondaryTab == undefined){
+
+        return (
+            <div className="documentContentContainer">
+
+
+                <div className="paymentFormsNextPaymentContainer">
+                    <NextPaymentComponent />
+                </div>
+
+
+                <div className="documentTabsContainer">
+
+                    <ThemeProvider theme={documentTabsTheme}>
+                        <Tabs classes={{ root: tabClasses.documentTabStyle, indicator: tabClasses.tabIndicator }} onChange={handleTabs}
+
+                            value={value} indicatorColor="secondary" textColor="primary"
+                            TabIndicatorProps={{
+                                style: { background: "#009639", width: "20%", height: "4%", marginLeft: "0%", top: '15px', position: 'absolute' }
+                            }}>
+                            <Tab className={tabClasses.btnTab0StyleDisabled} label='Formas de Pago' onClick={firstTab}></Tab>
+                            <Tab className={tabClasses.btnTab1Style} label='Documentos.' onClick={secondTab} />
+
+                        </Tabs>
+                    </ThemeProvider>
+
+
+                </div>
+
+
+                <Paper className={classes.root}>
+
+
+                    <TableContainer className={classes.container}>
+                        <Table stickyHeader aria-label="sticky table">
+                            <TableHead>
+                                <TableRow>
+                                    {retention_columns.map((column) => (
+                                        <TableCell className={classes.headerTable}
+                                            key={column.id}
+                                            align={column.align}
+                                            style={{ minWidth: column.minWidth }}
+                                        >
+                                            {column.label}
+                                        </TableCell>
+                                    ))}
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
                             </TableBody>
                         </Table>
                     </TableContainer>

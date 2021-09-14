@@ -12,7 +12,6 @@ using Repository.Interfaces;
 using Service.Interfaces;
 using System.Diagnostics;
 using Newtonsoft.Json;
-using javax.jws;
 using RestSharp;
 
 namespace Mhsa.Backoffice.Controllers

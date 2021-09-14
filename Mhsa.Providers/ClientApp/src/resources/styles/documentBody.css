@@ -37,32 +37,34 @@
 
 .modalNormalFontStyle1 {
     display: inline-block;
+    position:relative;
     color: #000000;
     opacity: 0.5;
     font-size: 14px;
     font-weight: bold;
-    margin-left: 11%;
-    margin-top: 3%;
+    width: 15%;
+    padding-left:4%;
 }
 
 .modalNormalFontStyle2 {
     display: inline-block;
+    position: relative;
     color: #000000;
     opacity: 0.5;
     font-size: 14px;
     font-weight: bold;
-    margin-left: 27%;
-    margin-top: 3%;
+    width: 15%;
+    padding-left:7%;
 }
 
 .modalNormalFontStyle3 {
     display: inline-block;
+    position: relative;
     color: #000000;
     opacity: 0.5;
     font-size: 14px;
     font-weight: bold;
-    margin-left: 14%;
-    margin-top: 3%;
+    width: 15%;
 }
 
 .modalBoldFontStyle {

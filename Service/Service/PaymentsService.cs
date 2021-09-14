@@ -21,6 +21,10 @@ namespace Service
             return repository.GetAll();
         }
 
-        
+        public IEnumerable<Payments> GetById(object prv)
+        {
+            return repository.GetById(prv);
+        }
+
     }
 }

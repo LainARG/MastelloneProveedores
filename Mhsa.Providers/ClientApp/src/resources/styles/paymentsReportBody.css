@@ -10,6 +10,12 @@
   margin-top:4%;
 }
 
+.valueNotFoundContainer{
+    display:block;
+    position:absolute;
+    width:80%;
+    margin-left:25%;
+}
 .documentDownloadRowIcon {
     display: inline-block;
     margin-left: 38px;
@@ -60,7 +66,7 @@
     opacity: 0.5;
     font-size: 14px;
     font-weight: bold;
-    margin-left: 27%;
+    margin-left: 12%;
     margin-top: 3%;
 }
 
@@ -70,7 +76,7 @@
     opacity: 0.5;
     font-size: 14px;
     font-weight: bold;
-    margin-left: 20%;
+    margin-left: 17%;
     margin-top: 3%;
 }
 

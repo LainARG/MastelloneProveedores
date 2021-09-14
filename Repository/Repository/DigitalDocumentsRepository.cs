@@ -27,11 +27,20 @@ namespace Repository.Repository
 
         }
 
+        public IEnumerable<DigitalDocuments> GetById(object prvLocal)
+        {
+            dynamic dyn = prvLocal;
+            decimal providerCuit = dyn.prv;
+            IEnumerable<DigitalDocuments> results = _dbContext.Documentos_electronicos.Where(document => document.Cuit == providerCuit);
+            return results;
+        }
+
         public void saveDigitalDocument(List<DigitalDocumentDTO> files)
         {
 
-            for (int i=0; i<files.Count; i++) {
-                DigitalDocuments digDoc = new DigitalDocuments(files[i].img, files[i].id, files[i].name, files[i].date, files[i].type, files[i].size);
+            for (int i = 0; i < files.Count; i++)
+            {
+                DigitalDocuments digDoc = new DigitalDocuments(files[i].img, files[i].id, files[i].name, files[i].date, files[i].type, files[i].size, files[i].cuit);
 
                 _dbContext.Documentos_electronicos.Add(digDoc);
             }
@@ -39,6 +48,30 @@ namespace Repository.Repository
             _dbContext.SaveChanges();
         }
 
+        public void setReceivedState(object ids)
+        {
+            dynamic dyn = ids;
+            int id = dyn.id;
+            IEnumerable<DigitalDocuments> document = _dbContext.Documentos_electronicos.Where(document => document.Id_documento_electronico == id);
+            foreach (var i in document)
+            {
+                i.Id_estado = 10;
+            }
+            _dbContext.SaveChanges();
+        }
 
+        public void setRejectedState(object ids)
+        {
+            dynamic dyn = ids;
+            int id = dyn.id;
+            IEnumerable<DigitalDocuments> document = _dbContext.Documentos_electronicos.Where(document => document.Id_documento_electronico == id);
+            foreach (var i in document)
+            {
+                i.Id_estado = 11;
+            }
+            _dbContext.SaveChanges();
+        }
+
+
+    } 
     }
-}
