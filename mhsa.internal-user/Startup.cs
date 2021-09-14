@@ -62,6 +62,8 @@ namespace mhsa.internal_user
             services.AddTransient<IUsersAssignmentRepository, UsersAssignmentRepository>();
             services.AddTransient<IDocumentTypesService, DocumentTypesService>();
             services.AddTransient<IDocumentTypesRepository, DocumentTypesRepository>();
+            services.AddTransient<INoticesService, NoticesService>();
+            services.AddTransient<INoticesRepository, NoticesRepository>();
 
             var key = Encoding.ASCII.GetBytes(Configuration.GetValue<string>("Auth:SecretKey"));
 

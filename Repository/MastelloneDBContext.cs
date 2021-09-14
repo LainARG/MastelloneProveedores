@@ -37,6 +37,8 @@ namespace Repository
 
         public DbSet<Payments> Pagos { get; set; }
 
+        public DbSet<Notices> Avisos { get; set; }
+
         public DbSet<DigitalDocuments> Documentos_electronicos { get; set; }
 
         public DbSet<DigitalDocumentsRejected> Documentos_electronicos_rechazos { get; set; }
